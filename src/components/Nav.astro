@@ -67,6 +67,9 @@
 
 <script>
 	import { readTheme, toggleTheme } from '../lib/theme';
+	import { initHeaderBlur } from '../lib/header';
+
+	initHeaderBlur();
 
 	function label(): string {
 		return 'Theme · ' + (readTheme() === 'dark' ? 'Dark' : 'Light');
