@@ -3,10 +3,12 @@
 //
 // If STATS_SOURCE is set and points at a real file, copy it over
 // data/stats.json so the build picks up freshly generated telemetry.
-// Otherwise leave the committed snapshot as-is. The actual generator
-// script that produces a fresh stats.json lives in the claude-skills
-// repo (out of this repo's scope) and is expected to write to whatever
-// path STATS_SOURCE points at in CI.
+// Otherwise leave the committed snapshot as-is. In practice this is a
+// no-op in CI (GitHub Actions has no access to ~/.claude/projects, which
+// only exists on this developer machine) — the actual generator is
+// scripts/stats/parse_sessions.py, run locally (by hand or via the
+// Monday launchd job) to update the committed data/stats.json directly,
+// which then gets committed and pushed like any other change.
 
 import { existsSync, copyFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
