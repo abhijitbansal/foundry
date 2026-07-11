@@ -64,4 +64,8 @@ GitHub · LinkedIn · email. Small "forged in the Foundry" mark.
 
 ## Deliverable
 
-Complete working implementation (not a mock): project scaffold, the 3D hero, all sections, fallbacks, and a `deploy.yml` GitHub Actions workflow that builds and publishes to GitHub Pages. Explain your stack choice and where the performance budget is spent. Desktop and mobile layouts both first-class.
+A **high-fidelity, single-file interactive prototype** — real working code (HTML + Three.js, or React), not a static image. It must actually render the 3D hero and all sections so I can feel the design, scroll it, and judge it on both desktop and mobile widths. This is the design phase: production implementation happens later in my repo, so don't worry about build tooling, multi-file structure, or CI — spend everything on visual direction, the 3D scene, typography, and motion.
+
+Alongside the prototype, explain your design decisions: palette + type choices, how the foundry metaphor is expressed, how the 3D scene degrades on fallback, and what you'd recommend for the production stack (Vite vs Astro, vanilla Three.js vs React Three Fiber) given the performance budget above.
+
+I'll iterate on variants here until the direction is locked, then hand the winner to Claude Code to build the production site (scaffold, code-splitting, compressed assets, GitHub Pages CI).
