@@ -1,6 +1,7 @@
 ---
 // BaseLayout — <head>, token/global CSS imports, body.ds-root mount point.
-// Theme no-flash script, fonts, and skip-link mount point land in Phase 2/3+.
+// Fonts and skip-link mount point land in Phase 3+.
+import { noFlashInlineScript } from '../lib/theme';
 import '../styles/tokens/foundation.css';
 import '../styles/tokens/brands.css';
 import '../styles/tokens/components.css';
@@ -10,6 +11,7 @@ import '../styles/global.css';
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
+		<script is:inline set:html={noFlashInlineScript()}></script>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="viewport" content="width=device-width" />
