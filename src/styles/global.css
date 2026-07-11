@@ -83,3 +83,17 @@ a:hover {
     display: none;
   }
 }
+
+/* Light-theme .ds-btn legibility fix: brand-skills' light pairing is
+   --ds-on-accent #04141A on --ds-accent #0E8FB0 — ~4.4:1 on paper but the
+   dark-on-mid-teal combination reads muddy at 13px (user-reported: the
+   hero's "See the work" is hard to read). Darken the fill one step and
+   flip the label light: #FBF8F1 on #0B7894 ≈ 4.8:1, on the darker hover
+   fill ≈ 6.8:1. Dark theme (#04141A on #34D3EE, ~9:1) is untouched. */
+html[data-theme="light"] .ds-btn {
+  background: var(--ds-accent-hover);
+  color: #FBF8F1;
+}
+html[data-theme="light"] .ds-btn:hover {
+  background: #085E74;
+}
