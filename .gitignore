@@ -25,6 +25,10 @@ pnpm-debug.log*
 .vercel/
 .netlify/
 
+# Python (scripts/stats/*.py)
+__pycache__/
+*.pyc
+
 # Env / secrets — never commit
 .env
 .env.*

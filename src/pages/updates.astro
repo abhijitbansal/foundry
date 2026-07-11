@@ -1,0 +1,104 @@
+---
+// updates.astro — weekly digest list, newest-first. Separate from the main
+// page's all-time Telemetry section: each entry here is one completed
+// Mon-Sun week's data/weekly/<week>.json, written by
+// scripts/stats/weekly_stats.py and never overwritten for a past week.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import WeeklyHeatmap from '../components/WeeklyHeatmap.astro';
+import { formatCompact } from '../lib/telemetry';
+import { formatWeekRange, sortWeeksDesc, busiestRepo, totalWeeklyLines, totalWeeklySessions } from '../lib/weekly';
+import type { WeeklyDigest } from '../lib/weekly.types';
+
+const weekFiles = import.meta.glob<{ default: WeeklyDigest }>('../../data/weekly/*.json', { eager: true });
+const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
+---
+
+<BaseLayout>
+	<SkipLink />
+	<Nav />
+	<main class="brand-skills">
+		<div style="max-width:1200px;margin:0 auto;padding:clamp(120px,12vw,160px) clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
+			<p class="ds-kicker" style="margin:0 0 12px">Weekly updates</p>
+			<h1 class="ds-display-lg" style="margin:0">What shipped, week by week.</h1>
+			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">
+				A rolling log, separate from the all-time telemetry above — lines of code, activity by hour and day, model mix,
+				and PR/release activity for one completed week at a time. Generated locally every Monday morning.
+			</p>
+			<hr class="ds-rule" style="margin-top:18px" />
+
+			{
+				weeks.length === 0 ? (
+					<p class="ds-body" style="margin-top:32px;color:var(--ds-text-3)">No weekly digests yet — check back after the next Monday run.</p>
+				) : (
+					<div style="display:flex;flex-direction:column;gap:32px;margin-top:clamp(32px,4vw,48px)">
+						{weeks.map((week) => {
+							const busiest = busiestRepo(week.repos);
+							return (
+								<article style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:28px clamp(20px,3vw,32px)">
+									<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:14px">
+										<h2 class="ds-display-md" style="margin:0">{formatWeekRange(week.week_start, week.week_end)}</h2>
+										<span class="ds-micro" style="color:var(--ds-text-faint)">{week.week_id}</span>
+									</div>
+
+									{week.highlights?.overall && (
+										<p class="ds-body" style="margin:0 0 20px;color:var(--ds-text-2);max-width:72ch">{week.highlights.overall}</p>
+									)}
+
+									<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:14px;margin-bottom:22px">
+										<div style="display:flex;flex-direction:column;gap:3px">
+											<span class="ds-display-md">{formatCompact(totalWeeklyLines(week.repos))}</span>
+											<span class="ds-micro" style="color:var(--ds-accent-hover)">Lines added</span>
+										</div>
+										<div style="display:flex;flex-direction:column;gap:3px">
+											<span class="ds-display-md">{formatCompact(totalWeeklySessions(week.repos))}</span>
+											<span class="ds-micro" style="color:var(--ds-accent-hover)">Sessions</span>
+										</div>
+										<div style="display:flex;flex-direction:column;gap:3px">
+											<span class="ds-display-md">{week.repos.length}</span>
+											<span class="ds-micro" style="color:var(--ds-accent-hover)">Repos active</span>
+										</div>
+										{busiest && (
+											<div style="display:flex;flex-direction:column;gap:3px">
+												<span class="ds-display-md" style="white-space:nowrap">{busiest.repo}</span>
+												<span class="ds-micro" style="color:var(--ds-accent-hover)">Busiest repo</span>
+											</div>
+										)}
+									</div>
+
+									<WeeklyHeatmap heatmap={week.heatmap} />
+
+									<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:14px;margin-top:24px">
+										{week.repos.map((repo) => {
+											const release = week.releases[repo.repo];
+											const repoHighlight = week.highlights?.repos?.[repo.repo];
+											return (
+												<div style="border-top:1px solid var(--ds-line);padding-top:12px;display:flex;flex-direction:column;gap:6px">
+													<span class="ds-micro" style="color:var(--ds-text);font-weight:600;letter-spacing:0.02em">{repo.repo}</span>
+													<span class="ds-caption" style="color:var(--ds-text-3)">
+														{formatCompact(repo.sessions)} sessions · {formatCompact(repo.lines_added)} lines · {repo.top_tool ?? '—'} ·{' '}
+														<span style="white-space:nowrap">{repo.top_model ?? '—'}</span>
+													</span>
+													{release && release.pr_merge_count > 0 && (
+														<span class="ds-caption" style="color:var(--ds-text-3)">
+															{release.pr_merge_count} PR{release.pr_merge_count === 1 ? '' : 's'} merged
+															{release.pr_titles && release.pr_titles.length > 0 ? `: ${release.pr_titles[0]}${release.pr_titles.length > 1 ? ' …' : ''}` : ''}
+														</span>
+													)}
+													{repoHighlight && <span class="ds-body-sm" style="color:var(--ds-text-2)">{repoHighlight}</span>}
+												</div>
+											);
+										})}
+									</div>
+								</article>
+							);
+						})}
+					</div>
+				)
+			}
+		</div>
+	</main>
+	<Footer />
+</BaseLayout>
