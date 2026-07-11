@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.abhijitbansal.foundry-weekly</string>
+
+  <!-- Template, not installed automatically — copy to
+       ~/Library/LaunchAgents/com.abhijitbansal.foundry-weekly.plist and
+       `launchctl load` it. Kept out of ~/Library/LaunchAgents by default so
+       installing this automation is an explicit, separate step from
+       merging the code that makes it work (this plist calls `claude` and
+       `gh`, both of which need to already be authenticated on this
+       machine, and `git push` needs credentials launchd can use — an SSH
+       key added with `ssh-add --apple-use-keychain`, or a credential
+       helper).
+
+       caffeinate -i holds a "prevent idle sleep" assertion for the life of
+       the zsh subprocess. Same rationale as sift's plist (this machine
+       sleeps after ~1 min idle on battery): without this, launchd's
+       calendar wake only grants a short dark-wake window, and the system
+       can drop back to full sleep mid-run, freezing the `claude -p` call
+       for hours until the next real wake. -s only holds on AC power and is
+       a silent no-op on battery — use -i, not -s. -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-i</string>
+    <string>/bin/zsh</string>
+    <string>-lc</string>
+    <string>$HOME/projects/foundry/scripts/weekly/run_weekly.sh</string>
+  </array>
+
+  <!-- Monday 07:00 in the machine's local timezone. launchd has no
+       per-job timezone; adjust Hour if the machine moves. Run after sift's
+       Sunday 06:00 job (different repo, no conflict, but keeping them
+       staggered avoids two heavy `claude`-CLI runs contending for the
+       same machine at once). -->
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Weekday</key>
+    <integer>1</integer>
+    <key>Hour</key>
+    <integer>7</integer>
+    <key>Minute</key>
+    <integer>0</integer>
+  </dict>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/com.abhijitbansal.foundry-weekly.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/com.abhijitbansal.foundry-weekly.err.log</string>
+</dict>
+</plist>
