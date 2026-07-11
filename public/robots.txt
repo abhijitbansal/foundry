@@ -1,3 +1,6 @@
+# TODO(domain): revert Sitemap to https://abhijitbansal.com/sitemap-index.xml
+# once DNS/CNAME is live — no custom domain purchased yet, interim URL below
+# matches astro.config.mjs's site/base and what @astrojs/sitemap actually emits.
 User-agent: *
 Allow: /
-Sitemap: https://abhijitbansal.com/sitemap-index.xml
+Sitemap: https://abhijitbansal.github.io/foundry/sitemap-index.xml
