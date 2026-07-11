@@ -1,0 +1,108 @@
+---
+// Hero.astro — 2A source lines 65-100. The email links (lines 92-93 style,
+// Cloudflare `/cdn-cgi/l/email-protection` obfuscation) are a Cloudflare
+// Pages-only feature unavailable on GitHub Pages — replaced with a plain
+// `mailto:` link per plan Task 3.2 (intentional, necessary deviation, not
+// an oversight; the README's "Deviations for production" list predates the
+// GitHub Pages hosting decision and doesn't cover Cloudflare-specific
+// tooling). `LAST FORGED` date is computed at build time, not hardcoded.
+
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+function formatBuildDate(d: Date): string {
+	return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+}
+
+const lastForged = formatBuildDate(new Date());
+---
+
+<section
+	id="top"
+	data-screen-label="Hero"
+	style="position:relative;min-height:max(660px,100vh);overflow:hidden;display:flex;align-items:center;scroll-margin-top:72px"
+>
+	<div
+		aria-hidden="true"
+		style="position:absolute;inset:0;z-index:0;background:radial-gradient(1100px 540px at 74% 84%, color-mix(in srgb, var(--ds-accent) 15%, transparent), transparent 68%), radial-gradient(700px 360px at 68% 96%, color-mix(in srgb, var(--ds-secondary) 8%, transparent), transparent 62%)"
+	>
+	</div>
+	<svg
+		id="fy-poster-rings"
+		aria-hidden="true"
+		viewBox="0 0 640 640"
+		style="position:absolute;z-index:0;right:max(-150px,-12vw);bottom:-16%;width:min(56vw,660px);height:auto;opacity:0.55;transition:opacity 1.4s var(--ds-ease-standard)"
+	>
+		<circle cx="320" cy="320" r="64" fill="none" stroke="var(--ds-accent)" stroke-width="1" opacity="0.45"></circle>
+		<circle cx="320" cy="320" r="150" fill="none" stroke="var(--ds-line-strong)" stroke-width="1" opacity="0.8"></circle>
+		<circle cx="320" cy="320" r="225" fill="none" stroke="var(--ds-line)" stroke-width="1" opacity="0.9"></circle>
+		<circle
+			cx="320"
+			cy="320"
+			r="298"
+			fill="none"
+			stroke="var(--ds-line-strong)"
+			stroke-width="1.2"
+			stroke-dasharray="2 14"
+			opacity="0.85"></circle>
+	</svg>
+	<div id="fy-canvas-mount" aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none"></div>
+	<div
+		aria-hidden="true"
+		style="position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(102deg, color-mix(in srgb, var(--ds-bg) 90%, transparent) 8%, color-mix(in srgb, var(--ds-bg) 52%, transparent) 42%, transparent 66%), linear-gradient(180deg, color-mix(in srgb, var(--ds-bg) 62%, transparent), transparent 20%), linear-gradient(180deg, transparent 72%, var(--ds-bg) 98%)"
+	>
+	</div>
+	<div style="position:relative;z-index:3;max-width:1200px;margin:0 auto;padding:150px clamp(20px,5vw,56px) 130px;width:100%;box-sizing:border-box">
+		<div style="max-width:680px;display:flex;flex-direction:column;gap:22px">
+			<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+				<p class="ds-kicker" style="margin:0">The foundry of Abhijit Bansal</p>
+				<span class="ds-pill" style="--ds-success:var(--ds-accent)">Last forged · {lastForged}</span>
+			</div>
+			<h1 class="ds-display-xl" style="margin:0;text-wrap:balance">
+				I build <em style="color:var(--ds-accent)">privacy-first</em> apps and AI&nbsp;agent tooling.
+			</h1>
+			<p class="ds-lead" style="margin:0;max-width:52ch;text-wrap:pretty">
+				Designed, engineered, and shipped end to end — solo. Apps on the App&nbsp;Store, tools in the open, infrastructure
+				underneath. Everything below was forged here.
+			</p>
+			<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px">
+				<a class="ds-btn" href="#work">See the work ↓</a>
+				<a class="ds-btn-quiet" href="https://github.com/abhijitbansal" target="_blank" rel="noopener">GitHub ↗</a>
+			</div>
+			<div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:24px">
+				<a
+					class="ds-micro fy-link-t3"
+					href="https://github.com/abhijitbansal"
+					target="_blank"
+					rel="noopener"
+					style="text-decoration:none;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
+					>GitHub</a
+				>
+				<span aria-hidden="true" style="width:3px;height:3px;border-radius:50%;background:var(--ds-text-faint)"></span>
+				<a
+					class="ds-micro fy-link-t3"
+					href="https://www.linkedin.com/in/abhijitbansal"
+					target="_blank"
+					rel="noopener"
+					style="text-decoration:none;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
+					>LinkedIn</a
+				>
+				<span aria-hidden="true" style="width:3px;height:3px;border-radius:50%;background:var(--ds-text-faint)"></span>
+				<a
+					class="ds-micro fy-link-t3"
+					href="mailto:contact@abhijitbansal.com"
+					style="text-decoration:none;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
+					>contact@abhijitbansal.com</a
+				>
+			</div>
+		</div>
+	</div>
+	<div aria-hidden="true" style="position:absolute;left:clamp(22px,5.2vw,58px);bottom:26px;z-index:3;display:flex;align-items:center;gap:12px">
+		<span class="fy-cue-anim" style="width:1px;height:36px;background:linear-gradient(180deg, var(--ds-accent), transparent);display:inline-block"></span>
+		<span class="ds-micro" style="color:var(--ds-text-3)">Scroll</span>
+	</div>
+</section>
+
+<script>
+	import { initHeroScene } from '../lib/three/init';
+	initHeroScene();
+</script>

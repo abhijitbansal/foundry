@@ -35,3 +35,6 @@ pnpm-debug.log*
 
 # Generated design assets staging (Higgsfield etc.) — curated ones get committed under assets/
 .assets-inbox/
+
+# Redundant zip of the already-tracked design handoff bundle (docs/design/handoff/)
+/Foundry Portfolio.zip

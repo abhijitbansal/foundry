@@ -1,0 +1,96 @@
+---
+// Nav.astro — 2A source lines 45-62 (header + theme toggle). #fy-headerbg's
+// opacity is wired by src/lib/header.ts in Phase 4; theme toggle click
+// handler is wired here per plan Task 2.2 (ported from 2A's _setupTheme,
+// lines 556-571, minus the `_three.setTheme` call — that guard is added in
+// Phase 6 once the scene module exists).
+//
+// #fy-nav gets a horizontal-scroll rule in global.css (Phase 10 acceptance-pass
+// fix): the 2A source has no @media rules at all, so its 7-item nav row
+// (Work/Expertise/Telemetry/About/Theme/GitHub, all fixed-width mono text)
+// overflows past the viewport edge at 390px with no way to reach the
+// clipped items — GitHub/Theme land off-canvas. Copy/markup/visual design
+// are unchanged; the nav strip becomes internally swipe-scrollable below
+// ~600px instead of pushed off-canvas.
+---
+
+<header data-screen-label="Nav" class="brand-skills" style="position:fixed;top:0;left:0;right:0;z-index:50">
+	<div
+		id="fy-headerbg"
+		aria-hidden="true"
+		style="position:absolute;inset:0;background:color-mix(in srgb, var(--ds-bg) 86%, transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--ds-line);opacity:0;transition:opacity 0.35s var(--ds-ease-standard)"
+	>
+	</div>
+	<div
+		style="position:relative;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px);height:64px;display:flex;align-items:center;justify-content:space-between;gap:24px"
+	>
+		<a href="#top" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;color:var(--ds-text)">
+			<span aria-hidden="true" style="width:16px;height:3px;background:var(--ds-accent);display:inline-block"></span>
+			<span class="ds-micro" style="color:var(--ds-text);font-size:12px;letter-spacing:0.18em">Foundry</span>
+		</a>
+		<nav id="fy-nav" aria-label="Site" style="display:flex;align-items:center;gap:clamp(12px,2.4vw,26px)">
+			<a
+				class="ds-micro fy-link-t2"
+				href="#work"
+				style="text-decoration:none;padding:6px 2px;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
+				>Work</a
+			>
+			<a
+				class="ds-micro fy-link-t2"
+				href="#expertise"
+				style="text-decoration:none;padding:6px 2px;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
+				>Expertise</a
+			>
+			<a
+				class="ds-micro fy-link-t2"
+				href="#telemetry"
+				style="text-decoration:none;padding:6px 2px;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
+				>Telemetry</a
+			>
+			<a
+				class="ds-micro fy-link-t2"
+				href="#about"
+				style="text-decoration:none;padding:6px 2px;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
+				>About</a
+			>
+			<span aria-hidden="true" style="width:1px;height:14px;background:var(--ds-line-strong)"></span>
+			<button
+				id="fy-theme-btn"
+				type="button"
+				class="ds-micro fy-link-t2"
+				style="background:none;border:none;cursor:pointer;padding:6px 2px;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
+				>Theme · Light</button
+			>
+			<a
+				class="ds-micro fy-link-t2"
+				href="https://github.com/abhijitbansal"
+				target="_blank"
+				rel="noopener"
+				style="text-decoration:none;padding:6px 2px;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
+				>GitHub ↗</a
+			>
+		</nav>
+	</div>
+</header>
+
+<script>
+	import { readTheme, toggleTheme } from '../lib/theme';
+	import { initHeaderBlur } from '../lib/header';
+
+	initHeaderBlur();
+
+	function label(): string {
+		return 'Theme · ' + (readTheme() === 'dark' ? 'Dark' : 'Light');
+	}
+
+	const btn = document.getElementById('fy-theme-btn');
+	if (btn) {
+		btn.textContent = label();
+		btn.addEventListener('click', () => {
+			toggleTheme();
+			btn.textContent = label();
+			const scene = (window as unknown as { __foundryScene?: { setTheme?: (dark: boolean) => void } }).__foundryScene;
+			scene?.setTheme?.(readTheme() === 'dark');
+		});
+	}
+</script>

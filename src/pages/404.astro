@@ -1,0 +1,53 @@
+---
+// 404.astro — plan Task 9.2. Minimal, token-styled page that redirects to
+// the homepage; the plain-text link is the fallback for the (rare) case the
+// meta-refresh doesn't fire.
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout>
+	<meta http-equiv="refresh" content="0; url=/" />
+	<main class="brand-skills fy-404">
+		<p class="ds-micro fy-404-kicker">404</p>
+		<h1 class="fy-404-title">Page not found</h1>
+		<p class="fy-404-lead">Redirecting you to the homepage&hellip;</p>
+		<p class="fy-404-lead"><a href="/">Go to abhijitbansal.com &rarr;</a></p>
+	</main>
+</BaseLayout>
+
+<style>
+	.fy-404 {
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		gap: 0.75rem;
+		padding: 2rem;
+		background: var(--ds-bg);
+		color: var(--ds-text);
+	}
+
+	.fy-404-kicker {
+		/* --ds-accent-hover, not --ds-accent: same 11px normal-text contrast
+		   fix as .ds-kicker (foundation.css) — see comment there. */
+		color: var(--ds-accent-hover);
+		letter-spacing: 0.08em;
+	}
+
+	.fy-404-title {
+		font-family: var(--ds-font-display);
+		font-size: clamp(2rem, 5vw, 3rem);
+		margin: 0;
+	}
+
+	.fy-404-lead {
+		color: var(--ds-text-faint);
+		margin: 0;
+	}
+
+	.fy-404-lead a {
+		color: var(--ds-accent-hover);
+	}
+</style>

@@ -1,0 +1,43 @@
+---
+// ProjectLinks.astro — the primary + extraLink pair (or "Private build"
+// fallback) shared by ProjectCard's standard-card and foundation layouts, so
+// the link markup only exists in one place.
+import type { Project } from '../data/projects.types';
+
+interface Props {
+	project: Project;
+	primaryHref: string | undefined;
+	primaryLabel: string;
+}
+
+const { project, primaryHref, primaryLabel } = Astro.props;
+---
+
+{
+	primaryHref ? (
+		<span style="display:inline-flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+			<a
+				class="ds-micro fy-link-underline"
+				href={primaryHref}
+				target="_blank"
+				rel="noopener"
+				style="color:var(--ds-accent-hover);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+			>
+				{primaryLabel}
+			</a>
+			{project.extraLink && (
+				<a
+					class="ds-micro fy-link-underline"
+					href={project.extraLink.url}
+					target="_blank"
+					rel="noopener"
+					style="color:var(--ds-accent-hover);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+				>
+					{project.extraLink.label}
+				</a>
+			)}
+		</span>
+	) : (
+		<span class="ds-micro" style="color:var(--ds-text-faint)">Private build</span>
+	)
+}

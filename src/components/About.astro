@@ -1,0 +1,60 @@
+---
+// About.astro — 2A source lines 461-486, verbatim. Contact panel Email row
+// uses a plain mailto: link (same Cloudflare-obfuscation deviation as
+// Hero.astro's contact row — see Task 3.2 note).
+---
+
+<section
+	id="about"
+	data-screen-label="About"
+	style="position:relative;scroll-margin-top:72px"
+>
+	<div
+		style="max-width:1200px;margin:0 auto;padding:clamp(64px,9vw,110px) clamp(20px,5vw,56px) clamp(24px,4vw,48px);box-sizing:border-box;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:clamp(32px,5vw,72px);align-items:start"
+	>
+		<div data-reveal style="display:flex;flex-direction:column;gap:18px">
+			<p class="ds-kicker" style="margin:0">04 · About</p>
+			<h2 class="ds-display-lg" style="margin:0">Solo, end to end.</h2>
+			<p class="ds-body" style="margin:0;color:var(--ds-text-2);max-width:56ch;text-wrap:pretty">
+				I design, build, test, and ship — apps, tooling, sites. No teams, no hand-offs: the same hands that sketch the
+				interface write the Swift, cut the release, and answer the support mail.
+			</p>
+			<div class="ds-callout" style="margin-top:6px">
+				<p class="ds-body-sm" style="margin:0">Privacy-first is a conviction, not a feature flag: my apps run on-device with zero telemetry.</p>
+			</div>
+		</div>
+		<div data-reveal style="border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);background:var(--ds-surface);padding:10px 26px">
+			<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid var(--ds-line)">
+				<span class="ds-micro" style="color:var(--ds-text-3)">GitHub</span>
+				<a
+					class="ds-micro fy-link-underline"
+					href="https://github.com/abhijitbansal"
+					target="_blank"
+					rel="noopener"
+					style="color:var(--ds-accent-hover);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+					>github.com/abhijitbansal ↗</a
+				>
+			</div>
+			<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding:18px 0;border-bottom:1px solid var(--ds-line)">
+				<span class="ds-micro" style="color:var(--ds-text-3)">LinkedIn</span>
+				<a
+					class="ds-micro fy-link-underline"
+					href="https://www.linkedin.com/in/abhijitbansal"
+					target="_blank"
+					rel="noopener"
+					style="color:var(--ds-accent-hover);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+					>linkedin.com/in/abhijitbansal ↗</a
+				>
+			</div>
+			<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;padding:18px 0">
+				<span class="ds-micro" style="color:var(--ds-text-3)">Email</span>
+				<a
+					class="ds-micro fy-link-underline"
+					href="mailto:contact@abhijitbansal.com"
+					style="color:var(--ds-accent-hover);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+					>contact@abhijitbansal.com</a
+				>
+			</div>
+		</div>
+	</div>
+</section>
