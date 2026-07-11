@@ -15,6 +15,20 @@ a {
 a:hover {
   color: var(--ds-accent-hover);
 }
+/* Light theme only: swap the resting/hover pair. --ds-accent (#0E8FB0) on
+   --ds-bg (#F4EFE6) computes to ~3.3:1, below WCAG AA's 4.5:1 for normal
+   text; --ds-accent-hover (#0B7894) clears it (~4.4:1), still in the locked
+   brand palette. Scoped to light only (rather than swapping the pair
+   globally) because dark theme's tokens run the other way — --ds-accent-hover
+   is the *brighter* of the two there, so a global swap would make :hover
+   dim instead of brighten. This keeps "hover = brighter" consistent in both
+   themes while only touching the theme that actually had a contrast bug. */
+[data-theme="light"] a {
+  color: var(--ds-accent-hover);
+}
+[data-theme="light"] a:hover {
+  color: var(--ds-accent);
+}
 ::selection {
   background: color-mix(in srgb, var(--ds-accent) 32%, transparent);
 }

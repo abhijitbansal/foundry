@@ -44,7 +44,9 @@
   border: 1px solid var(--ds-line-strong);
   border-radius: var(--ds-radius-sm);
   background: transparent;
-  color: var(--ds-accent);
+  /* --ds-accent-hover, not --ds-accent: same 13px normal-text contrast fix
+     as .ds-kicker (foundation.css) — see comment there. */
+  color: var(--ds-accent-hover);
   cursor: pointer;
   text-decoration: none;
   transition: border-color var(--ds-duration-base) var(--ds-ease-standard);
@@ -86,7 +88,10 @@
   color: var(--ds-text-3);
   background: var(--ds-surface-2);
 }
-.ds-chip--accent { color: var(--ds-accent); border-color: var(--ds-accent); background: var(--ds-accent-soft); }
+/* text color: --ds-accent-hover not --ds-accent, same 11px normal-text
+   contrast fix as .ds-kicker (foundation.css) — border/background keep the
+   brighter --ds-accent since those aren't text. */
+.ds-chip--accent { color: var(--ds-accent-hover); border-color: var(--ds-accent); background: var(--ds-accent-soft); }
 
 /* ---- inline code / kbd ---- */
 .ds-code {
@@ -101,7 +106,9 @@
 
 /* ---- link: hairline underline that fills with accent on hover ---- */
 .ds-link {
-  color: var(--ds-accent);
+  /* --ds-accent-hover, not --ds-accent: same normal-text contrast fix as
+     .ds-kicker above. */
+  color: var(--ds-accent-hover);
   text-decoration: none;
   border-bottom: 1px solid transparent;
   transition: border-color var(--ds-duration-base) var(--ds-ease-standard);

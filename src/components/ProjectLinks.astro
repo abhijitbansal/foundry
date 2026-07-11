@@ -21,7 +21,7 @@ const { project, primaryHref, primaryLabel } = Astro.props;
 				href={primaryHref}
 				target="_blank"
 				rel="noopener"
-				style="color:var(--ds-accent);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+				style="color:var(--ds-accent-hover);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
 			>
 				{primaryLabel}
 			</a>
@@ -31,7 +31,7 @@ const { project, primaryHref, primaryLabel } = Astro.props;
 					href={project.extraLink.url}
 					target="_blank"
 					rel="noopener"
-					style="color:var(--ds-accent);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+					style="color:var(--ds-accent-hover);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
 				>
 					{project.extraLink.label}
 				</a>

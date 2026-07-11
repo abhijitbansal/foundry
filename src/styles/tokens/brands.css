@@ -29,16 +29,32 @@
 .brand-skills     { --ds-accent: #0E8FB0; --ds-accent-hover: #0B7894; --ds-accent-soft: rgba(14,143,176,0.10); --ds-on-accent: #04141A; --ds-secondary: #B07A18; --ds-tertiary: #6D52C4; }
 
 /* ---- brand override classes (dark) ---- */
+/* Bug fix: these selectors used to be bare (.brand-paperix, etc), unlike
+   foundation.css's equivalent :root block which guards with
+   :not([data-theme="light"]). A system-dark browser therefore applied dark
+   accent values to every .brand-* class even while data-theme="light" was
+   explicitly set on <html> — e.g. .brand-skills's #34D3EE/#5ADCF1 cyan
+   against the light --ds-bg (#F4EFE6) computes to ~1.6:1 contrast,
+   unreadable. foundation.css's guard works unmodified on :root because
+   data-theme lives on <html> = :root; these classes are descendants of
+   <html>, not :root itself, so `.brand-skills:not([data-theme="light"])`
+   would check the class element's own attributes (which never carries
+   data-theme) and match unconditionally — a silent no-op, not a fix. The
+   ancestor-aware `html:not(...) .brand-x` form below is what's actually
+   required. */
 @media (prefers-color-scheme: dark) {
-  .brand-paperix    { --ds-accent: #E36A5E; --ds-accent-hover: #BF4C40; --ds-accent-soft: rgba(227,106,94,0.14); --ds-on-accent: #1B1814; --ds-secondary: #E6BF5A; }
-  .brand-floorprint { --ds-accent: #D9A93F; --ds-accent-hover: #E0B658; --ds-accent-soft: rgba(217,169,63,0.12); --ds-on-accent: #16130F; --ds-primary: #7DA7D9; }
-  .brand-cartoon    { --ds-accent: #D4A73A; --ds-accent-hover: #DBB24D; --ds-accent-soft: rgba(212,167,58,0.13); --ds-on-accent: #16130F; --ds-primary: #8FB4DD; }
-  .brand-skills     { --ds-accent: #34D3EE; --ds-accent-hover: #5ADCF1; --ds-accent-soft: rgba(52,211,238,0.10); --ds-on-accent: #04141A; --ds-secondary: #E8B94A; --ds-tertiary: #A892F0; }
+  html:not([data-theme="light"]) .brand-paperix    { --ds-accent: #E36A5E; --ds-accent-hover: #BF4C40; --ds-accent-soft: rgba(227,106,94,0.14); --ds-on-accent: #1B1814; --ds-secondary: #E6BF5A; }
+  html:not([data-theme="light"]) .brand-floorprint { --ds-accent: #D9A93F; --ds-accent-hover: #E0B658; --ds-accent-soft: rgba(217,169,63,0.12); --ds-on-accent: #16130F; --ds-primary: #7DA7D9; }
+  html:not([data-theme="light"]) .brand-cartoon    { --ds-accent: #D4A73A; --ds-accent-hover: #DBB24D; --ds-accent-soft: rgba(212,167,58,0.13); --ds-on-accent: #16130F; --ds-primary: #8FB4DD; }
+  html:not([data-theme="light"]) .brand-skills     { --ds-accent: #34D3EE; --ds-accent-hover: #5ADCF1; --ds-accent-soft: rgba(52,211,238,0.10); --ds-on-accent: #04141A; --ds-secondary: #E8B94A; --ds-tertiary: #A892F0; }
 }
 
 /* brands.css only swaps brand accents for dark via prefers-color-scheme;
    mirror its own dark values when the theme is forced with data-theme
-   (2A source: Foundry 2A - Crucible Light.dc.html:36-39). */
+   (2A source: Foundry 2A - Crucible Light.dc.html:36-39). Still required
+   with the guard above: an OS-light browser with data-theme="dark" forced
+   never matches the @media query at all, so this unconditional rule is the
+   only thing that applies the dark accent in that combination. */
 [data-theme="dark"] .brand-skills {
   --ds-accent: #34D3EE; --ds-accent-hover: #5ADCF1; --ds-accent-soft: rgba(52,211,238,0.10);
   --ds-on-accent: #04141A; --ds-secondary: #E8B94A; --ds-tertiary: #A892F0;

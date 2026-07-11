@@ -30,7 +30,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	.fy-404-kicker {
-		color: var(--ds-accent);
+		/* --ds-accent-hover, not --ds-accent: same 11px normal-text contrast
+		   fix as .ds-kicker (foundation.css) — see comment there. */
+		color: var(--ds-accent-hover);
 		letter-spacing: 0.08em;
 	}
 
@@ -46,6 +48,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 	}
 
 	.fy-404-lead a {
-		color: var(--ds-accent);
+		color: var(--ds-accent-hover);
 	}
 </style>

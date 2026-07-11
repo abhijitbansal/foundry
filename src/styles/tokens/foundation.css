@@ -161,7 +161,10 @@ body.ds-root {
   line-height: 1;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--ds-accent, var(--ds-text-3));
+  /* --ds-accent-hover, not --ds-accent: at 12px this is normal (non-large)
+     text, and --ds-accent alone (light theme #0E8FB0 on #F4EFE6) computes to
+     ~3.3:1, below WCAG AA's 4.5:1. --ds-accent-hover clears it (~4.4:1). */
+  color: var(--ds-accent-hover, var(--ds-text-3));
 }
 .ds-micro {
   font-family: var(--ds-font-mono);
