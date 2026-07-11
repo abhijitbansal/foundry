@@ -1,11 +1,58 @@
 ---
-// Telemetry.astro — static shell, plan Task 3.5. Structure + copy verbatim
-// from 2A source lines 283-457, numbers hardcoded from the committed
-// docs/design/handoff/data/stats.json snapshot (same values as the 2A
-// source) so the section is visually complete for the Phase 3 parity pass.
-// Phase 5 replaces every hardcoded number below with a value computed from
-// data/stats.json at build time, and extracts the heatmap cells into
-// Heatmap.astro — this file intentionally still inlines both for now.
+// Telemetry.astro — plan Task 5.3. Structure + copy verbatim from 2A
+// source lines 283-457; every number below is now derived at build time
+// from data/stats.json via src/lib/telemetry.ts (Phase 3's hardcoded
+// snapshot values are gone). Heatmap cell generation lives in
+// Heatmap.astro, wired here via last30DaysCells().
+import Heatmap from './Heatmap.astro';
+import statsJson from '../../data/stats.json';
+import type { StatsJson } from '../lib/telemetry.types';
+import {
+	formatCompact,
+	last30DaysCells,
+	windowSum,
+	peakDay,
+	modelMixSegments,
+	topToolBars,
+	memekitTerminal,
+	lookupCount,
+	formatDateRange,
+	daysBetweenInclusive,
+	heatmapAriaLabel,
+} from '../lib/telemetry';
+
+const stats = statsJson as unknown as StatsJson;
+const { meta, totals } = stats;
+
+const dailyOutTokens = Object.fromEntries(stats.daily_out_tokens);
+const dailySessions = Object.fromEntries(stats.daily_sessions);
+const dailyLines = Object.fromEntries(stats.daily_lines);
+
+const filesFound = formatCompact(meta.files_found);
+const dateRange = formatDateRange(meta.date_min, meta.date_max);
+const daysSpan = daysBetweenInclusive(meta.date_min, meta.date_max);
+
+const heatmapCells = last30DaysCells(dailyOutTokens, meta.date_max);
+const windowStartLabel = heatmapCells[0].label;
+const windowEndLabel = heatmapCells[heatmapCells.length - 1].label;
+const heatmapLabel = heatmapAriaLabel(heatmapCells);
+
+const windowSessions = windowSum(dailySessions, meta.date_max);
+const windowLines = windowSum(dailyLines, meta.date_max);
+const windowTokensOut = windowSum(dailyOutTokens, meta.date_max);
+const peakSessionsDay = peakDay(dailySessions, meta.date_max);
+
+const modelSegments = modelMixSegments(stats.models, totals.assistant_msgs);
+const toolBars = topToolBars(stats.top_tools, 5);
+
+const thinkingBlocks = formatCompact(totals.thinking_blocks);
+const subagentRuns = formatCompact(lookupCount(stats.top_tools, 'Agent'));
+const skillInvocations = formatCompact(lookupCount(stats.top_tools, 'Skill'));
+const compactCount = lookupCount(stats.top_slash, '/compact');
+const longestPrompt = formatCompact(stats.global_prompts.max);
+const cubbyScreenshots = stats.repos.find((r) => r.repo === 'cubby')?.image_count ?? 0;
+
+const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals.cache_read_tokens);
 ---
 
 <section id="telemetry" data-screen-label="Telemetry" style="position:relative;scroll-margin-top:72px">
@@ -14,30 +61,30 @@
 			<p class="ds-kicker" style="margin:0 0 12px">03 · Forge telemetry</p>
 			<h2 class="ds-display-lg" style="margin:0">The forge runs hot.</h2>
 			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">
-				Everything above is built with Claude Code — and the workshop keeps its own books. Parsed locally from 2,884 session
-				logs, May 22 – Jul 6, 2026.
+				Everything above is built with Claude Code — and the workshop keeps its own books. Parsed locally from {filesFound}
+				session logs, {dateRange}.
 			</p>
 			<hr class="ds-rule" style="margin-top:18px" />
 		</div>
 
 		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:clamp(16px,2vw,26px);margin-top:clamp(26px,4vw,42px)">
 			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg">292,504</span>
+				<span class="ds-display-lg">{formatCompact(totals.lines_added)}</span>
 				<span class="ds-micro" style="color:var(--ds-accent)">Lines added</span>
-				<span class="ds-caption">across every repo, 46 days</span>
+				<span class="ds-caption">across every repo, {daysSpan} days</span>
 			</div>
 			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg">2,796</span>
+				<span class="ds-display-lg">{formatCompact(totals.sessions)}</span>
 				<span class="ds-micro" style="color:var(--ds-accent)">Sessions</span>
-				<span class="ds-caption">5,091 prompts · 92,044 replies</span>
+				<span class="ds-caption">{formatCompact(totals.user_msgs)} prompts · {formatCompact(totals.assistant_msgs)} replies</span>
 			</div>
 			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg">76.7M</span>
+				<span class="ds-display-lg">{formatCompact(totals.out_tokens)}</span>
 				<span class="ds-micro" style="color:var(--ds-accent)">Tokens written</span>
 				<span class="ds-caption">output, straight into the melt</span>
 			</div>
 			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg">11.2B</span>
+				<span class="ds-display-lg">{formatCompact(totals.cache_read_tokens)}</span>
 				<span class="ds-micro" style="color:var(--ds-accent)">Tokens cache-read</span>
 				<span class="ds-caption">the crucible remembers</span>
 			</div>
@@ -47,62 +94,33 @@
 			<article data-reveal style="display:flex;flex-direction:column;gap:18px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px">
 				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
 					<span class="ds-micro" style="color:var(--ds-accent)">Last 30 days</span>
-					<span class="ds-micro" style="color:var(--ds-text-faint)">Jun 7 – Jul 6 · out-tokens per day</span>
+					<span class="ds-micro" style="color:var(--ds-text-faint)">{windowStartLabel} – {windowEndLabel} · out-tokens per day</span>
 				</div>
 				<div style="display:flex;gap:clamp(18px,3vw,32px);align-items:flex-start;flex-wrap:wrap">
-					<div
-						role="img"
-						aria-label="Activity heatmap, June 7 to July 6. Heaviest days: June 28 and 29, July 4 and 5."
-						style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-columns:16px;grid-auto-flow:column;gap:5px"
-					>
-						<span title="Jun 7 — 0.4M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface-2))"></span>
-						<span title="Jun 8 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 9 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 10 — 4.1M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))"></span>
-						<span title="Jun 11 — 3.9M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))"></span>
-						<span title="Jun 12 — 4.1M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))"></span>
-						<span title="Jun 13 — 0.6M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface-2))"></span>
-						<span title="Jun 14 — 0.1M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface-2))"></span>
-						<span title="Jun 15 — 1.7M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))"></span>
-						<span title="Jun 16 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 17 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 18 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 19 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 20 — 1.5M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))"></span>
-						<span title="Jun 21 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 22 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 23 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 24 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 25 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 26 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 27 — quiet" style="border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span title="Jun 28 — 10.4M tokens out, peak" style="border-radius:3px;background:var(--ds-secondary)"></span>
-						<span title="Jun 29 — 9.0M tokens out" style="border-radius:3px;background:var(--ds-secondary)"></span>
-						<span title="Jun 30 — 5.4M tokens out" style="border-radius:3px;background:var(--ds-accent)"></span>
-						<span title="Jul 1 — 5.8M tokens out" style="border-radius:3px;background:var(--ds-accent)"></span>
-						<span title="Jul 2 — 2.7M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))"></span>
-						<span title="Jul 3 — 6.1M tokens out" style="border-radius:3px;background:var(--ds-accent)"></span>
-						<span title="Jul 4 — 8.8M tokens out" style="border-radius:3px;background:var(--ds-secondary)"></span>
-						<span title="Jul 5 — 7.9M tokens out" style="border-radius:3px;background:var(--ds-secondary)"></span>
-						<span title="Jul 6 — 1.4M tokens out" style="border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface-2))"></span>
-					</div>
+					<Heatmap cells={heatmapCells} ariaLabel={heatmapLabel} />
 					<div style="display:flex;flex-direction:column;gap:14px;flex:1;min-width:150px">
 						<div style="display:flex;flex-direction:column;gap:3px">
-							<span class="ds-display-md">2,731</span>
+							<span class="ds-display-md">{formatCompact(windowSessions)}</span>
 							<span class="ds-micro" style="color:var(--ds-text-3)">Sessions</span>
 						</div>
 						<div style="display:flex;flex-direction:column;gap:3px">
-							<span class="ds-display-md">275,371</span>
+							<span class="ds-display-md">{formatCompact(windowLines)}</span>
 							<span class="ds-micro" style="color:var(--ds-text-3)">Lines added</span>
 						</div>
 						<div style="display:flex;flex-direction:column;gap:3px">
-							<span class="ds-display-md">73.8M</span>
+							<span class="ds-display-md">{formatCompact(windowTokensOut)}</span>
 							<span class="ds-micro" style="color:var(--ds-text-3)">Tokens out</span>
 						</div>
 					</div>
 				</div>
 				<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--ds-line);padding-top:14px">
-					<span class="ds-caption">Peak: Jun 29 — 466 sessions in one day</span>
+					<span class="ds-caption">
+						{peakSessionsDay && (
+							<>
+								Peak: {peakSessionsDay.label} — {formatCompact(peakSessionsDay.value)} sessions in one day
+							</>
+						)}
+					</span>
 					<span style="display:inline-flex;align-items:center;gap:4px">
 						<span class="ds-micro" style="color:var(--ds-text-faint);margin-right:4px">cool</span>
 						<span style="width:12px;height:12px;border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
@@ -119,59 +137,47 @@
 				<article data-reveal style="display:flex;flex-direction:column;gap:16px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px">
 					<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
 						<span class="ds-micro" style="color:var(--ds-accent)">Model mix</span>
-						<span class="ds-micro" style="color:var(--ds-text-faint)">92,044 assistant messages</span>
+						<span class="ds-micro" style="color:var(--ds-text-faint)">{formatCompact(totals.assistant_msgs)} assistant messages</span>
 					</div>
 					<div aria-hidden="true" style="display:flex;height:8px;border-radius:var(--ds-radius-pill);overflow:hidden">
-						<span style="width:45%;background:var(--ds-accent)"></span>
-						<span style="width:19%;background:var(--ds-secondary)"></span>
-						<span style="width:13%;background:var(--ds-tertiary)"></span>
-						<span style="width:9%;background:var(--ds-success)"></span>
-						<span style="width:7%;background:var(--ds-warning)"></span>
-						<span style="width:7%;background:var(--ds-text-faint)"></span>
+						{modelSegments.map((seg) => <span style={`width:${seg.percent}%;background:${seg.colorVar}`} />)}
 					</div>
 					<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px 18px">
-						<span style="display:inline-flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:var(--ds-accent);flex:none"></span><span class="ds-micro" style="color:var(--ds-text-2)">Opus 4.8 · 45%</span></span>
-						<span style="display:inline-flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:var(--ds-secondary);flex:none"></span><span class="ds-micro" style="color:var(--ds-text-2)">Sonnet 5 · 19%</span></span>
-						<span style="display:inline-flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:var(--ds-tertiary);flex:none"></span><span class="ds-micro" style="color:var(--ds-text-2)">Fable 5 · 13%</span></span>
-						<span style="display:inline-flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:var(--ds-success);flex:none"></span><span class="ds-micro" style="color:var(--ds-text-2)">Haiku 4.5 · 9%</span></span>
-						<span style="display:inline-flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:var(--ds-warning);flex:none"></span><span class="ds-micro" style="color:var(--ds-text-2)">Sonnet 4.6 · 7%</span></span>
-						<span style="display:inline-flex;align-items:center;gap:8px"><span style="width:7px;height:7px;border-radius:50%;background:var(--ds-text-faint);flex:none"></span><span class="ds-micro" style="color:var(--ds-text-2)">Opus 4.7 · 7%</span></span>
+						{modelSegments.map((seg) => (
+							<span style="display:inline-flex;align-items:center;gap:8px">
+								<span style={`width:7px;height:7px;border-radius:50%;background:${seg.colorVar};flex:none`}></span>
+								<span class="ds-micro" style="color:var(--ds-text-2)">
+									{seg.label} · {seg.percent}%
+								</span>
+							</span>
+						))}
 					</div>
 				</article>
 
 				<article data-reveal style="display:flex;flex-direction:column;gap:14px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px">
 					<span class="ds-micro" style="color:var(--ds-accent)">Top tools</span>
-					<div style="display:flex;flex-direction:column;gap:5px">
-						<div style="display:flex;justify-content:space-between;gap:12px"><span class="ds-micro" style="color:var(--ds-text-2)">Bash</span><span class="ds-micro" style="color:var(--ds-text-3)">19,359</span></div>
-						<div aria-hidden="true" style="height:3px;background:var(--ds-line);border-radius:2px"><div style="width:100%;height:3px;background:var(--ds-accent);border-radius:2px"></div></div>
-					</div>
-					<div style="display:flex;flex-direction:column;gap:5px">
-						<div style="display:flex;justify-content:space-between;gap:12px"><span class="ds-micro" style="color:var(--ds-text-2)">Read</span><span class="ds-micro" style="color:var(--ds-text-3)">14,348</span></div>
-						<div aria-hidden="true" style="height:3px;background:var(--ds-line);border-radius:2px"><div style="width:74%;height:3px;background:var(--ds-accent);border-radius:2px"></div></div>
-					</div>
-					<div style="display:flex;flex-direction:column;gap:5px">
-						<div style="display:flex;justify-content:space-between;gap:12px"><span class="ds-micro" style="color:var(--ds-text-2)">Edit</span><span class="ds-micro" style="color:var(--ds-text-3)">4,933</span></div>
-						<div aria-hidden="true" style="height:3px;background:var(--ds-line);border-radius:2px"><div style="width:25%;height:3px;background:var(--ds-accent);border-radius:2px"></div></div>
-					</div>
-					<div style="display:flex;flex-direction:column;gap:5px">
-						<div style="display:flex;justify-content:space-between;gap:12px"><span class="ds-micro" style="color:var(--ds-text-2)">Write</span><span class="ds-micro" style="color:var(--ds-text-3)">1,979</span></div>
-						<div aria-hidden="true" style="height:3px;background:var(--ds-line);border-radius:2px"><div style="width:10%;height:3px;background:var(--ds-accent);border-radius:2px"></div></div>
-					</div>
-					<div style="display:flex;flex-direction:column;gap:5px">
-						<div style="display:flex;justify-content:space-between;gap:12px"><span class="ds-micro" style="color:var(--ds-text-2)">Grep</span><span class="ds-micro" style="color:var(--ds-text-3)">622</span></div>
-						<div aria-hidden="true" style="height:3px;background:var(--ds-line);border-radius:2px"><div style="width:3.2%;height:3px;background:var(--ds-accent);border-radius:2px"></div></div>
-					</div>
+					{toolBars.map((bar) => (
+						<div style="display:flex;flex-direction:column;gap:5px">
+							<div style="display:flex;justify-content:space-between;gap:12px">
+								<span class="ds-micro" style="color:var(--ds-text-2)">{bar.label}</span>
+								<span class="ds-micro" style="color:var(--ds-text-3)">{formatCompact(bar.count)}</span>
+							</div>
+							<div aria-hidden="true" style="height:3px;background:var(--ds-line);border-radius:2px">
+								<div style={`width:${bar.percent}%;height:3px;background:var(--ds-accent);border-radius:2px`}></div>
+							</div>
+						</div>
+					))}
 				</article>
 			</div>
 		</div>
 
 		<div data-reveal style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px">
-			<span class="ds-chip">25,353 thinking blocks</span>
-			<span class="ds-chip">603 subagent runs</span>
-			<span class="ds-chip">146 skill invocations</span>
-			<span class="ds-chip">/compact × 32</span>
-			<span class="ds-chip">longest prompt: 544,215 chars</span>
-			<span class="ds-chip">422 screenshots into cubby</span>
+			<span class="ds-chip">{thinkingBlocks} thinking blocks</span>
+			<span class="ds-chip">{subagentRuns} subagent runs</span>
+			<span class="ds-chip">{skillInvocations} skill invocations</span>
+			<span class="ds-chip">/compact × {compactCount}</span>
+			<span class="ds-chip">longest prompt: {longestPrompt} chars</span>
+			<span class="ds-chip">{cubbyScreenshots} screenshots into cubby</span>
 		</div>
 
 		<aside data-reveal style="margin-top:22px;background:var(--ds-surface-2);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);overflow:hidden;max-width:760px">
@@ -179,18 +185,18 @@
 				<span class="ds-micro" style="color:var(--ds-text-3)">$ memekit react --to "the token ledger"</span>
 				<span class="ds-micro" style="color:var(--ds-text-faint)">80×24</span>
 			</div>
-			<pre style="margin:0;padding:20px 24px;font-family:var(--ds-font-mono);font-size:12.5px;line-height:1.65;color:var(--ds-text-2);overflow-x:auto">in ........... 95,229,194
-out .......... 76,683,120
-cache read ... 11,156,632,042
+			<pre style="margin:0;padding:20px 24px;font-family:var(--ds-font-mono);font-size:12.5px;line-height:1.65;color:var(--ds-text-2);overflow-x:auto">{memekitLines[0]}
+{memekitLines[1]}
+{memekitLines[2]}
 
 (ノ°□°)ノ ︵ ┻━┻      the ledger, first read
 ┬─┬ ノ( ゜-゜ノ)      the ledger, accepted
 
-<span style="color:var(--ds-accent)">0 regrets · 292,504 lines shipped</span></pre>
+<span style="color:var(--ds-accent)">0 regrets · {formatCompact(totals.lines_added)} lines shipped</span></pre>
 		</aside>
 
 		<p class="ds-caption" data-reveal style="margin:18px 0 0;max-width:72ch;text-wrap:pretty">
-			Counted from 2,884 local session logs by a{' '}
+			Counted from {filesFound} local session logs by a{' '}
 			<a
 				href="https://github.com/abhijitbansal/claude-skills"
 				target="_blank"

@@ -1,0 +1,32 @@
+---
+// Heatmap.astro — plan Task 5.3. The 7×N "Last 30 days" grid, consuming
+// cells computed by last30DaysCells() (src/lib/telemetry.ts). Markup shape
+// per 2A source lines 322-352: role="img" + aria-label summary on the grid
+// wrapper, per-cell background from heatBucketColor(), per-cell title
+// "{label} — {formatCompact(tokens)} tokens out" or "{label} — quiet".
+import { formatCompact, heatBucket, heatBucketColor } from '../lib/telemetry';
+import type { HeatmapCell } from '../lib/telemetry.types';
+
+interface Props {
+	cells: HeatmapCell[];
+	ariaLabel: string;
+}
+
+const { cells, ariaLabel } = Astro.props;
+---
+
+<div
+	role="img"
+	aria-label={ariaLabel}
+	style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-columns:16px;grid-auto-flow:column;gap:5px"
+>
+	{
+		cells.map((cell) => {
+			const bucket = heatBucket(cell.tokens);
+			const title =
+				cell.tokens === undefined ? `${cell.label} — quiet` : `${cell.label} — ${formatCompact(cell.tokens)} tokens out`;
+			const border = bucket === 'quiet' ? ';border:1px solid var(--ds-line);box-sizing:border-box' : '';
+			return <span title={title} style={`border-radius:3px;background:${heatBucketColor(bucket)}${border}`} />;
+		})
+	}
+</div>
