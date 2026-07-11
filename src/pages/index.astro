@@ -1,7 +1,27 @@
 ---
+// index.astro — plan Task 3.7. Assembles BaseLayout + all sections in 2A
+// source order: SkipLink + Nav, then <main class="brand-skills"> wrapping
+// Hero/Expertise/WorkSection/Telemetry/About, then Footer.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Expertise from '../components/Expertise.astro';
+import WorkSection from '../components/WorkSection.astro';
+import Telemetry from '../components/Telemetry.astro';
+import About from '../components/About.astro';
+import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout>
-	<h1>Astro</h1>
+	<SkipLink />
+	<Nav />
+	<main class="brand-skills">
+		<Hero />
+		<Expertise />
+		<WorkSection />
+		<Telemetry />
+		<About />
+	</main>
+	<Footer />
 </BaseLayout>

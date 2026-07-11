@@ -1,0 +1,35 @@
+---
+// WorkGroup.astro — one grouped block (Apps / AI tooling / Foundation) per
+// plan Task 3.4. Header row markup per 2A source lines 141-145 / 197-201 /
+// 253-257 (group label + hairline + count differs per group, passed as
+// props). Card grid: repeat(auto-fill,minmax(min(390px,100%),1fr)).
+//
+// Deviation note: the 2A source's single-project Foundation group
+// (design-system, lines 258-271) uses a bespoke 2-column internal layout
+// instead of the standard card template. Plan Task 3.4 directs a single
+// WorkGroup + ProjectCard architecture for all three groups with no
+// foundation-specific exception called out, so design-system renders
+// through the same ProjectCard template as every other project — a
+// deliberate normalization, not an oversight.
+import type { Project } from '../data/projects.types';
+import ProjectCard from './ProjectCard.astro';
+
+interface Props {
+	label: string;
+	count: string;
+	headerMargin: string;
+	projects: Project[];
+	startIndex: number;
+}
+
+const { label, count, headerMargin, projects, startIndex } = Astro.props;
+---
+
+<div data-reveal style={`display:flex;align-items:center;gap:16px;margin:${headerMargin} 0 20px`}>
+	<span class="ds-micro" style="color:var(--ds-accent);white-space:nowrap">{label}</span>
+	<span aria-hidden="true" style="height:1px;flex:1;background:var(--ds-line)"></span>
+	<span class="ds-micro" aria-hidden="true" style="color:var(--ds-text-faint)">{count}</span>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(390px,100%),1fr));gap:20px">
+	{projects.map((project, i) => <ProjectCard project={project} index={startIndex + i} />)}
+</div>

@@ -1,0 +1,76 @@
+---
+// ProjectCard.astro — one project card, per 2A source's per-project markup
+// template (e.g. lines 147-158). Right-column link logic per plan Task 3.4:
+// siteUrl -> {siteLabel ?? host} link; else repoUrl (no siteUrl) -> "GitHub ↗";
+// else "Private build". extraLink (sift, cartoon, claude-skills) renders as
+// a second right-aligned link alongside the primary one.
+import type { Project, ProjectStatus } from '../data/projects.types';
+
+interface Props {
+	project: Project;
+	index: number;
+}
+
+const { project, index } = Astro.props;
+
+const STATUS_LABEL: Record<ProjectStatus, string> = {
+	active: 'active',
+	'recently-active': 'recently active',
+	'heating-up': 'heating up',
+};
+
+const pillStyle = project.status === 'recently-active' ? '--ds-success:var(--ds-warning)' : undefined;
+
+function hostLabel(url: string): string {
+	const host = new URL(url).hostname.replace(/^www\./, '');
+	return `${host} ↗`;
+}
+
+const badge = String(index).padStart(2, '0');
+const primaryLabel = project.siteUrl ? (project.siteLabel ?? hostLabel(project.siteUrl)) : 'GitHub ↗';
+const primaryHref = project.siteUrl ?? project.repoUrl;
+---
+
+<article
+	class="fy-tilt"
+	data-reveal
+	style="position:relative;display:flex;flex-direction:column;gap:13px;background:var(--ds-surface);border-radius:var(--ds-radius-lg);padding:26px 28px;transition:border-color var(--ds-duration-base) var(--ds-ease-standard),transform var(--ds-duration-base) var(--ds-ease-standard)"
+>
+	<span class="ds-micro" aria-hidden="true" style="position:absolute;top:28px;right:28px;color:var(--ds-text-faint)">{badge}</span>
+	<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-right:44px">
+		<h4 class="ds-display-md" style="margin:0">{project.name}</h4>
+		<span class="ds-pill" style={pillStyle}>{STATUS_LABEL[project.status]}</span>
+	</div>
+	<p class="ds-body-sm" style="margin:0;color:var(--ds-text-2);text-wrap:pretty">{project.blurb}</p>
+	<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;border-top:1px solid var(--ds-line);padding-top:14px">
+		<span class="ds-micro" style="color:var(--ds-text-3)">{project.tech}</span>
+		{
+			primaryHref ? (
+				<span style="display:inline-flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+					<a
+						class="ds-micro fy-link-underline"
+						href={primaryHref}
+						target="_blank"
+						rel="noopener"
+						style="color:var(--ds-accent);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+					>
+						{primaryLabel}
+					</a>
+					{project.extraLink && (
+						<a
+							class="ds-micro fy-link-underline"
+							href={project.extraLink.url}
+							target="_blank"
+							rel="noopener"
+							style="color:var(--ds-accent);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+						>
+							{project.extraLink.label}
+						</a>
+					)}
+				</span>
+			) : (
+				<span class="ds-micro" style="color:var(--ds-text-faint)">Private build</span>
+			)
+		}
+	</div>
+</article>
