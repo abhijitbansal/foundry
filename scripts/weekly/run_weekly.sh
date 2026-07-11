@@ -38,8 +38,14 @@ fi
 cd "$REPO_DIR"
 echo "$LOG_PREFIX starting in $REPO_DIR"
 
-git checkout main
-git pull --ff-only
+# Self-heal, don't just pull: a failed previous run leaves modified tracked
+# files (stats.json/stats-archive.json) and possibly a stale digest branch
+# in this persistent clone, and `git pull --ff-only` would then refuse to
+# merge forever after. Nothing in this clone is ever hand-edited, so
+# discarding local state is always safe here (NOT in the working checkout).
+git fetch origin
+git checkout -f main
+git reset --hard origin/main
 
 python3 scripts/stats/parse_sessions.py
 python3 scripts/stats/weekly_stats.py
@@ -78,11 +84,14 @@ if git diff --cached --quiet; then
 fi
 
 BRANCH="weekly-digest-${WEEK_ID}"
-git checkout -b "$BRANCH"
+# -B, not -b: a same-week retry after a transient push/PR failure must not
+# die on "branch already exists" in this persistent clone.
+git checkout -B "$BRANCH"
 git commit -m "chore(weekly): digest for ${WEEK_ID}"
 git push -u origin "$BRANCH"
 
 gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Needs a manual merge — see this script's header comment for why auto-merge isn't wired up yet."
 
 git checkout main
+git branch -D "$BRANCH"
 echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, needs manual merge"
