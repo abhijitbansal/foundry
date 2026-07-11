@@ -4,14 +4,20 @@
 // siteUrl -> {siteLabel ?? host} link; else repoUrl (no siteUrl) -> "GitHub ↗";
 // else "Private build". extraLink (sift, cartoon, claude-skills) renders as
 // a second right-aligned link alongside the primary one.
+//
+// `layout="foundation"` renders the bespoke full-width 2-column article used
+// by the single-project Foundation group (2A source lines 257-270) instead
+// of the standard flex-column card — see WorkGroup.astro.
 import type { Project, ProjectStatus } from '../data/projects.types';
+import ProjectLinks from './ProjectLinks.astro';
 
 interface Props {
 	project: Project;
 	index: number;
+	layout?: 'card' | 'foundation';
 }
 
-const { project, index } = Astro.props;
+const { project, index, layout = 'card' } = Astro.props;
 
 const STATUS_LABEL: Record<ProjectStatus, string> = {
 	active: 'active',
@@ -31,46 +37,42 @@ const primaryLabel = project.siteUrl ? (project.siteLabel ?? hostLabel(project.s
 const primaryHref = project.siteUrl ?? project.repoUrl;
 ---
 
-<article
-	class="fy-tilt"
-	data-reveal
-	style="position:relative;display:flex;flex-direction:column;gap:13px;background:var(--ds-surface);border-radius:var(--ds-radius-lg);padding:26px 28px;transition:border-color var(--ds-duration-base) var(--ds-ease-standard),transform var(--ds-duration-base) var(--ds-ease-standard)"
->
-	<span class="ds-micro" aria-hidden="true" style="position:absolute;top:28px;right:28px;color:var(--ds-text-faint)">{badge}</span>
-	<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-right:44px">
-		<h4 class="ds-display-md" style="margin:0">{project.name}</h4>
-		<span class="ds-pill" style={pillStyle}>{STATUS_LABEL[project.status]}</span>
-	</div>
-	<p class="ds-body-sm" style="margin:0;color:var(--ds-text-2);text-wrap:pretty">{project.blurb}</p>
-	<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;border-top:1px solid var(--ds-line);padding-top:14px">
-		<span class="ds-micro" style="color:var(--ds-text-3)">{project.tech}</span>
-		{
-			primaryHref ? (
-				<span style="display:inline-flex;align-items:baseline;gap:14px;flex-wrap:wrap">
-					<a
-						class="ds-micro fy-link-underline"
-						href={primaryHref}
-						target="_blank"
-						rel="noopener"
-						style="color:var(--ds-accent);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
-					>
-						{primaryLabel}
-					</a>
-					{project.extraLink && (
-						<a
-							class="ds-micro fy-link-underline"
-							href={project.extraLink.url}
-							target="_blank"
-							rel="noopener"
-							style="color:var(--ds-accent);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
-						>
-							{project.extraLink.label}
-						</a>
-					)}
-				</span>
-			) : (
-				<span class="ds-micro" style="color:var(--ds-text-faint)">Private build</span>
-			)
-		}
-	</div>
-</article>
+{
+	layout === 'foundation' ? (
+		<article
+			class="fy-tilt"
+			data-reveal
+			style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:18px 40px;background:var(--ds-surface);border-radius:var(--ds-radius-lg);padding:26px 28px;transition:border-color var(--ds-duration-base) var(--ds-ease-standard),transform var(--ds-duration-base) var(--ds-ease-standard)"
+		>
+			<div style="display:flex;flex-direction:column;gap:13px">
+				<span class="ds-micro" aria-hidden="true" style="position:absolute;top:28px;right:28px;color:var(--ds-text-faint)">{badge}</span>
+				<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-right:44px">
+					<h4 class="ds-display-md" style="margin:0">{project.name}</h4>
+					<span class="ds-pill" style={pillStyle}>{STATUS_LABEL[project.status]}</span>
+				</div>
+				<span class="ds-micro" style="color:var(--ds-text-3)">{project.tech}</span>
+			</div>
+			<div style="display:flex;flex-direction:column;gap:13px;justify-content:space-between">
+				<p class="ds-body-sm" style="margin:0;color:var(--ds-text-2);text-wrap:pretty">{project.blurb}</p>
+				<ProjectLinks project={project} primaryHref={primaryHref} primaryLabel={primaryLabel} />
+			</div>
+		</article>
+	) : (
+		<article
+			class="fy-tilt"
+			data-reveal
+			style="position:relative;display:flex;flex-direction:column;gap:13px;background:var(--ds-surface);border-radius:var(--ds-radius-lg);padding:26px 28px;transition:border-color var(--ds-duration-base) var(--ds-ease-standard),transform var(--ds-duration-base) var(--ds-ease-standard)"
+		>
+			<span class="ds-micro" aria-hidden="true" style="position:absolute;top:28px;right:28px;color:var(--ds-text-faint)">{badge}</span>
+			<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-right:44px">
+				<h4 class="ds-display-md" style="margin:0">{project.name}</h4>
+				<span class="ds-pill" style={pillStyle}>{STATUS_LABEL[project.status]}</span>
+			</div>
+			<p class="ds-body-sm" style="margin:0;color:var(--ds-text-2);text-wrap:pretty">{project.blurb}</p>
+			<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:baseline;gap:14px;flex-wrap:wrap;border-top:1px solid var(--ds-line);padding-top:14px">
+				<span class="ds-micro" style="color:var(--ds-text-3)">{project.tech}</span>
+				<ProjectLinks project={project} primaryHref={primaryHref} primaryLabel={primaryLabel} />
+			</div>
+		</article>
+	)
+}
