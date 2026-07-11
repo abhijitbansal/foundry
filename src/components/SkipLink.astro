@@ -1,12 +1,18 @@
 ---
 // SkipLink.astro — 2A source line 43. `style-focus` (DC-tooling pseudo-attr,
 // not valid CSS) becomes the .fy-skip-link:focus-visible rule in global.css;
-// every other inline value is verbatim.
+// every other inline value is verbatim. Target/label are props so pages
+// without a #work section (e.g. /updates/) can point somewhere that exists.
+interface Props {
+	href?: string;
+	label?: string;
+}
+const { href = '#work', label = 'Skip to the work' } = Astro.props;
 ---
 
 <a
-	href="#work"
+	href={href}
 	class="ds-micro brand-skills fy-skip-link"
 	style="position:fixed;left:16px;z-index:100;background:var(--ds-surface);color:var(--ds-text);padding:12px 18px;border:1px solid var(--ds-line-strong);border-radius:var(--ds-radius-sm);text-decoration:none;transition:top 0.2s var(--ds-ease-standard)"
-	>Skip to the work</a
+	>{label}</a
 >
