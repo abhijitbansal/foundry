@@ -3,15 +3,18 @@
 // source lines 283-457; every number below is now derived at build time
 // from data/stats.json via src/lib/telemetry.ts (Phase 3's hardcoded
 // snapshot values are gone). Heatmap cell generation lives in
-// Heatmap.astro, wired here via last30DaysCells().
+// Heatmap.astro. The activity card is anchored at TELEMETRY_START_ISO
+// (May 1, 2026) through the latest data day — "always everything from
+// May 1st onwards", not a trailing 30-day window.
 import Heatmap from './Heatmap.astro';
 import statsJson from '../../data/stats.json';
 import type { StatsJson } from '../lib/telemetry.types';
 import {
 	formatCompact,
-	last30DaysCells,
-	windowSum,
-	peakDay,
+	TELEMETRY_START_ISO,
+	dateRangeCells,
+	rangeSum,
+	peakDayInRange,
 	modelMixSegments,
 	topToolBars,
 	memekitTerminal,
@@ -32,15 +35,15 @@ const filesFound = formatCompact(meta.files_found);
 const dateRange = formatDateRange(meta.date_min, meta.date_max);
 const daysSpan = daysBetweenInclusive(meta.date_min, meta.date_max);
 
-const heatmapCells = last30DaysCells(dailyOutTokens, meta.date_max);
+const heatmapCells = dateRangeCells(dailyOutTokens, TELEMETRY_START_ISO, meta.date_max);
 const windowStartLabel = heatmapCells[0].label;
 const windowEndLabel = heatmapCells[heatmapCells.length - 1].label;
 const heatmapLabel = heatmapAriaLabel(heatmapCells);
 
-const windowSessions = windowSum(dailySessions, meta.date_max);
-const windowLines = windowSum(dailyLines, meta.date_max);
-const windowTokensOut = windowSum(dailyOutTokens, meta.date_max);
-const peakSessionsDay = peakDay(dailySessions, meta.date_max);
+const windowSessions = rangeSum(dailySessions, TELEMETRY_START_ISO, meta.date_max);
+const windowLines = rangeSum(dailyLines, TELEMETRY_START_ISO, meta.date_max);
+const windowTokensOut = rangeSum(dailyOutTokens, TELEMETRY_START_ISO, meta.date_max);
+const peakSessionsDay = peakDayInRange(dailySessions, TELEMETRY_START_ISO, meta.date_max);
 
 const modelSegments = modelMixSegments(stats.models, totals.assistant_msgs);
 const toolBars = topToolBars(stats.top_tools, 5);
@@ -93,7 +96,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:20px;margin-top:clamp(26px,4vw,40px);align-items:stretch">
 			<article data-reveal style="display:flex;flex-direction:column;gap:18px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px">
 				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-					<span class="ds-micro" style="color:var(--ds-accent-hover)">Last 30 days</span>
+					<span class="ds-micro" style="color:var(--ds-accent-hover)">Since May 1</span>
 					<span class="ds-micro" style="color:var(--ds-text-faint)">{windowStartLabel} – {windowEndLabel} · out-tokens per day</span>
 				</div>
 				<div style="display:flex;gap:clamp(18px,3vw,32px);align-items:flex-start;flex-wrap:wrap">

@@ -55,14 +55,27 @@ function formatCellLabel(date: Date): string {
 }
 
 /**
- * Builds the 30-day, oldest-first, 7-row grid the heatmap consumes.
- * Missing dates (no activity that day) => tokens: undefined ("quiet").
+ * The main page's telemetry window is anchored here, not on a trailing
+ * 30-day window: the requirement is "always everything from May 1st 2026
+ * onwards".
  */
-export function last30DaysCells(dailyOutTokens: Record<string, number>, endDateISO: string): HeatmapCell[] {
+export const TELEMETRY_START_ISO = '2026-05-01';
+
+/**
+ * Builds the oldest-first, 7-row grid the heatmap consumes, one cell per
+ * day from startDateISO through endDateISO inclusive. Missing dates (no
+ * activity that day) => tokens: undefined ("quiet").
+ */
+export function dateRangeCells(
+	dailyOutTokens: Record<string, number>,
+	startDateISO: string,
+	endDateISO: string,
+): HeatmapCell[] {
+	const start = parseISODateUTC(startDateISO);
 	const end = parseISODateUTC(endDateISO);
 	const cells: HeatmapCell[] = [];
-	for (let i = 29; i >= 0; i--) {
-		const date = new Date(end.getTime() - i * MS_PER_DAY);
+	for (let t = start.getTime(); t <= end.getTime(); t += MS_PER_DAY) {
+		const date = new Date(t);
 		const iso = toISODateUTC(date);
 		cells.push({
 			date: iso,
@@ -71,6 +84,13 @@ export function last30DaysCells(dailyOutTokens: Record<string, number>, endDateI
 		});
 	}
 	return cells;
+}
+
+/** The trailing-30-day variant of dateRangeCells. */
+export function last30DaysCells(dailyOutTokens: Record<string, number>, endDateISO: string): HeatmapCell[] {
+	const end = parseISODateUTC(endDateISO);
+	const start = toISODateUTC(new Date(end.getTime() - 29 * MS_PER_DAY));
+	return dateRangeCells(dailyOutTokens, start, endDateISO);
 }
 
 // Display order/colors mirror the 2A source's six model-mix segments
@@ -126,22 +146,50 @@ export function topToolBars(topTools: NameCountTuple[], limit = 5): ToolBar[] {
 }
 
 /**
- * Sum of a sparse date->value series over the trailing `windowDays` days
- * ending at endDateISO (inclusive). Missing dates count as 0.
+ * Sum of a sparse date->value series over the inclusive [startDateISO,
+ * endDateISO] range. Missing dates count as 0. ISO dates compare
+ * correctly as strings, so no Date math is needed.
  */
-export function windowSum(dailyValues: Record<string, number>, endDateISO: string, windowDays = 30): number {
-	const end = parseISODateUTC(endDateISO);
+export function rangeSum(dailyValues: Record<string, number>, startDateISO: string, endDateISO: string): number {
 	let total = 0;
-	for (let i = 0; i < windowDays; i++) {
-		const iso = toISODateUTC(new Date(end.getTime() - i * MS_PER_DAY));
-		total += dailyValues[iso] ?? 0;
+	for (const [iso, value] of Object.entries(dailyValues)) {
+		if (iso >= startDateISO && iso <= endDateISO) total += value;
 	}
 	return total;
 }
 
 /**
+ * Sum of a sparse date->value series over the trailing `windowDays` days
+ * ending at endDateISO (inclusive). Missing dates count as 0.
+ */
+export function windowSum(dailyValues: Record<string, number>, endDateISO: string, windowDays = 30): number {
+	const end = parseISODateUTC(endDateISO);
+	const start = toISODateUTC(new Date(end.getTime() - (windowDays - 1) * MS_PER_DAY));
+	return rangeSum(dailyValues, start, endDateISO);
+}
+
+/**
+ * The single highest-value day in the inclusive [startDateISO, endDateISO]
+ * range — e.g. "Peak: Jun 29 — 466 sessions in one day".
+ */
+export function peakDayInRange(
+	dailyValues: Record<string, number>,
+	startDateISO: string,
+	endDateISO: string,
+): { date: string; label: string; value: number } | undefined {
+	let best: { date: string; label: string; value: number } | undefined;
+	for (const [iso, value] of Object.entries(dailyValues)) {
+		if (iso < startDateISO || iso > endDateISO) continue;
+		if (!best || value > best.value) {
+			best = { date: iso, label: formatCellLabel(parseISODateUTC(iso)), value };
+		}
+	}
+	return best;
+}
+
+/**
  * The single highest-value day in the trailing `windowDays` days ending at
- * endDateISO — e.g. "Peak: Jun 29 — 466 sessions in one day".
+ * endDateISO.
  */
 export function peakDay(
 	dailyValues: Record<string, number>,
@@ -149,16 +197,8 @@ export function peakDay(
 	windowDays = 30,
 ): { date: string; label: string; value: number } | undefined {
 	const end = parseISODateUTC(endDateISO);
-	let best: { date: string; label: string; value: number } | undefined;
-	for (let i = 0; i < windowDays; i++) {
-		const date = new Date(end.getTime() - i * MS_PER_DAY);
-		const iso = toISODateUTC(date);
-		const value = dailyValues[iso];
-		if (value !== undefined && (!best || value > best.value)) {
-			best = { date: iso, label: formatCellLabel(date), value };
-		}
-	}
-	return best;
+	const start = toISODateUTC(new Date(end.getTime() - (windowDays - 1) * MS_PER_DAY));
+	return peakDayInRange(dailyValues, start, endDateISO);
 }
 
 /** Looks up a [name, count] tuple's count by name; 0 if not found. */

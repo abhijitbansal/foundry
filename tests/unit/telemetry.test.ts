@@ -4,6 +4,10 @@ import {
 	heatBucket,
 	heatBucketColor,
 	last30DaysCells,
+	dateRangeCells,
+	rangeSum,
+	peakDayInRange,
+	TELEMETRY_START_ISO,
 	modelDisplayName,
 	modelMixSegments,
 	topToolBars,
@@ -82,6 +86,49 @@ describe('last30DaysCells', () => {
 		expect(heatBucket(byDate['2026-06-28'].tokens)).toBe('peak');
 		expect(heatBucket(byDate['2026-06-30'].tokens)).toBe('high');
 		expect(heatBucket(byDate['2026-06-08'].tokens)).toBe('quiet');
+	});
+});
+
+describe('dateRangeCells / rangeSum / peakDayInRange (since-May-1 telemetry window)', () => {
+	it('TELEMETRY_START_ISO is anchored at May 1, 2026', () => {
+		expect(TELEMETRY_START_ISO).toBe('2026-05-01');
+	});
+
+	it('produces one cell per day, inclusive of both endpoints', () => {
+		const cells = dateRangeCells({}, '2026-05-01', '2026-07-11');
+		expect(cells).toHaveLength(72);
+		expect(cells[0].date).toBe('2026-05-01');
+		expect(cells[71].date).toBe('2026-07-11');
+	});
+
+	it('marks days with no activity as tokens: undefined and carries known values', () => {
+		const cells = dateRangeCells({ '2026-05-22': 999 }, '2026-05-01', '2026-05-31');
+		const byDate = Object.fromEntries(cells.map((c) => [c.date, c]));
+		expect(byDate['2026-05-22'].tokens).toBe(999);
+		expect(byDate['2026-05-21'].tokens).toBeUndefined();
+	});
+
+	it('last30DaysCells is the same grid as a 30-day dateRangeCells range', () => {
+		const daily = { '2026-07-06': 1234, '2026-06-07': 42 };
+		expect(last30DaysCells(daily, '2026-07-06')).toEqual(dateRangeCells(daily, '2026-06-07', '2026-07-06'));
+	});
+
+	it('rangeSum sums only entries inside the inclusive range', () => {
+		const daily = { '2026-04-30': 5, '2026-05-01': 10, '2026-06-15': 20, '2026-07-11': 30, '2026-07-12': 40 };
+		expect(rangeSum(daily, '2026-05-01', '2026-07-11')).toBe(60);
+	});
+
+	it('peakDayInRange finds the highest-value day inside the range only', () => {
+		const daily = { '2026-04-30': 900, '2026-05-22': 12, '2026-06-29': 466 };
+		expect(peakDayInRange(daily, '2026-05-01', '2026-07-11')).toMatchObject({
+			date: '2026-06-29',
+			label: 'Jun 29',
+			value: 466,
+		});
+	});
+
+	it('peakDayInRange returns undefined when no day in range has data', () => {
+		expect(peakDayInRange({ '2026-04-01': 7 }, '2026-05-01', '2026-07-11')).toBeUndefined();
 	});
 });
 

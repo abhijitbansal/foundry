@@ -41,6 +41,23 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(os.path.dirname(SCRIPT_DIR))
 OUT = os.path.join(REPO_ROOT, "data", "stats.json")
 
+# Claude Code purges local transcripts after ~30 days (cleanupPeriodDays),
+# so a fresh parse can only see a sliding window — an earlier run of this
+# script had data back to 2026-05-22 that a later run silently lost. The
+# archive file accretes per-day aggregates across runs so "always all the
+# stats since May 1st 2026" survives transcript rotation. Committed to the
+# repo like data/stats.json; per-field max is the merge rule (a past day's
+# true counts never shrink — a lower value only ever means transcripts for
+# that day were purged mid-window).
+ARCHIVE = os.path.join(REPO_ROOT, "data", "stats-archive.json")
+
+# per-day archived fields (besides "sessions" and "thinking_blocks")
+DAY_FIELDS = (
+    "user_msgs", "assistant_msgs", "lines_added", "lines_removed",
+    "files_written", "files_edited", "in_tokens", "out_tokens",
+    "cache_read_tokens", "cache_creation_tokens",
+)
+
 IMAGE_EXTS = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".heic")
 CHARS_PER_TOKEN = 4  # rough approximation for display only
 
@@ -320,6 +337,7 @@ def main():
     daily = collections.Counter()            # date -> sessions active
     daily_tokens = collections.Counter()     # date -> out tokens
     daily_lines = collections.Counter()      # date -> lines added
+    day_full = collections.defaultdict(collections.Counter)  # date -> full per-day counters (archived)
     tool_by_month = collections.defaultdict(collections.Counter)
     all_images = set()
     g_model_tokens = collections.defaultdict(lambda: collections.Counter())
@@ -373,6 +391,11 @@ def main():
             daily[day] += 1
             daily_tokens[day] += S["out_tokens"]
             daily_lines[day] += S["lines_added"]
+            rec = day_full[day]
+            rec["sessions"] += 1
+            rec["thinking_blocks"] += S["thinking_blocks"]
+            for k in DAY_FIELDS:
+                rec[k] += S[k]
             for tool, c in S["tools"].items():
                 tool_by_month[month][tool] += c
 
@@ -448,6 +471,50 @@ def main():
              [S["last_ts"] for S in sessions if S["last_ts"]]
     date_min = min(all_ts)[:10] if all_ts else None
     date_max = max(all_ts)[:10] if all_ts else None
+
+    # ---- merge this run's per-day aggregates into the persistent archive ----
+    archive_days = {}
+    if os.path.exists(ARCHIVE):
+        try:
+            with open(ARCHIVE) as fh:
+                loaded = json.load(fh)
+            if isinstance(loaded, dict) and isinstance(loaded.get("days"), dict):
+                archive_days = loaded["days"]
+        except Exception as e:
+            raise SystemExit(
+                f"ERROR: {ARCHIVE} exists but is unreadable ({e}) — refusing to "
+                "overwrite the accreted history; fix or remove the file and rerun."
+            )
+    live_min_day = min(day_full) if day_full else None
+    for day, rec in day_full.items():
+        old = archive_days.get(day, {})
+        merged = dict(old)
+        for k, v in rec.items():
+            merged[k] = max(int(old.get(k, 0)), int(v))
+        archive_days[day] = merged
+    with open(ARCHIVE, "w") as fh:
+        json.dump({
+            "note": ("Per-day aggregates accreted across parse_sessions.py runs; "
+                     "survives the ~30-day local transcript purge. Days before "
+                     "2026-06-10 were recovered from an earlier stats.json "
+                     "snapshot and only carry sessions/out_tokens/lines_added."),
+            "days": {d: archive_days[d] for d in sorted(archive_days)},
+        }, fh, indent=2)
+        fh.write("\n")
+
+    # Fold archived days that predate this run's live transcript coverage
+    # into the all-time totals and daily series (live-covered days already
+    # counted above; archived fields missing on a day contribute 0).
+    for day, rec in archive_days.items():
+        if live_min_day is None or day < live_min_day:
+            for k, v in rec.items():
+                totals[k] += v
+    if archive_days:
+        archive_min = min(archive_days)
+        date_min = min(date_min, archive_min) if date_min else archive_min
+        daily = {d: r.get("sessions", 0) for d, r in archive_days.items()}
+        daily_tokens = {d: r.get("out_tokens", 0) for d, r in archive_days.items()}
+        daily_lines = {d: r.get("lines_added", 0) for d, r in archive_days.items()}
 
     # ---- model breakdown: all-time + rolling windows (calendar-inclusive, UTC) ----
     today = datetime.now(timezone.utc).date()
