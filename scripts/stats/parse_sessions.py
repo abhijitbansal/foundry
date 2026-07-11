@@ -41,6 +41,23 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(os.path.dirname(SCRIPT_DIR))
 OUT = os.path.join(REPO_ROOT, "data", "stats.json")
 
+# Claude Code purges local transcripts after ~30 days (cleanupPeriodDays),
+# so a fresh parse can only see a sliding window — an earlier run of this
+# script had data back to 2026-05-22 that a later run silently lost. The
+# archive file accretes per-day aggregates across runs so "always all the
+# stats since May 1st 2026" survives transcript rotation. Committed to the
+# repo like data/stats.json; per-field max is the merge rule (a past day's
+# true counts never shrink — a lower value only ever means transcripts for
+# that day were purged mid-window).
+ARCHIVE = os.path.join(REPO_ROOT, "data", "stats-archive.json")
+
+# per-day archived fields (besides "sessions" and "thinking_blocks")
+DAY_FIELDS = (
+    "user_msgs", "assistant_msgs", "lines_added", "lines_removed",
+    "files_written", "files_edited", "in_tokens", "out_tokens",
+    "cache_read_tokens", "cache_creation_tokens",
+)
+
 IMAGE_EXTS = (".png", ".jpg", ".jpeg", ".gif", ".webp", ".heic")
 CHARS_PER_TOKEN = 4  # rough approximation for display only
 
@@ -320,6 +337,12 @@ def main():
     daily = collections.Counter()            # date -> sessions active
     daily_tokens = collections.Counter()     # date -> out tokens
     daily_lines = collections.Counter()      # date -> lines added
+    day_full = collections.defaultdict(collections.Counter)  # date -> full per-day counters (archived)
+    # date -> {"tools"/"agents"/"skills"/"slash"/"mcp"/"models": Counter} —
+    # archived alongside the scalars so the breakdown cards (top tools,
+    # model mix, tool_by_month, model_breakdown) also survive the purge,
+    # not just the daily series/totals.
+    day_nested = collections.defaultdict(lambda: collections.defaultdict(collections.Counter))
     tool_by_month = collections.defaultdict(collections.Counter)
     all_images = set()
     g_model_tokens = collections.defaultdict(lambda: collections.Counter())
@@ -373,6 +396,20 @@ def main():
             daily[day] += 1
             daily_tokens[day] += S["out_tokens"]
             daily_lines[day] += S["lines_added"]
+            rec = day_full[day]
+            rec["sessions"] += 1
+            rec["thinking_blocks"] += S["thinking_blocks"]
+            rec["web_search"] += S["web_search"]
+            rec["web_fetch"] += S["web_fetch"]
+            for k in DAY_FIELDS:
+                rec[k] += S[k]
+            nested = day_nested[day]
+            nested["tools"].update(S["tools"])
+            nested["agents"].update(S["agents"])
+            nested["skills"].update(S["skills"])
+            nested["slash"].update(S["slash_commands"])
+            nested["mcp"].update(S["mcp_tools"])
+            nested["models"].update(S["models"])
             for tool, c in S["tools"].items():
                 tool_by_month[month][tool] += c
 
@@ -448,6 +485,104 @@ def main():
              [S["last_ts"] for S in sessions if S["last_ts"]]
     date_min = min(all_ts)[:10] if all_ts else None
     date_max = max(all_ts)[:10] if all_ts else None
+
+    # ---- merge this run's per-day aggregates into the persistent archive ----
+    NESTED_FIELDS = ("tools", "agents", "skills", "slash", "mcp", "models")
+    archive_days = {}
+    if os.path.exists(ARCHIVE):
+        try:
+            with open(ARCHIVE) as fh:
+                loaded = json.load(fh)
+            if not (isinstance(loaded, dict) and isinstance(loaded.get("days"), dict)):
+                raise ValueError("expected top-level {'days': {...}}")
+            archive_days = loaded["days"]
+        except Exception as e:
+            raise SystemExit(
+                f"ERROR: {ARCHIVE} exists but is unreadable ({e}) — refusing to "
+                "overwrite the accreted history; fix or remove the file and rerun."
+            )
+
+    def merged_counter(old_map, live_counter):
+        out = {k: int(v) for k, v in (old_map or {}).items()}
+        for name, cnt in (live_counter or {}).items():
+            out[name] = max(out.get(name, 0), int(cnt))
+        return out
+
+    for day in set(day_full) | set(d for d in g_model_day):
+        old = archive_days.get(day, {})
+        merged = dict(old)
+        for k, v in day_full.get(day, {}).items():
+            merged[k] = max(int(old.get(k, 0) or 0), int(v))
+        nested = day_nested.get(day, {})
+        for k in NESTED_FIELDS:
+            if nested.get(k) or old.get(k):
+                merged[k] = merged_counter(old.get(k), nested.get(k))
+        live_mt = g_model_day.get(day, {})
+        if live_mt or old.get("model_tokens"):
+            mt_out = {m: {f: int(c) for f, c in fields.items()}
+                      for m, fields in (old.get("model_tokens") or {}).items()}
+            for m, fields in live_mt.items():
+                tm = mt_out.setdefault(m, {})
+                for f, cnt in fields.items():
+                    tm[f] = max(tm.get(f, 0), int(cnt))
+            merged["model_tokens"] = mt_out
+        archive_days[day] = merged
+    with open(ARCHIVE, "w") as fh:
+        json.dump({
+            "note": ("Per-day aggregates accreted across parse_sessions.py runs; "
+                     "survives the ~30-day local transcript purge. Scalars plus "
+                     "tools/agents/skills/slash/mcp/models breakdowns and "
+                     "per-model token counters; merge rule is per-field max (a "
+                     "past day's true counts never shrink). Days before "
+                     "2026-06-10 were recovered from an earlier stats.json "
+                     "snapshot and only carry sessions/out_tokens/lines_added. "
+                     "Live-window-only by design (not per-day archivable): "
+                     "prompt-size percentiles, per-repo cards, versions, "
+                     "image counts."),
+            "days": {d: archive_days[d] for d in sorted(archive_days)},
+        }, fh, indent=2)
+        fh.write("\n")
+
+    # Fold the archive's surplus over this run's live coverage into every
+    # aggregate: for each day and field, add max(0, archived - live). For
+    # fully-live days the delta is 0; for purged days the delta is the whole
+    # archived value; for a partially-purged boundary day it's exactly the
+    # lost remainder — totals, breakdowns, and the daily series all stay
+    # consistent with each other.
+    for day, rec in archive_days.items():
+        month = day[:7]
+        live_scal = day_full.get(day, {})
+        live_nest = day_nested.get(day, {})
+        live_mt = g_model_day.get(day, {})
+        for k, v in rec.items():
+            if k in NESTED_FIELDS or k == "model_tokens":
+                continue
+            delta = int(v) - int(live_scal.get(k, 0))
+            if delta > 0:
+                totals[k] += delta
+        for k, target in (("tools", g_tools), ("agents", g_agents),
+                          ("skills", g_skills), ("slash", g_slash),
+                          ("mcp", g_mcp), ("models", g_models)):
+            for name, cnt in (rec.get(k) or {}).items():
+                delta = int(cnt) - int((live_nest.get(k) or {}).get(name, 0))
+                if delta > 0:
+                    target[name] += delta
+                    if k == "tools":
+                        tool_by_month[month][name] += delta
+        for m, fields in (rec.get("model_tokens") or {}).items():
+            for f, cnt in fields.items():
+                delta = int(cnt) - int(live_mt.get(m, {}).get(f, 0))
+                if delta > 0:
+                    g_model_tokens[m][f] += delta
+                    g_model_day[day][m][f] += delta
+
+    if archive_days:
+        archive_min, archive_max = min(archive_days), max(archive_days)
+        date_min = min(date_min, archive_min) if date_min else archive_min
+        date_max = max(date_max, archive_max) if date_max else archive_max
+        daily = {d: r.get("sessions", 0) for d, r in archive_days.items()}
+        daily_tokens = {d: r.get("out_tokens", 0) for d, r in archive_days.items()}
+        daily_lines = {d: r.get("lines_added", 0) for d, r in archive_days.items()}
 
     # ---- model breakdown: all-time + rolling windows (calendar-inclusive, UTC) ----
     today = datetime.now(timezone.utc).date()

@@ -17,7 +17,7 @@ const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
 ---
 
 <BaseLayout>
-	<SkipLink />
+	<SkipLink href="#weeks" label="Skip to the updates" />
 	<Nav />
 	<main class="brand-skills">
 		<div style="max-width:1200px;margin:0 auto;padding:clamp(120px,12vw,160px) clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
@@ -29,6 +29,21 @@ const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
 			</p>
 			<hr class="ds-rule" style="margin-top:18px" />
 
+			{weeks.length > 0 && (
+				<nav aria-label="Jump to week" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
+					{weeks.map((week) => (
+						<a
+							class="ds-chip fy-link-t2"
+							href={`#${week.week_id}`}
+							style="text-decoration:none;transition:color var(--ds-duration-base) var(--ds-ease-standard),border-color var(--ds-duration-base) var(--ds-ease-standard)"
+						>
+							{week.week_id} · {formatWeekRange(week.week_start, week.week_end)}
+						</a>
+					))}
+				</nav>
+			)}
+
+			<div id="weeks">
 			{
 				weeks.length === 0 ? (
 					<p class="ds-body" style="margin-top:32px;color:var(--ds-text-3)">No weekly digests yet — check back after the next Monday run.</p>
@@ -37,7 +52,10 @@ const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
 						{weeks.map((week) => {
 							const busiest = busiestRepo(week.repos);
 							return (
-								<article style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:28px clamp(20px,3vw,32px)">
+								<article
+									id={week.week_id}
+									style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:28px clamp(20px,3vw,32px);scroll-margin-top:88px"
+								>
 									<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:14px">
 										<h2 class="ds-display-md" style="margin:0">{formatWeekRange(week.week_start, week.week_end)}</h2>
 										<span class="ds-micro" style="color:var(--ds-text-faint)">{week.week_id}</span>
@@ -98,6 +116,7 @@ const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
 					</div>
 				)
 			}
+			</div>
 		</div>
 	</main>
 	<Footer />

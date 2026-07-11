@@ -29,20 +29,29 @@
     <string>-i</string>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>$HOME/projects/foundry/scripts/weekly/run_weekly.sh</string>
+    <string>W="$HOME/projects/foundry-weekly"; if [[ ! -d "$W/.git" ]]; then git clone git@github.com:abhijitbansal/foundry.git "$W" || exit 1; fi; cd "$W" &amp;&amp; git fetch origin &amp;&amp; git checkout -f main &amp;&amp; git reset --hard origin/main; exec "$W/scripts/weekly/run_weekly.sh"</string>
   </array>
 
-  <!-- Monday 07:00 in the machine's local timezone. launchd has no
-       per-job timezone; adjust Hour if the machine moves. Run after sift's
-       Sunday 06:00 job (different repo, no conflict, but keeping them
-       staggered avoids two heavy `claude`-CLI runs contending for the
-       same machine at once). -->
+  <!-- Bootstrap-then-sync-then-exec: the script lives in the automation
+       clone (~/projects/foundry-weekly, sift-publish pattern — the
+       working checkout at ~/projects/foundry is never touched). The plist
+       itself clones the repo if the clone is missing (a fresh machine or
+       a disk cleanup must not silently kill the job), then hard-resets to
+       origin/main BEFORE exec'ing so each run both self-heals a dirty
+       clone left by a failed run and executes the latest committed
+       version of the script, not last week's.
+
+       Monday 09:00 in the machine's local timezone. launchd has no
+       per-job timezone; adjust Hour if the machine moves. Runs after
+       sift's Sunday 06:00 job (different repo, no conflict, but keeping
+       them staggered avoids two heavy `claude`-CLI runs contending for
+       the same machine at once). -->
   <key>StartCalendarInterval</key>
   <dict>
     <key>Weekday</key>
     <integer>1</integer>
     <key>Hour</key>
-    <integer>7</integer>
+    <integer>9</integer>
     <key>Minute</key>
     <integer>0</integer>
   </dict>

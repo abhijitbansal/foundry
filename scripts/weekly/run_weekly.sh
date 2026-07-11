@@ -21,14 +21,31 @@
 # just opens the PR and stops; merge it by hand each week.
 set -euo pipefail
 
-REPO_DIR="$HOME/projects/foundry"
+# Runs from a dedicated automation clone, NOT the working checkout — same
+# pattern as sift's ~/projects/sift-publish. The working repo can be mid-
+# branch/dirty at 9am Monday; this clone always pulls latest main, runs
+# the full setup (npm ci), and pushes its digest branch, without ever
+# touching in-progress work. Bootstraps itself on first run.
+REPO_DIR="$HOME/projects/foundry-weekly"
+REPO_URL="git@github.com:abhijitbansal/foundry.git"
 LOG_PREFIX="[foundry-weekly $(date -u +%Y-%m-%dT%H:%M:%SZ)]"
 
-cd "$REPO_DIR"
-echo "$LOG_PREFIX starting"
+if [[ ! -d "$REPO_DIR/.git" ]]; then
+	echo "$LOG_PREFIX automation clone missing — cloning $REPO_URL to $REPO_DIR"
+	git clone "$REPO_URL" "$REPO_DIR"
+fi
 
-git checkout main
-git pull --ff-only
+cd "$REPO_DIR"
+echo "$LOG_PREFIX starting in $REPO_DIR"
+
+# Self-heal, don't just pull: a failed previous run leaves modified tracked
+# files (stats.json/stats-archive.json) and possibly a stale digest branch
+# in this persistent clone, and `git pull --ff-only` would then refuse to
+# merge forever after. Nothing in this clone is ever hand-edited, so
+# discarding local state is always safe here (NOT in the working checkout).
+git fetch origin
+git checkout -f main
+git reset --hard origin/main
 
 python3 scripts/stats/parse_sessions.py
 python3 scripts/stats/weekly_stats.py
@@ -60,18 +77,21 @@ npm ci
 npm run build
 npm test
 
-git add data/stats.json data/weekly/
+git add data/stats.json data/stats-archive.json data/weekly/
 if git diff --cached --quiet; then
 	echo "$LOG_PREFIX no changes to commit, done"
 	exit 0
 fi
 
 BRANCH="weekly-digest-${WEEK_ID}"
-git checkout -b "$BRANCH"
+# -B, not -b: a same-week retry after a transient push/PR failure must not
+# die on "branch already exists" in this persistent clone.
+git checkout -B "$BRANCH"
 git commit -m "chore(weekly): digest for ${WEEK_ID}"
 git push -u origin "$BRANCH"
 
 gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Needs a manual merge — see this script's header comment for why auto-merge isn't wired up yet."
 
 git checkout main
+git branch -D "$BRANCH"
 echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, needs manual merge"

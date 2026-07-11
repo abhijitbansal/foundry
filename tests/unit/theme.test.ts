@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { THEME_KEY, readTheme, setTheme, toggleTheme } from '../../src/lib/theme';
+import { THEME_KEY, noFlashInlineScript, readTheme, setTheme, toggleTheme } from '../../src/lib/theme';
 
 describe('theme.ts', () => {
   beforeEach(() => {
@@ -23,14 +23,18 @@ describe('theme.ts', () => {
     expect(localStorage.getItem(THEME_KEY)).toBe('light');
   });
 
-  it('readTheme defaults to light when data-theme is absent or unrecognized', () => {
-    expect(readTheme()).toBe('light');
+  it('readTheme defaults to dark when data-theme is absent or unrecognized (dark is the site default)', () => {
+    expect(readTheme()).toBe('dark');
 
     document.documentElement.setAttribute('data-theme', 'something-else');
-    expect(readTheme()).toBe('light');
-
-    document.documentElement.setAttribute('data-theme', 'dark');
     expect(readTheme()).toBe('dark');
+
+    document.documentElement.setAttribute('data-theme', 'light');
+    expect(readTheme()).toBe('light');
+  });
+
+  it('noFlashInlineScript resolves to dark unless an explicit stored light preference exists', () => {
+    expect(noFlashInlineScript()).toContain("t === 'light' ? 'light' : 'dark'");
   });
 
   it('setTheme swallows a localStorage throw (private-browsing Safari) without crashing', () => {
