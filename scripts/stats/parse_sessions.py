@@ -222,7 +222,14 @@ def handle_assistant(d, S):
             if name.startswith("mcp__"):
                 S["mcp_tools"][name] += 1
             if name in ("Agent", "Task"):
-                st = inp.get("subagent_type") or inp.get("description") or "agent"
+                # subagent_type is a fixed, catalog-style value ("general-purpose",
+                # "ecc:code-reviewer", "Explore") — safe for a public repo. The
+                # `description` fallback is freeform prose written per-dispatch
+                # and has been observed to contain private-repo task detail
+                # verbatim (e.g. "Implement X1: Add-items-to-collection flow in
+                # Cubby iOS app") — never fall back to it here; that field only
+                # feeds an internal counter that never reaches the public site.
+                st = inp.get("subagent_type") or "(unnamed dispatch)"
                 S["agents"][st] += 1
             if name == "Skill":
                 S["skills"][inp.get("skill", "?")] += 1
@@ -510,10 +517,15 @@ def main():
         "daily_out_tokens": sorted(daily_tokens.items()),
         "daily_lines": sorted(daily_lines.items()),
         "tool_by_month": {m: c.most_common(8) for m, c in sorted(tool_by_month.items())},
+        # No "sample" path list here (cc-dashboard's own schema has one, for
+        # its private local gallery view): those paths are absolute local
+        # filesystem paths (/Users/abhijitbansal/...) spanning every local
+        # project directory, allowlist or not — real leak, confirmed present
+        # in an earlier run of this data. Nothing in this site's components
+        # reads `images` at all, so there's no functional reason to carry it.
         "images": {
             "referenced": len(all_images),
             "existing_on_disk": len(existing_images),
-            "sample": existing_images[:60],
         },
     }
 
