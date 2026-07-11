@@ -1,0 +1,45 @@
+/* Vendored from docs/design/handoff/tokens/brands.css (+ dark-mirror rule appended below) — should come from github.com/abhijitbansal/design-system once that repo is consumable as a package. */
+
+/* brands.css — per-product accent themes for Claude Design.
+   Foundation neutrals/type/space/radius come from foundation.css; this file ONLY
+   swaps the accent family. Default (:root) = Paperix. Apply another product by
+   adding a class to any wrapper: <section class="brand-floorprint"> … </section>.
+   Dark mode follows the system (or html[data-theme="dark"]). */
+
+/* ---- default brand: Paperix (notary red) ---- */
+:root {
+  --ds-accent: #C5443A; --ds-accent-hover: #A2362E; --ds-accent-soft: rgba(197,68,58,0.10);
+  --ds-on-accent: #FBF8F1; --ds-secondary: #C8901F;
+}
+:root[data-theme="dark"] {
+  --ds-accent: #E36A5E; --ds-accent-hover: #BF4C40; --ds-accent-soft: rgba(227,106,94,0.14);
+  --ds-on-accent: #1B1814; --ds-secondary: #E6BF5A;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ds-accent: #E36A5E; --ds-accent-hover: #BF4C40; --ds-accent-soft: rgba(227,106,94,0.14);
+    --ds-on-accent: #1B1814; --ds-secondary: #E6BF5A;
+  }
+}
+
+/* ---- brand override classes (light) ---- */
+.brand-paperix    { --ds-accent: #C5443A; --ds-accent-hover: #A2362E; --ds-accent-soft: rgba(197,68,58,0.10); --ds-on-accent: #FBF8F1; --ds-secondary: #C8901F; }
+.brand-floorprint { --ds-accent: #B8860B; --ds-accent-hover: #A6790A; --ds-accent-soft: rgba(184,134,11,0.10); --ds-on-accent: #16130F; --ds-primary: #1E3A5F; }
+.brand-cartoon    { --ds-accent: #B8860B; --ds-accent-hover: #A6790A; --ds-accent-soft: rgba(184,134,11,0.10); --ds-on-accent: #16130F; --ds-primary: #1E3A5F; }
+.brand-skills     { --ds-accent: #0E8FB0; --ds-accent-hover: #0B7894; --ds-accent-soft: rgba(14,143,176,0.10); --ds-on-accent: #04141A; --ds-secondary: #B07A18; --ds-tertiary: #6D52C4; }
+
+/* ---- brand override classes (dark) ---- */
+@media (prefers-color-scheme: dark) {
+  .brand-paperix    { --ds-accent: #E36A5E; --ds-accent-hover: #BF4C40; --ds-accent-soft: rgba(227,106,94,0.14); --ds-on-accent: #1B1814; --ds-secondary: #E6BF5A; }
+  .brand-floorprint { --ds-accent: #D9A93F; --ds-accent-hover: #E0B658; --ds-accent-soft: rgba(217,169,63,0.12); --ds-on-accent: #16130F; --ds-primary: #7DA7D9; }
+  .brand-cartoon    { --ds-accent: #D4A73A; --ds-accent-hover: #DBB24D; --ds-accent-soft: rgba(212,167,58,0.13); --ds-on-accent: #16130F; --ds-primary: #8FB4DD; }
+  .brand-skills     { --ds-accent: #34D3EE; --ds-accent-hover: #5ADCF1; --ds-accent-soft: rgba(52,211,238,0.10); --ds-on-accent: #04141A; --ds-secondary: #E8B94A; --ds-tertiary: #A892F0; }
+}
+
+/* brands.css only swaps brand accents for dark via prefers-color-scheme;
+   mirror its own dark values when the theme is forced with data-theme
+   (2A source: Foundry 2A - Crucible Light.dc.html:36-39). */
+[data-theme="dark"] .brand-skills {
+  --ds-accent: #34D3EE; --ds-accent-hover: #5ADCF1; --ds-accent-soft: rgba(52,211,238,0.10);
+  --ds-on-accent: #04141A; --ds-secondary: #E8B94A; --ds-tertiary: #A892F0;
+}

@@ -1,0 +1,22 @@
+---
+// BaseLayout — <head>, token/global CSS imports, body.ds-root mount point.
+// Theme no-flash script, fonts, and skip-link mount point land in Phase 2/3+.
+import '../styles/tokens/foundation.css';
+import '../styles/tokens/brands.css';
+import '../styles/tokens/components.css';
+import '../styles/global.css';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Abhijit Bansal — Foundry</title>
+	</head>
+	<body class="ds-root">
+		<slot />
+	</body>
+</html>

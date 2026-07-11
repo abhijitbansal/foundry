@@ -1,0 +1,140 @@
+/* Vendored verbatim from docs/design/handoff/tokens/components.css — should come from github.com/abhijitbansal/design-system once that repo is consumable as a package. */
+
+/* =====================================================================
+   Abhijit House Design System — COMPONENTS
+   Shared component idioms built on foundation tokens + the theme-provided
+   --ds-accent family. Load AFTER foundation.css and a themes/*.css.
+
+   Reconciles the button / card / callout / chip patterns that every site
+   re-implemented ad hoc into one flat, hairline-bordered vocabulary.
+   ===================================================================== */
+
+/* ---- primary action: solid accent, flat ---- */
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  font-family: var(--ds-font-mono);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.01em;
+  padding: 10px 18px;
+  border: 1px solid transparent;
+  border-radius: var(--ds-radius-sm);
+  background: var(--ds-accent);
+  color: var(--ds-on-accent);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--ds-duration-base) var(--ds-ease-standard),
+              transform var(--ds-duration-fast) var(--ds-ease-standard);
+}
+.ds-btn:hover { background: var(--ds-accent-hover); transform: translateY(-1px); }
+.ds-btn:active { transform: translateY(0); }
+.ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ds-accent-soft); }
+
+/* ---- quiet / ghost action: accent text + outline ---- */
+.ds-btn-quiet {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-2);
+  font-family: var(--ds-font-mono);
+  font-weight: 500;
+  font-size: 13px;
+  padding: 9px 18px;
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-radius-sm);
+  background: transparent;
+  color: var(--ds-accent);
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color var(--ds-duration-base) var(--ds-ease-standard);
+}
+.ds-btn-quiet:hover { border-color: var(--ds-accent); }
+.ds-btn-quiet:focus-visible { outline: none; box-shadow: 0 0 0 3px var(--ds-accent-soft); }
+
+/* ---- card: flat surface, hairline border, no shadow by default ---- */
+.ds-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  padding: var(--ds-space-5) var(--ds-space-6);
+}
+.ds-card--raised { box-shadow: var(--ds-shadow-card); }
+
+/* ---- callout: left accent bar (asymmetric radius) ---- */
+.ds-callout {
+  border-left: 3px solid var(--ds-accent);
+  background: var(--ds-accent-soft);
+  border-radius: 0 var(--ds-radius-md) var(--ds-radius-md) 0;
+  padding: var(--ds-space-3) var(--ds-space-4);
+  color: var(--ds-text-2);
+}
+
+/* ---- chip / tag: mono, hairline ---- */
+.ds-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-1);
+  font-family: var(--ds-font-mono);
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-pill);
+  color: var(--ds-text-3);
+  background: var(--ds-surface-2);
+}
+.ds-chip--accent { color: var(--ds-accent); border-color: var(--ds-accent); background: var(--ds-accent-soft); }
+
+/* ---- inline code / kbd ---- */
+.ds-code {
+  font-family: var(--ds-font-mono);
+  font-size: 0.9em;
+  padding: 1px 6px;
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-xs);
+  background: var(--ds-surface-2);
+  color: var(--ds-text-2);
+}
+
+/* ---- link: hairline underline that fills with accent on hover ---- */
+.ds-link {
+  color: var(--ds-accent);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--ds-duration-base) var(--ds-ease-standard);
+}
+.ds-link:hover { border-bottom-color: var(--ds-accent); }
+
+/* ---- on-device / status pill (Paperix privacy motif, generalized) ---- */
+.ds-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ds-space-1_5);
+  font-family: var(--ds-font-mono);
+  font-weight: 600;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 9px;
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-radius-pill);
+  color: var(--ds-text-2);
+}
+.ds-pill::before {
+  content: "";
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--ds-success);
+}
+
+/* ---- entrance animation (gated behind reduced-motion) ---- */
+.ds-rise { opacity: 0; transform: translateY(8px); animation: ds-rise var(--ds-duration-slow) var(--ds-ease-entrance) forwards; }
+@keyframes ds-rise { to { opacity: 1; transform: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-rise { opacity: 1; transform: none; animation: none; }
+  .ds-btn, .ds-btn-quiet, .ds-link { transition: none; }
+}

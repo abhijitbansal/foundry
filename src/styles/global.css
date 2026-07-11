@@ -1,0 +1,36 @@
+/* Global base styles — ported from the 2A source's inline <style> block
+   (Foundry 2A - Crucible Light.dc.html:21-33). The theme no-flash script and
+   `body.ds-root` class are handled by BaseLayout.astro / foundation.css
+   instead of the DC-runtime classList dance the prototype used. */
+
+html {
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0;
+}
+a {
+  color: var(--ds-accent);
+}
+a:hover {
+  color: var(--ds-accent-hover);
+}
+::selection {
+  background: color-mix(in srgb, var(--ds-accent) 32%, transparent);
+}
+:focus-visible {
+  outline: 2px solid var(--ds-accent);
+  outline-offset: 3px;
+}
+@keyframes fy-cue {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.35; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+.fy-cue-anim {
+  animation: fy-cue 2.8s var(--ds-ease-standard) infinite;
+  transform-origin: top;
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .fy-cue-anim { animation: none; }
+}

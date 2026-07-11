@@ -1,0 +1,193 @@
+/* Vendored verbatim from docs/design/handoff/tokens/foundation.css — should come from github.com/abhijitbansal/design-system once that repo is consumable as a package. */
+
+/* =====================================================================
+   Abhijit House Design System — FOUNDATION
+   Generated from tokens/design-tokens.json (v0.1.0). Do not hand-edit;
+   change the JSON and regenerate.
+
+   Shared by every product. Pair with components.css and ONE themes/*.css.
+   Dark mode: follows system by default; force with <html data-theme="dark">
+   or pin light with data-theme="light".
+   ===================================================================== */
+
+:root {
+  /* ---- neutral (warm paper) ---- */
+  --ds-bg:           #F4EFE6;
+  --ds-surface:      #FBF8F1;
+  --ds-surface-2:    #EDE6D5;
+  --ds-line:         #E0D8C6;
+  --ds-line-strong:  #D2C8B2;
+
+  /* ---- text / ink ---- */
+  --ds-text:         #16140F;
+  --ds-text-2:       #3A352B;
+  --ds-text-3:       #736A59;
+  --ds-text-faint:   #B7AE9C;
+
+  /* ---- semantic (status) ---- */
+  --ds-success:      #3E7A4F;
+  --ds-warning:      #8A6614;
+  --ds-danger:       #B23A2E;
+  --ds-info:         #2A6F8E;
+
+  /* ---- elevation (warm-tinted; flat-first) ---- */
+  --ds-shadow-card:  0 6px 24px rgba(22,20,15,0.06);
+  --ds-shadow-pop:   0 10px 32px rgba(22,20,15,0.09);
+
+  /* ---- type families ---- */
+  --ds-font-display: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --ds-font-body:    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  --ds-font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---- type weights ---- */
+  --ds-weight-regular:  400;
+  --ds-weight-medium:   500;
+  --ds-weight-semibold: 600;
+  --ds-weight-bold:     700;
+
+  /* ---- spacing scale (4px base) ---- */
+  --ds-space-px:   1px;
+  --ds-space-0_5:  2px;
+  --ds-space-1:    4px;
+  --ds-space-1_5:  6px;
+  --ds-space-2:    8px;
+  --ds-space-3:    12px;
+  --ds-space-4:    16px;
+  --ds-space-5:    20px;
+  --ds-space-6:    24px;
+  --ds-space-8:    32px;
+  --ds-space-10:   40px;
+  --ds-space-12:   48px;
+  --ds-space-16:   64px;
+  --ds-space-20:   80px;
+  --ds-space-24:   96px;
+
+  /* ---- radius scale ---- */
+  --ds-radius-xs:   4px;
+  --ds-radius-sm:   6px;
+  --ds-radius-md:   8px;
+  --ds-radius-lg:   12px;
+  --ds-radius-xl:   16px;
+  --ds-radius-icon: 22px;
+  --ds-radius-pill: 999px;
+
+  /* ---- motion ---- */
+  --ds-duration-fast: 120ms;
+  --ds-duration-base: 200ms;
+  --ds-duration-slow: 450ms;
+  --ds-ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ds-ease-entrance: cubic-bezier(0.16, 1, 0.3, 1);
+
+  color-scheme: light dark;
+}
+
+/* ---- dark mode (warm ink-black) ---- */
+:root[data-theme="dark"] {
+  --ds-bg:          #1B1814;
+  --ds-surface:     #24201A;
+  --ds-surface-2:   #16130F;
+  --ds-line:        #2F2920;
+  --ds-line-strong: #3D362B;
+
+  --ds-text:        #F0EAD6;
+  --ds-text-2:      #C5BBA1;
+  --ds-text-3:      #8B8270;
+  --ds-text-faint:  #5A5142;
+
+  --ds-success:     #7FC8A0;
+  --ds-warning:     #E6BF5A;
+  --ds-danger:      #E08A6D;
+  --ds-info:        #5FB5D6;
+
+  --ds-shadow-card: 0 6px 24px rgba(0,0,0,0.40);
+  --ds-shadow-pop:  0 12px 36px rgba(0,0,0,0.50);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ds-bg:          #1B1814;
+    --ds-surface:     #24201A;
+    --ds-surface-2:   #16130F;
+    --ds-line:        #2F2920;
+    --ds-line-strong: #3D362B;
+
+    --ds-text:        #F0EAD6;
+    --ds-text-2:      #C5BBA1;
+    --ds-text-3:      #8B8270;
+    --ds-text-faint:  #5A5142;
+
+    --ds-success:     #7FC8A0;
+    --ds-warning:     #E6BF5A;
+    --ds-danger:      #E08A6D;
+    --ds-info:        #5FB5D6;
+
+    --ds-shadow-card: 0 6px 24px rgba(0,0,0,0.40);
+    --ds-shadow-pop:  0 12px 36px rgba(0,0,0,0.50);
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------- */
+body.ds-root {
+  margin: 0;
+  background: var(--ds-bg);
+  color: var(--ds-text);
+  font-family: var(--ds-font-body);
+  font-size: 16px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ---------------------------------------------------------------------
+   Type scale utilities — apply size / line-height / tracking / weight / family
+   --------------------------------------------------------------------- */
+.ds-display-xl { font-family: var(--ds-font-display); font-weight: 400; font-size: clamp(40px, 6vw, 68px); line-height: 1.05;  letter-spacing: -0.01em; }
+.ds-display-lg { font-family: var(--ds-font-display); font-weight: 400; font-size: clamp(30px, 4vw, 40px); line-height: 1.1;   letter-spacing: -0.01em; }
+.ds-display-md { font-family: var(--ds-font-display); font-weight: 400; font-size: clamp(24px, 3vw, 30px); line-height: 1.15;  letter-spacing: -0.005em; }
+.ds-title      { font-family: var(--ds-font-body); font-weight: 600; font-size: 20px; line-height: 1.3; }
+.ds-heading    { font-family: var(--ds-font-body); font-weight: 600; font-size: 17px; line-height: 1.35; }
+.ds-lead       { font-family: var(--ds-font-body); font-weight: 400; font-size: 19px; line-height: 1.5; color: var(--ds-text-2); }
+.ds-body       { font-family: var(--ds-font-body); font-weight: 400; font-size: 16px; line-height: 1.55; }
+.ds-body-sm    { font-family: var(--ds-font-body); font-weight: 400; font-size: 14px; line-height: 1.5; }
+.ds-caption    { font-family: var(--ds-font-body); font-weight: 400; font-size: 13px; line-height: 1.45; color: var(--ds-text-3); }
+
+/* SIGNATURE idiom: uppercase mono kicker / eyebrow above headings */
+.ds-kicker {
+  font-family: var(--ds-font-mono);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ds-accent, var(--ds-text-3));
+}
+.ds-micro {
+  font-family: var(--ds-font-mono);
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--ds-text-3);
+}
+
+/* SIGNATURE idiom: section rule — hairline with a short accent tab (blueprint tick) */
+.ds-rule {
+  position: relative;
+  height: 1px;
+  border: 0;
+  background: var(--ds-line);
+  margin: var(--ds-space-1_5) 0 var(--ds-space-5);
+}
+.ds-rule::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 64px;
+  height: 3px;
+  margin-top: -1px;
+  background: var(--ds-accent, var(--ds-text));
+}
