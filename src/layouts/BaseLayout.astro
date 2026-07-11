@@ -13,10 +13,39 @@ import '../styles/global.css';
 		<meta charset="utf-8" />
 		<script is:inline set:html={noFlashInlineScript()}></script>
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+		<link rel="apple-touch-icon" href="/favicon-180.png" />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Abhijit Bansal — Foundry</title>
+		<meta
+			name="description"
+			content="Privacy-first iOS apps and AI agent tooling, designed and shipped solo."
+		/>
+		<link rel="canonical" href="https://abhijitbansal.com" />
+
+		<meta property="og:title" content="Abhijit Bansal — Foundry" />
+		<meta
+			property="og:description"
+			content="Privacy-first iOS apps and AI agent tooling, designed and shipped solo."
+		/>
+		<meta property="og:image" content="https://abhijitbansal.com/og-image.png" />
+		<meta property="og:url" content="https://abhijitbansal.com" />
+		<meta property="og:type" content="website" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="Abhijit Bansal — Foundry" />
+		<meta
+			name="twitter:description"
+			content="Privacy-first iOS apps and AI agent tooling, designed and shipped solo."
+		/>
+		<meta name="twitter:image" content="https://abhijitbansal.com/og-image.png" />
+
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+		/>
 	</head>
 	<body class="ds-root">
 		<slot />

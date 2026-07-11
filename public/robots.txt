@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://abhijitbansal.com/sitemap-index.xml
