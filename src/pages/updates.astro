@@ -43,11 +43,12 @@ const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
 				</nav>
 			)}
 
+			<div id="weeks">
 			{
 				weeks.length === 0 ? (
 					<p class="ds-body" style="margin-top:32px;color:var(--ds-text-3)">No weekly digests yet — check back after the next Monday run.</p>
 				) : (
-					<div id="weeks" style="display:flex;flex-direction:column;gap:32px;margin-top:clamp(32px,4vw,48px)">
+					<div style="display:flex;flex-direction:column;gap:32px;margin-top:clamp(32px,4vw,48px)">
 						{weeks.map((week) => {
 							const busiest = busiestRepo(week.repos);
 							return (
@@ -115,6 +116,7 @@ const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
 					</div>
 				)
 			}
+			</div>
 		</div>
 	</main>
 	<Footer />

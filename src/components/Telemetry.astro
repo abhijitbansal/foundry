@@ -100,7 +100,11 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 					<span class="ds-micro" style="color:var(--ds-text-faint)">{windowStartLabel} – {windowEndLabel} · out-tokens per day</span>
 				</div>
 				<div style="display:flex;gap:clamp(18px,3vw,32px);align-items:flex-start;flex-wrap:wrap">
-					<Heatmap cells={heatmapCells} ariaLabel={heatmapLabel} />
+					{/* the since-May-1 grid grows a 16px column every 7 days — scroll it
+					    inside the card instead of letting it overflow on small screens */}
+					<div style="max-width:100%;overflow-x:auto;padding-bottom:4px">
+						<Heatmap cells={heatmapCells} ariaLabel={heatmapLabel} />
+					</div>
 					<div style="display:flex;flex-direction:column;gap:14px;flex:1;min-width:150px">
 						<div style="display:flex;flex-direction:column;gap:3px">
 							<span class="ds-display-md">{formatCompact(windowSessions)}</span>
