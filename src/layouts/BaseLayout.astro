@@ -12,9 +12,9 @@ import '../styles/global.css';
 	<head>
 		<meta charset="utf-8" />
 		<script is:inline set:html={noFlashInlineScript()}></script>
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
-		<link rel="apple-touch-icon" href="/favicon-180.png" />
+		<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+		<link rel="icon" href={`${import.meta.env.BASE_URL}favicon-32.png`} sizes="32x32" type="image/png" />
+		<link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}favicon-180.png`} />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Abhijit Bansal — Foundry</title>
@@ -22,15 +22,19 @@ import '../styles/global.css';
 			name="description"
 			content="Privacy-first iOS apps and AI agent tooling, designed and shipped solo."
 		/>
-		<link rel="canonical" href="https://abhijitbansal.com" />
+		<!-- TODO(domain): revert to https://abhijitbansal.com once DNS/CNAME is
+		     live — no custom domain purchased yet, so canonical/OG/Twitter point
+		     at the real interim github.io/foundry URL instead. See the matching
+		     TODO in astro.config.mjs. -->
+		<link rel="canonical" href="https://abhijitbansal.github.io/foundry/" />
 
 		<meta property="og:title" content="Abhijit Bansal — Foundry" />
 		<meta
 			property="og:description"
 			content="Privacy-first iOS apps and AI agent tooling, designed and shipped solo."
 		/>
-		<meta property="og:image" content="https://abhijitbansal.com/og-image.png" />
-		<meta property="og:url" content="https://abhijitbansal.com" />
+		<meta property="og:image" content="https://abhijitbansal.github.io/foundry/og-image.png" />
+		<meta property="og:url" content="https://abhijitbansal.github.io/foundry/" />
 		<meta property="og:type" content="website" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content="Abhijit Bansal — Foundry" />
@@ -38,7 +42,7 @@ import '../styles/global.css';
 			name="twitter:description"
 			content="Privacy-first iOS apps and AI agent tooling, designed and shipped solo."
 		/>
-		<meta name="twitter:image" content="https://abhijitbansal.com/og-image.png" />
+		<meta name="twitter:image" content="https://abhijitbansal.github.io/foundry/og-image.png" />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
