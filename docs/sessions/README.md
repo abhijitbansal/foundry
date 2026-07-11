@@ -7,3 +7,4 @@ One markdown file per AI coding session that makes commits. Rules: [AGENTS.md â†
 | 0001 | 2026-07-11 | Repo bootstrap: scaffold, PROJECTS.md inventory, Higgsfield MCP | [0001-2026-07-11-repo-bootstrap.md](./0001-2026-07-11-repo-bootstrap.md) |
 | 0002 | 2026-07-11 | Site 2A implementation: Phases 0-10, full acceptance pass | [0002-2026-07-11-site-2a-implementation.md](./0002-2026-07-11-site-2a-implementation.md) |
 | 0003 | 2026-07-11 | Launch prep: contrast fix, Pages readiness, stats pipeline, weekly updates | [0003-2026-07-11-launch-prep.md](./0003-2026-07-11-launch-prep.md) |
+| 0004 | 2026-07-11 | Main-issues fixes: nav anchors, week selector, since-May-1 telemetry archive, dark default, Monday 9am automation | [0004-2026-07-11-main-issues-dark-default-automation.md](./0004-2026-07-11-main-issues-dark-default-automation.md) |
