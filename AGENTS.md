@@ -53,6 +53,7 @@ A standing ultracode/session directive authorizes orchestration; it does not man
 Solo developer, no human co-reviewers. Simpler than Cubby's wave workflow (no device-test gate here) but same spine:
 
 - **Never commit work directly to `main`** (single exception: the initial repo bootstrap commit). Feature work = short-lived branch → PR → merge → delete branch.
+- **One branch per session, not a stack of small PRs.** Solo dev, no co-reviewers — reviewing five tiny stacked PRs in sequence is pure overhead compared to one branch with several atomic commits. When a session spans multiple phases/tasks, keep them all on the single branch that session started (rename/consolidate onto one branch if a session accidentally splits into several) and open one PR at the end covering the whole session's work. This does not relax the "atomic commits" rule below — many small commits on one branch is exactly right; many small *branches/PRs* is not.
 - **Commits are task-level and atomic** — conventional format (`feat:`, `fix:`, `docs:`, `chore:`, …), one logical change each. No history rewriting.
 - **Gates before push:** build/lint green → tests green (once a stack exists) → reviewer pass on the diff (e.g. `/code-review`) with no CRITICAL/HIGH unfixed.
 - Multi-phase work (2+ dependent phases) gets a plan doc in `docs/plans/` first; the plan's task structure is authoritative.
