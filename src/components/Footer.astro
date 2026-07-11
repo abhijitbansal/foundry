@@ -1,6 +1,15 @@
 ---
 // Footer.astro — 2A source lines 489-501, verbatim. Email link uses plain
 // mailto: (same Cloudflare-obfuscation deviation as Hero.astro/About.astro).
+//
+// "No trackers..." uses --ds-text-3, not the 2A source's --ds-text-faint
+// (acceptance-pass fix, Phase 10): --ds-text-faint on --ds-bg is 1.92:1,
+// which Lighthouse flags (WCAG AA needs 4.5:1 for this non-decorative text);
+// --ds-text-3 is 4.66:1 and is the token already used one line up for the
+// copyright line, so the two stay visually matched. --ds-text-faint is used
+// elsewhere in the same non-decorative way (Telemetry captions, "Private
+// build" labels) — flagged as a design-token-level follow-up rather than
+// patched everywhere here, since that's a broader call than one component.
 ---
 
 <footer data-screen-label="Footer" class="brand-skills" style="border-top:1px solid var(--ds-line);margin-top:clamp(48px,7vw,80px)">
@@ -33,6 +42,6 @@
 				>Email</a
 			>
 		</div>
-		<span class="ds-micro" style="color:var(--ds-text-faint)">No trackers · No analytics · Nothing to consent to</span>
+		<span class="ds-micro" style="color:var(--ds-text-3)">No trackers · No analytics · Nothing to consent to</span>
 	</div>
 </footer>

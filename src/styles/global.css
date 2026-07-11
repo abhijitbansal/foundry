@@ -52,3 +52,20 @@ a:hover {
 .fy-tilt:hover { border-color: color-mix(in srgb, var(--ds-accent) 45%, var(--ds-line)); }
 .fy-skip-link { top: -56px; }
 .fy-skip-link:focus-visible { top: 16px; }
+
+/* #fy-nav — acceptance-pass fix (Phase 10). The 2A source ships zero @media
+   rules; its nav row's fixed-width mono items (Work/Expertise/Telemetry/
+   About/Theme/GitHub) overflow past the viewport below ~520px with no way
+   to reach the clipped items. Let the nav strip scroll horizontally instead
+   of pushing content off-canvas — visual design and copy are unchanged. */
+@media (max-width: 600px) {
+  #fy-nav {
+    min-width: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  #fy-nav::-webkit-scrollbar {
+    display: none;
+  }
+}

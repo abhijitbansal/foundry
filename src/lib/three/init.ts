@@ -79,7 +79,11 @@ export async function initHeroScene(): Promise<void> {
 
 	try {
 		const scene = createHeroScene(THREE, mount, hero, { reducedMotion });
-		if (scene) window.__foundryScene = scene;
+		if (scene) {
+			window.__foundryScene = scene;
+		} else {
+			console.warn('[foundry] scene init returned null (no WebGL?) — poster fallback stays');
+		}
 	} catch (e) {
 		console.warn('[foundry] scene init failed — poster fallback stays', e);
 	}

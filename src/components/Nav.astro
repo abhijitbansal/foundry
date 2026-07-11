@@ -4,6 +4,14 @@
 // handler is wired here per plan Task 2.2 (ported from 2A's _setupTheme,
 // lines 556-571, minus the `_three.setTheme` call — that guard is added in
 // Phase 6 once the scene module exists).
+//
+// #fy-nav gets a horizontal-scroll rule in global.css (Phase 10 acceptance-pass
+// fix): the 2A source has no @media rules at all, so its 7-item nav row
+// (Work/Expertise/Telemetry/About/Theme/GitHub, all fixed-width mono text)
+// overflows past the viewport edge at 390px with no way to reach the
+// clipped items — GitHub/Theme land off-canvas. Copy/markup/visual design
+// are unchanged; the nav strip becomes internally swipe-scrollable below
+// ~600px instead of pushed off-canvas.
 ---
 
 <header data-screen-label="Nav" class="brand-skills" style="position:fixed;top:0;left:0;right:0;z-index:50">
@@ -20,7 +28,7 @@
 			<span aria-hidden="true" style="width:16px;height:3px;background:var(--ds-accent);display:inline-block"></span>
 			<span class="ds-micro" style="color:var(--ds-text);font-size:12px;letter-spacing:0.18em">Foundry</span>
 		</a>
-		<nav aria-label="Site" style="display:flex;align-items:center;gap:clamp(12px,2.4vw,26px)">
+		<nav id="fy-nav" aria-label="Site" style="display:flex;align-items:center;gap:clamp(12px,2.4vw,26px)">
 			<a
 				class="ds-micro fy-link-t2"
 				href="#work"

@@ -8,6 +8,11 @@
 // `layout="foundation"` renders the bespoke full-width 2-column article used
 // by the single-project Foundation group (2A source lines 257-270) instead
 // of the standard flex-column card — see WorkGroup.astro.
+//
+// Card title is <h3>, not the 2A source's <h4> (acceptance-pass fix, Phase
+// 10): the source jumps h2 ("Forged here.") straight to h4 with no h3 in
+// between, an invalid heading-order skip Lighthouse flags. Styling is
+// class-driven (`.ds-display-md`), so the tag change has no visual effect.
 import type { Project, ProjectStatus } from '../data/projects.types';
 import ProjectLinks from './ProjectLinks.astro';
 
@@ -47,7 +52,7 @@ const primaryHref = project.siteUrl ?? project.repoUrl;
 			<div style="display:flex;flex-direction:column;gap:13px">
 				<span class="ds-micro" aria-hidden="true" style="position:absolute;top:28px;right:28px;color:var(--ds-text-faint)">{badge}</span>
 				<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-right:44px">
-					<h4 class="ds-display-md" style="margin:0">{project.name}</h4>
+					<h3 class="ds-display-md" style="margin:0">{project.name}</h3>
 					<span class="ds-pill" style={pillStyle}>{STATUS_LABEL[project.status]}</span>
 				</div>
 				<span class="ds-micro" style="color:var(--ds-text-3)">{project.tech}</span>
@@ -65,7 +70,7 @@ const primaryHref = project.siteUrl ?? project.repoUrl;
 		>
 			<span class="ds-micro" aria-hidden="true" style="position:absolute;top:28px;right:28px;color:var(--ds-text-faint)">{badge}</span>
 			<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-right:44px">
-				<h4 class="ds-display-md" style="margin:0">{project.name}</h4>
+				<h3 class="ds-display-md" style="margin:0">{project.name}</h3>
 				<span class="ds-pill" style={pillStyle}>{STATUS_LABEL[project.status]}</span>
 			</div>
 			<p class="ds-body-sm" style="margin:0;color:var(--ds-text-2);text-wrap:pretty">{project.blurb}</p>
