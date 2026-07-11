@@ -1,0 +1,37 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Node / web toolchain (stack TBD — covers likely candidates)
+node_modules/
+dist/
+build/
+out/
+.next/
+.astro/
+.vite/
+.turbo/
+coverage/
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Deploy platforms
+.vercel/
+.netlify/
+
+# Env / secrets — never commit
+.env
+.env.*
+!.env.example
+
+# Local scratch (generated artifacts, test checklists, throwaway assets)
+.scratch/
+
+# Generated design assets staging (Higgsfield etc.) — curated ones get committed under assets/
+.assets-inbox/
