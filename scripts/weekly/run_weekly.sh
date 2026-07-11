@@ -21,11 +21,22 @@
 # just opens the PR and stops; merge it by hand each week.
 set -euo pipefail
 
-REPO_DIR="$HOME/projects/foundry"
+# Runs from a dedicated automation clone, NOT the working checkout — same
+# pattern as sift's ~/projects/sift-publish. The working repo can be mid-
+# branch/dirty at 9am Monday; this clone always pulls latest main, runs
+# the full setup (npm ci), and pushes its digest branch, without ever
+# touching in-progress work. Bootstraps itself on first run.
+REPO_DIR="$HOME/projects/foundry-weekly"
+REPO_URL="git@github.com:abhijitbansal/foundry.git"
 LOG_PREFIX="[foundry-weekly $(date -u +%Y-%m-%dT%H:%M:%SZ)]"
 
+if [[ ! -d "$REPO_DIR/.git" ]]; then
+	echo "$LOG_PREFIX automation clone missing — cloning $REPO_URL to $REPO_DIR"
+	git clone "$REPO_URL" "$REPO_DIR"
+fi
+
 cd "$REPO_DIR"
-echo "$LOG_PREFIX starting"
+echo "$LOG_PREFIX starting in $REPO_DIR"
 
 git checkout main
 git pull --ff-only
@@ -60,7 +71,7 @@ npm ci
 npm run build
 npm test
 
-git add data/stats.json data/weekly/
+git add data/stats.json data/stats-archive.json data/weekly/
 if git diff --cached --quiet; then
 	echo "$LOG_PREFIX no changes to commit, done"
 	exit 0

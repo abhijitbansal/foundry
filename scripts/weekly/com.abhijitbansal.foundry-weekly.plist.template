@@ -29,20 +29,30 @@
     <string>-i</string>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>$HOME/projects/foundry/scripts/weekly/run_weekly.sh</string>
+    <string>cd "$HOME/projects/foundry-weekly" 2>/dev/null &amp;&amp; git pull --ff-only || true; exec "$HOME/projects/foundry-weekly/scripts/weekly/run_weekly.sh"</string>
   </array>
 
-  <!-- Monday 07:00 in the machine's local timezone. launchd has no
-       per-job timezone; adjust Hour if the machine moves. Run after sift's
-       Sunday 06:00 job (different repo, no conflict, but keeping them
-       staggered avoids two heavy `claude`-CLI runs contending for the
-       same machine at once). -->
+  <!-- The pull-then-exec dance: the script lives in the automation clone
+       (~/projects/foundry-weekly, sift-publish pattern — the working
+       checkout at ~/projects/foundry is never touched), so pulling BEFORE
+       exec'ing means each run executes the latest committed version of
+       itself, not last week's. On first run the clone doesn't exist yet;
+       the cd fails, `|| true` falls through, and run_weekly.sh's
+       bootstrap path does the clone... except the script itself isn't on
+       disk yet either — so for the very first install, clone by hand:
+       `git clone git@github.com:abhijitbansal/foundry.git ~/projects/foundry-weekly`
+
+       Monday 09:00 in the machine's local timezone. launchd has no
+       per-job timezone; adjust Hour if the machine moves. Runs after
+       sift's Sunday 06:00 job (different repo, no conflict, but keeping
+       them staggered avoids two heavy `claude`-CLI runs contending for
+       the same machine at once). -->
   <key>StartCalendarInterval</key>
   <dict>
     <key>Weekday</key>
     <integer>1</integer>
     <key>Hour</key>
-    <integer>7</integer>
+    <integer>9</integer>
     <key>Minute</key>
     <integer>0</integer>
   </dict>
