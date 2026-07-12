@@ -4,6 +4,14 @@
 // tested); this component just picks the variant and injects the string
 // the generator already assembled (role="img" + aria-label + per-building
 // <title>, hover/focus dim, reduced-motion freeze — all baked in).
+//
+// Fullscreen expander (user-reported: building detail is hard to make out
+// on phone at the card's fluid width) — a corner button opens a native
+// <dialog> holding a second copy of the same SVG string at near-viewport
+// size. Each instance needs a unique id since updates.astro renders one
+// strip per week on the same page; reuse the instanceId works.ts already
+// requires for pattern-id uniqueness (yard has none, so it defaults to
+// 'yard' the same way buildYard does).
 import { buildStrip, buildYard } from '../lib/works';
 import type { WorksRepo } from '../lib/works.types';
 
@@ -16,6 +24,109 @@ const result =
 	props.variant === 'yard'
 		? buildYard(props.repos, { metaLine: props.metaLine })
 		: buildStrip(props.repos, { stamp: props.stamp, instanceId: props.instanceId });
+
+const domId = props.variant === 'yard' ? 'yard' : props.instanceId;
+const dialogId = `fyw-dialog-${domId}`;
 ---
 
-<Fragment set:html={result.svg} />
+<div class="fyw-frame">
+	<button type="button" class="fyw-expand-btn" aria-label="View fullscreen" aria-controls={dialogId} data-fyw-expand={dialogId}>
+		<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+			<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path>
+		</svg>
+	</button>
+	<Fragment set:html={result.svg} />
+	<dialog id={dialogId} class="fyw-dialog" aria-label={result.ariaLabel}>
+		<button type="button" class="fyw-close-btn" aria-label="Close fullscreen" data-fyw-close>✕</button>
+		<div class="fyw-dialog-inner" set:html={result.svg} />
+	</dialog>
+</div>
+
+<style>
+	.fyw-frame {
+		position: relative;
+	}
+	.fyw-expand-btn {
+		position: absolute;
+		top: 8px;
+		right: 8px;
+		z-index: 2;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 30px;
+		height: 30px;
+		background: color-mix(in srgb, var(--ds-surface) 82%, transparent);
+		border: 1px solid var(--ds-line);
+		color: var(--ds-text-2);
+		cursor: pointer;
+		backdrop-filter: blur(4px);
+		-webkit-backdrop-filter: blur(4px);
+		transition:
+			color var(--ds-duration-base) var(--ds-ease-standard),
+			border-color var(--ds-duration-base) var(--ds-ease-standard);
+	}
+	.fyw-expand-btn:hover,
+	.fyw-expand-btn:focus-visible {
+		color: var(--ds-accent);
+		border-color: var(--ds-accent);
+	}
+	.fyw-dialog {
+		margin: auto;
+		padding: 0;
+		width: min(96vw, 1400px);
+		max-width: 96vw;
+		max-height: 92vh;
+		border: 1px solid var(--ds-line);
+		background: var(--ds-surface);
+		overflow: auto;
+		touch-action: pinch-zoom;
+	}
+	.fyw-dialog::backdrop {
+		background: color-mix(in srgb, var(--ds-bg) 80%, transparent);
+		backdrop-filter: blur(2px);
+	}
+	.fyw-dialog[open] {
+		display: flex;
+	}
+	.fyw-dialog-inner {
+		flex: 1;
+		padding: clamp(20px, 4vw, 40px);
+	}
+	.fyw-close-btn {
+		position: sticky;
+		top: 10px;
+		right: 10px;
+		float: right;
+		z-index: 2;
+		width: 34px;
+		height: 34px;
+		background: var(--ds-surface);
+		border: 1px solid var(--ds-line);
+		color: var(--ds-text-2);
+		font-size: 16px;
+		line-height: 1;
+		cursor: pointer;
+	}
+	.fyw-close-btn:hover,
+	.fyw-close-btn:focus-visible {
+		color: var(--ds-accent);
+		border-color: var(--ds-accent);
+	}
+</style>
+
+<script>
+	// Delegated wiring so N stacked instances (updates.astro's weekly strips)
+	// each open their own <dialog> without id collisions — Astro dedups this
+	// inline script to one copy per page regardless of how many WorksCity
+	// components render.
+	document.querySelectorAll<HTMLButtonElement>('[data-fyw-expand]').forEach((btn) => {
+		const dialog = document.getElementById(btn.dataset.fywExpand ?? '');
+		if (!(dialog instanceof HTMLDialogElement)) return;
+		btn.addEventListener('click', () => dialog.showModal());
+		dialog.querySelector('[data-fyw-close]')?.addEventListener('click', () => dialog.close());
+		dialog.addEventListener('click', (e) => {
+			if (e.target === dialog) dialog.close();
+		});
+	});
+</script>

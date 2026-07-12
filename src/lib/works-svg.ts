@@ -157,10 +157,21 @@ function text(opts: {
 	anchor?: 'start' | 'middle' | 'end';
 	font?: string;
 	className?: string;
+	maxWidth?: number;
 }): string {
-	const { x, y, text: t, size = 9, fill = C.inkSoft, weight = 500, ls = '0.08em', anchor = 'start', font = C.mono, className } = opts;
+	const { x, y, text: t, size = 9, fill = C.inkSoft, weight = 500, ls = '0.08em', anchor = 'start', font = C.mono, className, maxWidth } = opts;
 	const style = `fill:${fill};font-family:${font};font-size:${size}px;font-weight:${weight};letter-spacing:${ls}`;
-	return `<text${className ? ` class="${className}"` : ''} x="${n(x)}" y="${n(y)}" text-anchor="${anchor}" style="${style}">${esc(t)}</text>`;
+	// Monospace glyph-advance heuristic (0.6em/char) + letter-spacing — SVG has no
+	// layout engine to measure real advance at build time, so when the estimate
+	// clears maxWidth, clamp with textLength/lengthAdjust rather than risk actual
+	// glyph metrics overflowing the drawn box (see titleBlock overflow fix).
+	let lengthAttrs = '';
+	if (maxWidth !== undefined) {
+		const lsEm = parseFloat(ls) || 0;
+		const estWidth = t.length * size * (0.6 + lsEm);
+		if (estWidth > maxWidth) lengthAttrs = ` textLength="${n(maxWidth)}" lengthAdjust="spacingAndGlyphs"`;
+	}
+	return `<text${className ? ` class="${className}"` : ''} x="${n(x)}" y="${n(y)}" text-anchor="${anchor}" style="${style}"${lengthAttrs}>${esc(t)}</text>`;
 }
 
 function circle(cx: number, cy: number, r: number, opts: { fill?: string; stroke?: string; width?: number; className?: string } = {}): string {
@@ -559,9 +570,10 @@ export function titleBlock(x: number, y: number, meta: { sheetLabel: string; she
 	els.push(text({ x: x + 12, y: y + 22, text: 'The Works', size: 16.5, fill: C.inkStrong, font: C.serif, ls: '0.01em', weight: 400 }));
 	els.push(text({ x: x + w - 66, y: y + 15, text: meta.sheetLabel, size: 7.5, fill: C.inkSoft }));
 	els.push(text({ x: x + w - 66, y: y + 25, text: meta.sheetNo, size: 7.5, fill: C.inkSoft }));
-	els.push(text({ x: x + 12, y: y + 43, text: meta.l1, size: 7.6, fill: C.inkSoft }));
-	els.push(text({ x: x + 12, y: y + 55, text: meta.l2, size: 7.6, fill: C.inkFaint }));
-	els.push(text({ x: x + 12, y: y + 67, text: meta.l3, size: 7.6, fill: C.inkFaint }));
+	const textMaxWidth = w - 24;
+	els.push(text({ x: x + 12, y: y + 43, text: meta.l1, size: 7.6, fill: C.inkSoft, maxWidth: textMaxWidth }));
+	els.push(text({ x: x + 12, y: y + 55, text: meta.l2, size: 7.6, fill: C.inkFaint, maxWidth: textMaxWidth }));
+	els.push(text({ x: x + 12, y: y + 67, text: meta.l3, size: 7.6, fill: C.inkFaint, maxWidth: textMaxWidth }));
 	return els.join('');
 }
 
