@@ -112,6 +112,7 @@
 	if (btn instanceof HTMLButtonElement && markEl && sparksEl && seal && copy1 && copy2) {
 		let strikes = 0;
 		let stamped = readFlag('fy-touchmark');
+		let clearSparksTimer: ReturnType<typeof setTimeout> | null = null;
 
 		function applyCopy() {
 			copy1!.textContent = stamped ? 'Touchmark № 001 · struck by hand — © 2026 Abhijit Bansal' : 'Forged in the Foundry — © 2026 Abhijit Bansal';
@@ -120,6 +121,7 @@
 
 		function burst(count: number, gold: boolean) {
 			if (reducedMotion) return;
+			if (clearSparksTimer) clearTimeout(clearSparksTimer);
 			sparksEl!.innerHTML = '';
 			for (let i = 0; i < count; i++) {
 				const a = -Math.PI / 2 + (Math.random() - 0.5) * 2.6;
@@ -133,7 +135,8 @@
 				span.style.cssText = `position:absolute;left:0;top:0;width:${size}px;height:${size}px;border-radius:50%;background:${color};--dx:${dx}px;--dy:${dy}px;animation:fy-spark 0.7s cubic-bezier(0.16,1,0.3,1) ${delay} forwards`;
 				sparksEl!.appendChild(span);
 			}
-			setTimeout(() => {
+			clearSparksTimer = setTimeout(() => {
+				clearSparksTimer = null;
 				sparksEl!.innerHTML = '';
 			}, 850);
 		}

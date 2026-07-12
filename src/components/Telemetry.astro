@@ -330,6 +330,9 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 
 		applyState();
 
+		let flipTimer: ReturnType<typeof setTimeout> | null = null;
+		let hideTimer: ReturnType<typeof setTimeout> | null = null;
+
 		wireHold(
 			wrap,
 			900,
@@ -342,14 +345,23 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 					applyState();
 					return;
 				}
+				if (flipTimer) clearTimeout(flipTimer);
+				if (hideTimer) clearTimeout(hideTimer);
 				veil.style.display = 'block';
 				veil.style.background = 'linear-gradient(180deg,#111722,#16130F 70%)';
+				// Reset before reassigning — an in-flight veil re-triggered by a
+				// quick second hold would otherwise get the identical animation
+				// string twice in a row, which the browser doesn't restart.
+				veil.style.animation = 'none';
+				void veil.offsetWidth;
 				veil.style.animation = 'fy-veil 1.7s var(--ds-ease-standard) forwards';
-				setTimeout(() => {
+				flipTimer = setTimeout(() => {
+					flipTimer = null;
 					night = toNight;
 					applyState();
 				}, 650);
-				setTimeout(() => {
+				hideTimer = setTimeout(() => {
+					hideTimer = null;
 					veil.style.display = 'none';
 					veil.style.animation = 'none';
 				}, 1750);

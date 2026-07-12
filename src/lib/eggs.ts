@@ -226,20 +226,33 @@ export function writeFlag(key: string, value: boolean): void {
 /** Long-press helper — pointerdown/up/leave/cancel + contextmenu guard,
  * matching the reference's startHold/cancelHold. One instance per hold
  * target (footer anvil has none; the pill and the yard each get their own),
- * so concurrent holds on different elements never interfere. */
+ * so concurrent holds on different elements never interfere. Ignores
+ * pointerdown on a nested interactive control (e.g. WorksCity's fullscreen
+ * button inside the yard's hold target) so this never swallows its click,
+ * and tracks the pointerId that started the hold so a second concurrent
+ * pointer on the same target can't double-fire onComplete. */
+const HOLD_INTERACTIVE_SELECTOR = 'button, a, [role="button"], input, select, textarea';
+
 export function wireHold(el: HTMLElement, ms: number, onComplete: () => void, onHoldChange?: HoldChange): () => void {
 	let timer: ReturnType<typeof setTimeout> | null = null;
-	const end = () => {
+	let activePointerId: number | null = null;
+	const end = (e?: PointerEvent) => {
 		if (timer === null) return;
+		if (e && activePointerId !== null && e.pointerId !== activePointerId) return;
 		clearTimeout(timer);
 		timer = null;
+		activePointerId = null;
 		onHoldChange?.(false);
 	};
 	const start = (e: PointerEvent) => {
+		if (timer !== null) return;
+		if ((e.target as HTMLElement | null)?.closest(HOLD_INTERACTIVE_SELECTOR)) return;
 		e.preventDefault();
+		activePointerId = e.pointerId;
 		onHoldChange?.(true);
 		timer = setTimeout(() => {
 			timer = null;
+			activePointerId = null;
 			onHoldChange?.(false);
 			onComplete();
 		}, ms);

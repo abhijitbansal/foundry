@@ -14,6 +14,15 @@ function formatBuildDate(d: Date): string {
 }
 
 const lastForged = formatBuildDate(new Date());
+
+// Egg 2's survey-grid overlay — one crosshair per corner, same markup,
+// only the position differs.
+const DWG_CORNERS = [
+	{ top: '10px', left: '10px' },
+	{ top: '10px', right: '10px' },
+	{ bottom: '10px', left: '10px' },
+	{ bottom: '10px', right: '10px' },
+];
 ---
 
 <section
@@ -60,10 +69,22 @@ const lastForged = formatBuildDate(new Date());
 		class="fy-dwg-piece"
 		style="position:absolute;inset:0;z-index:4;pointer-events:none;background-image:repeating-linear-gradient(0deg, color-mix(in srgb, var(--ds-accent) 7%, transparent) 0 1px, transparent 1px 24px),repeating-linear-gradient(90deg, color-mix(in srgb, var(--ds-accent) 7%, transparent) 0 1px, transparent 1px 24px)"
 	>
-		<svg width="18" height="18" viewBox="0 0 18 18" style="position:absolute;left:10px;top:10px"><line x1="9" y1="0" x2="9" y2="18" stroke="var(--ds-accent)" stroke-width="1"></line><line x1="0" y1="9" x2="18" y2="9" stroke="var(--ds-accent)" stroke-width="1"></line><circle cx="9" cy="9" r="5" fill="none" stroke="var(--ds-accent)" stroke-width="0.8"></circle></svg>
-		<svg width="18" height="18" viewBox="0 0 18 18" style="position:absolute;right:10px;top:10px"><line x1="9" y1="0" x2="9" y2="18" stroke="var(--ds-accent)" stroke-width="1"></line><line x1="0" y1="9" x2="18" y2="9" stroke="var(--ds-accent)" stroke-width="1"></line><circle cx="9" cy="9" r="5" fill="none" stroke="var(--ds-accent)" stroke-width="0.8"></circle></svg>
-		<svg width="18" height="18" viewBox="0 0 18 18" style="position:absolute;left:10px;bottom:10px"><line x1="9" y1="0" x2="9" y2="18" stroke="var(--ds-accent)" stroke-width="1"></line><line x1="0" y1="9" x2="18" y2="9" stroke="var(--ds-accent)" stroke-width="1"></line><circle cx="9" cy="9" r="5" fill="none" stroke="var(--ds-accent)" stroke-width="0.8"></circle></svg>
-		<svg width="18" height="18" viewBox="0 0 18 18" style="position:absolute;right:10px;bottom:10px"><line x1="9" y1="0" x2="9" y2="18" stroke="var(--ds-accent)" stroke-width="1"></line><line x1="0" y1="9" x2="18" y2="9" stroke="var(--ds-accent)" stroke-width="1"></line><circle cx="9" cy="9" r="5" fill="none" stroke="var(--ds-accent)" stroke-width="0.8"></circle></svg>
+		{
+			DWG_CORNERS.map((pos) => (
+				<svg
+					width="18"
+					height="18"
+					viewBox="0 0 18 18"
+					style={`position:absolute;${Object.entries(pos)
+						.map(([k, v]) => `${k}:${v}`)
+						.join(';')}`}
+				>
+					<line x1="9" y1="0" x2="9" y2="18" stroke="var(--ds-accent)" stroke-width="1"></line>
+					<line x1="0" y1="9" x2="18" y2="9" stroke="var(--ds-accent)" stroke-width="1"></line>
+					<circle cx="9" cy="9" r="5" fill="none" stroke="var(--ds-accent)" stroke-width="0.8"></circle>
+				</svg>
+			))
+		}
 		<span style="position:absolute;right:38px;top:8px;font:500 8.5px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-accent-hover)">SHEET 1 OF 1 · NOT FOR CONSTRUCTION</span>
 	</div>
 
@@ -89,30 +110,30 @@ const lastForged = formatBuildDate(new Date());
 						><span id="fy-pill-hold-bar" style="position:absolute;inset:0;background:var(--ds-accent);transform-origin:left center"></span></span
 					><span
 						id="fy-callout-b"
-						class="fy-dwg-piece"
+						class="fy-dwg-piece fy-dwg-badge"
 						aria-hidden="true"
-						style="position:absolute;top:-8px;left:-8px;width:17px;height:17px;border-radius:50%;border:1px solid var(--ds-accent);background:var(--ds-surface);color:var(--ds-accent);font:600 9.5px/16px var(--ds-font-mono);text-align:center"
+						style="top:-8px;left:-8px"
 						>B</span
 					></span
 				>
 			</div>
 			<h1 id="fy-callout-a" class="ds-display-xl fy-dwg-outline" style="margin:0;text-wrap:balance;position:relative">
 				I build <em style="color:var(--ds-accent)">privacy-first</em> apps and AI&nbsp;agent tooling.
-				<span class="fy-dwg-piece" aria-hidden="true" style="position:absolute;top:-9px;left:-14px;width:17px;height:17px;border-radius:50%;border:1px solid var(--ds-accent);background:var(--ds-surface);color:var(--ds-accent);font:600 9.5px/16px var(--ds-font-mono);text-align:center"
+				<span class="fy-dwg-piece fy-dwg-badge" aria-hidden="true" style="top:-9px;left:-14px"
 					>A</span
 				>
 			</h1>
 			<p id="fy-callout-c" class="ds-lead fy-dwg-outline" style="margin:0;max-width:52ch;text-wrap:pretty;position:relative">
 				Designed, engineered, and shipped end to end — solo. Apps on the App&nbsp;Store, tools in the open, infrastructure
 				underneath. Everything below was forged here.
-				<span class="fy-dwg-piece" aria-hidden="true" style="position:absolute;top:-9px;left:-14px;width:17px;height:17px;border-radius:50%;border:1px solid var(--ds-accent);background:var(--ds-surface);color:var(--ds-accent);font:600 9.5px/16px var(--ds-font-mono);text-align:center"
+				<span class="fy-dwg-piece fy-dwg-badge" aria-hidden="true" style="top:-9px;left:-14px"
 					>C</span
 				>
 			</p>
 			<div id="fy-callout-d" class="fy-dwg-outline" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px;position:relative;width:fit-content;padding-right:2px">
 				<a class="ds-btn" href="#work">See the work ↓</a>
 				<a class="ds-btn-quiet" href="https://github.com/abhijitbansal" target="_blank" rel="noopener">GitHub ↗</a>
-				<span class="fy-dwg-piece" aria-hidden="true" style="position:absolute;top:-9px;left:-14px;width:17px;height:17px;border-radius:50%;border:1px solid var(--ds-accent);background:var(--ds-surface);color:var(--ds-accent);font:600 9.5px/16px var(--ds-font-mono);text-align:center"
+				<span class="fy-dwg-piece fy-dwg-badge" aria-hidden="true" style="top:-9px;left:-14px"
 					>D</span
 				>
 			</div>
@@ -169,6 +190,17 @@ const lastForged = formatBuildDate(new Date());
 		opacity: 0;
 		pointer-events: none;
 		transition: opacity 0.45s var(--ds-ease-standard);
+	}
+	.fy-dwg-badge {
+		position: absolute;
+		width: 17px;
+		height: 17px;
+		border-radius: 50%;
+		border: 1px solid var(--ds-accent);
+		background: var(--ds-surface);
+		color: var(--ds-accent);
+		font: 600 9.5px/16px var(--ds-font-mono);
+		text-align: center;
 	}
 	#top.fy-dwg-open .fy-dwg-piece {
 		opacity: 1;
