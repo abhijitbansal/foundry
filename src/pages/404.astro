@@ -11,9 +11,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 		<p class="ds-micro fy-404-kicker">404</p>
 		<h1 class="fy-404-title">Page not found</h1>
 		<p class="fy-404-lead">Redirecting you to the homepage&hellip;</p>
-		<!-- TODO(domain): "Go to the homepage" not "abhijitbansal.com" — no
-		     custom domain yet, interim URL is github.io/foundry. Revert copy
-		     once DNS/CNAME is live. -->
 		<p class="fy-404-lead"><a href={import.meta.env.BASE_URL}>Go to the homepage &rarr;</a></p>
 	</main>
 </BaseLayout>
