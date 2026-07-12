@@ -14,6 +14,15 @@ function formatBuildDate(d: Date): string {
 }
 
 const lastForged = formatBuildDate(new Date());
+
+// Egg 2's survey-grid overlay — one crosshair per corner, same markup,
+// only the position differs.
+const DWG_CORNERS = [
+	{ top: '10px', left: '10px' },
+	{ top: '10px', right: '10px' },
+	{ bottom: '10px', left: '10px' },
+	{ bottom: '10px', right: '10px' },
+];
 ---
 
 <section
@@ -51,23 +60,84 @@ const lastForged = formatBuildDate(new Date());
 		style="position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(102deg, color-mix(in srgb, var(--ds-bg) 90%, transparent) 8%, color-mix(in srgb, var(--ds-bg) 52%, transparent) 42%, transparent 66%), linear-gradient(180deg, color-mix(in srgb, var(--ds-bg) 62%, transparent), transparent 20%), linear-gradient(180deg, transparent 72%, var(--ds-bg) 98%)"
 	>
 	</div>
+	<!-- Egg 2 — the working drawings overlay (design_handoff_eggs/PROMPT.md).
+	     Toggled by typing "plans" anywhere (site-wide, BaseLayout.astro) or
+	     holding the pill above; every piece is inert until .fy-dwg-open is
+	     set on this section (see the <script> at the bottom of this file). -->
+	<div
+		aria-hidden="true"
+		class="fy-dwg-piece"
+		style="position:absolute;inset:0;z-index:4;pointer-events:none;background-image:repeating-linear-gradient(0deg, color-mix(in srgb, var(--ds-accent) 7%, transparent) 0 1px, transparent 1px 24px),repeating-linear-gradient(90deg, color-mix(in srgb, var(--ds-accent) 7%, transparent) 0 1px, transparent 1px 24px)"
+	>
+		{
+			DWG_CORNERS.map((pos) => (
+				<svg
+					width="18"
+					height="18"
+					viewBox="0 0 18 18"
+					style={`position:absolute;${Object.entries(pos)
+						.map(([k, v]) => `${k}:${v}`)
+						.join(';')}`}
+				>
+					<line x1="9" y1="0" x2="9" y2="18" stroke="var(--ds-accent)" stroke-width="1"></line>
+					<line x1="0" y1="9" x2="18" y2="9" stroke="var(--ds-accent)" stroke-width="1"></line>
+					<circle cx="9" cy="9" r="5" fill="none" stroke="var(--ds-accent)" stroke-width="0.8"></circle>
+				</svg>
+			))
+		}
+		<span style="position:absolute;right:38px;top:8px;font:500 8.5px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-accent-hover)">SHEET 1 OF 1 · NOT FOR CONSTRUCTION</span>
+	</div>
+
 	<div style="position:relative;z-index:3;max-width:1200px;margin:0 auto;padding:150px clamp(20px,5vw,56px) 130px;width:100%;box-sizing:border-box">
 		<div style="max-width:680px;display:flex;flex-direction:column;gap:22px">
+			<div aria-hidden="true" class="fy-dwg-piece" style="height:14px;position:relative;margin-bottom:-6px">
+				<span style="position:absolute;left:0;right:0;top:7px;border-top:1px solid color-mix(in srgb, var(--ds-accent) 60%, transparent)"></span>
+				<span style="position:absolute;left:-1px;top:3px;width:1px;height:9px;background:var(--ds-accent);transform:rotate(-45deg)"></span>
+				<span style="position:absolute;right:-1px;top:3px;width:1px;height:9px;background:var(--ds-accent);transform:rotate(-45deg)"></span>
+				<span style="position:absolute;left:50%;top:0;transform:translate(-50%, -2px);background:var(--ds-bg);padding:0 8px;font:500 9px var(--ds-font-mono);letter-spacing:0.12em;color:var(--ds-accent-hover);white-space:nowrap">≤ 680 — CONTENT COL</span>
+			</div>
 			<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
 				<p class="ds-kicker" style="margin:0">The foundry of Abhijit Bansal</p>
-				<span class="ds-pill" style="--ds-success:var(--ds-accent)">Last forged · {lastForged}</span>
+				<span
+					id="fy-pill"
+					class="ds-pill fy-hold-target"
+					title="the drawings are kept close at hand"
+					style="--ds-success:var(--ds-accent);position:relative;cursor:default"
+					>Last forged · {lastForged}<span
+						id="fy-pill-hold"
+						aria-hidden="true"
+						style="position:absolute;left:10%;right:10%;bottom:-7px;height:2px;background:var(--ds-accent-soft);border-radius:2px;overflow:hidden;display:none"
+						><span id="fy-pill-hold-bar" style="position:absolute;inset:0;background:var(--ds-accent);transform-origin:left center"></span></span
+					><span
+						id="fy-callout-b"
+						class="fy-dwg-piece fy-dwg-badge"
+						aria-hidden="true"
+						style="top:-8px;left:-8px"
+						>B</span
+					></span
+				>
 			</div>
-			<h1 class="ds-display-xl" style="margin:0;text-wrap:balance">
+			<h1 id="fy-callout-a" class="ds-display-xl fy-dwg-outline" style="margin:0;text-wrap:balance;position:relative">
 				I build <em style="color:var(--ds-accent)">privacy-first</em> apps and AI&nbsp;agent tooling.
+				<span class="fy-dwg-piece fy-dwg-badge" aria-hidden="true" style="top:-9px;left:-14px"
+					>A</span
+				>
 			</h1>
-			<p class="ds-lead" style="margin:0;max-width:52ch;text-wrap:pretty">
+			<p id="fy-callout-c" class="ds-lead fy-dwg-outline" style="margin:0;max-width:52ch;text-wrap:pretty;position:relative">
 				Designed, engineered, and shipped end to end — solo. Apps on the App&nbsp;Store, tools in the open, infrastructure
 				underneath. Everything below was forged here.
+				<span class="fy-dwg-piece fy-dwg-badge" aria-hidden="true" style="top:-9px;left:-14px"
+					>C</span
+				>
 			</p>
-			<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px">
+			<div id="fy-callout-d" class="fy-dwg-outline" style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:8px;position:relative;width:fit-content;padding-right:2px">
 				<a class="ds-btn" href="#work">See the work ↓</a>
 				<a class="ds-btn-quiet" href="https://github.com/abhijitbansal" target="_blank" rel="noopener">GitHub ↗</a>
+				<span class="fy-dwg-piece fy-dwg-badge" aria-hidden="true" style="top:-9px;left:-14px"
+					>D</span
+				>
 			</div>
+			<span class="ds-micro" style="color:var(--ds-text-faint);margin-top:6px">drawings on file — ask for the plans</span>
 			<div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:24px">
 				<a
 					class="ds-micro fy-link-t3"
@@ -100,9 +170,87 @@ const lastForged = formatBuildDate(new Date());
 		<span class="fy-cue-anim" style="width:1px;height:36px;background:linear-gradient(180deg, var(--ds-accent), transparent);display:inline-block"></span>
 		<span class="ds-micro" style="color:var(--ds-text-3)">Scroll</span>
 	</div>
+
+	<div
+		id="fy-dwg-title-block"
+		class="fy-dwg-piece"
+		style="position:absolute;right:16px;bottom:14px;z-index:5;pointer-events:none;border:1px solid var(--ds-line-strong);background:color-mix(in srgb, var(--ds-surface) 94%, transparent);border-radius:var(--ds-radius-sm);padding:10px 13px;display:flex;flex-direction:column;gap:5px;max-width:270px"
+	>
+		<span style="font:600 9.5px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-accent-hover)">FOUNDRY — WORKING DRAWINGS</span>
+		<span style="font:500 8.5px var(--ds-font-mono);letter-spacing:0.1em;color:var(--ds-text-3)">DWG 04-B · REV C · SCALE 1:1 · DO NOT SCALE</span>
+		<span style="font:500 8.5px var(--ds-font-mono);letter-spacing:0.06em;color:var(--ds-text-3);line-height:1.6"
+			>A — ds-display-xl · Instrument Serif<br />B — ds-pill · build-time stamp<br />C — ds-lead · 52ch, text-wrap: pretty<br />D — ds-btn / ds-btn-quiet pair</span
+		>
+		<button type="button" id="fy-dwg-close" style="all:unset;cursor:pointer;font:600 8.5px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-accent);margin-top:3px">✕ FILE THE DRAWINGS</button>
+	</div>
 </section>
+
+<style>
+	.fy-dwg-piece {
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity 0.45s var(--ds-ease-standard);
+	}
+	.fy-dwg-badge {
+		position: absolute;
+		width: 17px;
+		height: 17px;
+		border-radius: 50%;
+		border: 1px solid var(--ds-accent);
+		background: var(--ds-surface);
+		color: var(--ds-accent);
+		font: 600 9.5px/16px var(--ds-font-mono);
+		text-align: center;
+	}
+	#top.fy-dwg-open .fy-dwg-piece {
+		opacity: 1;
+	}
+	#top.fy-dwg-open #fy-dwg-title-block {
+		pointer-events: auto;
+	}
+	.fy-dwg-outline {
+		outline: none;
+	}
+	#top.fy-dwg-open .fy-dwg-outline {
+		outline: 1px dashed color-mix(in srgb, var(--ds-accent) 50%, transparent);
+		outline-offset: 8px;
+	}
+	@media (prefers-reduced-motion: reduce) {
+		.fy-dwg-piece {
+			transition: none;
+		}
+	}
+</style>
 
 <script>
 	import { initHeroScene } from '../lib/three/init';
+	import { closeDrawings, isDrawingsOpen, onDrawingsChange, reducedMotion, toggleDrawings, wireHold } from '../lib/eggs';
+
 	initHeroScene();
+
+	const heroSection = document.getElementById('top');
+	const pill = document.getElementById('fy-pill');
+	const pillHold = document.getElementById('fy-pill-hold');
+	const pillHoldBar = document.getElementById('fy-pill-hold-bar');
+	const closeBtn = document.getElementById('fy-dwg-close');
+
+	if (heroSection) {
+		const applyOpen = (open: boolean) => heroSection.classList.toggle('fy-dwg-open', open);
+		applyOpen(isDrawingsOpen());
+		onDrawingsChange(applyOpen);
+	}
+
+	closeBtn?.addEventListener('click', () => closeDrawings());
+
+	if (pill instanceof HTMLElement && pillHold instanceof HTMLElement && pillHoldBar instanceof HTMLElement) {
+		wireHold(
+			pill,
+			1100,
+			() => toggleDrawings(),
+			(holding) => {
+				pillHold.style.display = holding ? 'block' : 'none';
+				pillHoldBar.style.animation = holding && !reducedMotion ? 'fy-hold 1.1s linear forwards' : 'none';
+			},
+		);
+	}
 </script>

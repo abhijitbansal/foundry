@@ -144,3 +144,122 @@ html[data-theme="light"] .ds-btn {
 html[data-theme="light"] .ds-btn:hover {
   background: #085E74;
 }
+
+/* ===== Easter eggs — design_handoff_eggs/PROMPT.md ===== */
+
+/* Shared keyframes, copied verbatim from the reference dc.html <style>
+   block (frequencies/gains in eggs.ts are tuned the same way — don't
+   restyle these, they're the spec). */
+@keyframes fy-spark {
+  from { transform: translate(0, 0) scale(1); opacity: 1; }
+  to { transform: translate(var(--dx), var(--dy)) scale(0.15); opacity: 0; }
+}
+@keyframes fy-stamp {
+  0% { transform: rotate(-8deg) scale(2.2); opacity: 0; }
+  55% { transform: rotate(-8deg) scale(0.94); opacity: 1; }
+  78% { transform: rotate(-8deg) scale(1.05); }
+  100% { transform: rotate(-8deg) scale(1); opacity: 1; }
+}
+@keyframes fy-glint {
+  0% { background-position: 170% 0; }
+  9% { background-position: -70% 0; }
+  100% { background-position: -70% 0; }
+}
+@keyframes fy-hold {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes fy-veil {
+  0% { opacity: 0; }
+  38% { opacity: 0.97; }
+  62% { opacity: 0.97; }
+  100% { opacity: 0; }
+}
+@keyframes fy-fadeup {
+  0% { opacity: 0; transform: translate(-50%, 4px); }
+  25% { opacity: 1; transform: translate(-50%, 0); }
+  70% { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -8px); }
+}
+
+/* Egg 1 idle tell — the footer tab crossfades between a thin "row" bar
+   (fy-glint, verbatim above) and a tiny anvil silhouette once per glint
+   cycle, with a color sweep and one spark flick at the switch instant, so
+   the tab reads as more than a decorative line even before it's struck. */
+@keyframes fy-anvil-row-cycle {
+  0%, 70%, 100% { opacity: 1; transform: scale(1); }
+  78%, 92% { opacity: 0; transform: scale(0.6); }
+}
+@keyframes fy-anvil-icon-cycle {
+  0%, 70%, 100% { opacity: 0; transform: scale(0.6); color: var(--ds-accent); }
+  78% { opacity: 1; transform: scale(1.08); color: #D9A93F; }
+  85% { transform: scale(1); }
+  92% { opacity: 1; color: #D9A93F; }
+  96% { opacity: 0; color: var(--ds-accent); }
+}
+@keyframes fy-anvil-flick {
+  0%, 76%, 88%, 100% { opacity: 0; transform: scale(0.4); }
+  81% { opacity: 1; transform: scale(1.3); }
+}
+.fy-anvil-row {
+  animation:
+    fy-glint 6.5s linear infinite,
+    fy-anvil-row-cycle 6.5s linear infinite;
+}
+.fy-anvil-icon {
+  animation: fy-anvil-icon-cycle 6.5s linear infinite;
+}
+.fy-anvil-flick {
+  animation: fy-anvil-flick 6.5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fy-anvil-row, .fy-anvil-icon, .fy-anvil-flick {
+    animation: none !important;
+  }
+  .fy-anvil-row { opacity: 1; }
+  .fy-anvil-icon, .fy-anvil-flick { opacity: 0; }
+}
+
+/* Hold targets — never select text or open a context menu mid-press. */
+.fy-hold-target {
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Egg 3 — the yard card's night palette, keyed off a class rather than the
+   site's data-theme so the night render stays reachable only via the
+   whistle, independent of whatever theme the visitor is browsing in.
+   !important beats works-svg.ts's own data-theme-conditional --fyw-*
+   block on specificity grounds alone. Hex values are the reference's `N`
+   palette verbatim. */
+.fy-yard-night {
+  background: #24201A !important;
+  border-color: #2F2920 !important;
+  --ds-surface: #24201A;
+  --ds-surface-2: #16130F;
+  --ds-line: #2F2920;
+  --ds-line-strong: #3D362B;
+  --ds-text: #F0EAD6;
+  --ds-text-2: #C5BBA1;
+  --ds-text-3: #8B8270;
+  --ds-text-faint: #5A5142;
+  --ds-accent: #34D3EE;
+  --ds-accent-hover: #5ADCF1;
+  --ds-secondary: #E8B94A;
+  transition:
+    background 0.9s var(--ds-ease-standard),
+    border-color 0.9s var(--ds-ease-standard);
+}
+.fy-yard-night svg.fyw-svg {
+  --fyw-window-lit: #E8B94A !important;
+  --fyw-clerestory: #E8B94A !important;
+  --fyw-hot-fill: #E8B94A !important;
+  --fyw-annex-glass: color-mix(in srgb, #E8B94A 32%, #16130F) !important;
+  --fyw-halo-op: 0.13 !important;
+  --fyw-hot-glow-op: 0.16 !important;
+  --fyw-furnace-glow-op: 0.3 !important;
+  --fyw-furnace-glow-r: 15px !important;
+}

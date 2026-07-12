@@ -128,13 +128,25 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 			</div>
 		</div>
 
-		<article data-reveal style="display:flex;flex-direction:column;gap:18px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px;margin-top:clamp(26px,4vw,40px)">
+		<!-- Egg 3 — the night whistle (design_handoff_eggs/PROMPT.md): press-and-
+		     hold the yard 0.9s to flip it to the night shift. The only way to
+		     reach the night render — see fy-yard-night in global.css. -->
+		<article id="fy-yard-card" data-reveal style="display:flex;flex-direction:column;gap:18px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px;margin-top:clamp(26px,4vw,40px)">
 			<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-				<span class="ds-micro" style="color:var(--ds-accent-hover)">The works — one building per repo</span>
-				<span class="ds-micro" style="color:var(--ds-text-faint)">All-time · {dateRange} · {statsRepos.length} repos · hover a building</span>
+				<span id="fy-yard-title" class="ds-micro" style="color:var(--ds-accent-hover)">The works — one building per repo</span>
+				<span id="fy-yard-meta" class="ds-micro" style="color:var(--ds-text-faint)">All-time · {dateRange} · {statsRepos.length} repos · hover a building · the shift ends at the whistle</span>
 			</div>
-			<WorksCity variant="yard" repos={worksRepos} metaLine={`Surveyed from ${filesFound} session logs · ${dateRange}`} />
-			<div style="display:flex;flex-wrap:wrap;gap:10px 22px;border-top:1px solid var(--ds-line);padding-top:14px">
+			<div id="fy-yard-wrap" class="fy-hold-target" style="position:relative;touch-action:manipulation">
+				<WorksCity variant="yard" repos={worksRepos} metaLine={`Surveyed from ${filesFound} session logs · ${dateRange}`} />
+				<div id="fy-yard-hold-caption" aria-hidden="true" style="position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:min(300px,64%);display:none;flex-direction:column;gap:6px;align-items:center;pointer-events:none;z-index:3">
+					<span id="fy-yard-hold-text" style="font:500 9px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-text-3);white-space:nowrap">HOLDING — THE SHIFT ENDS AT THE WHISTLE</span>
+					<span style="display:block;width:100%;height:2px;background:var(--ds-accent-soft);border-radius:2px;overflow:hidden;position:relative"
+						><span id="fy-yard-hold-bar" style="position:absolute;inset:0;background:var(--ds-accent);transform-origin:left center"></span></span
+					>
+				</div>
+				<div id="fy-yard-veil" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;border-radius:inherit;display:none"></div>
+			</div>
+			<div id="fy-yard-legend-day" style="display:flex;flex-wrap:wrap;gap:10px 22px;border-top:1px solid var(--ds-line);padding-top:14px">
 				<span class="ds-micro" style="color:var(--ds-text-3)">height = lines added</span>
 				<span class="ds-micro" style="color:var(--ds-text-3)">lit windows = tokens out</span>
 				<span class="ds-micro" style="color:var(--ds-text-3)">smoke = active this week</span>
@@ -142,6 +154,9 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 				<span class="ds-micro" style="color:var(--ds-text-3)">crane = work in progress</span>
 				<span class="ds-micro" style="color:var(--ds-text-3)">pennants = PRs merged (weekly)</span>
 			</div>
+			<p id="fy-yard-legend-night" class="ds-caption" style="display:none;margin:0;color:var(--ds-text-3);border-top:1px solid var(--ds-line);padding-top:14px">
+				The fire kept in: every gold window was paid for in tokens. A distant two-tone whistle called the shift; hold again and a single toot brings the dawn.
+			</p>
 			<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px">
 				{worksLedger.map((entry) => (
 					<div style="border-top:1px solid var(--ds-line);padding-top:10px;display:flex;flex-direction:column;gap:4px">
@@ -281,3 +296,80 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 		</p>
 	</div>
 </section>
+
+<script>
+	import { readFlag, reducedMotion, whistle, wireHold, writeFlag } from '../lib/eggs';
+
+	const card = document.getElementById('fy-yard-card');
+	const wrap = document.getElementById('fy-yard-wrap');
+	const veil = document.getElementById('fy-yard-veil');
+	const holdCaption = document.getElementById('fy-yard-hold-caption');
+	const holdText = document.getElementById('fy-yard-hold-text');
+	const holdBar = document.getElementById('fy-yard-hold-bar');
+	const title = document.getElementById('fy-yard-title');
+	const meta = document.getElementById('fy-yard-meta');
+	const legendDay = document.getElementById('fy-yard-legend-day');
+	const legendNight = document.getElementById('fy-yard-legend-night');
+
+	if (card && wrap && veil && holdCaption && holdText && holdBar && title && meta && legendDay && legendNight) {
+		const dayTitle = title.textContent ?? '';
+		const dayMeta = meta.textContent ?? '';
+		const nightTitle = 'The works — the night shift';
+		const nightMeta = 'lit windows = tokens out · hold the yard — dawn comes at the whistle';
+
+		let night = readFlag('fy-shift');
+
+		function applyState() {
+			title!.textContent = night ? nightTitle : dayTitle;
+			meta!.textContent = night ? nightMeta : dayMeta;
+			legendDay!.style.display = night ? 'none' : 'flex';
+			legendNight!.style.display = night ? 'block' : 'none';
+			holdText!.textContent = night ? 'HOLDING — THE DAY SHIFT CLOCKS IN' : 'HOLDING — THE SHIFT ENDS AT THE WHISTLE';
+			card!.classList.toggle('fy-yard-night', night);
+		}
+
+		applyState();
+
+		let flipTimer: ReturnType<typeof setTimeout> | null = null;
+		let hideTimer: ReturnType<typeof setTimeout> | null = null;
+
+		wireHold(
+			wrap,
+			900,
+			() => {
+				const toNight = !night;
+				whistle(toNight);
+				writeFlag('fy-shift', toNight);
+				if (reducedMotion) {
+					night = toNight;
+					applyState();
+					return;
+				}
+				if (flipTimer) clearTimeout(flipTimer);
+				if (hideTimer) clearTimeout(hideTimer);
+				veil.style.display = 'block';
+				veil.style.background = 'linear-gradient(180deg,#111722,#16130F 70%)';
+				// Reset before reassigning — an in-flight veil re-triggered by a
+				// quick second hold would otherwise get the identical animation
+				// string twice in a row, which the browser doesn't restart.
+				veil.style.animation = 'none';
+				void veil.offsetWidth;
+				veil.style.animation = 'fy-veil 1.7s var(--ds-ease-standard) forwards';
+				flipTimer = setTimeout(() => {
+					flipTimer = null;
+					night = toNight;
+					applyState();
+				}, 650);
+				hideTimer = setTimeout(() => {
+					hideTimer = null;
+					veil.style.display = 'none';
+					veil.style.animation = 'none';
+				}, 1750);
+			},
+			(holding) => {
+				holdCaption.style.display = holding ? 'flex' : 'none';
+				holdBar.style.animation = holding && !reducedMotion ? 'fy-hold 0.9s linear forwards' : 'none';
+			},
+		);
+	}
+</script>
