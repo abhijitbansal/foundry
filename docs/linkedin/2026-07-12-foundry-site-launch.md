@@ -7,11 +7,15 @@ status: draft
 
 I put together a personal site: abhijitbansal.com
 
+Small confession on timing: I thought I was racing a deadline — access to a model I've been using, Fable 5, was set to end July 12 — and used that as the excuse to actually sit down and finish this.
+
 Problem it solves, honestly: I build a bunch of things — some public, some private — and never had one place to send people. Now there's one, with an honest status on each project.
 
 It updates itself weekly with whatever actually shipped that week.
 
 There are also a couple of things hidden on the site, if you feel like poking around.
+
+P.S. — turns out the deadline got pushed to July 19th. Found out after I'd already finished.
 
 ## Rejected versions
 
