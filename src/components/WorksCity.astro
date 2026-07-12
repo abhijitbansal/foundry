@@ -1,0 +1,21 @@
+---
+// WorksCity.astro — thin renderer for src/lib/works.ts's build-time SVG
+// generator. All geometry/theme/motion logic lives in the lib (unit
+// tested); this component just picks the variant and injects the string
+// the generator already assembled (role="img" + aria-label + per-building
+// <title>, hover/focus dim, reduced-motion freeze — all baked in).
+import { buildStrip, buildYard } from '../lib/works';
+import type { WorksRepo } from '../lib/works.types';
+
+type Props =
+	| { variant: 'yard'; repos: WorksRepo[]; metaLine: string }
+	| { variant: 'strip'; repos: WorksRepo[]; stamp: string; instanceId: string };
+
+const props = Astro.props as Props;
+const result =
+	props.variant === 'yard'
+		? buildYard(props.repos, { metaLine: props.metaLine })
+		: buildStrip(props.repos, { stamp: props.stamp, instanceId: props.instanceId });
+---
+
+<Fragment set:html={result.svg} />
