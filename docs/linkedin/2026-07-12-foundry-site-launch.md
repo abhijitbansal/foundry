@@ -1,21 +1,20 @@
 ---
 date: 2026-07-12
 target: foundry (this site)
-angle: craft/process
+angle: plain-announcement
 status: draft
 ---
 
-There are three hidden marks in my portfolio site now — an anvil in the footer you strike, a set of working drawings you can pull over the page, a night whistle at the end of the shift. The detail I'm happiest with: not one of them ships an audio file.
+I put together a personal site: abhijitbansal.com
 
-The site's whole pitch is no trackers, no analytics, nothing loaded that you didn't ask for. So when I wanted the anvil to ring as you strike it, an MP3 felt like cheating. Every sound is synthesized live in the browser with WebAudio instead.
+Problem it solves, honestly: I build a bunch of things — some public, some private — and never had one place to send people. Now there's one, with an honest status on each project.
 
-The hammer blow is three sine partials over a filtered burst of noise. The whistle — hold the commit yard until the shift ends — is a triangle oscillator with a vibrato LFO and a delay line for the echo. Tuned by ear, frequency by frequency.
+It updates itself weekly with whatever actually shipped that week.
 
-prefers-reduced-motion drops the sparks and keeps the sound.
+There are also a couple of things hidden on the site, if you feel like poking around.
 
-abhijitbansal.com
+## Rejected versions
 
-## Alternates considered
-
-- **outcome/what-it-does** — led with the site regenerating itself from real commit activity (isometric commit-city) and weekly session-log digests instead of a static project list. Solid and fully verified against the repo, but the opener used a banned "isn't X, it's Y" reveal-hook cadence and over-repeated "actual/real" for emphasis instead of precision.
-- **personal-motivation** — led with most of the proudest work living in private repos (doc-scan, folix, floorprint), and Foundry existing to be the one link that finally shows all of it. Honest and on-voice, but restates the About page rather than adding new ground.
+- **craft/process (the original synthesized-audio Workflow output)** — passed every voice-guide check individually (no hype words, no CTA, no overclaiming), but the *amount of technical detail itself* read as showing off — a lesson the guide didn't have a category for. Rejected by the user for being "still showing off kind of."
+- **outcome/what-it-does** — led with the site regenerating itself from real commit activity. Solid but used a banned reveal-hook opener.
+- **personal-motivation** — led with private repos never having a home. Honest but restated the About page.

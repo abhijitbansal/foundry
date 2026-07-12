@@ -27,6 +27,9 @@ This is a solo portfolio project, not a startup. Never imply a team, funding, us
 ### 4. Emoji/formatting excess
 No emoji bullet lists. No bold-every-line. No one-sentence-per-paragraph dramatic pacing (the "so. many. line. breaks." LinkedIn-guru cadence). Line breaks are fine for separating actual ideas — they are not a rhythm instrument.
 
+### 5. Technical detail as its own flex
+A draft can pass all four categories above — no hype words, no hook structure, no overclaiming, no emoji — and still read as showing off, because the sheer amount or specificity of technical detail is itself doing the bragging. (Real case: a draft describing exact oscillator types and filter chains for a hidden sound effect was rejected as "still showing off kind of" despite being fully accurate and unhyped.) Default to the plainest version of the announcement — what it is, what problem it solves, that it updates — and only add technical specifics if the user asks for that angle explicitly. When in doubt, cut detail rather than add it.
+
 ## Quick self-test before a draft ships
 
-Read the draft back and ask: would this read the same if it were posted by someone who didn't build the thing? If yes, it's marketing copy wearing a personal-post costume — rewrite it in the builder's own voice instead.
+Read the draft back and ask two things: (1) would this read the same if it were posted by someone who didn't build the thing — if yes, it's marketing copy wearing a personal-post costume; (2) am I trying to impress with volume of detail rather than just stating what happened — if yes, cut it down to the plain announcement.
