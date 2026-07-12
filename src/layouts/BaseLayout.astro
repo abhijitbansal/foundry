@@ -50,4 +50,19 @@ import '../styles/global.css';
 	<body class="ds-root">
 		<slot />
 	</body>
+	<script>
+		// Site-wide easter-egg init: the console riddle, egg 2's sessionStorage
+		// restore, and the "plans" keydown buffer + Esc (design_handoff_eggs).
+		// Hero.astro's own script owns the drawings overlay's visuals; this
+		// only owns the trigger, so egg 2 still arms itself on pages without a
+		// hero (e.g. updates.astro) — it just has nothing to show there yet.
+		import { closeDrawings, printConsoleHint, restoreDrawings, toggleDrawings, wireGlobalHotkeys } from '../lib/eggs';
+
+		printConsoleHint();
+		restoreDrawings();
+		wireGlobalHotkeys(
+			() => toggleDrawings(),
+			() => closeDrawings(),
+		);
+	</script>
 </html>
