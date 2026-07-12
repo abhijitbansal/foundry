@@ -56,7 +56,7 @@ const STRIP_GRID_CELL_W = 4.6;
 // STRIP_MAX_STOREYS tall with twin chimneys, so this needs much more
 // clearance than the footprint depth (d) alone would suggest once the
 // isometric projection's height contribution is accounted for.
-const STRIP_GRID_CELL_D = 5.4;
+export const STRIP_GRID_CELL_D = 5.4;
 
 /** Places a week's active repos (already ordered, e.g. by lines added
  * descending) into a wrapping `STRIP_GRID_COLS`-column grid rather than

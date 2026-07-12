@@ -26,6 +26,14 @@ export function sortWeeksDesc(digests: WeeklyDigest[]): WeeklyDigest[] {
 	return [...digests].sort((a, b) => (a.week_id < b.week_id ? 1 : a.week_id > b.week_id ? -1 : 0));
 }
 
+/** Every data/weekly/<week>.json, newest first — the single glob+sort
+ * both updates.astro and Telemetry.astro need, so neither re-implements
+ * (and re-parses every weekly file) on its own. */
+export function getAllWeeksDesc(): WeeklyDigest[] {
+	const weekFiles = import.meta.glob<{ default: WeeklyDigest }>('../../data/weekly/*.json', { eager: true });
+	return sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
+}
+
 /** 0 for an all-quiet grid (avoids divide-by-zero); otherwise value/max as
  * a 0-100 integer percent, clamped. */
 export function heatmapCellPercent(value: number, max: number): number {

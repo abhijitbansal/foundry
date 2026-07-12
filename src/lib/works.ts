@@ -5,11 +5,11 @@
 // docs/plans/2026-07-11-the-works-commit-city.md; geometry/paint primitives
 // live in works-svg.ts, layout tables in works-layout.ts.
 
-import { layoutStripGrid, stripGridFootprint, YARD, YARD_PLATES } from './works-layout';
+import { layoutStripGrid, STRIP_GRID_CELL_D, stripGridFootprint, YARD, YARD_PLATES } from './works-layout';
 import type { LedgerEntry, WorksRepo, WorksResult } from './works.types';
 import { buildDefs, buildingEls, districtLabel, flatcar, FYW_STYLE, gantryCrane, ground, ingotStack, makeProj, northArrow, rail, scaleBar, stripBuildingLabel, stripStamp, titleBlock } from './works-svg';
 
-export { fmtK, seeded } from './works-svg';
+export { fmtK, pennantCount, seeded } from './works-svg';
 
 const YARD_MAX_STOREYS = 8;
 const STRIP_MAX_STOREYS = 6;
@@ -53,11 +53,6 @@ export function computeLitFracs(repos: WorksRepo[]): Record<string, number> {
 		out[r.repo] = Math.max(0.12, Math.sqrt(metric(r) / maxMetric));
 	}
 	return out;
-}
-
-/** Pennant count for a building's roof ridge — README "min(6, pr_merge_count)". */
-export function pennantCount(prs: number): number {
-	return Math.min(6, Math.max(0, prs));
 }
 
 /** The Telemetry card's ledger grid — every repo ranked by lines added,
@@ -124,7 +119,7 @@ export function buildYard(repos: WorksRepo[], opts: { metaLine: string; instance
 	const svg =
 		`<svg class="fyw-svg" viewBox="0 0 ${vw} ${vh}" role="img" aria-label="${YARD_ARIA_LABEL}" style="width:100%;height:auto;display:block">` +
 		`<style>${FYW_STYLE}</style>${buildDefs(hatchId, glassId)}` +
-		`<g class="fyw-under">${under}</g><g class="fyw-glow">${glowAcc.join('')}</g><g class="fyw-buildings">${buildings}</g>` +
+		`<g class="fyw-under">${under}</g><g class="fyw-buildings">${buildings}</g><g class="fyw-glow">${glowAcc.join('')}</g>` +
 		`<g class="fyw-over">${over}</g><g class="fyw-furn">${furn}</g></svg>`;
 
 	return { svg, ariaLabel: YARD_ARIA_LABEL };
@@ -143,12 +138,16 @@ export function buildStrip(repos: WorksRepo[], opts: { stamp: string; instanceId
 	const { w: groundW, d: groundD, rows } = stripGridFootprint(ordered.length);
 
 	const { S, oy, vw } = STRIP_CONF;
-	// The ground plate's far-left corner (screen X = ox − groundD·cos30°·S)
-	// walks further negative as extra rows deepen groundD — shift the
-	// projection origin right by the same amount growth added, or a 2+ row
-	// week clips its own ground plate off the left edge of the viewBox.
-	const ox = STRIP_CONF.ox + (rows - 1) * 122;
-	const vh = rows <= 1 ? STRIP_CONF.vh : STRIP_CONF.vh + (rows - 1) * 90;
+	// Per extra grid row, the ground plate's far-left corner (screen X =
+	// ox − groundD·cos30°·S) walks further negative by exactly
+	// STRIP_GRID_CELL_D·cos30°·S — shift the projection origin right by
+	// that same amount, or a 2+ row week clips its own ground plate off
+	// the left edge of the viewBox. The viewBox needs to grow taller by
+	// roughly that row's screen-space depth (·sin30° instead of ·cos30°)
+	// plus a fixed margin for the row's building/label height.
+	const rowDepthPx = STRIP_GRID_CELL_D * S;
+	const ox = STRIP_CONF.ox + (rows - 1) * rowDepthPx * Math.cos(Math.PI / 6);
+	const vh = rows <= 1 ? STRIP_CONF.vh : STRIP_CONF.vh + (rows - 1) * (rowDepthPx * Math.sin(Math.PI / 6) + 20);
 	const P = makeProj(S, ox, oy);
 	const storeys = computeStoreys(ordered, STRIP_MAX_STOREYS);
 	const litFracs = computeLitFracs(ordered);
@@ -165,7 +164,7 @@ export function buildStrip(repos: WorksRepo[], opts: { stamp: string; instanceId
 	const svg =
 		`<svg class="fyw-svg" viewBox="0 0 ${vw} ${vh}" role="img" aria-label="${STRIP_ARIA_LABEL}" style="width:100%;height:auto;display:block">` +
 		`<style>${FYW_STYLE}</style>${buildDefs(hatchId, glassId)}` +
-		`<g class="fyw-under">${under}</g><g class="fyw-glow">${glowAcc.join('')}</g><g class="fyw-buildings">${buildings}</g>` +
+		`<g class="fyw-under">${under}</g><g class="fyw-buildings">${buildings}</g><g class="fyw-glow">${glowAcc.join('')}</g>` +
 		`<g class="fyw-furn">${stamp}${labels}</g></svg>`;
 
 	return { svg, ariaLabel: STRIP_ARIA_LABEL };

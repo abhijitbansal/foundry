@@ -363,9 +363,14 @@ function windows(P: Proj, plane: 'x' | 'y', fixed: number, from: number, to: num
 	return els.join('');
 }
 
+/** Pennant count for a building's roof ridge — README "min(6, pr_merge_count)". */
+export function pennantCount(prs: number): number {
+	return Math.min(6, Math.max(0, prs));
+}
+
 function pennants(P: Proj, x0: number, y0: number, x1: number, y1: number, z: number, count: number): string {
 	const els: string[] = [];
-	const cnt = Math.min(count, 6);
+	const cnt = pennantCount(count);
 	for (let i = 0; i < cnt; i++) {
 		const t = cnt === 1 ? 0.5 : i / (cnt - 1);
 		const px = x0 + (x1 - x0) * t;
@@ -649,10 +654,16 @@ export function buildingEls(
 	}
 
 	const rr = Math.max(0.35, Math.min(0.8, b.w * 0.24));
+	// The ridge rise actually used for this archetype's roof, so pennants
+	// (planted "along the roof ridge" — README) sit on the ridge they're
+	// drawn against instead of a generic width-based estimate; gableX uses
+	// a depth-based rise (see the gableRoof call below), everything else
+	// already renders at rr.
+	const roofRidge = b.arch === 'gableX' ? Math.min(0.5, b.d * 0.3) : rr;
 	if (b.arch === 'hall' || b.arch === 'gableY') {
 		els.push(gableRoof(P, b.x, b.y, b.w, b.d, h, rr, 'y', hatchId));
 	} else if (b.arch === 'gableX') {
-		els.push(gableRoof(P, b.x, b.y, b.w, b.d, h, Math.min(0.5, b.d * 0.3), 'x', hatchId));
+		els.push(gableRoof(P, b.x, b.y, b.w, b.d, h, roofRidge, 'x', hatchId));
 	} else if (b.arch === 'monitor') {
 		els.push(monitorRoof(P, b.x, b.y, b.w, b.d, h, hatchId));
 	} else {
@@ -692,7 +703,7 @@ export function buildingEls(
 
 	if ((r.prs ?? 0) > 0) {
 		const xr = b.x + b.w / 2;
-		els.push(pennants(P, xr, b.y + 0.2, xr, b.y + b.d - 0.2, h + rr, r.prs ?? 0));
+		els.push(pennants(P, xr, b.y + 0.2, xr, b.y + b.d - 0.2, h + roofRidge, r.prs ?? 0));
 	}
 
 	if (hasFlag) {

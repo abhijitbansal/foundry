@@ -26,8 +26,7 @@ import {
 } from '../lib/telemetry';
 import { buildLedger } from '../lib/works';
 import type { WorksRepo } from '../lib/works.types';
-import { sortWeeksDesc } from '../lib/weekly';
-import type { WeeklyDigest } from '../lib/weekly.types';
+import { getAllWeeksDesc } from '../lib/weekly';
 
 const stats = statsJson as unknown as StatsJson;
 const { meta, totals } = stats;
@@ -44,8 +43,7 @@ interface StatsRepoRow {
 }
 const statsRepos = statsJson.repos as unknown as StatsRepoRow[];
 
-const weekFiles = import.meta.glob<{ default: WeeklyDigest }>('../../data/weekly/*.json', { eager: true });
-const latestWeek = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default))[0];
+const latestWeek = getAllWeeksDesc()[0];
 const activeThisWeek = new Set(latestWeek ? latestWeek.repos.map((r) => r.repo) : []);
 
 const worksRepos: WorksRepo[] = statsRepos.map((r) => ({
@@ -59,9 +57,10 @@ const worksRepos: WorksRepo[] = statsRepos.map((r) => ({
 const worksLedger = buildLedger(worksRepos);
 const worksTallest = worksLedger[0];
 const worksVacant = worksLedger.filter((e) => e.storeys === 0);
-const worksCaption =
-	`Yard ledger: ${worksTallest.repo} — tallest hall on the yard, ${formatCompact(worksTallest.lines)} lines and counting.` +
-	(worksVacant.length > 0 ? ` ${worksVacant.map((v) => v.repo).join(', ')} — site cleared, groundbreaking soon.` : '');
+const worksCaption = worksTallest
+	? `Yard ledger: ${worksTallest.repo} — tallest hall on the yard, ${formatCompact(worksTallest.lines)} lines and counting.` +
+		(worksVacant.length > 0 ? ` ${worksVacant.map((v) => v.repo).join(', ')} — site cleared, groundbreaking soon.` : '')
+	: '';
 
 const dailyOutTokens = Object.fromEntries(stats.daily_out_tokens);
 const dailySessions = Object.fromEntries(stats.daily_sessions);

@@ -10,12 +10,11 @@ import Footer from '../components/Footer.astro';
 import WeeklyHeatmap from '../components/WeeklyHeatmap.astro';
 import WorksCity from '../components/WorksCity.astro';
 import { formatCompact } from '../lib/telemetry';
-import { formatWeekRange, sortWeeksDesc, busiestRepo, totalWeeklyLines, totalWeeklySessions } from '../lib/weekly';
+import { formatWeekRange, getAllWeeksDesc, busiestRepo, totalWeeklyLines, totalWeeklySessions } from '../lib/weekly';
 import type { WeeklyDigest } from '../lib/weekly.types';
 import type { WorksRepo } from '../lib/works.types';
 
-const weekFiles = import.meta.glob<{ default: WeeklyDigest }>('../../data/weekly/*.json', { eager: true });
-const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
+const weeks = getAllWeeksDesc();
 
 function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 	return week.repos.map((r) => ({
@@ -130,6 +129,13 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 									<div data-fy-view-panel="grid" hidden>
 										<WeeklyHeatmap heatmap={week.heatmap} />
 									</div>
+									<noscript>
+										<!-- The toggle above is JS-only; without it, "grid" is unreachable
+										     (nothing ever sets data-fy-view="grid" or handles a click), so
+										     a no-JS visitor gets the heatmap unconditionally instead of losing
+										     it outright. -->
+										<WeeklyHeatmap heatmap={week.heatmap} />
+									</noscript>
 
 									<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:14px;margin-top:24px">
 										{week.repos.map((repo) => {
