@@ -8,17 +8,39 @@ import SkipLink from '../components/SkipLink.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import WeeklyHeatmap from '../components/WeeklyHeatmap.astro';
+import WorksCity from '../components/WorksCity.astro';
 import { formatCompact } from '../lib/telemetry';
-import { formatWeekRange, sortWeeksDesc, busiestRepo, totalWeeklyLines, totalWeeklySessions } from '../lib/weekly';
+import { formatWeekRange, getAllWeeksDesc, busiestRepo, totalWeeklyLines, totalWeeklySessions } from '../lib/weekly';
 import type { WeeklyDigest } from '../lib/weekly.types';
+import type { WorksRepo } from '../lib/works.types';
 
-const weekFiles = import.meta.glob<{ default: WeeklyDigest }>('../../data/weekly/*.json', { eager: true });
-const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
+const weeks = getAllWeeksDesc();
+
+function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
+	return week.repos.map((r) => ({
+		repo: r.repo,
+		lines: r.lines_added,
+		sessions: r.sessions,
+		active: true,
+		prs: week.releases[r.repo]?.pr_merge_count ?? 0,
+		prTitles: week.releases[r.repo]?.pr_titles ?? null,
+	}));
+}
 ---
 
 <BaseLayout>
 	<SkipLink href="#weeks" label="Skip to the updates" />
 	<Nav />
+	<script is:inline>
+		// Runs before the weeks list paints — same no-flash technique as
+		// lib/theme.ts's noFlashInlineScript, so a returning GRID-preferring
+		// visitor doesn't see a WORKS→GRID flip after first paint.
+		try {
+			if (localStorage.getItem('fy-updates-view') === 'grid') {
+				document.documentElement.setAttribute('data-fy-view', 'grid');
+			}
+		} catch (e) {}
+	</script>
 	<main class="brand-skills">
 		<div style="max-width:1200px;margin:0 auto;padding:clamp(120px,12vw,160px) clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
 			<p class="ds-kicker" style="margin:0 0 12px">Weekly updates</p>
@@ -86,7 +108,34 @@ const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
 										)}
 									</div>
 
-									<WeeklyHeatmap heatmap={week.heatmap} />
+									<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px">
+										<span class="ds-micro" style="color:var(--ds-text-3)">Activity</span>
+										<div data-fy-view-toggle style="display:flex;gap:8px">
+											<button type="button" class="fy-view-btn" data-view="works" aria-pressed="true">WORKS</button>
+											<button type="button" class="fy-view-btn" data-view="grid" aria-pressed="false">GRID</button>
+										</div>
+									</div>
+									<div data-fy-view-panel="works">
+										<WorksCity
+											variant="strip"
+											repos={worksRepoRows(week)}
+											stamp={`WEEK ${week.week_id} · ${formatWeekRange(week.week_start, week.week_end)}`}
+											instanceId={week.week_id}
+										/>
+										<p class="ds-caption" style="margin:8px 0 0;color:var(--ds-text-faint)">
+											Height = lines added this week · pennants = PRs merged · hover for the PR titles.
+										</p>
+									</div>
+									<div data-fy-view-panel="grid" hidden>
+										<WeeklyHeatmap heatmap={week.heatmap} />
+									</div>
+									<noscript>
+										<!-- The toggle above is JS-only; without it, "grid" is unreachable
+										     (nothing ever sets data-fy-view="grid" or handles a click), so
+										     a no-JS visitor gets the heatmap unconditionally instead of losing
+										     it outright. -->
+										<WeeklyHeatmap heatmap={week.heatmap} />
+									</noscript>
 
 									<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:14px;margin-top:24px">
 										{week.repos.map((repo) => {
@@ -121,3 +170,61 @@ const weeks = sortWeeksDesc(Object.values(weekFiles).map((m) => m.default));
 	</main>
 	<Footer />
 </BaseLayout>
+
+<style>
+	.fy-view-btn {
+		font-family: var(--ds-font-mono);
+		font-size: 11px;
+		font-weight: 500;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		padding: 5px 12px;
+		border-radius: var(--ds-radius-pill);
+		border: 1px solid var(--ds-line);
+		background: transparent;
+		color: var(--ds-text-3);
+		cursor: pointer;
+		transition:
+			color var(--ds-duration-base) var(--ds-ease-standard),
+			border-color var(--ds-duration-base) var(--ds-ease-standard);
+	}
+	.fy-view-btn[aria-pressed='true'] {
+		color: var(--ds-accent);
+		border-color: var(--ds-accent);
+	}
+	:root[data-fy-view='grid'] [data-fy-view-panel='works'] {
+		display: none;
+	}
+	:root[data-fy-view='grid'] [data-fy-view-panel='grid'] {
+		display: block;
+	}
+</style>
+
+<script>
+	// WORKS/GRID toggle — global preference (one localStorage key, not
+	// per-week) applied uniformly to every week card on load. Markup
+	// already server-renders the WORKS-default state, so this only ever
+	// upgrades it — no SSR/client mismatch on first paint.
+	const VIEW_KEY = 'fy-updates-view';
+
+	function applyView(view: string): void {
+		document.documentElement.setAttribute('data-fy-view', view);
+		document.querySelectorAll<HTMLElement>('.fy-view-btn').forEach((btn) => {
+			btn.setAttribute('aria-pressed', String(btn.dataset.view === view));
+		});
+	}
+
+	// The is:inline script above already set data-fy-view before paint (no
+	// flash); this just brings aria-pressed on the buttons into sync.
+	if (document.documentElement.getAttribute('data-fy-view') === 'grid') applyView('grid');
+
+	document.querySelectorAll<HTMLElement>('.fy-view-btn').forEach((btn) => {
+		btn.addEventListener('click', () => {
+			const view = btn.dataset.view ?? 'works';
+			applyView(view);
+			try {
+				localStorage.setItem(VIEW_KEY, view);
+			} catch (e) {}
+		});
+	});
+</script>

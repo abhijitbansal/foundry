@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="design_doc_mode" content="canvas">
+  <link rel="stylesheet" href="_ds/house-design-system-9e0e9364-57ac-4e73-9ce2-7439e14cc82b/styles.css">
+  <script src="_ds/house-design-system-9e0e9364-57ac-4e73-9ce2-7439e14cc82b/_ds_bundle.js"></script>
+  <script>
+    document.documentElement.setAttribute('data-theme', 'light');
+    document.title = 'Foundry — The Works (exploration 03)';
+    if (document.body) { document.body.classList.add('ds-root'); }
+    else { document.addEventListener('DOMContentLoaded', function () { document.body.classList.add('ds-root'); }); }
+  </script>
+  <style>
+    body { margin: 0; }
+    a { color: var(--ds-accent); }
+    a:hover { color: var(--ds-accent-hover); }
+    ::selection { background: color-mix(in srgb, var(--ds-accent) 32%, transparent); }
+  </style>
+</helmet>
+
+<section class="brand-skills" data-screen-label="Exploration 03 — The Works" style="padding:56px clamp(24px,4vw,64px) 96px;display:flex;flex-direction:column;gap:36px;background:var(--ds-bg);min-height:100vh;box-sizing:border-box">
+
+  <div style="max-width:880px;display:flex;flex-direction:column;gap:0">
+    <p class="ds-kicker" style="margin:0 0 12px">Exploration 03 · Forge telemetry, continued</p>
+    <h1 class="ds-display-lg" style="margin:0">The Works — one building per repo.</h1>
+    <p class="ds-lead" style="margin:14px 0 0;max-width:62ch;text-wrap:pretty">
+      A commit city drawn as an isometric yard plan — hairline ink, hatched shade faces, engineering furniture. Storeys come from
+      lines added, lit windows from tokens out, smoke from current activity, pennants from PRs merged. Additive: the
+      heatmaps stay.
+    </p>
+    <hr class="ds-rule" style="margin-top:18px">
+    <p class="ds-caption" style="margin:14px 0 0"><a href="#3a">3a</a> — all-time yard for the Telemetry section &nbsp;·&nbsp; <a href="#3b">3b</a> — per-week strip for Updates, Works ⇄ Grid toggle &nbsp;·&nbsp; <a href="#3c">3c</a> — the night shift (dark mode)</p>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start">
+
+    <!-- ============ 3a — all-time yard plan ============ -->
+    <div id="3a" style="width:min(1240px,96vw);display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <a href="#3a" class="ds-micro" style="color:var(--ds-accent);border:1px solid var(--ds-accent);border-radius:var(--ds-radius-xs);padding:3px 8px;text-decoration:none;font-weight:600">3A</a>
+        <span class="ds-heading" style="margin:0">Telemetry · the all-time yard plan</span>
+        <span class="ds-caption" style="color:var(--ds-text-faint)">index#telemetry — new full-width card between the stat grid and the activity card</span>
+      </div>
+
+      <article style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px 20px;display:flex;flex-direction:column;gap:14px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+          <span class="ds-micro" style="color:var(--ds-accent-hover)">The works — one building per repo</span>
+          <span class="ds-micro" style="color:var(--ds-text-faint)">All-time · May 22 – Jul 11, 2026 · 10 repos · hover a building</span>
+        </div>
+
+        <x-import component-from-global-scope="FoundryWorks.City" from="./works-city.jsx" repos="{{ eraRepos }}" variant="yard" motion="{{ motion }}" dressing="{{ dressing }}" height-metric="{{ heightMetric }}" tip-clamp="940" aria-label="Isometric yard plan of ten repositories; building height maps activity since May 2026." hint-size="100%,600px"></x-import>
+
+        <div style="display:flex;gap:8px 22px;flex-wrap:wrap;border-top:1px solid var(--ds-line);padding-top:13px">
+          <span class="ds-micro" style="color:var(--ds-text-3)"><span style="color:var(--ds-accent-hover)">height</span> lines added</span>
+          <span class="ds-micro" style="color:var(--ds-text-3)"><span style="color:var(--ds-accent-hover)">lit windows</span> tokens out</span>
+          <span class="ds-micro" style="color:var(--ds-text-3)"><span style="color:var(--ds-accent-hover)">smoke</span> active this week</span>
+          <span class="ds-micro" style="color:var(--ds-text-3)"><span style="color:var(--ds-accent-hover)">ingots</span> 1 ≈ 10k lines</span>
+          <span class="ds-micro" style="color:var(--ds-text-3)"><span style="color:var(--ds-accent-hover)">crane</span> work in progress</span>
+          <span class="ds-micro" style="color:var(--ds-text-3)"><span style="color:var(--ds-accent-hover)">pennants</span> PRs merged (weekly)</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(215px,100%),1fr));gap:10px 20px;border-top:1px solid var(--ds-line);padding-top:14px">
+          <sc-for list="{{ eraLedger }}" as="row" hint-placeholder-count="10">
+            <div style="display:flex;gap:10px;align-items:baseline">
+              <span class="ds-micro" style="color:var(--ds-accent);font-weight:600">{{ row.rank }}</span>
+              <div style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                <span style="display:flex;gap:8px;align-items:baseline">
+                  <span class="ds-micro" style="color:var(--ds-text);font-weight:600;letter-spacing:0.03em">{{ row.repo }}</span>
+                  <span class="ds-micro" style="color:var(--ds-text-faint)">{{ row.meta }}</span>
+                </span>
+                <span class="ds-caption" style="color:var(--ds-text-3);white-space:nowrap">{{ row.line }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+
+        <p class="ds-caption" style="margin:0;color:var(--ds-text-3);border-top:1px solid var(--ds-line);padding-top:12px">
+          Yard ledger: cubby — tallest hall on the yard, eight storeys and twelve ingots cast. folix — site cleared, groundbreaking soon.
+        </p>
+      </article>
+      <p class="ds-caption" style="margin:0;max-width:78ch;color:var(--ds-text-3)">Why it works here: the site is already drawn like a blueprint — the city is literally a yard plan of the forge, districts mirror the work groups, and every mark is data (nothing decorative is invented). Tweaks panel switches the height metric.</p>
+    </div>
+
+    <!-- ============ 3c — night shift ============ -->
+    <div id="3c" style="width:min(1240px,96vw);display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <a href="#3c" class="ds-micro" style="color:var(--ds-accent);border:1px solid var(--ds-accent);border-radius:var(--ds-radius-xs);padding:3px 8px;text-decoration:none;font-weight:600">3C</a>
+        <span class="ds-heading" style="margin:0">The night shift — same card, dark theme</span>
+        <span class="ds-caption" style="color:var(--ds-text-faint)">windows glow gold; the furnace mouth breathes</span>
+      </div>
+
+      <div style="--ds-bg:#1B1814;--ds-surface:#24201A;--ds-surface-2:#16130F;--ds-line:#2F2920;--ds-line-strong:#3D362B;--ds-text:#F0EAD6;--ds-text-2:#C5BBA1;--ds-text-3:#8B8270;--ds-text-faint:#5A5142;--ds-shadow-card:0 6px 24px rgba(0,0,0,0.40);--ds-shadow-pop:0 12px 36px rgba(0,0,0,0.50);--ds-accent:#34D3EE;--ds-accent-hover:#5ADCF1;--ds-accent-soft:rgba(52,211,238,0.10);--ds-on-accent:#04141A;--ds-secondary:#E8B94A;--ds-tertiary:#A892F0;background:var(--ds-bg);border-radius:var(--ds-radius-lg);padding:26px">
+        <article style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px 20px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
+            <span class="ds-micro" style="color:var(--ds-accent-hover)">The works — night shift</span>
+            <span class="ds-micro" style="color:var(--ds-text-faint)">lit windows = tokens out · glow = the forge at night</span>
+          </div>
+          <x-import component-from-global-scope="FoundryWorks.City" from="./works-city.jsx" repos="{{ eraRepos }}" variant="yard" night="true" motion="{{ motion }}" dressing="{{ dressing }}" height-metric="{{ heightMetric }}" tip-clamp="940" aria-label="Night view of the isometric yard plan; lit windows glow." hint-size="100%,600px"></x-import>
+          <p class="ds-caption" style="margin:0;color:var(--ds-text-3);border-top:1px solid var(--ds-line);padding-top:12px">
+            Zero extra work in production — every mark inherits the token flip from the site's theme toggle. The gold is --ds-secondary, the same hot end of the existing heatmap ramp.
+          </p>
+        </article>
+      </div>
+    </div>
+
+    <!-- ============ 3b — weekly strip ============ -->
+    <div id="3b" style="width:min(790px,96vw);display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:14px;flex-wrap:wrap">
+        <a href="#3b" class="ds-micro" style="color:var(--ds-accent);border:1px solid var(--ds-accent);border-radius:var(--ds-radius-xs);padding:3px 8px;text-decoration:none;font-weight:600">3B</a>
+        <span class="ds-heading" style="margin:0">Updates · the week's works</span>
+        <span class="ds-caption" style="color:var(--ds-text-faint)">inside each weekly digest card — Works ⇄ Grid, heatmap stays</span>
+      </div>
+
+      <article style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:26px clamp(20px,3vw,30px);display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap">
+          <h2 class="ds-display-md" style="margin:0">Jun 29 – Jul 5, 2026</h2>
+          <span class="ds-micro" style="color:var(--ds-text-faint)">2026-W27</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(120px,100%),1fr));gap:14px">
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span class="ds-display-md">105k</span>
+            <span class="ds-micro" style="color:var(--ds-accent-hover)">Lines added</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span class="ds-display-md">1.4k</span>
+            <span class="ds-micro" style="color:var(--ds-accent-hover)">Sessions</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span class="ds-display-md">6</span>
+            <span class="ds-micro" style="color:var(--ds-accent-hover)">Repos active</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:3px">
+            <span class="ds-display-md">41</span>
+            <span class="ds-micro" style="color:var(--ds-accent-hover)">PRs merged</span>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--ds-line);padding-top:14px">
+          <span class="ds-micro" style="color:var(--ds-text-3)">Activity</span>
+          <div style="display:flex;gap:8px">
+            <button type="button" onClick="{{ setWorks }}" class="ds-micro" style="background:none;cursor:pointer;padding:5px 12px;border-radius:var(--ds-radius-pill);border:1px solid {{ worksBorder }};color:{{ worksColor }};letter-spacing:0.1em">WORKS</button>
+            <button type="button" onClick="{{ setGrid }}" class="ds-micro" style="background:none;cursor:pointer;padding:5px 12px;border-radius:var(--ds-radius-pill);border:1px solid {{ gridBorder }};color:{{ gridColor }};letter-spacing:0.1em">GRID</button>
+          </div>
+        </div>
+
+        <sc-if value="{{ showWorks }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <x-import component-from-global-scope="FoundryWorks.City" from="./works-city.jsx" repos="{{ weekRepos }}" variant="strip" motion="{{ motion }}" dressing="{{ dressing }}" height-metric="{{ heightMetric }}" stamp="WEEK 2026-W27 · JUN 29 – JUL 5" tip-clamp="460" aria-label="This week's works: six active repositories as buildings, pennants for merged PRs." hint-size="100%,500px"></x-import>
+            <p class="ds-caption" style="margin:0;color:var(--ds-text-faint)">Height = lines added this week · pennants = PRs merged · hover for the PR titles.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showGrid }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;gap:8px">
+              <div style="display:flex;flex-direction:column;gap:3px;justify-content:space-between;padding-top:2px">
+                <sc-for list="{{ weekdayLabels }}" as="wd" hint-placeholder-count="7">
+                  <span class="ds-micro" style="color:var(--ds-text-faint);height:11px;line-height:11px">{{ wd }}</span>
+                </sc-for>
+              </div>
+              <div role="img" aria-label="Activity by hour and day of week, EDT time" style="display:grid;grid-template-rows:repeat(7,11px);grid-auto-columns:11px;grid-auto-flow:column;gap:3px;overflow-x:auto">
+                <sc-for list="{{ heatCells }}" as="cell" hint-placeholder-count="168">
+                  <span title="{{ cell.title }}" style="border-radius:2px;background:{{ cell.bg }};box-sizing:border-box;border:{{ cell.border }}"></span>
+                </sc-for>
+              </div>
+            </div>
+            <p class="ds-caption" style="margin:0;color:var(--ds-text-faint)">Hour of day (EDT), left to right = midnight to 11pm.</p>
+          </div>
+        </sc-if>
+
+        <p class="ds-caption" style="margin:0;color:var(--ds-text-3);border-top:1px solid var(--ds-line);padding-top:12px">
+          The per-repo grid below the card is unchanged — this strip replaces nothing, it adds the week's skyline above it.
+        </p>
+      </article>
+      <p class="ds-caption" style="margin:0;max-width:70ch;color:var(--ds-text-3)">Same renderer, week-scoped data: heights re-derive from that week's lines × sessions, pennants count the week's merged PRs (hover cubby: 13). Defaults to Works; Grid is the existing hour × weekday heatmap, untouched.</p>
+    </div>
+
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;heightMetric&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;lines&quot;, &quot;blend&quot;, &quot;sessions&quot;], &quot;default&quot;: &quot;lines&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Works view&quot;, &quot;description&quot;: &quot;What building height encodes&quot; },
+  &quot;motion&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Works view&quot;, &quot;description&quot;: &quot;Smoke drift + furnace flicker&quot; },
+  &quot;dressing&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Works view&quot;, &quot;description&quot;: &quot;Crane, rail spur, ingot stacks&quot; }
+}">
+class Component extends DCLogic {
+  state = { view: 'works', heat: null };
+
+  componentDidMount() {
+    fetch('./data/weekly-2026-W27.json')
+      .then((r) => r.json())
+      .then((j) => this.setState({ heat: j.heatmap }))
+      .catch(() => {});
+  }
+
+  fmt(n) {
+    if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+    if (n >= 1e4) return Math.round(n / 1e3) + 'k';
+    if (n >= 1e3) return (n / 1e3).toFixed(1) + 'k';
+    return String(n);
+  }
+
+  storeys(repos, metric, maxStoreys) {
+    const score = (r) => metric === 'lines' ? r.lines : metric === 'sessions' ? r.sessions : Math.sqrt(Math.max(0, r.lines) * Math.max(0, r.sessions));
+    const max = Math.max(...repos.map(score), 1);
+    const out = {};
+    repos.forEach((r) => {
+      const s = score(r);
+      out[r.repo] = s <= 0 ? 0 : Math.max(1, Math.round(maxStoreys * Math.pow(s / max, 0.6)));
+    });
+    return out;
+  }
+
+  renderVals() {
+    const heightMetric = this.props.heightMetric ?? 'lines';
+    const motion = this.props.motion ?? true;
+    const dressing = this.props.dressing ?? true;
+
+    const eraRepos = [
+      { repo: 'cubby', group: 'apps', sessions: 1390, lines: 115414, tokens: 47876911, active: true },
+      { repo: 'claude-skills', group: 'agent tooling', sessions: 551, lines: 49569, tokens: 11698838, active: true },
+      { repo: 'floorprint', group: 'apps', sessions: 266, lines: 32064, tokens: 8220815, active: true },
+      { repo: 'cartoon', group: 'agent tooling', sessions: 62, lines: 15617, tokens: 2896138, active: true },
+      { repo: 'sift', group: 'agent tooling', sessions: 137, lines: 12182, tokens: 3316581, active: true },
+      { repo: 'memekit', group: 'agent tooling', sessions: 37, lines: 9855, tokens: 794654, active: false },
+      { repo: 'foundry', group: 'web · sites', sessions: 69, lines: 6993, tokens: 2092870, active: true },
+      { repo: 'doc-scan', group: 'apps', sessions: 93, lines: 6042, tokens: 2782177, active: true },
+      { repo: 'design-system', group: 'web · sites', sessions: 16, lines: 3129, tokens: 586810, active: false },
+      { repo: 'folix', group: 'apps', sessions: 2, lines: 0, tokens: 3019, active: false },
+    ];
+
+    const weekRepos = [
+      { repo: 'cubby', group: 'apps', sessions: 1028, lines: 75306, prs: 13, active: true, prTitles: null },
+      { repo: 'claude-skills', group: 'agent tooling', sessions: 201, lines: 13839, prs: 11, active: true, prTitles: ['feat(ios-dev): add release-inapp-vs-asc-whatsnew-surfaces skill', 'fix(skills): repo-wide skill review — dead links, stale YAML'] },
+      { repo: 'sift', group: 'agent tooling', sessions: 61, lines: 5826, prs: 6, active: true, prTitles: ['fix(launchd): prevent idle sleep during weekly job', 'Redesign site + digest (dashboard), fix Teams unfurl'] },
+      { repo: 'doc-scan', group: 'apps', sessions: 28, lines: 4842, prs: 6, active: true, prTitles: null },
+      { repo: 'floorprint', group: 'apps', sessions: 28, lines: 4183, prs: 3, active: true, prTitles: null },
+      { repo: 'cartoon', group: 'agent tooling', sessions: 25, lines: 634, prs: 2, active: true, prTitles: ['fix(meta): 2x og:image for Microsoft Teams large-card unfurl', 'feat(instructions): managed AGENTS.md directive'] },
+    ];
+
+    const st = this.storeys(eraRepos, heightMetric, 8);
+    const eraLedger = eraRepos.map((r, i) => ({
+      rank: String(i + 1).padStart(2, '0'),
+      repo: r.repo,
+      meta: st[r.repo] === 0 ? 'site cleared' : st[r.repo] + (st[r.repo] === 1 ? ' storey' : ' storeys'),
+      line: this.fmt(r.sessions) + ' sessions · ' + this.fmt(r.lines) + ' lines · ' + this.fmt(r.tokens) + ' tok out',
+    }));
+
+    // weekly heatmap cells (hour-major for column-flow grid)
+    const heat = this.state.heat;
+    let heatCells = [];
+    let weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    if (heat) {
+      weekdayLabels = heat.weekday_labels;
+      let max = 1;
+      heat.cells.forEach((row) => row.forEach((c) => { if (c.count > max) max = c.count; }));
+      for (let hour = 0; hour < 24; hour++) {
+        for (let wd = 0; wd < 7; wd++) {
+          const c = heat.cells[wd][hour];
+          const p = c.count / max;
+          let bg, border = 'none';
+          if (c.count === 0) { bg = 'var(--ds-surface-2)'; border = '1px solid var(--ds-line)'; }
+          else if (p < 0.25) bg = 'color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface-2))';
+          else if (p < 0.5) bg = 'color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))';
+          else if (p < 0.8) bg = 'var(--ds-accent)';
+          else bg = 'var(--ds-secondary)';
+          const title = c.count === 0
+            ? weekdayLabels[wd] + ' ' + hour + ':00 — quiet'
+            : weekdayLabels[wd] + ' ' + hour + ':00 — ' + this.fmt(c.count) + ' messages, ' + this.fmt(c.out_tokens) + ' tokens out';
+          heatCells.push({ bg, border, title });
+        }
+      }
+    }
+
+    const works = this.state.view === 'works';
+    return {
+      eraRepos, weekRepos, eraLedger, heatCells, weekdayLabels,
+      heightMetric, motion, dressing,
+      showWorks: works,
+      showGrid: !works,
+      setWorks: () => this.setState({ view: 'works' }),
+      setGrid: () => this.setState({ view: 'grid' }),
+      worksColor: works ? 'var(--ds-accent)' : 'var(--ds-text-3)',
+      worksBorder: works ? 'var(--ds-accent)' : 'var(--ds-line)',
+      gridColor: !works ? 'var(--ds-accent)' : 'var(--ds-text-3)',
+      gridBorder: !works ? 'var(--ds-accent)' : 'var(--ds-line)',
+    };
+  }
+}
+</script>
+</body>
+</html>
