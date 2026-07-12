@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { assertYardCoverage, buildLedger, buildStrip, buildYard, computeLitFracs, computeStoreys, fmtK, pennantCount, seeded } from '../../src/lib/works';
+import { layoutStripGrid, stripGridFootprint } from '../../src/lib/works-layout';
 import type { WorksRepo } from '../../src/lib/works.types';
 
 const YARD_REPOS: WorksRepo[] = [
@@ -143,15 +144,16 @@ describe('buildStrip', () => {
 		{ repo: 'cubby', lines: 75306, sessions: 1028, active: true, prs: 8 },
 		{ repo: 'claude-skills', lines: 13839, sessions: 201, active: true, prs: 2 },
 		{ repo: 'sift', lines: 5826, sessions: 61, active: true, prs: 0 },
-		// not present in the STRIP layout table — must be silently skipped
-		{ repo: 'memekit', lines: 200, sessions: 5, active: true, prs: 0 },
+		// no hand-tuned STRIP_ARCHETYPES entry — must still render via the
+		// default archetype, not vanish
+		{ repo: 'brand-new-repo', lines: 200, sessions: 5, active: true, prs: 0 },
 	];
 
-	it('only renders repos that have a STRIP layout slot', () => {
+	it('renders every repo, including one with no hand-tuned archetype', () => {
 		const { svg } = buildStrip(WEEK_REPOS, { stamp: 'WEEK 2026-W27', instanceId: '2026-w27' });
 		expect(svg).toContain('<title>cubby');
 		expect(svg).toContain('<title>claude-skills');
-		expect(svg).not.toContain('memekit');
+		expect(svg).toContain('<title>brand-new-repo');
 	});
 
 	it('caps pennants at 6 even when more PRs merged', () => {
@@ -161,8 +163,53 @@ describe('buildStrip', () => {
 		expect(pennantFlags?.length).toBe(6);
 	});
 
-	it('does not throw for a week missing repos that only exist in YARD', () => {
+	it('does not throw for a single-repo week', () => {
 		expect(() => buildStrip([{ repo: 'cubby', lines: 10, sessions: 5, active: true }], { stamp: 'x', instanceId: 'y' })).not.toThrow();
+	});
+});
+
+describe('layoutStripGrid', () => {
+	it('wraps into a new row after STRIP_GRID_COLS (3) repos', () => {
+		const names = ['cubby', 'claude-skills', 'sift', 'doc-scan', 'floorprint'];
+		const layout = layoutStripGrid(names);
+		// first 3 share the top row's y
+		expect(layout['claude-skills'].y).toBe(layout.cubby.y);
+		expect(layout.sift.y).toBe(layout.cubby.y);
+		// the 4th wraps to a new row and resets to the first column's x
+		expect(layout['doc-scan'].y).toBeGreaterThan(layout.cubby.y);
+		expect(layout['doc-scan'].x).toBe(layout.cubby.x);
+	});
+
+	it('gives an unknown repo the default archetype instead of omitting it', () => {
+		const layout = layoutStripGrid(['brand-new-repo']);
+		expect(layout['brand-new-repo']).toBeDefined();
+		expect(layout['brand-new-repo'].w).toBeGreaterThan(0);
+	});
+
+	it('places chimneys relative to the building as it moves between rows', () => {
+		const rowsOf4 = layoutStripGrid(['a', 'b', 'c', 'cubby']);
+		const rowsOf1 = layoutStripGrid(['cubby']);
+		// cubby's chimney offset from its own origin is identical regardless
+		// of which grid cell it landed in
+		const offsetIn4 = [rowsOf4.cubby.stacks[0][0] - rowsOf4.cubby.x, rowsOf4.cubby.stacks[0][1] - rowsOf4.cubby.y];
+		const offsetIn1 = [rowsOf1.cubby.stacks[0][0] - rowsOf1.cubby.x, rowsOf1.cubby.stacks[0][1] - rowsOf1.cubby.y];
+		expect(offsetIn4[0]).toBeCloseTo(offsetIn1[0], 10);
+		expect(offsetIn4[1]).toBeCloseTo(offsetIn1[1], 10);
+	});
+});
+
+describe('stripGridFootprint', () => {
+	it('reports 1 row for up to 3 repos', () => {
+		expect(stripGridFootprint(3).rows).toBe(1);
+	});
+
+	it('reports 2 rows for 4-6 repos', () => {
+		expect(stripGridFootprint(4).rows).toBe(2);
+		expect(stripGridFootprint(6).rows).toBe(2);
+	});
+
+	it('reports 3 rows for 7 repos', () => {
+		expect(stripGridFootprint(7).rows).toBe(3);
 	});
 });
 

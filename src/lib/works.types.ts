@@ -51,6 +51,20 @@ export interface StripLayoutEntry {
 	vent?: boolean;
 }
 
+/** A repo's visual identity in a weekly strip — footprint, archetype,
+ * chimney offsets — independent of where the grid places it that week
+ * (the set of active repos, and so the grid position of any one repo,
+ * changes week to week; the "look" of a given repo doesn't). */
+export interface StripArchetype {
+	w: number;
+	d: number;
+	arch: Archetype;
+	/** Chimney positions relative to the building's own (x, y). */
+	stacksRel: [number, number][];
+	furnace?: boolean;
+	vent?: boolean;
+}
+
 export interface PlateSpec {
 	x: number;
 	y: number;

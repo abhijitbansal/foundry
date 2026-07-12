@@ -5,7 +5,7 @@
 // docs/plans/2026-07-11-the-works-commit-city.md; geometry/paint primitives
 // live in works-svg.ts, layout tables in works-layout.ts.
 
-import { STRIP, YARD, YARD_PLATES } from './works-layout';
+import { layoutStripGrid, stripGridFootprint, YARD, YARD_PLATES } from './works-layout';
 import type { LedgerEntry, WorksRepo, WorksResult } from './works.types';
 import { buildDefs, buildingEls, districtLabel, flatcar, FYW_STYLE, gantryCrane, ground, ingotStack, makeProj, northArrow, rail, scaleBar, stripBuildingLabel, stripStamp, titleBlock } from './works-svg';
 
@@ -131,26 +131,35 @@ export function buildYard(repos: WorksRepo[], opts: { metaLine: string; instance
 }
 
 /** One week's strip (updates.astro). `repos` is that week's
- * data/weekly/<week>.json `repos[]` — entries without a STRIP layout slot
- * (src/lib/works-layout.ts) are silently skipped, since STRIP only covers
- * the repos the design curated slots for, not every repo in stats.json.
- * `instanceId` must be unique per rendered strip on the page (e.g. the
- * week_id) so pattern `id`s don't collide across multiple weeks. */
+ * data/weekly/<week>.json `repos[]`, ranked by lines added descending and
+ * placed into a wrapping multi-row grid (src/lib/works-layout.ts's
+ * layoutStripGrid) rather than one long single-row line, so a busy week
+ * reads as a proper yard instead of a vanishing point. `instanceId` must
+ * be unique per rendered strip on the page (e.g. the week_id) so pattern
+ * `id`s don't collide across multiple weeks. */
 export function buildStrip(repos: WorksRepo[], opts: { stamp: string; instanceId: string }): WorksResult {
-	const filtered = repos.filter((r) => STRIP[r.repo]);
-	const { S, ox, oy, vw, vh } = STRIP_CONF;
+	const ordered = [...repos].sort((a, b) => b.lines - a.lines);
+	const layout = layoutStripGrid(ordered.map((r) => r.repo));
+	const { w: groundW, d: groundD, rows } = stripGridFootprint(ordered.length);
+
+	const { S, oy, vw } = STRIP_CONF;
+	// The ground plate's far-left corner (screen X = ox − groundD·cos30°·S)
+	// walks further negative as extra rows deepen groundD — shift the
+	// projection origin right by the same amount growth added, or a 2+ row
+	// week clips its own ground plate off the left edge of the viewBox.
+	const ox = STRIP_CONF.ox + (rows - 1) * 122;
+	const vh = rows <= 1 ? STRIP_CONF.vh : STRIP_CONF.vh + (rows - 1) * 90;
 	const P = makeProj(S, ox, oy);
-	const storeys = computeStoreys(filtered, STRIP_MAX_STOREYS);
-	const litFracs = computeLitFracs(filtered);
-	const ordered = [...filtered].sort((a, b) => STRIP[a.repo].x + STRIP[a.repo].y - (STRIP[b.repo].x + STRIP[b.repo].y));
+	const storeys = computeStoreys(ordered, STRIP_MAX_STOREYS);
+	const litFracs = computeLitFracs(ordered);
 
 	const hatchId = `${opts.instanceId}-h`;
 	const glassId = `${opts.instanceId}-g`;
 	const glowAcc: string[] = [];
 
-	const buildings = ordered.map((r) => buildingEls(P, STRIP[r.repo], r, storeys[r.repo], litFracs[r.repo], hatchId, glassId, glowAcc)).join('');
-	const under = ground(P, 0, 0, 16.8, 3.1);
-	const labels = filtered.map((r) => stripBuildingLabel(P, STRIP[r.repo], r)).join('');
+	const buildings = ordered.map((r) => buildingEls(P, layout[r.repo], r, storeys[r.repo], litFracs[r.repo], hatchId, glassId, glowAcc)).join('');
+	const under = ground(P, 0, 0, groundW, groundD);
+	const labels = ordered.map((r) => stripBuildingLabel(P, layout[r.repo], r)).join('');
 	const stamp = stripStamp(vw, opts.stamp);
 
 	const svg =

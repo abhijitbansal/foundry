@@ -1,10 +1,18 @@
 // works-layout.ts — hand-tuned layout tables, copied verbatim from
-// design_handoff_works/works-city.jsx (YARD, YARD_PLATES, STRIP). Keyed by
-// repo name; a new repo needs a slot added here or it's skipped by
-// coverage checks in works.ts. Do not hand-tune coordinates — regenerate
-// from the design source if the yard plan itself changes.
+// design_handoff_works/works-city.jsx (YARD, YARD_PLATES). Keyed by repo
+// name; a new repo needs a slot added here or it's skipped by coverage
+// checks in works.ts. Do not hand-tune coordinates — regenerate from the
+// design source if the yard plan itself changes.
+//
+// The weekly STRIP is different: which repos are active, and how many,
+// changes every week, so its positions can't be a hand-tuned per-repo
+// table like YARD — layoutStripGrid() below places whatever repos that
+// week has into a wrapping multi-row grid. STRIP_ARCHETYPES keeps each
+// repo's visual identity (footprint, archetype, chimneys) recognizable
+// week to week; DEFAULT_STRIP_ARCHETYPE covers any repo without a
+// hand-tuned entry so a new repo still renders instead of vanishing.
 
-import type { PlateSpec, StripLayoutEntry, YardLayoutEntry } from './works.types';
+import type { PlateSpec, StripArchetype, StripLayoutEntry, YardLayoutEntry } from './works.types';
 
 export const YARD: Record<string, YardLayoutEntry> = {
 	cubby: { x: 0.9, y: 0.7, w: 2.9, d: 4.6, arch: 'hall', plate: 0, np: [4.4, 5.8], stacks: [[0.35, 1.7], [0.35, 3.2]], furnace: true, annex: true },
@@ -25,11 +33,68 @@ export const YARD_PLATES: PlateSpec[] = [
 	{ x: 5.4, y: 8.6, w: 6.0, d: 2.6, label: '03 · WEB & SITES', lx: 5.6, ly: 10.9, anchor: 'end' },
 ];
 
-export const STRIP: Record<string, StripLayoutEntry> = {
-	cubby: { x: 0.6, y: 0.45, w: 3.3, d: 2.0, arch: 'hall', stacks: [[0.25, 0.9], [0.25, 1.75]], furnace: true },
-	'claude-skills': { x: 4.8, y: 0.7, w: 1.9, d: 1.55, arch: 'monitor', stacks: [[4.5, 0.95]] },
-	sift: { x: 7.5, y: 0.8, w: 1.7, d: 1.4, arch: 'gableY', stacks: [], vent: true },
-	'doc-scan': { x: 9.9, y: 0.85, w: 1.6, d: 1.3, arch: 'gableY', stacks: [], vent: true },
-	floorprint: { x: 12.1, y: 0.8, w: 1.8, d: 1.35, arch: 'monitor', stacks: [], vent: true },
-	cartoon: { x: 14.6, y: 0.9, w: 1.5, d: 1.2, arch: 'shed', stacks: [], vent: true },
+export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {
+	cubby: { w: 3.3, d: 2.0, arch: 'hall', stacksRel: [[-0.35, 0.45], [-0.35, 1.3]], furnace: true },
+	'claude-skills': { w: 1.9, d: 1.55, arch: 'monitor', stacksRel: [[-0.3, 0.25]] },
+	sift: { w: 1.7, d: 1.4, arch: 'gableY', stacksRel: [], vent: true },
+	'doc-scan': { w: 1.6, d: 1.3, arch: 'gableY', stacksRel: [], vent: true },
+	floorprint: { w: 1.8, d: 1.35, arch: 'monitor', stacksRel: [], vent: true },
+	cartoon: { w: 1.5, d: 1.2, arch: 'shed', stacksRel: [], vent: true },
+	foundry: { w: 1.6, d: 1.3, arch: 'gableX', stacksRel: [], vent: true },
+	memekit: { w: 1.4, d: 1.1, arch: 'shed', stacksRel: [] },
+	'design-system': { w: 1.5, d: 1.2, arch: 'shed', stacksRel: [] },
 };
+
+const DEFAULT_STRIP_ARCHETYPE: StripArchetype = { w: 1.6, d: 1.3, arch: 'shed', stacksRel: [], vent: true };
+
+const STRIP_GRID_COLS = 3;
+const STRIP_GRID_X0 = 0.6;
+const STRIP_GRID_Y0 = 0.45;
+const STRIP_GRID_CELL_W = 4.6;
+// Deep enough that a row of buildings never visually collides with the
+// row above — cubby (the largest archetype, always row 0) is nearly 2x
+// STRIP_MAX_STOREYS tall with twin chimneys, so this needs much more
+// clearance than the footprint depth (d) alone would suggest once the
+// isometric projection's height contribution is accounted for.
+const STRIP_GRID_CELL_D = 5.4;
+
+/** Places a week's active repos (already ordered, e.g. by lines added
+ * descending) into a wrapping `STRIP_GRID_COLS`-column grid rather than
+ * one long single-row line — reads as a proper yard, not a vanishing
+ * point, once a week has more than 3-4 active repos. Every repo gets an
+ * entry: known ones keep their hand-tuned archetype, anything else falls
+ * back to DEFAULT_STRIP_ARCHETYPE. */
+export function layoutStripGrid(repoNames: string[]): Record<string, StripLayoutEntry> {
+	const out: Record<string, StripLayoutEntry> = {};
+	repoNames.forEach((repo, i) => {
+		const archetype = STRIP_ARCHETYPES[repo] ?? DEFAULT_STRIP_ARCHETYPE;
+		const col = i % STRIP_GRID_COLS;
+		const row = Math.floor(i / STRIP_GRID_COLS);
+		const x = STRIP_GRID_X0 + col * STRIP_GRID_CELL_W;
+		const y = STRIP_GRID_Y0 + row * STRIP_GRID_CELL_D;
+		out[repo] = {
+			x,
+			y,
+			w: archetype.w,
+			d: archetype.d,
+			arch: archetype.arch,
+			stacks: archetype.stacksRel.map(([dx, dy]) => [x + dx, y + dy]),
+			furnace: archetype.furnace,
+			vent: archetype.vent,
+		};
+	});
+	return out;
+}
+
+/** Ground-plate footprint for a grid of `count` repos at
+ * `STRIP_GRID_COLS` columns — wide enough for the last column, deep
+ * enough for every row. */
+export function stripGridFootprint(count: number): { w: number; d: number; rows: number } {
+	const rows = Math.max(1, Math.ceil(count / STRIP_GRID_COLS));
+	const cols = Math.min(count, STRIP_GRID_COLS);
+	return {
+		w: STRIP_GRID_X0 + cols * STRIP_GRID_CELL_W,
+		d: STRIP_GRID_Y0 + (rows - 1) * STRIP_GRID_CELL_D + 2.6,
+		rows,
+	};
+}
