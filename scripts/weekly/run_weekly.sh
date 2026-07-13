@@ -78,6 +78,17 @@ if [[ ! -f "$WEEK_FILE" ]]; then
 	exit 1
 fi
 
+# Snapshot stats.json OUTSIDE the repo now, before anything below touches
+# git state. Stage 2 needs this run's freshly-generated stats.json, but
+# further down this script does `git checkout main` after committing the
+# digest branch — which resets the working tree's data/stats.json back to
+# whatever's on main (the OLD pre-refresh version), since the fresh one
+# only exists inside the digest branch's commit at that point. Reading
+# "$REPO_DIR/data/stats.json" directly in Stage 2 would silently pick up
+# stale data every week this branch actually has changes to commit.
+STATS_SNAPSHOT="$(mktemp -t foundry-weekly-stats).json"
+cp data/stats.json "$STATS_SNAPSHOT"
+
 # Highlight-writer pass: headless Claude Code session, natural-language
 # instruction rather than a specific --agents flag (this repo's
 # .claude/agents/weekly-highlights.md is auto-discovered as a dispatchable
@@ -144,7 +155,7 @@ if [[ -d "$AB_DIR/.git" ]]; then
 		git fetch origin >&2
 		git checkout -f main >&2
 		git reset --hard origin/main >&2
-		node scripts/generate-telemetry.mjs --stats "$REPO_DIR/data/stats.json" >&2
+		node scripts/generate-telemetry.mjs --stats "$STATS_SNAPSHOT" >&2
 		node scripts/build.mjs >&2
 		git add data/telemetry.json assets/
 		if git diff --cached --quiet; then
@@ -180,4 +191,5 @@ claude -p "Call the PushNotification tool once, status proactive, message: 'Foun
 osascript -e "display notification \"${DIGEST_STATUS} · abhijitbansal: ${AB_STATUS}\" with title \"Foundry weekly ${WEEK_ID}\"" \
 	|| echo "$LOG_PREFIX osascript notification failed — not fatal (e.g. no GUI session)"
 
+rm -f "$STATS_SNAPSHOT"
 echo "$LOG_PREFIX done — digest: ${DIGEST_STATUS} — abhijitbansal: ${AB_STATUS}"
