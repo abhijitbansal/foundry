@@ -11,15 +11,19 @@
 # "never commit directly to main" with a single named exception (the
 # initial bootstrap commit) that doesn't cover this.
 #
-# Deliberately NOT auto-merging either, for now: an earlier draft of this
-# script called `gh pr merge --auto`, but that's a standing self-merge
-# pathway and this repo doesn't have branch protection configured yet (a
-# separate, still-pending task) to give it a real review gate to wait on.
-# Once branch protection + a required CI check exist, add `gh pr merge
-# "$BRANCH" --auto --squash` back after the `gh pr create` line below —
-# it'll then merge only once .github/workflows/ci.yml passes, with a
-# window to intervene before it does, not a bare bypass. Until then this
-# just opens the PR and stops; merge it by hand each week.
+# Auto-merges via `gh pr merge --auto` — main has branch protection
+# requiring the `build-and-test` status check (.github/workflows/ci.yml),
+# and the repo has "Allow auto-merge" enabled, so this is a real gate, not
+# a bare bypass: the PR only merges once that CI run's `npm run build`
+# actually succeeds against the new data. That specific check matters here
+# — src/lib/works.ts's homepage "Works yard" visualization has a
+# hand-tuned per-repo layout table (src/lib/works-layout.ts) and throws a
+# build error if data/stats.json ever gains a repo with no layout slot, so
+# a week where a genuinely new repo starts showing real activity fails CI,
+# never auto-merges, and needs a human to add that repo to `YARD` by hand
+# before merging. Every OTHER path (the /updates weekly list, the weekly
+# "Works" strip, all headline telemetry numbers) is fully dynamic and
+# needs no manual step on merge.
 #
 # Optional $1: explicit ISO week id ("2026-W28") to target instead of
 # auto-detecting the most recently completed Mon-Sun week. The auto-detect
@@ -112,12 +116,14 @@ if ! git diff --cached --quiet; then
 	git commit -m "chore(weekly): digest for ${WEEK_ID}"
 	git push -u origin "$BRANCH"
 
-	PR_URL=$(gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Needs a manual merge — see this script's header comment for why auto-merge isn't wired up yet.")
+	PR_URL=$(gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Auto-merges once the required \`build-and-test\` check passes (branch protection on main gates this — not a bare bypass).")
+	gh pr merge "$BRANCH" --auto --merge \
+		|| echo "$LOG_PREFIX gh pr merge --auto failed to queue — PR is still open, needs a manual merge"
 
 	git checkout main
 	git branch -D "$BRANCH"
-	DIGEST_STATUS="PR opened: ${PR_URL}"
-	echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, needs manual merge"
+	DIGEST_STATUS="PR opened (auto-merge queued): ${PR_URL}"
+	echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, auto-merge queued pending build-and-test"
 else
 	echo "$LOG_PREFIX no changes to commit for ${WEEK_ID}"
 fi
