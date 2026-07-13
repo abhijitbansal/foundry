@@ -4,7 +4,8 @@
 # launchd/caffeinate rationale, ported from the sift project's precedent).
 #
 # Pipeline: refresh all-time + weekly stats -> AI highlight pass -> build
-# sanity check -> push to a dedicated branch -> open a PR.
+# sanity check -> push to a dedicated branch -> open a PR -> refresh the
+# abhijitbansal profile-README telemetry from the same stats.json -> notify.
 #
 # Deliberately NOT a direct commit to main: AGENTS.md's branch rule is
 # "never commit directly to main" with a single named exception (the
@@ -19,7 +20,16 @@
 # it'll then merge only once .github/workflows/ci.yml passes, with a
 # window to intervene before it does, not a bare bypass. Until then this
 # just opens the PR and stops; merge it by hand each week.
+#
+# Optional $1: explicit ISO week id ("2026-W28") to target instead of
+# auto-detecting the most recently completed Mon-Sun week. The auto-detect
+# math only gives the right answer when run ON a Monday (that's what the
+# plist's StartCalendarInterval guarantees for the real cron); a manual
+# same-week backfill run on any other weekday needs this override, or it
+# silently re-targets last week.
 set -euo pipefail
+
+WEEK_OVERRIDE="${1:-}"
 
 # Runs from a dedicated automation clone, NOT the working checkout — same
 # pattern as sift's ~/projects/sift-publish. The working repo can be mid-
@@ -48,15 +58,19 @@ git checkout -f main
 git reset --hard origin/main
 
 python3 scripts/stats/parse_sessions.py
-python3 scripts/stats/weekly_stats.py
+python3 scripts/stats/weekly_stats.py ${WEEK_OVERRIDE}
 
-WEEK_ID=$(python3 -c "
+if [[ -n "$WEEK_OVERRIDE" ]]; then
+	WEEK_ID="$WEEK_OVERRIDE"
+else
+	WEEK_ID=$(python3 -c "
 from datetime import date, timedelta
 today = date.today()
 monday = (today - timedelta(days=today.weekday())) - timedelta(days=7)
 y, w, _ = monday.isocalendar()
 print(f'{y}-W{w:02d}')
 ")
+fi
 WEEK_FILE="data/weekly/${WEEK_ID}.json"
 
 if [[ ! -f "$WEEK_FILE" ]]; then
@@ -77,21 +91,93 @@ npm ci
 npm run build
 npm test
 
+DIGEST_STATUS="no changes"
 git add data/stats.json data/stats-archive.json data/weekly/
-if git diff --cached --quiet; then
-	echo "$LOG_PREFIX no changes to commit, done"
-	exit 0
+if ! git diff --cached --quiet; then
+	BRANCH="weekly-digest-${WEEK_ID}"
+	# -B, not -b: a same-week retry after a transient push/PR failure must not
+	# die on "branch already exists" in this persistent clone.
+	git checkout -B "$BRANCH"
+	git commit -m "chore(weekly): digest for ${WEEK_ID}"
+	git push -u origin "$BRANCH"
+
+	PR_URL=$(gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Needs a manual merge — see this script's header comment for why auto-merge isn't wired up yet.")
+
+	git checkout main
+	git branch -D "$BRANCH"
+	DIGEST_STATUS="PR opened: ${PR_URL}"
+	echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, needs manual merge"
+else
+	echo "$LOG_PREFIX no changes to commit for ${WEEK_ID}"
 fi
 
-BRANCH="weekly-digest-${WEEK_ID}"
-# -B, not -b: a same-week retry after a transient push/PR failure must not
-# die on "branch already exists" in this persistent clone.
-git checkout -B "$BRANCH"
-git commit -m "chore(weekly): digest for ${WEEK_ID}"
-git push -u origin "$BRANCH"
+# ---- Stage 2: abhijitbansal profile-README telemetry refresh ----
+# Same dedicated-clone, hard-reset pattern as this repo, in its own sibling
+# checkout (~/projects/abhijitbansal-weekly) — the profile repo's working
+# checkout is never touched by automation, same rationale as this repo's
+# own header comment. Reads THIS run's freshly-generated data/stats.json as
+# its source of truth, so it always reflects the same numbers as the digest
+# above. Runs after the foundry digest is fully committed/pushed so a
+# failure here never rolls back or blocks the foundry side.
+AB_STATUS="skipped"
+AB_DIR="$HOME/projects/abhijitbansal-weekly"
+AB_URL="git@github.com:abhijitbansal/abhijitbansal.git"
+if [[ ! -d "$AB_DIR/.git" ]]; then
+	echo "$LOG_PREFIX abhijitbansal automation clone missing — cloning $AB_URL to $AB_DIR"
+	git clone "$AB_URL" "$AB_DIR" || true
+fi
+if [[ -d "$AB_DIR/.git" ]]; then
+	# set +e around the capture: a `$(...)` used as the tested element of an
+	# `&&`/`||` list suppresses `set -e` for everything evaluated to produce
+	# it, INCLUDING inside the subshell — a failure anywhere in this block
+	# (a bad push, a crashing generator) would otherwise fall through
+	# silently to the final `echo "updated"` and get reported as success by
+	# both notification channels below. Capturing $? directly, outside any
+	# &&/|| context, is the only reliable way to see a real failure here.
+	# Every command except the final status echo is redirected to stderr
+	# (outside this capture) so its stdout can't leak into AB_STATUS and
+	# corrupt the notification strings.
+	set +e
+	AB_RESULT=$(
+		set -e
+		cd "$AB_DIR"
+		git fetch origin >&2
+		git checkout -f main >&2
+		git reset --hard origin/main >&2
+		node scripts/generate-telemetry.mjs --stats "$REPO_DIR/data/stats.json" >&2
+		node scripts/build.mjs >&2
+		git add data/telemetry.json assets/
+		if git diff --cached --quiet; then
+			echo "no changes"
+			exit 0
+		fi
+		git commit -m "chore(telemetry): refresh from foundry stats, $(date -u +%Y-%m-%d)" >&2
+		git push origin main >&2
+		echo "updated"
+	)
+	AB_EXIT=$?
+	set -e
+	if [[ $AB_EXIT -eq 0 ]]; then
+		AB_STATUS="$AB_RESULT"
+	else
+		AB_STATUS="FAILED (exit ${AB_EXIT}) — check $LOG_PREFIX above"
+	fi
+	echo "$LOG_PREFIX abhijitbansal: ${AB_STATUS}"
+else
+	AB_STATUS="FAILED — clone missing"
+fi
 
-gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Needs a manual merge — see this script's header comment for why auto-merge isn't wired up yet."
+# ---- Stage 3: notify ----
+# `claude -p` here is a second, separate headless call from the
+# weekly-highlights one above — narrowly scoped to reporting status, not
+# touching any files. PushNotification is assistant-side; whether it
+# actually reaches a device from an unattended launchd context (no active
+# terminal, no guaranteed Remote Control link) isn't guaranteed the way it
+# is in an interactive session, so `osascript` is a same-machine fallback
+# that doesn't depend on it.
+claude -p "Call the PushNotification tool once, status proactive, message: 'Foundry weekly ${WEEK_ID}: ${DIGEST_STATUS}. abhijitbansal telemetry: ${AB_STATUS}.' Do nothing else." \
+	|| echo "$LOG_PREFIX PushNotification call failed or was skipped — not fatal"
+osascript -e "display notification \"${DIGEST_STATUS} · abhijitbansal: ${AB_STATUS}\" with title \"Foundry weekly ${WEEK_ID}\"" \
+	|| echo "$LOG_PREFIX osascript notification failed — not fatal (e.g. no GUI session)"
 
-git checkout main
-git branch -D "$BRANCH"
-echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, needs manual merge"
+echo "$LOG_PREFIX done — digest: ${DIGEST_STATUS} — abhijitbansal: ${AB_STATUS}"
