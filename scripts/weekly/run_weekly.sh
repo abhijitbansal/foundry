@@ -31,9 +31,19 @@
 # plist's StartCalendarInterval guarantees for the real cron); a manual
 # same-week backfill run on any other weekday needs this override, or it
 # silently re-targets last week.
+#
+# Optional DRY_RUN=true env var: runs every stage for real (parse, weekly
+# digest, highlight pass, build, test, telemetry generation) but skips
+# every git-mutating step (commit/push/PR/merge in both repos) and prefixes
+# the notification with "[DRY RUN]" instead. Local files still get written
+# (data/stats.json etc in the automation clones) since that's how you see
+# what a real run WOULD have produced — `git diff` in either clone
+# afterward shows exactly what a real run would have pushed. Usage:
+# `DRY_RUN=true ./scripts/weekly/run_weekly.sh [week-id]`
 set -euo pipefail
 
 WEEK_OVERRIDE="${1:-}"
+DRY_RUN="${DRY_RUN:-false}"
 
 # Runs from a dedicated automation clone, NOT the working checkout — same
 # pattern as sift's ~/projects/sift-publish. The working repo can be mid-
@@ -44,13 +54,27 @@ REPO_DIR="$HOME/projects/foundry-weekly"
 REPO_URL="git@github.com:abhijitbansal/foundry.git"
 LOG_PREFIX="[foundry-weekly $(date -u +%Y-%m-%dT%H:%M:%SZ)]"
 
+# Persistent per-run log, OUTSIDE any git-tracked directory (both automation
+# clones get hard-reset every run, which would otherwise wipe or churn a
+# log file living inside them). `tee` mirrors everything below to both the
+# console (still captured by the plist's StandardOut/ErrorPath) and this
+# timestamped file, so a failure at 9am Monday has a specific file to open
+# instead of only the plist's single overwritten-in-place out/err logs.
+# Retains the last 20 runs; an ERR trap below logs the exact failing line.
+LOG_DIR="$HOME/projects/foundry-weekly-logs"
+mkdir -p "$LOG_DIR"
+RUN_LOG="$LOG_DIR/run-$(date -u +%Y%m%dT%H%M%SZ)$([[ "$DRY_RUN" == "true" ]] && echo "-dryrun").log"
+exec > >(tee -a "$RUN_LOG") 2>&1
+ls -1t "$LOG_DIR"/run-*.log 2>/dev/null | tail -n +21 | xargs -r rm -f
+trap 'echo "$LOG_PREFIX ERROR: command failed, exit $? at line $LINENO — see the output just above for what actually failed. Full log: $RUN_LOG"' ERR
+
 if [[ ! -d "$REPO_DIR/.git" ]]; then
 	echo "$LOG_PREFIX automation clone missing — cloning $REPO_URL to $REPO_DIR"
 	git clone "$REPO_URL" "$REPO_DIR"
 fi
 
 cd "$REPO_DIR"
-echo "$LOG_PREFIX starting in $REPO_DIR"
+echo "$LOG_PREFIX starting in $REPO_DIR (log: $RUN_LOG, dry_run: $DRY_RUN)"
 
 # Self-heal, don't just pull: a failed previous run leaves modified tracked
 # files (stats.json/stats-archive.json) and possibly a stale digest branch
@@ -109,21 +133,28 @@ npm test
 DIGEST_STATUS="no changes"
 git add data/stats.json data/stats-archive.json data/weekly/
 if ! git diff --cached --quiet; then
-	BRANCH="weekly-digest-${WEEK_ID}"
-	# -B, not -b: a same-week retry after a transient push/PR failure must not
-	# die on "branch already exists" in this persistent clone.
-	git checkout -B "$BRANCH"
-	git commit -m "chore(weekly): digest for ${WEEK_ID}"
-	git push -u origin "$BRANCH"
+	CHANGED_SUMMARY=$(git diff --cached --stat | tail -1)
+	if [[ "$DRY_RUN" == "true" ]]; then
+		echo "$LOG_PREFIX [DRY RUN] would commit digest for ${WEEK_ID} (${CHANGED_SUMMARY}), push weekly-digest-${WEEK_ID}, open a PR, queue auto-merge"
+		git reset >&2
+		DIGEST_STATUS="[DRY RUN] would open PR for ${WEEK_ID} (${CHANGED_SUMMARY})"
+	else
+		BRANCH="weekly-digest-${WEEK_ID}"
+		# -B, not -b: a same-week retry after a transient push/PR failure must not
+		# die on "branch already exists" in this persistent clone.
+		git checkout -B "$BRANCH"
+		git commit -m "chore(weekly): digest for ${WEEK_ID}"
+		git push -u origin "$BRANCH"
 
-	PR_URL=$(gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Auto-merges once the required \`build-and-test\` check passes (branch protection on main gates this — not a bare bypass).")
-	gh pr merge "$BRANCH" --auto --merge \
-		|| echo "$LOG_PREFIX gh pr merge --auto failed to queue — PR is still open, needs a manual merge"
+		PR_URL=$(gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Auto-merges once the required \`build-and-test\` check passes (branch protection on main gates this — not a bare bypass).")
+		gh pr merge "$BRANCH" --auto --merge \
+			|| echo "$LOG_PREFIX gh pr merge --auto failed to queue — PR is still open, needs a manual merge"
 
-	git checkout main
-	git branch -D "$BRANCH"
-	DIGEST_STATUS="PR opened (auto-merge queued): ${PR_URL}"
-	echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, auto-merge queued pending build-and-test"
+		git checkout main
+		git branch -D "$BRANCH"
+		DIGEST_STATUS="PR opened (auto-merge queued): ${PR_URL}"
+		echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, auto-merge queued pending build-and-test"
+	fi
 else
 	echo "$LOG_PREFIX no changes to commit for ${WEEK_ID}"
 fi
@@ -168,6 +199,12 @@ if [[ -d "$AB_DIR/.git" ]]; then
 			echo "no changes"
 			exit 0
 		fi
+		if [[ "$DRY_RUN" == "true" ]]; then
+			echo "[DRY RUN] would commit + push telemetry refresh: $(git diff --cached --stat | tail -1)" >&2
+			git reset >&2
+			echo "[DRY RUN] would update"
+			exit 0
+		fi
 		git commit -m "chore(telemetry): refresh from foundry stats, $(date -u +%Y-%m-%d)" >&2
 		git push origin main >&2
 		echo "updated"
@@ -192,9 +229,10 @@ fi
 # terminal, no guaranteed Remote Control link) isn't guaranteed the way it
 # is in an interactive session, so `osascript` is a same-machine fallback
 # that doesn't depend on it.
-claude -p "Call the PushNotification tool once, status proactive, message: 'Foundry weekly ${WEEK_ID}: ${DIGEST_STATUS}. abhijitbansal telemetry: ${AB_STATUS}.' Do nothing else." \
+NOTIFY_PREFIX=$([[ "$DRY_RUN" == "true" ]] && echo "[DRY RUN] " || echo "")
+claude -p "Call the PushNotification tool once, status proactive, message: '${NOTIFY_PREFIX}Foundry weekly ${WEEK_ID}: ${DIGEST_STATUS}. abhijitbansal telemetry: ${AB_STATUS}.' Do nothing else." \
 	|| echo "$LOG_PREFIX PushNotification call failed or was skipped — not fatal"
-osascript -e "display notification \"${DIGEST_STATUS} · abhijitbansal: ${AB_STATUS}\" with title \"Foundry weekly ${WEEK_ID}\"" \
+osascript -e "display notification \"${DIGEST_STATUS} · abhijitbansal: ${AB_STATUS}\" with title \"${NOTIFY_PREFIX}Foundry weekly ${WEEK_ID}\"" \
 	|| echo "$LOG_PREFIX osascript notification failed — not fatal (e.g. no GUI session)"
 
 rm -f "$STATS_SNAPSHOT"
