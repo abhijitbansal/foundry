@@ -36,7 +36,7 @@ across a failed prior run.
 | 2 | `scripts/stats/weekly_stats.py [week-id]` | Writes `data/weekly/<YYYY>-W<WW>.json` — one **week's** digest (Mon–Sun): per-repo rollup, a 7×24 message-heatmap, PR-merge/release counts via `gh`. Targets the most recently *completed* week by default; an explicit week id (e.g. `2026-W28`) overrides that, for backfilling a week when the job isn't run on an actual Monday — see the script's own header comment for the exact math and why the auto-detect only works when run on a Monday. |
 | 3 | `.claude/agents/weekly-highlights.md`, via a headless `claude -p "Use the weekly-highlights subagent…"` | Fills that week's `highlights` field with 1–3 sentences of prose. **Deterministic input, paraphrase-only output**: the subagent's hard rule is it may not write any number, name, or claim that isn't already in the JSON `weekly_stats.py` just wrote (or `PROJECTS.md`, for a one-line repo description). If this call fails, the digest still ships with `highlights: null` — not fatal. |
 | 4 | `npm ci && npm run build && npm test` | Sanity gate before anything gets committed. |
-| 5 | Commit `data/stats.json`, `data/stats-archive.json`, `data/weekly/` → push `weekly-digest-<week>` → `gh pr create` | **Never a direct commit to `main`.** No auto-merge either (no branch protection configured yet to give it a real gate) — this step only opens the PR; a human merges it. |
+| 5 | Commit `data/stats.json`, `data/stats-archive.json`, `data/weekly/` → push `weekly-digest-<week>` → `gh pr create` → `gh pr merge --auto` | **Never a direct commit to `main`.** Auto-merges once the required `build-and-test` check (`.github/workflows/ci.yml`) passes — branch protection on `main` gates this, so it's a real check, not a bare bypass. That check runs the same `npm run build` this stage already ran locally, which matters: the homepage's "Works" yard visualization (`src/lib/works.ts`) has a hand-tuned per-repo layout table (`src/lib/works-layout.ts`) and throws a build error if `data/stats.json` ever gains a repo with no layout slot. A week where a genuinely new repo starts showing real activity fails that check, never auto-merges, and needs a human to add the repo to `YARD` before the PR can go through — every other path (the `/updates` weekly list, the weekly "Works" strip, all headline numbers) is fully dynamic and needs no manual step. |
 
 ## Stage 2 — abhijitbansal profile-README telemetry
 
@@ -93,13 +93,19 @@ telemetry is produced by fully deterministic local computation
 (`parse_sessions.py`, `weekly_stats.py`, `generate-telemetry.mjs`) plus plain
 `gh` CLI calls — no model call touches a number, only prose.
 
-## What still needs a human every week
+## What still needs a human
 
-- **The foundry weekly-digest PR** — opened, never merged automatically.
+The whole pipeline is unattended by design, including the foundry weekly-digest PR
+(auto-merges once `build-and-test` passes). Two things still surface as manual work,
+both as a **blocked PR / build failure**, never a silent bad merge:
+
+- **A new entry in `src/lib/works-layout.ts`'s `YARD` table**, if a repo shows real
+  activity in `data/stats.json` for the first time — the homepage build throws until
+  someone adds that repo's layout slot, so `build-and-test` fails and the digest PR
+  simply doesn't auto-merge until it's fixed.
 - **A new entry in `DISCLOSED_REPOS`**, if `generate-telemetry.mjs` logs a warning
-  that a repo crossed into real activity and isn't disclosed yet.
-- Everything else — `abhijitbansal`'s telemetry push, the notification — is
-  unattended by design.
+  that a repo crossed into real activity and isn't disclosed yet on the profile
+  README — it stays out of that chart until someone deliberately adds it.
 
 ## Known limitations (see `weekly_stats.py`'s own header for the full detail)
 
