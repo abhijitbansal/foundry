@@ -63,7 +63,7 @@ LOG_PREFIX="[foundry-weekly $(date -u +%Y-%m-%dT%H:%M:%SZ)]"
 # Retains the last 20 runs; an ERR trap below logs the exact failing line.
 LOG_DIR="$HOME/projects/foundry-weekly-logs"
 mkdir -p "$LOG_DIR"
-RUN_LOG="$LOG_DIR/run-$(date -u +%Y%m%dT%H%M%SZ)$([[ "$DRY_RUN" == "true" ]] && echo "-dryrun").log"
+RUN_LOG="$LOG_DIR/run-$(date -u +%Y%m%dT%H%M%SZ)$(if [[ "$DRY_RUN" == "true" ]]; then echo "-dryrun"; fi).log"
 exec > >(tee -a "$RUN_LOG") 2>&1
 ls -1t "$LOG_DIR"/run-*.log(N) 2>/dev/null | tail -n +21 | xargs -r rm -f
 trap 'echo "$LOG_PREFIX ERROR: command failed, exit $? at line $LINENO — see the output just above for what actually failed. Full log: $RUN_LOG"' ERR
