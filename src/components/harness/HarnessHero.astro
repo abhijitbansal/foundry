@@ -1,0 +1,48 @@
+---
+// HarnessHero.astro — id harness-top. Kicker/h1/lead/CTAs + the "audited by
+// its own machinery" score card, then the Hall SVG figure with its
+// figcaption legend. Copy verbatim from design_handoff_harness's dc.html
+// lines ~100-134 — the two internal anchors are re-prefixed to harness-*
+// per AGENTS.md decisions (no other line here changes): #routing ->
+// #harness-routing (Walk the line CTA), #score -> #harness-score (score
+// card link). Padding/scroll-margin also follow those decisions: hero uses
+// updates.astro's top-of-page rhythm, not the reference's fixed-header 150px.
+import { buildHall } from '../../lib/harness-svg';
+---
+
+<section id="harness-top" data-screen-label="Hero — machine hall" style="position:relative;padding:clamp(120px,12vw,160px) 0 clamp(64px,9vw,110px);scroll-margin-top:72px;overflow:hidden">
+	<div aria-hidden="true" style="position:absolute;inset:0;z-index:0;background:radial-gradient(1000px 480px at 78% 10%, color-mix(in srgb, var(--ds-accent) 10%, transparent), transparent 66%)"></div>
+	<div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px);box-sizing:border-box;display:flex;flex-direction:column;gap:36px">
+		<div style="display:flex;flex-wrap:wrap;gap:32px 48px;align-items:flex-end;justify-content:space-between">
+			<div style="max-width:640px;display:flex;flex-direction:column;gap:20px">
+				<p class="ds-kicker" style="margin:0">Claude Code · the machinery around the model</p>
+				<h1 class="ds-display-xl" style="margin:0;text-wrap:balance">The harness that runs <em style="color:var(--ds-accent);font-style:normal">this</em> foundry.</h1>
+				<p class="ds-lead" style="margin:0;max-width:54ch;text-wrap:pretty">The model does the reasoning. Everything else — hooks, guards, routing rules, recorders — decides what it may do, how work gets dispatched, and what survives the session. Drawn below as the machine hall it behaves like.</p>
+				<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:4px">
+					<a class="ds-btn" href="#harness-routing">Walk the line ↓</a>
+					<a class="ds-btn-quiet" href="mailto:contact@abhijitbansal.com?subject=Harness%20feedback">Tell me what's wrong ↗</a>
+				</div>
+			</div>
+			<div style="display:flex;flex-direction:column;gap:10px;border:1px solid var(--ds-line);border-radius:var(--ds-radius-md);padding:18px 20px;background:var(--ds-surface);min-width:230px">
+				<span class="ds-micro" style="color:var(--ds-text-3)">Audited by its own machinery</span>
+				<div style="display:flex;align-items:baseline;gap:10px">
+					<span class="ds-display-md" style="line-height:1">79<span style="color:var(--ds-text-3);font-size:0.55em"> / 100</span></span>
+					<span class="ds-micro" style="color:var(--ds-secondary)">↑ from 73</span>
+				</div>
+				<span class="ds-caption" style="color:var(--ds-text-3);max-width:26ch;text-wrap:pretty">Independent adversarial re-score, not self-asserted. Honest gaps below — <a href="#harness-score" style="color:var(--ds-accent);text-decoration:none">see what's still weak</a>.</span>
+			</div>
+		</div>
+		<figure style="margin:0;border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);background:var(--ds-surface);padding:clamp(10px,2vw,22px)">
+			<Fragment set:html={buildHall(true)} />
+			<figcaption class="ds-caption" style="color:var(--ds-text-3);padding:12px 8px 2px;display:flex;gap:8px 22px;flex-wrap:wrap">
+				<span><span style="color:var(--ds-accent-hover)">intake</span> the ask</span>
+				<span><span style="color:var(--ds-accent-hover)">guards</span> deny the catastrophic</span>
+				<span><span style="color:var(--ds-accent-hover)">routing</span> mode · tier · effort</span>
+				<span><span style="color:var(--ds-accent-hover)">furnaces</span> fable/opus · sonnet · haiku</span>
+				<span><span style="color:var(--ds-accent-hover)">casting</span> commits</span>
+				<span><span style="color:var(--ds-accent-hover)">records</span> session logs</span>
+				<span><span style="color:var(--ds-accent-hover)">return pipe</span> lessons become rules</span>
+			</figcaption>
+		</figure>
+	</div>
+</section>

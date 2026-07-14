@@ -1,0 +1,34 @@
+---
+// HarnessTracker.astro — id harness-tracker, "03 · The ledger — shipped this
+// week". Kicker/h2/lead/rule, the Tracker SVG figure, then the
+// Capture/Resolve/Learn 3-column grid, verbatim from dc.html lines ~186-212.
+import { buildTracker } from '../../lib/harness-svg';
+---
+
+<section id="harness-tracker" data-screen-label="03 Dev-tracker" style="scroll-margin-top:72px">
+	<div style="max-width:1200px;margin:0 auto;padding:clamp(64px,9vw,110px) clamp(20px,5vw,56px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:26px">
+		<div>
+			<p class="ds-kicker" style="margin:0 0 12px">03 · The ledger — shipped this week</p>
+			<h2 class="ds-display-lg" style="margin:0">Two loops, opposite cost profiles.</h2>
+			<p class="ds-lead" style="margin:14px 0 0;max-width:62ch;text-wrap:pretty">Six new slash commands turn "found a bug" into a committed ledger row in seconds — and keep all research out of capture. Resolution is the expensive loop, run with full wave ceremony. The rows below are the real backlog, logged from one device pass.</p>
+			<hr class="ds-rule" style="margin-top:16px" />
+		</div>
+		<article style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:clamp(14px,2.4vw,26px)">
+			<Fragment set:html={buildTracker()} />
+		</article>
+		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr));gap:14px">
+			<div style="border-top:1px solid var(--ds-line);padding-top:16px;display:flex;flex-direction:column;gap:8px">
+				<span class="ds-micro" style="color:var(--ds-accent-hover)">Capture — chore tier, no research</span>
+				<p class="ds-body-sm" style="margin:0;color:var(--ds-text-2);text-wrap:pretty"><code class="ds-code">/issue</code> <code class="ds-code">/feature</code> <code class="ds-code">/task</code> — dedup against the ledger, assign an ID, append, commit. A screenshot token grabs the live simulator frame. Reporting a bug never turns into an uninvited debugging session.</p>
+			</div>
+			<div style="border-top:1px solid var(--ds-line);padding-top:16px;display:flex;flex-direction:column;gap:8px">
+				<span class="ds-micro" style="color:var(--ds-accent-hover)">Resolve — full ceremony</span>
+				<p class="ds-body-sm" style="margin:0;color:var(--ds-text-2);text-wrap:pretty"><code class="ds-code">/fix BUG-004</code> groups a wave, recommends a <code class="ds-code">/goal</code>, authors a plan at planner tier, then <em>stops for approval</em>. Only after the yes: TDD, per-phase review, gates, device-verify, archive.</p>
+			</div>
+			<div style="border-top:1px solid var(--ds-line);padding-top:16px;display:flex;flex-direction:column;gap:8px">
+				<span class="ds-micro" style="color:var(--ds-accent-hover)">Learn — suggest-only</span>
+				<p class="ds-body-sm" style="margin:0;color:var(--ds-text-2);text-wrap:pretty"><code class="ds-code">/tracker-learn</code> mines items that took ≥2 attempts and asks why. It emits a prose report naming a target — a skill, an AGENTS.md amendment, a hook — and drafts nothing. The user decides what becomes machinery.</p>
+			</div>
+		</div>
+	</div>
+</section>

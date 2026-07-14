@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
 
 // https://astro.build/config
 export default defineConfig({
@@ -8,5 +9,7 @@ export default defineConfig({
 	// settings) — site now serves at the domain root, no /foundry/ subpath.
 	site: 'https://abhijitbansal.com',
 	base: '/',
-	integrations: [sitemap()],
+	// react() scoped to the harness page's Switchyard island — every other
+	// component on the site is plain Astro/TS, no client framework.
+	integrations: [sitemap(), react()],
 });

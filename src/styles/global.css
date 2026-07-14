@@ -263,3 +263,31 @@ html[data-theme="light"] .ds-btn:hover {
   --fyw-furnace-glow-op: 0.3 !important;
   --fyw-furnace-glow-r: 15px !important;
 }
+
+/* harness figures — fyh-* animation classes, see src/lib/harness-svg*.ts and
+   RoutingCard.tsx. Copied verbatim from design_handoff_harness's <style>
+   block — do not alter timings. */
+@keyframes fyh-flow {
+  to { stroke-dashoffset: -26; }
+}
+.fyh-flow {
+  animation: fyh-flow 1.7s linear infinite;
+}
+@keyframes fyh-smoke {
+  0% { transform: translateY(0) scale(0.85); opacity: 0; }
+  14% { opacity: 0.5; }
+  100% { transform: translateY(-44px) scale(1.45); opacity: 0; }
+}
+.fyh-smoke {
+  animation: fyh-smoke 5.2s ease-out infinite;
+}
+@keyframes fyh-glow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+}
+.fyh-glow {
+  animation: fyh-glow 3.4s var(--ds-ease-standard) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fyh-flow, .fyh-smoke, .fyh-glow { animation: none; }
+}

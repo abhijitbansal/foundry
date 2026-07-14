@@ -1,0 +1,30 @@
+---
+// HarnessFooterCTA.astro — the in-page "Open workshop" closing CTA, distinct
+// from the site's real global Footer.astro (which still renders below this,
+// per harness.astro). Verbatim from dc.html lines ~400-419, with one
+// deliberate correction: the reference's LinkedIn href is missing a hyphen
+// (a mockup typo) — corrected here to match the real handle already used by
+// About.astro/Footer.astro (abhijit-bansal), since a broken link on a
+// "compare notes" CTA would defeat the section's purpose.
+---
+
+<section data-screen-label="Footer CTA" style="margin-top:clamp(64px,9vw,110px);border-top:1px solid var(--ds-line)">
+	<div style="max-width:1200px;margin:0 auto;padding:clamp(48px,7vw,80px) clamp(20px,5vw,56px) 90px;box-sizing:border-box;display:flex;flex-direction:column;gap:22px">
+		<div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:28px;align-items:flex-end">
+			<div style="max-width:600px;display:flex;flex-direction:column;gap:14px">
+				<p class="ds-kicker" style="margin:0">Open workshop</p>
+				<h2 class="ds-display-md" style="margin:0;text-wrap:balance">Steal what's useful. Tell me what's wrong.</h2>
+				<p class="ds-body" style="margin:0;color:var(--ds-text-2);max-width:52ch;text-wrap:pretty">This is a working setup, not a finished product — the audit above is the proof it isn't done. If you run a harness of your own, I'd genuinely like to compare notes.</p>
+			</div>
+			<div style="display:flex;gap:12px;flex-wrap:wrap">
+				<a class="ds-btn" href="mailto:contact@abhijitbansal.com?subject=Harness%20feedback">Mail feedback ↗</a>
+				<a class="ds-btn-quiet" href="https://www.linkedin.com/in/abhijit-bansal" target="_blank" rel="noopener">LinkedIn ↗</a>
+			</div>
+		</div>
+		<hr class="ds-rule" style="margin:10px 0 0" />
+		<div style="display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap">
+			<span class="ds-micro" style="color:var(--ds-text-faint)">Foundry · Abhijit Bansal · exploration 05 — the harness</span>
+			<span class="ds-micro" style="color:var(--ds-text-faint)">figures drawn from the live config · 2026-07-13</span>
+		</div>
+	</div>
+</section>

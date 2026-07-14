@@ -1,0 +1,19 @@
+---
+// HarnessRouting.astro — id harness-routing, "01 · The switchyard". Wraps
+// RoutingCard.tsx (the interactive scenario picker) with the kicker/h2/lead/
+// rule heading block. RoutingCard already renders its own trailing "the rule
+// underneath" caption (RoutingCard.tsx lines ~376-378) — do not repeat it here.
+import RoutingCard from './RoutingCard.tsx';
+---
+
+<section id="harness-routing" data-screen-label="01 Routing switchyard" style="scroll-margin-top:72px">
+	<div style="max-width:1200px;margin:0 auto;padding:clamp(64px,9vw,110px) clamp(20px,5vw,56px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:26px">
+		<div>
+			<p class="ds-kicker" style="margin:0 0 12px">01 · The switchyard</p>
+			<h2 class="ds-display-lg" style="margin:0">Same yard, different trains.</h2>
+			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">Every task is routed twice: an orchestration mode picks the <em>shape</em> of the work, then each dispatch sets two knobs — model tier and reasoning effort. Pick a scenario; watch the line light up.</p>
+			<hr class="ds-rule" style="margin-top:16px" />
+		</div>
+		<RoutingCard client:visible />
+	</div>
+</section>
