@@ -53,3 +53,25 @@
 **Resume pointer:** Branch `feat/harness-showcase-page`, 2 commits, not yet pushed. Ready for PR — no open decisions remain.
 
 **Models:** Sonnet 5 (executor, this session) for planning, implementation, and fixes; two parallel Sonnet dispatches for the mechanical SVG/React ports; workflow-backed code review ran its own agent fleet (13 agents) at high effort.
+
+### Phase 5 — Docs sync + user-driven visual fixes
+
+**Achieved:**
+- Docs sync: rewrote `README.md`'s "Current state" (was still "scaffold only, not built yet") and expanded its repo map; amended `AGENTS.md`'s Stack/Deploy rows from "TBD" to their actual locked values, folding in the two scoped exceptions already recorded in Phase 4.
+- Five user-reported visual fixes against screenshots of the live page, routed through advisor before implementation:
+  - **CTA copy** — hero button `Tell me what's wrong ↗` → `Tell me what to sharpen ↗` (footer headline left as-is, no clash).
+  - **Contrast** — the small SVG captions across all five figures measured ~2:1–4.3:1 against the surface (WCAG AA needs 4.5:1), both themes. Added two new tokens to `harness-svg-primitives.ts`'s `C` map — `capSoft`/`capFaint`, each `color-mix()`ing further toward `--ds-text` — and routed every `Tx()` text fill through them, while leaving `inkSoft`/`inkFaint`'s decorative-stroke uses (smoke, leader lines, hairline ticks) untouched. One shared fix, not five per-figure ones; verified ~7.6:1/4.5:1 dark and ~9.2:1 light by hand before touching code.
+  - **Advisor pattern missing from the switchyard** — the 'team' scenario was sonnet+sonnet and depicted nothing like this session's own `advisor()` usage (Sonnet 5 executor, Opus advisor). Added a sixth scenario, `advisor`, to `RoutingCard.tsx`'s `SCN`/`DEFS`: a sonnet drop to the executor furnace plus a dashed "advisor() call" drop to the planner furnace, with caption copy citing this exact page as the example.
+  - **No fullscreen** — added `src/lib/harness-fullscreen.ts` + overlay markup/CSS: a `position:fixed` CSS overlay (not `Element.requestFullscreen`, which iOS Safari has historically not supported for non-`<video>` elements) that *moves* each `[data-harness-figure]` DOM node into the overlay and back via a comment placeholder, rather than cloning — this is what lets the Switchyard's live React island survive the trip. A tab strip lets any of the 5 figures be selected without closing the overlay. Esc/backdrop-click/close-button all close and restore focus to the trigger.
+  - **Mobile legibility** — in fullscreen, figures render at a forced `1100px` SVG width inside an `overflow:auto` stage; `BaseLayout`'s viewport meta has no `maximum-scale`, so native pinch-zoom already worked, this just gives it something worth zooming into instead of a shrunk-to-fit figure.
+- Verified: `npm run build` green; browser pass (dark + light, desktop + real mobile viewport via chrome-devtools MCP emulation) — contrast fix confirmed visually in both themes, advisor scenario renders both drops correctly, fullscreen tab-switching and Esc-restore both work, Switchyard's pills stay interactive after being moved into the overlay, no console errors.
+
+**Decisions:**
+- Font sizes in the five figures were deliberately **not** bumped — geometry is collision-tuned per this file's own header comment ("do not re-layout"), and several captions sit inside fixed-width chips/rects where a larger font risks overflow/collision. Contrast alone closed the measured gap (2–4.3:1 → 4.5–9.2:1); the fullscreen feature's forced-width stage is the actual answer to small-on-mobile, so the two problems were split across two fixes instead of stacking risk on font-size.
+- `capSoft`/`capFaint` are new tokens, not a remap of `inkSoft`/`inkFaint` — those two also paint non-text strokes (smoke wisps, leader lines, hairline ticks) that should stay faint; remapping the alias would have brightened decoration nobody complained about.
+
+**Follow-ups:** none open.
+
+**Resume pointer:** Branch `feat/harness-showcase-page`, folds into PR #18. Working tree clean after this phase's commit — no open decisions remain.
+
+**Models:** Sonnet 5 (executor) throughout Phase 5; Opus advisor consulted once before implementation (confirmed the contrast diagnosis, the advisor-pattern gap, and flagged the iOS `requestFullscreen` and React-island-move risks ahead of time — see Achieved above for how each was resolved).
