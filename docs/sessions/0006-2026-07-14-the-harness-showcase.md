@@ -40,17 +40,16 @@
   - **Reuse**: `RoutingCard.tsx` had its own copy of the `C` design-token map (15 keys) that had already drifted from `harness-svg-primitives.ts`'s copy (21 keys, missing `plate`/`plateEdge`/`shade`/`winOff`/`danger`/`serif`) — now imports `C`/`HAIR`/`Point` from the primitives module instead of redefining them.
   - **Process**: this session log itself (was missing before this fix).
   - **Process**: amended `AGENTS.md`'s Stack decision row to record the scoped React exception approved this session (see Decisions below), since the row was still formally "TBD."
-- **Left unresolved, flagged to the user**: two CONFIRMED findings that the harness page's Paper section (and the `harness-hatch.ts` easter egg) publish verbatim internals of Cubby — a private repo — including its exact file size, internal doc structure, and quoted policy text with incident references. This directly matches `AGENTS.md`'s "never code, secrets, or repo internals" rule for private-project content, but is also the entire premise of the page as specified in the approved design handoff (a public case-study of Cubby's harness). This is exactly the "reviewed before publish" checkpoint the rule calls for — not a call to make unilaterally.
+- **Flagged to the user, not fixed unilaterally**: two CONFIRMED findings that the harness page's Paper section (and the `harness-hatch.ts` easter egg) publish verbatim internals of Cubby — a private repo — including its exact file size, internal doc structure, and quoted policy text with incident references. This directly matches `AGENTS.md`'s "never code, secrets, or repo internals" rule for private-project content, but is also the entire premise of the page as specified in the approved design handoff (a public case-study of Cubby's harness). Presented to the user as this session's "reviewed before publish" checkpoint — **user explicitly approved publishing as-is**, treating the design phase's own curation as the intended review. No content change made.
 
 **Decisions:**
 - **Stack (amends the still-open row in AGENTS.md):** React + `@astrojs/react` are now a real dependency, but scoped — the site's default remains dependency-free Astro/TS (see `works.ts`/`works-svg.ts`, and this session's own four static figures). React is justified only for genuinely stateful, non-trivial client interactivity where hand-rolled vanilla JS would cost more than it's worth; the general "Stack: TBD" question for the site as a whole remains open.
 - Design-handoff source material lives under `docs/design/handoff/<name>/`, not a bare `design_handoff_<name>/` at repo root — confirmed as a repo-wide convention (this session relocated `design_handoff_harness/` to match `the-works/`'s existing precedent from session 0005).
+- Cubby private-repo content on the harness page is intentional and user-approved (see above) — not a leak to be cleaned up in a future session.
 
 **Follow-ups:**
-- Cubby private-repo content question (see Phase 4) needs the user's explicit call before this branch merges.
 - Manual-test checklist items are still open — see `.scratch/feat-harness-showcase-page-test-checklist.html`.
-- PR not yet opened — pending the Cubby-content decision.
 
-**Resume pointer:** Branch `feat/harness-showcase-page`, 1 commit + pending fixup changes, not yet pushed. Waiting on the user's decision about the two Cubby-content findings before amending the commit/opening a PR.
+**Resume pointer:** Branch `feat/harness-showcase-page`, 2 commits, not yet pushed. Ready for PR — no open decisions remain.
 
 **Models:** Sonnet 5 (executor, this session) for planning, implementation, and fixes; two parallel Sonnet dispatches for the mechanical SVG/React ports; workflow-backed code review ran its own agent fleet (13 agents) at high effort.
