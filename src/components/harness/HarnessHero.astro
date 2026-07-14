@@ -32,7 +32,7 @@ import { buildHall } from '../../lib/harness-svg';
 				<span class="ds-caption" style="color:var(--ds-text-3);max-width:26ch;text-wrap:pretty">Independent adversarial re-score, not self-asserted. Honest gaps below — <a href="#harness-score" style="color:var(--ds-accent);text-decoration:none">see what's still weak</a>.</span>
 			</div>
 		</div>
-		<figure style="margin:0;border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);background:var(--ds-surface);padding:clamp(10px,2vw,22px)">
+		<figure class="harness-figure" data-harness-figure="Hall" style="margin:0;border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);background:var(--ds-surface);padding:clamp(10px,2vw,22px);position:relative">
 			<Fragment set:html={buildHall(true)} />
 			<figcaption class="ds-caption" style="color:var(--ds-text-3);padding:12px 8px 2px;display:flex;gap:8px 22px;flex-wrap:wrap">
 				<span><span style="color:var(--ds-accent-hover)">intake</span> the ask</span>

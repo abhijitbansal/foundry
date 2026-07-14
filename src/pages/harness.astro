@@ -43,14 +43,23 @@ import { HARNESS_HELLO_AGENT_COMMENT } from '../lib/harness-hatch';
 		<HarnessFooterCTA />
 	</main>
 	<Footer />
+	<div id="harness-fs-overlay" hidden role="dialog" aria-modal="true" aria-label="Harness figure, fullscreen">
+		<div class="harness-fs-bar">
+			<div class="harness-fs-tabs" id="harness-fs-tabs"></div>
+			<button type="button" class="harness-fs-close" id="harness-fs-close">Close ✕</button>
+		</div>
+		<div class="harness-fs-stage" id="harness-fs-stage"></div>
+	</div>
 </BaseLayout>
 
 <script>
 	import { initReveals } from '../lib/reveal';
 	import { initTilt } from '../lib/tilt';
 	import { printServiceHatchBanner } from '../lib/harness-hatch';
+	import { initHarnessFullscreen } from '../lib/harness-fullscreen';
 
 	initReveals();
 	initTilt();
 	printServiceHatchBanner();
+	initHarnessFullscreen();
 </script>

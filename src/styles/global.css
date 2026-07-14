@@ -291,3 +291,103 @@ html[data-theme="light"] .ds-btn:hover {
 @media (prefers-reduced-motion: reduce) {
   .fyh-flow, .fyh-smoke, .fyh-glow { animation: none; }
 }
+
+/* harness figure fullscreen — see src/lib/harness-fullscreen.ts. The
+   trigger button is injected by that script (not markup here) onto every
+   [data-harness-figure] wrapper, which all set position:relative inline.
+   .harness-fs-active is applied to whichever figure DOM node the script has
+   relocated into #harness-fs-overlay; it forces the SVG past its normal
+   width:100% so mobile gets real pan/zoom instead of a shrunk-to-fit
+   figure — BaseLayout's viewport meta has no maximum-scale, so native
+   pinch-zoom already works, this just gives it something worth zooming. */
+.harness-fs-trigger {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--ds-radius-pill);
+  border: 1px solid var(--ds-line-strong);
+  background: color-mix(in srgb, var(--ds-surface) 88%, transparent);
+  color: var(--ds-text-3);
+  cursor: pointer;
+  transition: border-color var(--ds-duration-base) var(--ds-ease-standard), color var(--ds-duration-base) var(--ds-ease-standard);
+}
+.harness-fs-trigger:hover, .harness-fs-trigger:focus-visible {
+  border-color: var(--ds-accent);
+  color: var(--ds-accent);
+}
+/* Switchyard's wrapper starts at the scenario-pill row, not the card — push
+   the trigger above it so it doesn't sit on top of the pills. */
+[data-harness-figure="Switchyard"] > .harness-fs-trigger {
+  top: -42px;
+  right: 0;
+}
+#harness-fs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--ds-surface);
+}
+#harness-fs-overlay[hidden] { display: none; }
+.harness-fs-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px clamp(14px, 3vw, 24px);
+  border-bottom: 1px solid var(--ds-line);
+}
+.harness-fs-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.harness-fs-tab {
+  padding: 7px 14px;
+  border-radius: var(--ds-radius-pill);
+  border: 1px solid var(--ds-line-strong);
+  background: transparent;
+  color: var(--ds-text-3);
+  cursor: pointer;
+  font-family: var(--ds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.harness-fs-tab[aria-current="true"] {
+  border-color: var(--ds-accent);
+  color: var(--ds-accent);
+  background: color-mix(in srgb, var(--ds-accent) 14%, transparent);
+}
+.harness-fs-close {
+  padding: 7px 14px;
+  border-radius: var(--ds-radius-pill);
+  border: 1px solid var(--ds-line-strong);
+  background: transparent;
+  color: var(--ds-text-2);
+  cursor: pointer;
+}
+.harness-fs-close:hover, .harness-fs-close:focus-visible { border-color: var(--ds-accent); color: var(--ds-accent); }
+.harness-fs-stage {
+  flex: 1;
+  overflow: auto;
+  padding: clamp(16px, 3vw, 32px);
+  touch-action: pan-x pan-y pinch-zoom;
+}
+.harness-fs-active {
+  position: static !important;
+}
+.harness-fs-active .harness-fs-trigger { display: none; }
+.harness-fs-active svg {
+  width: 1100px !important;
+  max-width: none !important;
+  height: auto !important;
+}
