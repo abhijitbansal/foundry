@@ -13,6 +13,15 @@ export const C = {
 	inkStrong: 'var(--ds-text)',
 	inkSoft: 'var(--ds-text-3)',
 	inkFaint: 'var(--ds-text-faint)',
+	// capSoft/capFaint: text-only readability lift for small SVG captions.
+	// inkSoft/inkFaint measure ~2:1-4.3:1 against --ds-surface at these
+	// sizes (fails WCAG AA); blending toward --ds-text raises contrast in
+	// both themes since --ds-text is each theme's high-contrast extreme.
+	// Kept separate from inkSoft/inkFaint (not a remap) because those two
+	// also paint decorative strokes (smoke, leader lines, hairline ticks)
+	// that should stay faint.
+	capSoft: 'color-mix(in srgb, var(--ds-text) 45%, var(--ds-text-3) 55%)',
+	capFaint: 'color-mix(in srgb, var(--ds-text) 35%, var(--ds-text-faint) 65%)',
 	hair: 'var(--ds-line)',
 	hairS: 'var(--ds-line-strong)',
 	paper: 'var(--ds-surface)',
@@ -138,7 +147,7 @@ interface TxOpts {
 }
 
 export function Tx(opts: TxOpts): string {
-	const { x, y, t, size = 9, fill = C.inkSoft, w = 500, ls = '0.09em', anchor = 'start', font = C.mono, o, upper = true } = opts;
+	const { x, y, t, size = 9, fill = C.capSoft, w = 500, ls = '0.09em', anchor = 'start', font = C.mono, o, upper = true } = opts;
 	const style = `fill:${fill}${o !== undefined ? `;opacity:${o}` : ''};font-family:${font};font-size:${size}px;font-weight:${w};letter-spacing:${ls};text-transform:${upper ? 'uppercase' : 'none'}`;
 	return `<text x="${n(x)}" y="${n(y)}" text-anchor="${anchor}" style="${style}">${esc(t)}</text>`;
 }
@@ -255,7 +264,7 @@ export function leader(from: Point, to: Point, text: string | string[], opts: Le
 				y: to[1] + 3 + i * 12,
 				t,
 				size: i === 0 ? 9.5 : 8.5,
-				fill: i === 0 ? C.inkStrong : C.inkSoft,
+				fill: i === 0 ? C.inkStrong : C.capSoft,
 				w: i === 0 ? 600 : 500,
 				anchor: opts.anchor || 'start',
 			}),

@@ -218,6 +218,7 @@ export function buildHall(motion: boolean): string {
 /* ================= LIFECYCLE — the conveyor of hook events ================= */
 function hookChip(x: number, y: number, name: string, cls: string, note?: string): string {
 	const col = cls === 'hard' ? C.danger : cls === 'once' ? C.warn : cls === 'paused' ? C.inkFaint : C.inkSoft;
+	const textCol = cls === 'hard' ? C.danger : cls === 'once' ? C.warn : cls === 'paused' ? C.capFaint : C.capSoft;
 	const marker =
 		cls === 'hard'
 			? `<rect x="${x + 6}" y="${y + 5.5}" width="6" height="6" fill="${col}"/>`
@@ -225,8 +226,8 @@ function hookChip(x: number, y: number, name: string, cls: string, note?: string
 	return g([
 		`<rect x="${x}" y="${y}" width="178" height="17" rx="2.5" fill="${C.paper}" style="stroke:${C.hair}" stroke-width="0.7"/>`,
 		marker,
-		Tx({ x: x + 18, y: y + 12, t: name, size: 8, fill: cls === 'paused' ? C.inkFaint : C.inkStrong, w: 550, upper: false }),
-		note ? Tx({ x: x + 172, y: y + 12, t: note, size: 7, fill: col, anchor: 'end' }) : '',
+		Tx({ x: x + 18, y: y + 12, t: name, size: 8, fill: cls === 'paused' ? C.capFaint : C.inkStrong, w: 550, upper: false }),
+		note ? Tx({ x: x + 172, y: y + 12, t: note, size: 7, fill: textCol, anchor: 'end' }) : '',
 	]);
 }
 
@@ -317,7 +318,7 @@ export function buildLifecycle(): string {
 			Pa({ d: `M575,${BY + 34} C 610,${BY + 62} 700,${BY + 62} 735,${BY + 34}`, s: C.ink, w: 0.9, marker: `url(#${A}-arr)` }),
 			Tx({ x: 655, y: BY + 66, t: 'the tool runs', size: 8, anchor: 'middle' }),
 			Pa({ d: `M735,232 C 700,206 610,206 575,230`, s: C.inkSoft, w: 0.8, dash: '3 4', marker: `url(#${A}-arr)` }),
-			Tx({ x: 655, y: 200, t: 'next tool call', size: 8, fill: C.inkFaint, anchor: 'middle' }),
+			Tx({ x: 655, y: 200, t: 'next tool call', size: 8, fill: C.capFaint, anchor: 'middle' }),
 		]),
 	);
 
@@ -349,7 +350,7 @@ function trackerPlate(x: number, y: number, w: number, h: number, title: string,
 	return g([
 		`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${opts.fill || C.paper}" style="stroke:${opts.stroke || C.hairS}" stroke-width="${opts.sw || 1}"/>`,
 		Tx({ x: x + 12, y: y + 19, t: title, size: 9.5, fill: C.inkStrong, w: 650, upper: false }),
-		...lines.map((l, i) => Tx({ x: x + 12, y: y + 34 + i * 12, t: l, size: 8, fill: opts.lineFill || C.inkSoft, upper: false })),
+		...lines.map((l, i) => Tx({ x: x + 12, y: y + 34 + i * 12, t: l, size: 8, fill: opts.lineFill || C.capSoft, upper: false })),
 	]);
 }
 
@@ -391,11 +392,11 @@ export function buildTracker(): string {
 		const ry = LY + 46 + i * 24;
 		ledger.push(Ci({ c: [LX + 20, ry - 3], r: 2.4, f: r[3], s: 'none', o: 0.9 }));
 		ledger.push(Tx({ x: LX + 30, y: ry, t: r[0], size: 8, fill: C.inkStrong, w: 650 }));
-		ledger.push(Tx({ x: LX + 88, y: ry, t: r[1], size: 7.5, fill: C.inkSoft, upper: false }));
-		ledger.push(Tx({ x: LX + LW - 12, y: ry, t: r[2], size: 7, fill: C.inkFaint, anchor: 'end' }));
+		ledger.push(Tx({ x: LX + 88, y: ry, t: r[1], size: 7.5, fill: C.capSoft, upper: false }));
+		ledger.push(Tx({ x: LX + LW - 12, y: ry, t: r[2], size: 7, fill: C.capFaint, anchor: 'end' }));
 		ledger.push(Ln({ a: [LX + 12, ry + 8], b: [LX + LW - 12, ry + 8], s: C.hair, w: 0.5, o: 0.7 }));
 	});
-	ledger.push(Tx({ x: LX + 14, y: LY + LH - 8, t: '27 open on this branch · s32–s33 · 2026-07-13', size: 7.5, fill: C.inkFaint }));
+	ledger.push(Tx({ x: LX + 14, y: LY + LH - 8, t: '27 open on this branch · s32–s33 · 2026-07-13', size: 7.5, fill: C.capFaint }));
 	els.push(g(ledger));
 
 	// /backlog tap
@@ -414,7 +415,7 @@ export function buildTracker(): string {
 			Pa({ d: `M${LX + LW},105 L${RX - 14},105`, s: C.accent, w: 1.4, marker: `url(#${A}-arr)` }),
 			Tx({ x: (LX + LW + RX) / 2, y: 96, t: '/fix BUG-004', size: 8, anchor: 'middle', fill: C.accentH, w: 650 }),
 			trackerPlate(RX, 66, 128, 66, '1 · group a wave', ['cluster by screen/area', 'recommend /goal first']),
-			trackerPlate(RX + 148, 66, 128, 66, '2 · plan, then WAIT', ['writing-plans · planner', 'status → planned'], { stroke: C.warn, lineFill: C.inkSoft }),
+			trackerPlate(RX + 148, 66, 128, 66, '2 · plan, then WAIT', ['writing-plans · planner', 'status → planned'], { stroke: C.warn, lineFill: C.capSoft }),
 			trackerPlate(RX + 296, 66, 128, 66, '3 · TDD + review', ['failing test first', 'swift-reviewer per phase']),
 			trackerPlate(RX, 172, 128, 66, '4 · gates + ship', ['compile · tests · review', 'push · docs: checkpoint']),
 			trackerPlate(RX + 148, 172, 128, 66, '5 · device-verify', ['checklist on real device', 'status → verified']),
@@ -434,7 +435,7 @@ export function buildTracker(): string {
 			Pa({ d: `M${RX + 360},238 L${RX + 360},268 L${RX + 220},268 L${RX + 220},282`, s: C.inkSoft, w: 0.9, dash: '3 3', marker: `url(#${A}-arr)` }),
 			Pa({ d: `M${LX + 240},${LY + LH} C ${LX + 280},330 ${RX - 40},324 ${RX + 118},296`, s: C.inkSoft, w: 0.9, dash: '3 3', o: 0.8 }),
 			trackerPlate(RX + 130, 284, 180, 52, '/tracker-learn', ['attempts ≥ 2 → patterns report', 'suggest-only — drafts nothing'], { stroke: C.hairS }),
-			Tx({ x: RX + 130, y: 352, t: 'repeat fixes feed skills · AGENTS.md amendments · hooks', size: 7.5, fill: C.inkFaint, upper: false }),
+			Tx({ x: RX + 130, y: 352, t: 'repeat fixes feed skills · AGENTS.md amendments · hooks', size: 7.5, fill: C.capFaint, upper: false }),
 		]),
 	);
 
@@ -455,7 +456,7 @@ function loopNode(x: number, y: number, w: number, title: string, lines: string[
 	return g([
 		`<rect x="${x - w / 2}" y="${y - 26}" width="${w}" height="56" rx="4" fill="${C.paper}" style="stroke:${C.hairS}" stroke-width="1"/>`,
 		Tx({ x, y: y - 8, t: title, size: 9.5, fill: C.inkStrong, w: 650, anchor: 'middle', upper: false }),
-		...lines.map((l, i) => Tx({ x, y: y + 6 + i * 11, t: l, size: 7.5, fill: C.inkSoft, anchor: 'middle', upper: false })),
+		...lines.map((l, i) => Tx({ x, y: y + 6 + i * 11, t: l, size: 7.5, fill: C.capSoft, anchor: 'middle', upper: false })),
 		stampEl,
 	]);
 }
@@ -485,7 +486,7 @@ export function buildLoop(): string {
 	els.push(loopNode(cx, cy + ry + 30, 260, 'instincts', ['272 banked · 0 byte-dupes', 'curation still open'], 'observer paused'));
 	els.push(loopNode(cx - rx - 10, cy, 220, 'skills · guards · rules', ['ios-dev mined lessons', 'AGENTS.md amendments'], null));
 	els.push(Tx({ x: cx, y: cy - 4, t: 'every lesson becomes machinery', size: 10, fill: C.inkStrong, w: 650, anchor: 'middle', upper: false }));
-	els.push(Tx({ x: cx, y: cy + 12, t: 'the next session starts smarter than the last', size: 8.5, fill: C.inkSoft, anchor: 'middle', upper: false }));
+	els.push(Tx({ x: cx, y: cy + 12, t: 'the next session starts smarter than the last', size: 8.5, fill: C.capSoft, anchor: 'middle', upper: false }));
 
 	return `<svg viewBox="0 0 900 400" role="img" aria-label="${LOOP_ARIA_LABEL}" style="width:100%;height:auto;display:block;max-width:900px;margin:0 auto">${els.join('')}</svg>`;
 }
