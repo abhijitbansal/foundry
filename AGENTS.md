@@ -10,7 +10,7 @@ Foundry is a 3D-heavy personal portfolio site: every project (public + private) 
 
 | Decision | Value | Notes |
 |---|---|---|
-| Stack | **TBD — locked at end of design phase** | 3D rendering is a hard requirement; candidates evaluated during design (Three.js / React Three Fiber / vanilla WebGL / Astro+islands). Don't pre-commit. |
+| Stack | **TBD — locked at end of design phase** | 3D rendering is a hard requirement; candidates evaluated during design (Three.js / React Three Fiber / vanilla WebGL / Astro+islands). Don't pre-commit. **Scoped exception (2026-07-14):** React + `@astrojs/react` are a real dependency for the harness page's one genuinely interactive figure (`src/components/harness/RoutingCard.tsx`, `client:visible`) — every other component on the site, including this page's other four figures, stays dependency-free Astro/TS (`src/lib/harness-svg*.ts`, mirroring `works.ts`/`works-svg.ts`). This does not lock the site-wide stack question; it only says React is acceptable when hand-rolled vanilla JS state management would cost more than the dependency. |
 | Content source | `PROJECTS.md` is the inventory of record for project pages | Regenerate via `gh repo list` sweep when repos change |
 | Private repos on the site | Curated descriptions + status only — **never code, secrets, or repo internals** | Reviewed before publish |
 | Design assets | Generative exploration via **Higgsfield MCP** (see below); curated finals committed under `assets/` | Raw generations stay in gitignored `.assets-inbox/` |

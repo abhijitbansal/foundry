@@ -5,29 +5,10 @@
 // do not re-lay it out.
 
 import { useState, type ReactNode } from 'react';
+import { C, HAIR, type Point } from '../../lib/harness-svg-primitives';
 
 /* ---------- shared iso pieces ---------- */
 
-const C = {
-	ink: 'var(--ds-text-2)',
-	inkStrong: 'var(--ds-text)',
-	inkSoft: 'var(--ds-text-3)',
-	inkFaint: 'var(--ds-text-faint)',
-	hair: 'var(--ds-line)',
-	hairS: 'var(--ds-line-strong)',
-	paper: 'var(--ds-surface)',
-	paper2: 'var(--ds-surface-2)',
-	accent: 'var(--ds-accent)',
-	accentH: 'var(--ds-accent-hover)',
-	accentSoft: 'color-mix(in srgb, var(--ds-accent) 14%, transparent)',
-	gold: 'var(--ds-secondary)',
-	warn: 'var(--ds-warning)',
-	good: 'var(--ds-success)',
-	mono: 'var(--ds-font-mono)',
-} as const;
-const HAIR = 0.7;
-
-type Point = [number, number];
 type Anchor = 'start' | 'middle' | 'end';
 
 interface PaProps { d: string; f?: string; s?: string; w?: number; o?: number; dash?: string; cls?: string; marker?: string }

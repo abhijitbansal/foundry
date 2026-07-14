@@ -36,7 +36,7 @@ export function buildHall(motion: boolean): string {
 					[1130, 624],
 				] as Point[]
 			).flatMap((c) => [
-				Ln({ a: [c[0] - 0 + (c[0] < 500 ? 0 : 0), c[1]], b: [c[0] + (c[0] < 500 ? 14 : -14), c[1]], s: C.hairS, w: 1 }),
+				Ln({ a: [c[0], c[1]], b: [c[0] + (c[0] < 500 ? 14 : -14), c[1]], s: C.hairS, w: 1 }),
 				Ln({ a: [c[0], c[1]], b: [c[0], c[1] + (c[1] < 300 ? 14 : -14)], s: C.hairS, w: 1 }),
 			]),
 		]),
