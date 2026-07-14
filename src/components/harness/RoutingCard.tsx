@@ -27,7 +27,7 @@ function Ci({ c, r, f = 'none', s = C.ink, w = HAIR, o, cls }: CiProps) {
 }
 
 interface TxProps { x: number; y: number; t: string; size?: number; fill?: string; w?: number; ls?: string; anchor?: Anchor; font?: string; o?: number; upper?: boolean }
-function Tx({ x, y, t, size = 9, fill = C.inkSoft, w = 500, ls = '0.09em', anchor = 'start', font = C.mono, o, upper = true }: TxProps) {
+function Tx({ x, y, t, size = 9, fill = C.capSoft, w = 500, ls = '0.09em', anchor = 'start', font = C.mono, o, upper = true }: TxProps) {
 	return (
 		<text x={x} y={y} textAnchor={anchor} style={{ fill, opacity: o, fontFamily: font, fontSize: size, fontWeight: w, letterSpacing: ls, textTransform: upper ? 'uppercase' : 'none' }}>
 			{t}
@@ -53,7 +53,7 @@ function HatchDefs({ id }: { id: string }) {
 type RailId = 'solo' | 'single' | 'wf' | 'teamA' | 'teamB';
 type FurnaceId = 'planner' | 'executor' | 'chore';
 type GateState = 'on' | 'warn' | 'skip' | 'off';
-type ScenarioId = 'fix' | 'review' | 'wave' | 'audit' | 'team';
+type ScenarioId = 'fix' | 'review' | 'advisor' | 'wave' | 'audit' | 'team';
 
 const RAIL_Y: Record<RailId, number> = { solo: 150, single: 245, wf: 340, teamA: 460, teamB: 512 };
 const FURN_X: Record<FurnaceId, number> = { planner: 330, executor: 545, chore: 745 };
@@ -90,6 +90,18 @@ const SCN: Record<ScenarioId, ScenarioGeom> = {
 		dials: { executor: 1 },
 		gates: { compile: 'off', tests: 'off', review: 'on', push: 'off', log: 'on' },
 		gateNote: 'a focused review dispatch — findings return with file:line anchors',
+	},
+	advisor: {
+		mode: 'single',
+		modeLabel: 'Single agent + advisor — consult one tier up before committing',
+		node: { x: 430, t: ['build at your tier', 'convinced? consult up'] },
+		drops: [
+			{ x: 545, furnace: 'executor', t: ['sonnet 5 · builds', 'medium–high'] },
+			{ x: 460, furnace: 'planner', t: ['advisor() call', 'fable/opus · high'], labelLeft: true },
+		],
+		dials: { executor: 1, planner: 2 },
+		gates: { compile: 'off', tests: 'off', review: 'on', push: 'off', log: 'on' },
+		gateNote: 'advisor sees the full transcript — call before committing to an interpretation, and again before declaring done',
 	},
 	wave: {
 		mode: 'wf',
@@ -143,8 +155,8 @@ function Crucible({ cx, cy, name, tier, level, active }: CrucibleProps) {
 			<Pa d={`M${cx - 20},${cy - 18} L${cx + 20},${cy - 18}`} s={active ? C.gold : C.inkSoft} w={active ? 2.2 : 1.2} o={active ? 0.95 : 0.6} cls={active ? 'fyh-glow' : undefined} />
 			<Ln a={[cx - 22, cy + 14]} b={[cx - 26, cy + 20]} s={ink} w={HAIR} />
 			<Ln a={[cx + 22, cy + 14]} b={[cx + 26, cy + 20]} s={ink} w={HAIR} />
-			<Tx x={cx} y={cy + 34} t={name} size={9.5} fill={active ? C.inkStrong : C.inkSoft} w={650} anchor="middle" />
-			<Tx x={cx} y={cy + 46} t={tier} size={8} fill={active ? C.accentH : C.inkFaint} anchor="middle" />
+			<Tx x={cx} y={cy + 34} t={name} size={9.5} fill={active ? C.inkStrong : C.capSoft} w={650} anchor="middle" />
+			<Tx x={cx} y={cy + 46} t={tier} size={8} fill={active ? C.accentH : C.capFaint} anchor="middle" />
 			<Pa d={`M${dx - r},${dy} A${r},${r} 0 0 1 ${dx + r},${dy}`} s={C.hairS} w={0.8} />
 			{EFFORTS.map((_, i) => {
 				const a = Math.PI - (i * Math.PI) / 4;
@@ -152,7 +164,7 @@ function Crucible({ cx, cy, name, tier, level, active }: CrucibleProps) {
 			})}
 			<Ln a={[dx, dy]} b={[dx + Math.cos(na) * (r - 4.5), dy - Math.sin(na) * (r - 4.5)]} s={level != null && active ? C.gold : C.inkFaint} w={level != null && active ? 1.6 : 1} o={level != null && active ? 1 : 0.6} />
 			<Ci c={[dx, dy]} r={1.6} f={level != null && active ? C.gold : C.inkFaint} s="none" />
-			<Tx x={dx} y={dy + 12} t={level != null && active ? EFFORTS[level] : 'effort'} size={7.5} fill={level != null && active ? C.gold : C.inkFaint} anchor="middle" />
+			<Tx x={dx} y={dy + 12} t={level != null && active ? EFFORTS[level] : 'effort'} size={7.5} fill={level != null && active ? C.gold : C.capFaint} anchor="middle" />
 		</g>
 	);
 }
@@ -165,8 +177,8 @@ function GateLamp({ x, y, label, sub, state }: GateLampProps) {
 		<g>
 			<rect x={x} y={y} width={118} height={34} rx={3} fill={fill} style={{ stroke: state === 'off' ? C.hair : col }} strokeWidth={state === 'off' ? 0.7 : 1.1} strokeDasharray={state === 'skip' ? '3 3' : undefined} />
 			<Ci c={[x + 12, y + 17]} r={3} f={state === 'off' ? 'none' : col} s={state === 'off' ? C.inkFaint : 'none'} w={0.8} />
-			<Tx x={x + 22} y={y + 15} t={label} size={8.5} fill={state === 'off' ? C.inkFaint : C.inkStrong} w={600} />
-			<Tx x={x + 22} y={y + 27} t={state === 'skip' ? 'skipped — trivial' : sub} size={7.5} fill={state === 'skip' ? C.inkSoft : state === 'off' ? C.inkFaint : col} />
+			<Tx x={x + 22} y={y + 15} t={label} size={8.5} fill={state === 'off' ? C.capFaint : C.inkStrong} w={600} />
+			<Tx x={x + 22} y={y + 27} t={state === 'skip' ? 'skipped — trivial' : sub} size={7.5} fill={state === 'skip' ? C.capSoft : state === 'off' ? C.capFaint : col} />
 		</g>
 	);
 }
@@ -190,11 +202,11 @@ function Switchyard({ scenario }: { scenario: ScenarioId }) {
 		rails.push(<Ln key={'railb-' + id} a={[232, y + 3.5]} b={[MERGE_X, y + 3.5]} s={C.hair} w={0.6} o={0.9} />);
 		for (let tx = 244; tx < MERGE_X; tx += 26) rails.push(<Ln key={'tie-' + id + tx} a={[tx, y - 2.5]} b={[tx, y + 6]} s={C.hair} w={0.6} o={0.55} />);
 		rails.push(<Tx key={'rn-' + id} x={240} y={y - 22} t={name} size={10} fill={C.inkStrong} w={650} />);
-		rails.push(<Tx key={'rw-' + id} x={240} y={y - 11} t={when} size={7.5} fill={C.inkFaint} />);
+		rails.push(<Tx key={'rw-' + id} x={240} y={y - 11} t={when} size={7.5} fill={C.capFaint} />);
 	});
 	rails.push(<Ln key="rail-tb" a={[380, RAIL_Y.teamB]} b={[MERGE_X - 40, RAIL_Y.teamB]} s={C.hairS} w={1.2} />);
 	rails.push(<Ln key="railb-tb" a={[380, RAIL_Y.teamB + 3.5]} b={[MERGE_X - 40, RAIL_Y.teamB + 3.5]} s={C.hair} w={0.6} o={0.9} />);
-	rails.push(<Tx key="rn-tb" x={388} y={RAIL_Y.teamB + 16} t="second role — reviewer" size={7.5} fill={C.inkFaint} />);
+	rails.push(<Tx key="rn-tb" x={388} y={RAIL_Y.teamB + 16} t="second role — reviewer" size={7.5} fill={C.capFaint} />);
 	(Object.keys(RAIL_Y) as RailId[]).filter((k) => k !== 'teamB').forEach((k) => {
 		rails.push(<Pa key={'fan-' + k} d={`M158,340 C 195,340 200,${RAIL_Y[k]} 232,${RAIL_Y[k]}`} s={C.hairS} w={1.1} />);
 	});
@@ -222,7 +234,7 @@ function Switchyard({ scenario }: { scenario: ScenarioId }) {
 		const node = sc.node;
 		act.push(<rect key="nd" x={node.x - 58} y={y0 - 60} width={116} height={26} rx={3} fill={C.paper} style={{ stroke: C.accent }} strokeWidth={1} />);
 		act.push(<Tx key="ndt" x={node.x} y={y0 - 49} t={node.t[0]} size={8.5} fill={C.inkStrong} w={600} anchor="middle" />);
-		act.push(<Tx key="nds" x={node.x} y={y0 - 39} t={node.t[1]} size={7.5} fill={C.inkSoft} anchor="middle" />);
+		act.push(<Tx key="nds" x={node.x} y={y0 - 39} t={node.t[1]} size={7.5} fill={C.capSoft} anchor="middle" />);
 		act.push(<Ln key="ndl" a={[node.x, y0 - 32]} b={[node.x, y0 - 4]} s={C.accent} w={0.8} dash="2 2" />);
 		act.push(<Ci key="ndd" c={[node.x, y0]} r={3} f={C.accent} s="none" />);
 	}
@@ -238,7 +250,7 @@ function Switchyard({ scenario }: { scenario: ScenarioId }) {
 		act.push(<Tx key={'drt' + i} x={lx} y={ly} t={d.t[0]} size={8.5} fill={C.inkStrong} w={600} anchor={lanchor} />);
 		act.push(<Tx key={'drs' + i} x={lx} y={ly + 11} t={d.t[1]} size={7.5} fill={C.accentH} anchor={lanchor} />);
 	});
-	act.push(<Tx key="gnote" x={1128} y={616} t={sc.gateNote} size={8} fill={C.inkSoft} anchor="end" upper={false} />);
+	act.push(<Tx key="gnote" x={1128} y={616} t={sc.gateNote} size={8} fill={C.capSoft} anchor="end" upper={false} />);
 
 	return (
 		<svg viewBox="0 0 1140 640" role="img" aria-label="Routing switchyard: a task enters, a switch fans to four orchestration-mode rails, dispatches drop to three model furnaces with effort dials, and every path exits through the phase-boundary gates." style={{ width: '100%', height: 'auto', display: 'block' }}>
@@ -247,28 +259,28 @@ function Switchyard({ scenario }: { scenario: ScenarioId }) {
 			<g>
 				<rect x={56} y={316} width={102} height={48} rx={4} fill={C.paper} style={{ stroke: C.hairS }} strokeWidth={1} />
 				<Tx x={70} y={337} t="task in" size={10} fill={C.inkStrong} w={650} />
-				<Tx x={70} y={351} t="the ask" size={8} fill={C.inkSoft} />
+				<Tx x={70} y={351} t="the ask" size={8} fill={C.capSoft} />
 			</g>
 			<g>
 				<rect x={OUT_X - 8} y={306} width={106} height={68} rx={4} fill={C.paper} style={{ stroke: C.hairS }} strokeWidth={1} />
 				<Tx x={OUT_X + 4} y={328} t="shipped" size={10} fill={C.inkStrong} w={650} />
-				<Tx x={OUT_X + 4} y={342} t="commits + PR" size={8} fill={C.inkSoft} />
-				<Tx x={OUT_X + 4} y={354} t="docs: checkpoint" size={8} fill={C.inkSoft} />
-				<Tx x={OUT_X + 4} y={366} t="session log" size={8} fill={C.inkSoft} />
+				<Tx x={OUT_X + 4} y={342} t="commits + PR" size={8} fill={C.capSoft} />
+				<Tx x={OUT_X + 4} y={354} t="docs: checkpoint" size={8} fill={C.capSoft} />
+				<Tx x={OUT_X + 4} y={366} t="session log" size={8} fill={C.capSoft} />
 			</g>
 			<g>
 				<rect x={GATE_X - 14} y={118} width={132} height={404} rx={6} fill="none" style={{ stroke: C.hair }} strokeWidth={0.8} strokeDasharray="4 4" />
-				<Tx x={GATE_X - 4} y={106} t="phase-boundary gates" size={8.5} fill={C.inkSoft} w={600} />
+				<Tx x={GATE_X - 4} y={106} t="phase-boundary gates" size={8.5} fill={C.capSoft} w={600} />
 				<GateLamp x={GATE_X} y={152} label="compile" sub="green" state={gateStates.compile} />
 				<GateLamp x={GATE_X} y={200} label="tests" sub="whole CubbyTests" state={gateStates.tests} />
 				<GateLamp x={GATE_X} y={248} label="review" sub="no CRIT/HIGH" state={gateStates.review} />
 				<GateLamp x={GATE_X} y={296} label="push gate ▲" sub="block-once" state={gateStates.push} />
 				<GateLamp x={GATE_X} y={344} label="log ▲" sub="docs: checkpoint" state={gateStates.log} />
-				<Tx x={GATE_X} y={400} t="■ hard · ▲ reminder" size={7.5} fill={C.inkFaint} />
+				<Tx x={GATE_X} y={400} t="■ hard · ▲ reminder" size={7.5} fill={C.capFaint} />
 			</g>
 			<g>
 				<Ln a={[240, 596]} b={[860, 596]} s={C.hair} w={0.7} dash="2 4" />
-				<Tx x={240} y={628} t="the furnaces — every dispatch sets two knobs: tier + effort" size={8.5} fill={C.inkSoft} />
+				<Tx x={240} y={628} t="the furnaces — every dispatch sets two knobs: tier + effort" size={8.5} fill={C.capSoft} />
 				<Crucible cx={FURN_X.planner} cy={560} name="fable / opus" tier="planner" level={sc.dials.planner} active={sc.dials.planner != null} />
 				<Crucible cx={FURN_X.executor} cy={560} name="sonnet" tier="executor" level={sc.dials.executor} active={sc.dials.executor != null} />
 				<Crucible cx={FURN_X.chore} cy={560} name="haiku" tier="chore" level={sc.dials.chore} active={sc.dials.chore != null} />
@@ -292,6 +304,11 @@ const DEFS: ScenarioDef[] = [
 		'ecc:swift-reviewer dispatched at sonnet · medium',
 		'findings return schema-shaped, anchored file:line — never pasted code',
 		'no CRITICAL/HIGH left unfixed before the push gate' ] },
+	{ id: 'advisor', label: 'Worker + advisor', ask: '“convinced? call advisor before you commit”', mode: 'Single agent + advisor — worker builds, a stronger reviewer sees the full transcript', lines: [
+		'worker executes at its own tier · sonnet 5 here, could be opus on a harder task',
+		'advisor() forwards the whole transcript to the stronger model — no re-briefing needed',
+		'called before substantive work and again before declaring done, not for a typo fix',
+		'this page was built exactly this way: sonnet 5 executor, opus advisor throughout' ] },
 	{ id: 'wave', label: '/fix BUG-004 · real wave', ask: '/fix BUG-004 — “barcode lookup silently overwrites the name”', mode: 'Workflow — plan → approval → phases land serially', lines: [
 		'plan authored at planner tier · fable/opus · xhigh — then WAITS for approval',
 		'implementation is TDD at executor · sonnet · med–high',
