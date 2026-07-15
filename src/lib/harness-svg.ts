@@ -346,11 +346,16 @@ interface PlateOpts {
 	lineFill?: string;
 }
 
+// ls: '0em' here, not Tx's default 0.09em — at the box widths below, the
+// default tracking ran captions past their own right border into the
+// neighboring box/arrow (confirmed via getBBox vs. rect bounds + visual
+// screenshot). Scoped to trackerPlate only, so the other four figures'
+// tracking is untouched.
 function trackerPlate(x: number, y: number, w: number, h: number, title: string, lines: string[], opts: PlateOpts = {}): string {
 	return g([
 		`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="4" fill="${opts.fill || C.paper}" style="stroke:${opts.stroke || C.hairS}" stroke-width="${opts.sw || 1}"/>`,
-		Tx({ x: x + 12, y: y + 19, t: title, size: 9.5, fill: C.inkStrong, w: 650, upper: false }),
-		...lines.map((l, i) => Tx({ x: x + 12, y: y + 34 + i * 12, t: l, size: 8, fill: opts.lineFill || C.capSoft, upper: false })),
+		Tx({ x: x + 12, y: y + 19, t: title, size: 9.5, fill: C.inkStrong, w: 650, upper: false, ls: '0em' }),
+		...lines.map((l, i) => Tx({ x: x + 12, y: y + 34 + i * 12, t: l, size: 8, fill: opts.lineFill || C.capSoft, upper: false, ls: '0em' })),
 	]);
 }
 
@@ -362,9 +367,9 @@ export function buildTracker(): string {
 	els.push(
 		g([
 			Tx({ x: 60, y: 52, t: 'capture loop — cheap, instant, chore-tier', size: 9.5, fill: C.accentH, w: 650 }),
-			trackerPlate(60, 66, 150, 78, '/issue · /feature · /task', ['"found a bug on X"', '"we should build Y"', 'no research, no reads']),
-			Pa({ d: 'M210,105 L266,105', s: C.accent, w: 1.4, marker: `url(#${A}-arr)` }),
-			Tx({ x: 238, y: 96, t: 'seconds', size: 7.5, anchor: 'middle', fill: C.accentH }),
+			trackerPlate(60, 66, 158, 78, '/issue · /feature · /task', ['"found a bug on X"', '"we should build Y"', 'no research, no reads']),
+			Pa({ d: 'M218,105 L266,105', s: C.accent, w: 1.4, marker: `url(#${A}-arr)` }),
+			Tx({ x: 242, y: 96, t: 'seconds', size: 7.5, anchor: 'middle', fill: C.accentH }),
 		]),
 	);
 
@@ -403,7 +408,7 @@ export function buildTracker(): string {
 	els.push(
 		g([
 			Pa({ d: `M${LX + 150},${LY + LH} L${LX + 150},${LY + LH + 26}`, s: C.inkSoft, w: 0.9, dash: '3 3', marker: `url(#${A}-arr)` }),
-			trackerPlate(LX + 92, LY + LH + 28, 116, 34, '/backlog', ['grouped, filtered view']),
+			trackerPlate(LX + 92, LY + LH + 28, 122, 34, '/backlog', ['grouped, filtered view']),
 		]),
 	);
 
