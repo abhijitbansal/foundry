@@ -98,3 +98,25 @@ User came back with 6 more screenshots. Three were genuine bugs in Phase 5's ful
 **Resume pointer:** Branch `feat/harness-showcase-page`, folds into PR #18. Working tree clean after this phase's commit — no open decisions remain.
 
 **Models:** Sonnet 5 (executor) throughout Phase 6; Opus advisor consulted once before implementation (confirmed both bug diagnoses, proposed contain-fit + explicit zoom over per-chip hover — "hover is dead on touch, which is exactly where legibility is worst" — and flagged the exact desktop-vs-mobile sizing tension that drove the final design). Two in-browser regressions (0×0 collapse, zoomed-text overlap) were caught empirically after the first two implementation attempts looked correct in the CSS but weren't — both fixed by measuring computed styles/bounding boxes directly rather than reasoning further about the cascade.
+
+### Phase 7 — Ready-for-PR pass (no merge)
+
+User asked for the branch made fully ready without merging. Full gate sweep, not just a re-check of prior work.
+
+**Achieved:**
+- `npm run build`, `npm test` (93 tests) — both green.
+- **CI was actually broken**, found by checking `gh pr checks` rather than assuming green: `npm ci` failed on the runner with `Missing: @emnapi/core@1.11.2 from lock file`. Root cause: local npm 11.5.1 silently tolerates a lock file that's missing this entry; CI's Node 22 setup uses npm 10, which enforces it strictly and hard-fails. Reproduced locally with `npx npm@10 ci`, fixed by regenerating with `npx npm@10 install` (12-line diff), verified clean under both npm versions plus a full build+test pass. Second time this exact failure mode has hit the repo (see `ea94028`) — added an explicit `npx npm@10 ci` gate to `AGENTS.md`'s push checklist so it isn't rediscovered a third time.
+- Ran a second workflow-backed code review (high effort, 9 agents) against the full branch diff vs `main`, not just the day's changes. 3 findings, all confirmed or plausible, all fixed:
+  - **BaseLayout hardcoded every `<head>` tag to the homepage** with no override — `/harness/`, built specifically to be "shared via LinkedIn" per this file, was unfurling and getting indexed as a duplicate of the homepage. Added optional `title`/`description`/`canonicalPath` props to `BaseLayout.astro`, defaulting to the existing homepage values (index/updates/404 render byte-identical `<head>` output, unchanged); `harness.astro` now passes its own.
+  - **`aria-modal="true"` on the fullscreen overlay was cosmetic** — nothing stopped Tab from walking out into the rest of the page. Fixed with `inert` on every background sibling of the overlay, toggled in `open()`/`close()`.
+  - **Zoom's `transform-origin: center top` made the left half of a zoomed figure unreachable by scroll** — content grew equally in both directions from center, and `overflow:auto` only reliably reaches growth in the positive direction from a fixed point. Changed to `left top`; verified via `scrollWidth`/`scrollLeft` measurements and screenshots at 300% zoom that the entire figure is now reachable in both scroll directions.
+- Updated the PR #18 description to cover all three phases of work (it previously only described the initial build).
+- Regenerated `.scratch/feat-harness-showcase-page-test-checklist.html` (gitignored, delivered separately) to cover everything added since it was first created: the advisor scenario, the fullscreen mode end-to-end, and 5 explicitly-tagged regression checks for the bugs found and fixed in Phases 6–7 (wrong accent color, insufficient zoom magnification, text overlap at zoom, Switchyard text bleeding off-screen, and — new — the keyboard-focus-trap and zoom-scroll-reachability fixes from this phase).
+
+**Decisions:** none new — this phase was verification and fixing already-decided work, not new design.
+
+**Follow-ups:** none open.
+
+**Resume pointer:** Branch `feat/harness-showcase-page`, 18 commits ahead of `main`, folds into PR #18 (description updated, not merged per instruction). Build/tests/CI all green, code review clean, working tree clean.
+
+**Models:** Sonnet 5 (executor) throughout Phase 7; workflow-backed code review (9 agents, high effort) is the verification mechanism, not a second opinion sought separately — its 3 findings were all real and are the bulk of this phase's work.
