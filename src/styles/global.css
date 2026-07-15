@@ -353,6 +353,15 @@ html[data-theme="light"] .ds-btn:hover {
   padding: 12px clamp(14px, 3vw, 24px);
   border-bottom: 1px solid var(--ds-line);
 }
+.harness-fs-bar-collapsible {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  flex: 1;
+  min-width: 0;
+}
 .harness-fs-tabs {
   display: flex;
   gap: 8px;
@@ -441,6 +450,39 @@ html[data-theme="light"] .ds-btn:hover {
   font-family: var(--ds-font-mono);
   font-size: 11px;
   color: var(--ds-text-3);
+}
+/* Compact landscape mode (touch devices only, see harness-fullscreen.ts):
+   the bar leaves normal flow so .harness-fs-stage (flex:1 in the overlay's
+   column layout) reclaims its height automatically — no extra sizing rule
+   needed, removing a flex participant from flow is enough. pointer-events:
+   none on the bar itself + auto on its direct children lets a tap on the
+   now-transparent bar strip fall through to the stage underneath and
+   register as a reveal-toggle, while the collapsible group and the close
+   button stay individually clickable. */
+#harness-fs-overlay.harness-fs-compact .harness-fs-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  border-bottom: none;
+  pointer-events: none;
+}
+#harness-fs-overlay.harness-fs-compact .harness-fs-bar > * {
+  pointer-events: auto;
+}
+#harness-fs-overlay.harness-fs-compact .harness-fs-bar-collapsible {
+  background: color-mix(in srgb, var(--ds-surface) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-pill);
+  padding: 6px 12px;
+  transition: transform 200ms var(--ds-ease-standard), opacity 200ms var(--ds-ease-standard);
+}
+#harness-fs-overlay.harness-fs-compact .harness-fs-bar-collapsible.harness-fs-bar-hidden {
+  transform: translateY(-12px);
+  opacity: 0;
+  pointer-events: none;
 }
 .harness-fs-stage {
   flex: 1;
