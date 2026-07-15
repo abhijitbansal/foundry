@@ -28,7 +28,11 @@ import HarnessFooterCTA from '../components/harness/HarnessFooterCTA.astro';
 import { HARNESS_HELLO_AGENT_COMMENT } from '../lib/harness-hatch';
 ---
 
-<BaseLayout>
+<BaseLayout
+	title="The Harness — Abhijit Bansal — Foundry"
+	description="An isometric showcase of the Claude Code harness behind this site: routing, hooks, the dev-tracker, and a self-audit — 79/100, honest gaps included."
+	canonicalPath="/harness/"
+>
 	<Fragment set:html={HARNESS_HELLO_AGENT_COMMENT} />
 	<SkipLink href="#harness-top" label="Skip to the harness" />
 	<Nav />

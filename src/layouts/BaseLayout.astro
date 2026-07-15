@@ -1,11 +1,31 @@
 ---
 // BaseLayout — <head>, token/global CSS imports, body.ds-root mount point.
 // Fonts and skip-link mount point land in Phase 3+.
+//
+// title/description/canonicalPath are optional overrides — every prop
+// defaults to the homepage's own values, so index/updates/404 render
+// byte-identical <head> output without passing anything. Added for
+// harness.astro: a page built specifically to be "shared via LinkedIn"
+// (AGENTS.md) was unfurling and getting indexed with the homepage's
+// title/description/canonical — code-review finding, not cosmetic.
 import { noFlashInlineScript } from '../lib/theme';
 import '../styles/tokens/foundation.css';
 import '../styles/tokens/brands.css';
 import '../styles/tokens/components.css';
 import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+	canonicalPath?: string;
+}
+
+const {
+	title = 'Abhijit Bansal — Foundry',
+	description = 'Privacy-first iOS apps and AI agent tooling, designed and shipped solo.',
+	canonicalPath = '/',
+} = Astro.props;
+const canonicalUrl = `https://abhijitbansal.com${canonicalPath}`;
 ---
 
 <html lang="en">
@@ -26,27 +46,18 @@ import '../styles/global.css';
 		<link rel="apple-touch-icon" href={`${import.meta.env.BASE_URL}favicon-180.png`} />
 		<meta name="viewport" content="width=device-width" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Abhijit Bansal — Foundry</title>
-		<meta
-			name="description"
-			content="Privacy-first iOS apps and AI agent tooling, designed and shipped solo."
-		/>
-		<link rel="canonical" href="https://abhijitbansal.com/" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonicalUrl} />
 
-		<meta property="og:title" content="Abhijit Bansal — Foundry" />
-		<meta
-			property="og:description"
-			content="Privacy-first iOS apps and AI agent tooling, designed and shipped solo."
-		/>
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
 		<meta property="og:image" content="https://abhijitbansal.com/og-image.png" />
-		<meta property="og:url" content="https://abhijitbansal.com/" />
+		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:type" content="website" />
 		<meta name="twitter:card" content="summary_large_image" />
-		<meta name="twitter:title" content="Abhijit Bansal — Foundry" />
-		<meta
-			name="twitter:description"
-			content="Privacy-first iOS apps and AI agent tooling, designed and shipped solo."
-		/>
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
 		<meta name="twitter:image" content="https://abhijitbansal.com/og-image.png" />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
