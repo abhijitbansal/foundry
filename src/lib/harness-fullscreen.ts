@@ -8,17 +8,36 @@
 // harness.astro (#harness-fs-overlay/#harness-fs-stage/#harness-fs-tabs);
 // this only wires it up.
 
+const ZOOM_LEVELS = [1, 1.5, 2, 2.5, 3];
+
 export function initHarnessFullscreen(): void {
 	const overlay = document.getElementById('harness-fs-overlay');
 	const stage = document.getElementById('harness-fs-stage');
 	const tabsEl = document.getElementById('harness-fs-tabs');
 	const closeBtn = document.getElementById('harness-fs-close');
+	const zoomOutBtn = document.getElementById('harness-fs-zoom-out') as HTMLButtonElement | null;
+	const zoomInBtn = document.getElementById('harness-fs-zoom-in') as HTMLButtonElement | null;
+	const zoomLevelEl = document.getElementById('harness-fs-zoom-level');
 	const figures = Array.from(document.querySelectorAll<HTMLElement>('[data-harness-figure]'));
-	if (!overlay || !stage || !tabsEl || !closeBtn || figures.length === 0) return;
+	if (!overlay || !stage || !tabsEl || !closeBtn || !zoomOutBtn || !zoomInBtn || !zoomLevelEl || figures.length === 0) return;
 
 	const placeholders = new Map<HTMLElement, Comment>();
 	const triggers = new Map<HTMLElement, HTMLButtonElement>();
 	let activeIndex: number | null = null;
+	let zoomIndex = 0;
+
+	function applyZoom(): void {
+		const level = ZOOM_LEVELS[zoomIndex];
+		stage!.style.setProperty('--harness-fs-zoom', String(level));
+		zoomLevelEl!.textContent = `${Math.round(level * 100)}%`;
+		zoomOutBtn!.disabled = zoomIndex === 0;
+		zoomInBtn!.disabled = zoomIndex === ZOOM_LEVELS.length - 1;
+	}
+
+	function resetZoom(): void {
+		zoomIndex = 0;
+		applyZoom();
+	}
 
 	function moveOut(i: number): void {
 		const fig = figures[i];
@@ -41,6 +60,7 @@ export function initHarnessFullscreen(): void {
 		moveOut(i);
 		activeIndex = i;
 		tabs.forEach((t, ti) => t.setAttribute('aria-current', String(ti === i)));
+		resetZoom();
 		overlay!.hidden = false;
 		document.body.style.overflow = 'hidden';
 		stage!.scrollTop = 0;
@@ -84,4 +104,13 @@ export function initHarnessFullscreen(): void {
 	document.addEventListener('keydown', (e) => {
 		if (e.key === 'Escape' && activeIndex !== null) close();
 	});
+	zoomInBtn.addEventListener('click', () => {
+		zoomIndex = Math.min(zoomIndex + 1, ZOOM_LEVELS.length - 1);
+		applyZoom();
+	});
+	zoomOutBtn.addEventListener('click', () => {
+		zoomIndex = Math.max(zoomIndex - 1, 0);
+		applyZoom();
+	});
+	applyZoom();
 }
