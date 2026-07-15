@@ -18,6 +18,8 @@ export function initHarnessFullscreen(): void {
 	const zoomOutBtn = document.getElementById('harness-fs-zoom-out') as HTMLButtonElement | null;
 	const zoomInBtn = document.getElementById('harness-fs-zoom-in') as HTMLButtonElement | null;
 	const zoomLevelEl = document.getElementById('harness-fs-zoom-level');
+	const rotateHint = document.getElementById('harness-fs-rotate-hint');
+	const rotateHintDismissBtn = document.getElementById('harness-fs-rotate-hint-dismiss');
 	const figures = Array.from(document.querySelectorAll<HTMLElement>('[data-harness-figure]'));
 	if (!overlay || !stage || !tabsEl || !closeBtn || !zoomOutBtn || !zoomInBtn || !zoomLevelEl || figures.length === 0) return;
 
@@ -25,6 +27,26 @@ export function initHarnessFullscreen(): void {
 	const triggers = new Map<HTMLElement, HTMLButtonElement>();
 	let activeIndex: number | null = null;
 	let zoomIndex = 0;
+	let rotateHintDismissed = false;
+
+	// iOS Safari never implements screen.orientation.lock() (and this overlay
+	// is deliberately not the native Fullscreen API, so even Android's
+	// Chrome-only lock support wouldn't apply here — see file header). A hint
+	// works identically on every browser instead of doing nothing on most of
+	// them. (hover: none) and (pointer: coarse) scope it to touch devices so
+	// a narrow desktop window doesn't trigger it.
+	const portraitTouchQuery = window.matchMedia('(orientation: portrait) and (hover: none) and (pointer: coarse)');
+
+	function updateRotateHint(): void {
+		if (!rotateHint) return;
+		rotateHint.hidden = !(activeIndex !== null && portraitTouchQuery.matches && !rotateHintDismissed);
+	}
+
+	portraitTouchQuery.addEventListener('change', updateRotateHint);
+	rotateHintDismissBtn?.addEventListener('click', () => {
+		rotateHintDismissed = true;
+		updateRotateHint();
+	});
 
 	function applyZoom(): void {
 		const level = ZOOM_LEVELS[zoomIndex];
@@ -75,6 +97,8 @@ export function initHarnessFullscreen(): void {
 		activeIndex = i;
 		tabs.forEach((t, ti) => t.setAttribute('aria-current', String(ti === i)));
 		resetZoom();
+		rotateHintDismissed = false;
+		updateRotateHint();
 		overlay!.hidden = false;
 		setBackgroundInert(true);
 		document.body.style.overflow = 'hidden';
@@ -88,6 +112,7 @@ export function initHarnessFullscreen(): void {
 		const trigger = triggers.get(figures[activeIndex]);
 		moveBack(activeIndex);
 		activeIndex = null;
+		updateRotateHint();
 		overlay!.hidden = true;
 		setBackgroundInert(false);
 		document.body.style.overflow = '';
