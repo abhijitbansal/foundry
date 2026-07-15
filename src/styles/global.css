@@ -420,7 +420,15 @@ html[data-theme="light"] .ds-btn:hover {
   flex: 1;
   overflow: auto;
   display: flex;
-  align-items: center;
+  /* align-items:flex-start, not center: a vertically-centered flex item
+     taller than its container does NOT reliably reveal its true top edge
+     at scrollTop:0 (verified in-browser) — the Switchyard's scenario
+     pills sit at the very top of its content and were scrolled out of
+     view above the fold on open, with no visual cue they existed.
+     Top-aligning means scrollTop:0 (set in open()) always shows the
+     actual top of whatever figure is active. justify-content still
+     centers horizontally. */
+  align-items: flex-start;
   justify-content: center;
   padding: clamp(16px, 3vw, 32px);
   touch-action: pan-x pan-y pinch-zoom;

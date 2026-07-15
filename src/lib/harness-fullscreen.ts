@@ -98,8 +98,8 @@ export function initHarnessFullscreen(): void {
 		const trigger = document.createElement('button');
 		trigger.type = 'button';
 		trigger.className = 'harness-fs-trigger';
-		trigger.setAttribute('aria-label', `View ${fig.dataset.harnessFigure} fullscreen`);
-		trigger.textContent = '⤢ Fullscreen';
+		trigger.setAttribute('aria-label', `View ${fig.dataset.harnessFigure} fullscreen — easier to read`);
+		trigger.textContent = '⤢ Fullscreen — easier to read';
 		trigger.addEventListener('click', () => open(i));
 		fig.appendChild(trigger);
 		triggers.set(fig, trigger);
