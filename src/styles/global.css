@@ -448,8 +448,19 @@ html[data-theme="light"] .ds-btn:hover {
      it. Scaling this whole box keeps every child's relative layout intact
      - it just paints bigger - and .harness-fs-stage's overflow:auto still
      accounts for the transformed paint bounds when sizing its scrollbars. */
+  /* transform-origin is left (not center): .harness-fs-stage centers this
+     box via justify-content:center at 1x, where transform-origin has no
+     visible effect (scale(1) is origin-independent) — but past 1x, a
+     center-anchored scale grows the box equally left AND right, and
+     overflow:auto's scrollable region only reliably reaches content that
+     grows in the positive direction from a fixed point, not content that
+     grows to the left of where the viewport is already resting. Anchoring
+     at the left edge means zooming only ever grows rightward/downward
+     from a fixed point, which is what native scrolling can actually reach
+     — the wide (~1140-viewBox) Switchyard figure was the case this
+     mattered for. */
   transform: scale(var(--harness-fs-zoom, 1));
-  transform-origin: center top;
+  transform-origin: left top;
   transition: transform 150ms var(--ds-ease-standard);
 }
 .harness-fs-active .harness-fs-trigger { display: none; }

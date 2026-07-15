@@ -55,6 +55,20 @@ export function initHarnessFullscreen(): void {
 		placeholders.delete(fig);
 	}
 
+	// aria-modal="true" is a contract, not just a label — without this, Tab
+	// walks straight out of the overlay into the rest of the page (the other
+	// 4 figures' own fullscreen triggers, Nav, Footer), which a screen-reader
+	// user has no way to know happened. inert is the modern, native way to
+	// enforce it: everything outside the dialog becomes unfocusable and
+	// unreachable by assistive tech, no manual Tab-cycle-trapping needed.
+	function setBackgroundInert(value: boolean): void {
+		Array.from(document.body.children).forEach((child) => {
+			if (child === overlay) return;
+			if (value) child.setAttribute('inert', '');
+			else child.removeAttribute('inert');
+		});
+	}
+
 	function open(i: number): void {
 		if (activeIndex !== null) moveBack(activeIndex);
 		moveOut(i);
@@ -62,6 +76,7 @@ export function initHarnessFullscreen(): void {
 		tabs.forEach((t, ti) => t.setAttribute('aria-current', String(ti === i)));
 		resetZoom();
 		overlay!.hidden = false;
+		setBackgroundInert(true);
 		document.body.style.overflow = 'hidden';
 		stage!.scrollTop = 0;
 		stage!.scrollLeft = 0;
@@ -74,6 +89,7 @@ export function initHarnessFullscreen(): void {
 		moveBack(activeIndex);
 		activeIndex = null;
 		overlay!.hidden = true;
+		setBackgroundInert(false);
 		document.body.style.overflow = '';
 		trigger?.focus();
 	}
