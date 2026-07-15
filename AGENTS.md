@@ -63,6 +63,14 @@ Solo developer, no human co-reviewers. Simpler than Cubby's wave workflow (no de
 
 Every AI coding session that makes commits logs to **`docs/sessions/`** (one markdown file per session, `docs/sessions/README.md` is index + counter) — same template and rules as Cubby: checkpoint at phase boundaries and session end with **Achieved / Decisions / Follow-ups / Resume pointer / Models**. Read the latest log before resuming stale work. Log commits are separate `docs:` commits after the work they describe. A decision that constrains future sessions gets folded into this file — a decision living only in a session log is session-local by definition.
 
+## SVG figures & fullscreen/modal overlays
+
+Learned the hard way (session 6, harness page) — three CSS traps that will bite again the moment a new figure or overlay is added:
+
+- **`--ds-accent`/`--ds-secondary`/etc. are brand-scoped** (`.brand-skills` and friends in `tokens/brands.css`), not set at `:root` — `:root`'s own default is Paperix red. Any fixed/portal-style overlay that isn't a DOM descendant of the page's `.brand-*` wrapper needs that class added explicitly, or every accent-colored element inside it silently renders the wrong brand's color.
+- **A `viewBox`-only `<svg>` (no `width`/`height` attributes) has no intrinsic size.** Giving it `width:auto` inside a shrink-to-fit parent (or capping it with a *percentage* `max-width`/`max-height` relative to that same parent) is a circular size dependency — verified in-browser that Chrome resolves it by collapsing both to 0×0, not by falling back to any default. Fix: give the wrapper a definite width (viewport units or px, not `%`, not `auto`), then leave the svg's own `width:100%;height:auto` alone — it resolves against that definite width the same way it already does in every non-modal embed on this site.
+- **`transform:scale()` on an svg doesn't push down HTML that follows it in document flow.** Zooming only the `<svg>` inside a card that also has trailing caption/paragraph content visibly overlaps that text. Scale the whole card (wrapper), not the svg alone.
+
 ## Higgsfield / generative design assets
 
 - Higgsfield is a **design-exploration tool, not a runtime dependency** — the shipped site never calls generative APIs at runtime.
