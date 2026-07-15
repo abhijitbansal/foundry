@@ -20,8 +20,9 @@ export function initHarnessFullscreen(): void {
 	const zoomLevelEl = document.getElementById('harness-fs-zoom-level');
 	const rotateHint = document.getElementById('harness-fs-rotate-hint');
 	const rotateHintDismissBtn = document.getElementById('harness-fs-rotate-hint-dismiss');
+	const barCollapsible = document.getElementById('harness-fs-bar-collapsible');
 	const figures = Array.from(document.querySelectorAll<HTMLElement>('[data-harness-figure]'));
-	if (!overlay || !stage || !tabsEl || !closeBtn || !zoomOutBtn || !zoomInBtn || !zoomLevelEl || figures.length === 0) return;
+	if (!overlay || !stage || !tabsEl || !closeBtn || !zoomOutBtn || !zoomInBtn || !zoomLevelEl || !barCollapsible || figures.length === 0) return;
 
 	const placeholders = new Map<HTMLElement, Comment>();
 	const triggers = new Map<HTMLElement, HTMLButtonElement>();
@@ -46,6 +47,47 @@ export function initHarnessFullscreen(): void {
 	rotateHintDismissBtn?.addEventListener('click', () => {
 		rotateHintDismissed = true;
 		updateRotateHint();
+	});
+
+	// Landscape on a phone is short — the bar (tabs/zoom), left in normal
+	// flow, was never given back that height, so it ate a real chunk of the
+	// one orientation this page's zoom feature exists for. Nothing caught it
+	// before because prior verification passes only tested 390x844 portrait
+	// and desktop widths, never physical landscape rotation. Compact mode:
+	// on touch devices in landscape, tabs+zoom float over the stage and
+	// collapse by default so the diagram reclaims the space; tapping the
+	// stage (or the now-transparent bar strip, but not one of the figure's
+	// own interactive controls) reveals them again. Close deliberately stays
+	// OUTSIDE the collapsible group and always visible/focusable — without an
+	// always-reachable close, tap-to-reveal would be the ONLY way out of
+	// fullscreen on a device with no Escape key, i.e. a trap.
+	const landscapeTouchQuery = window.matchMedia('(orientation: landscape) and (hover: none) and (pointer: coarse)');
+	let barCollapsed = false;
+
+	function setBarCollapsed(collapsed: boolean): void {
+		barCollapsed = collapsed;
+		barCollapsible!.classList.toggle('harness-fs-bar-hidden', collapsed);
+		barCollapsible!.toggleAttribute('inert', collapsed);
+	}
+
+	function updateCompactClass(): void {
+		overlay!.classList.toggle('harness-fs-compact', landscapeTouchQuery.matches);
+	}
+
+	// Covers both directions: rotating while already open, AND opening while
+	// the device is already in landscape (open() calls this too) — a fixed
+	// hide-on-rotate-event-only would miss the latter entirely.
+	landscapeTouchQuery.addEventListener('change', (e) => {
+		updateCompactClass();
+		if (activeIndex === null) return;
+		setBarCollapsed(e.matches);
+	});
+
+	stage.addEventListener('click', (e) => {
+		if (!overlay!.classList.contains('harness-fs-compact')) return;
+		const target = e.target as HTMLElement;
+		if (target.closest('button, a, [role="button"]')) return;
+		setBarCollapsed(!barCollapsed);
 	});
 
 	function applyZoom(): void {
@@ -99,6 +141,8 @@ export function initHarnessFullscreen(): void {
 		resetZoom();
 		rotateHintDismissed = false;
 		updateRotateHint();
+		updateCompactClass();
+		setBarCollapsed(landscapeTouchQuery.matches);
 		overlay!.hidden = false;
 		setBackgroundInert(true);
 		document.body.style.overflow = 'hidden';
