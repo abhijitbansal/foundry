@@ -384,6 +384,32 @@ html[data-theme="light"] .ds-btn:hover {
   cursor: pointer;
 }
 .harness-fs-close:hover, .harness-fs-close:focus-visible { border-color: var(--ds-accent); color: var(--ds-accent); }
+.harness-fs-rotate-hint[hidden] { display: none; }
+.harness-fs-rotate-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--ds-radius-pill);
+  border: 1px solid var(--ds-line-strong);
+  background: color-mix(in srgb, var(--ds-accent) 10%, transparent);
+  color: var(--ds-text-2);
+  font-family: var(--ds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.harness-fs-rotate-hint-icon { color: var(--ds-accent); font-size: 14px; }
+.harness-fs-rotate-hint button {
+  border: none;
+  background: transparent;
+  color: var(--ds-text-3);
+  cursor: pointer;
+  font-family: var(--ds-font-mono);
+  font-size: 11px;
+  line-height: 1;
+  padding: 2px;
+}
+.harness-fs-rotate-hint button:hover, .harness-fs-rotate-hint button:focus-visible { color: var(--ds-accent); }
 .harness-fs-zoom {
   display: flex;
   align-items: center;
