@@ -44,6 +44,15 @@ export const C = {
 export const HAIR = 0.7;
 export const LINE = 1.05;
 
+// A flat +1 here broke Tracker's fixed-width boxes (trackerPlate cards,
+// ledger row label/status columns) — text ran past box edges and
+// collided with adjacent columns, confirmed by screenshot. Geometry is
+// collision-tuned per this file's own header comment; a blanket size
+// bump isn't safe across all five figures. Back to 0 — see harness-svg.ts
+// buildTracker() if this gets revisited: those specific boxes would need
+// widening first, deliberately, before any font bump could be safe there.
+export const TEXT_BUMP = 0;
+
 export function makeProj(S: number, ox: number, oy: number): Proj {
 	const cx = Math.cos(Math.PI / 6) * S;
 	const cy = Math.sin(Math.PI / 6) * S;
@@ -148,7 +157,7 @@ interface TxOpts {
 
 export function Tx(opts: TxOpts): string {
 	const { x, y, t, size = 9, fill = C.capSoft, w = 500, ls = '0.09em', anchor = 'start', font = C.mono, o, upper = true } = opts;
-	const style = `fill:${fill}${o !== undefined ? `;opacity:${o}` : ''};font-family:${font};font-size:${size}px;font-weight:${w};letter-spacing:${ls};text-transform:${upper ? 'uppercase' : 'none'}`;
+	const style = `fill:${fill}${o !== undefined ? `;opacity:${o}` : ''};font-family:${font};font-size:${size + TEXT_BUMP}px;font-weight:${w};letter-spacing:${ls};text-transform:${upper ? 'uppercase' : 'none'}`;
 	return `<text x="${n(x)}" y="${n(y)}" text-anchor="${anchor}" style="${style}">${esc(t)}</text>`;
 }
 

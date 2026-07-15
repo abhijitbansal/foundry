@@ -5,7 +5,7 @@
 // do not re-lay it out.
 
 import { useState, type ReactNode } from 'react';
-import { C, HAIR, type Point } from '../../lib/harness-svg-primitives';
+import { C, HAIR, TEXT_BUMP, type Point } from '../../lib/harness-svg-primitives';
 
 /* ---------- shared iso pieces ---------- */
 
@@ -29,7 +29,7 @@ function Ci({ c, r, f = 'none', s = C.ink, w = HAIR, o, cls }: CiProps) {
 interface TxProps { x: number; y: number; t: string; size?: number; fill?: string; w?: number; ls?: string; anchor?: Anchor; font?: string; o?: number; upper?: boolean }
 function Tx({ x, y, t, size = 9, fill = C.capSoft, w = 500, ls = '0.09em', anchor = 'start', font = C.mono, o, upper = true }: TxProps) {
 	return (
-		<text x={x} y={y} textAnchor={anchor} style={{ fill, opacity: o, fontFamily: font, fontSize: size, fontWeight: w, letterSpacing: ls, textTransform: upper ? 'uppercase' : 'none' }}>
+		<text x={x} y={y} textAnchor={anchor} style={{ fill, opacity: o, fontFamily: font, fontSize: size + TEXT_BUMP, fontWeight: w, letterSpacing: ls, textTransform: upper ? 'uppercase' : 'none' }}>
 			{t}
 		</text>
 	);
