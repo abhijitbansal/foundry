@@ -1,0 +1,23 @@
+---
+// HarnessLifecycle.astro — id harness-lifecycle, "02 · The conveyor".
+// Kicker/h2/lead/rule, the Lifecycle SVG figure in a bordered article, then
+// the "honest line" ds-callout, verbatim from dc.html lines ~169-184.
+import { buildLifecycle } from '../../lib/harness-svg';
+---
+
+<section id="harness-lifecycle" data-screen-label="02 Lifecycle conveyor" style="scroll-margin-top:72px">
+	<div style="max-width:1200px;margin:0 auto;padding:clamp(64px,9vw,110px) clamp(20px,5vw,56px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:26px">
+		<div>
+			<p class="ds-kicker" style="margin:0 0 12px">02 · The conveyor</p>
+			<h2 class="ds-display-lg" style="margin:0">Hooks the model can't reason around.</h2>
+			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">Five lifecycle events, each with shell scripts the <em>runtime</em> executes — not the model. Conventions become mechanisms at the exact moment they could be violated.</p>
+			<hr class="ds-rule" style="margin-top:16px" />
+		</div>
+		<article class="harness-figure" data-harness-figure="Conveyor" style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:clamp(14px,2.4vw,26px);position:relative">
+			<Fragment set:html={buildLifecycle()} />
+		</article>
+		<div class="ds-callout" style="max-width:80ch">
+			<span class="ds-body-sm" style="color:var(--ds-text-2)"><strong style="color:var(--ds-text)">The honest line:</strong> three guards are genuinely hard — bash-guard, test-scope, generated-files (it fails <em>closed</em>). The two checkpoint gates are block-once reminders: they stop the first push, and pass the second identical one. That gap is named in the audit, not smoothed over.</span>
+		</div>
+	</div>
+</section>

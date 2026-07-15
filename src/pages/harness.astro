@@ -1,0 +1,81 @@
+---
+// harness.astro — Foundry 5A "The Harness" as its own standalone route
+// (deliberate deviation from design_handoff_harness/PROMPT.md's "part of
+// the main page" framing — see AGENTS.md session decisions). Shell mirrors
+// updates.astro: BaseLayout + SkipLink + Nav + <main class="brand-skills">
+// + Footer, plus index.astro's closing initReveals/initTilt script.
+//
+// HARNESS_HELLO_AGENT_COMMENT placement: BaseLayout exposes no head-content
+// slot, and its <body class="ds-root"> wraps a single <slot />, so whatever
+// this page passes as its first child becomes the first node inside <body>.
+// Putting the Fragment first here lands the comment as the first child of
+// <body> (right after <head> closes) without touching BaseLayout, and
+// without the doctype risk of placing raw content before <BaseLayout>
+// itself — Astro only auto-emits <!doctype html> when <html> is the page's
+// literal root, and a Fragment ahead of <BaseLayout> would displace that.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import HarnessHero from '../components/harness/HarnessHero.astro';
+import HarnessRouting from '../components/harness/HarnessRouting.astro';
+import HarnessLifecycle from '../components/harness/HarnessLifecycle.astro';
+import HarnessTracker from '../components/harness/HarnessTracker.astro';
+import HarnessPaper from '../components/harness/HarnessPaper.astro';
+import HarnessArsenal from '../components/harness/HarnessArsenal.astro';
+import HarnessScore from '../components/harness/HarnessScore.astro';
+import HarnessFooterCTA from '../components/harness/HarnessFooterCTA.astro';
+import { HARNESS_HELLO_AGENT_COMMENT } from '../lib/harness-hatch';
+---
+
+<BaseLayout
+	title="The Harness — Abhijit Bansal — Foundry"
+	description="An isometric showcase of the Claude Code harness behind this site: routing, hooks, the dev-tracker, and a self-audit — 79/100, honest gaps included."
+	canonicalPath="/harness/"
+>
+	<Fragment set:html={HARNESS_HELLO_AGENT_COMMENT} />
+	<SkipLink href="#harness-top" label="Skip to the harness" />
+	<Nav />
+	<main class="brand-skills">
+		<HarnessHero />
+		<HarnessRouting />
+		<HarnessLifecycle />
+		<HarnessTracker />
+		<HarnessPaper />
+		<HarnessArsenal />
+		<HarnessScore />
+		<HarnessFooterCTA />
+	</main>
+	<Footer />
+	{/* class="brand-skills": --ds-accent is scoped per-brand (brands.css), set
+	   on <main> above, not at :root. This overlay is a sibling of <main>, not
+	   a descendant, so without its own brand-skills class it fell through to
+	   :root's default brand (Paperix red) instead of the cyan the rest of the
+	   page uses. */}
+	<div id="harness-fs-overlay" class="brand-skills" hidden role="dialog" aria-modal="true" aria-label="Harness figure, fullscreen">
+		<div class="harness-fs-bar">
+			<div class="harness-fs-tabs" id="harness-fs-tabs"></div>
+			<div style="display:flex;align-items:center;gap:12px">
+				<div class="harness-fs-zoom">
+					<button type="button" id="harness-fs-zoom-out" aria-label="Zoom out">−</button>
+					<span id="harness-fs-zoom-level">100%</span>
+					<button type="button" id="harness-fs-zoom-in" aria-label="Zoom in">+</button>
+				</div>
+				<button type="button" class="harness-fs-close" id="harness-fs-close">Close ✕</button>
+			</div>
+		</div>
+		<div class="harness-fs-stage" id="harness-fs-stage"></div>
+	</div>
+</BaseLayout>
+
+<script>
+	import { initReveals } from '../lib/reveal';
+	import { initTilt } from '../lib/tilt';
+	import { printServiceHatchBanner } from '../lib/harness-hatch';
+	import { initHarnessFullscreen } from '../lib/harness-fullscreen';
+
+	initReveals();
+	initTilt();
+	printServiceHatchBanner();
+	initHarnessFullscreen();
+</script>

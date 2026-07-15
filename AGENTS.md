@@ -10,11 +10,11 @@ Foundry is a 3D-heavy personal portfolio site: every project (public + private) 
 
 | Decision | Value | Notes |
 |---|---|---|
-| Stack | **TBD — locked at end of design phase** | 3D rendering is a hard requirement; candidates evaluated during design (Three.js / React Three Fiber / vanilla WebGL / Astro+islands). Don't pre-commit. |
+| Stack | **Locked: Astro (static output) + TypeScript.** 3D via Three.js (`src/lib/three`). Default for all new UI: dependency-free build-time SVG/TS string builders (see `works.ts`/`works-svg.ts`, `harness-svg*.ts`) — no client framework unless a component is genuinely stateful and interactive. | **Scoped exception (2026-07-14):** React + `@astrojs/react` are a real dependency for the harness page's one interactive figure (`src/components/harness/RoutingCard.tsx`, `client:visible`) — every other component on the site, including that page's other four figures, stays dependency-free. Don't reach for React elsewhere without the same bar: hand-rolled vanilla JS would cost more than the dependency. |
 | Content source | `PROJECTS.md` is the inventory of record for project pages | Regenerate via `gh repo list` sweep when repos change |
-| Private repos on the site | Curated descriptions + status only — **never code, secrets, or repo internals** | Reviewed before publish |
+| Private repos on the site | Curated descriptions + status only — **never code, secrets, or repo internals** | Reviewed before publish. **Scoped exception (2026-07-14):** the `/harness/` page's Paper section + easter egg quote verbatim internals of the private `cubby` repo (size, doc structure, policy text) as its deliberate subject — a public case study of Cubby's own engineering harness, not an incidental leak. User-approved; the "reviewed before publish" checkpoint for this page specifically. |
 | Design assets | Generative exploration via **Higgsfield MCP** (see below); curated finals committed under `assets/` | Raw generations stay in gitignored `.assets-inbox/` |
-| Deploy | TBD with stack (Pages / Vercel / Netlify) | |
+| Deploy | **Locked: GitHub Pages, custom domain** (`abhijitbansal.com`, via `public/CNAME`) | Static `astro build` output, no server runtime |
 
 ## Design → build model routing
 
@@ -55,13 +55,21 @@ Solo developer, no human co-reviewers. Simpler than Cubby's wave workflow (no de
 - **Never commit work directly to `main`** (single exception: the initial repo bootstrap commit). Feature work = short-lived branch → PR → merge → delete branch.
 - **One branch per session, not a stack of small PRs.** Solo dev, no co-reviewers — reviewing five tiny stacked PRs in sequence is pure overhead compared to one branch with several atomic commits. When a session spans multiple phases/tasks, keep them all on the single branch that session started (rename/consolidate onto one branch if a session accidentally splits into several) and open one PR at the end covering the whole session's work. This does not relax the "atomic commits" rule below — many small commits on one branch is exactly right; many small *branches/PRs* is not.
 - **Commits are task-level and atomic** — conventional format (`feat:`, `fix:`, `docs:`, `chore:`, …), one logical change each. No history rewriting.
-- **Gates before push:** build/lint green → tests green (once a stack exists) → reviewer pass on the diff (e.g. `/code-review`) with no CRITICAL/HIGH unfixed.
+- **Gates before push:** build/lint green → tests green → reviewer pass on the diff (e.g. `/code-review`) with no CRITICAL/HIGH unfixed → `npx npm@10 ci` succeeds if `package.json`/`package-lock.json` changed (CI's Node 22 setup uses npm 10, which validates lock-file consistency strictly; local npm 11 has silently tolerated a mismatched lock file twice now — `npm ci` passing locally is not sufficient proof CI will pass).
 - Multi-phase work (2+ dependent phases) gets a plan doc in `docs/plans/` first; the plan's task structure is authoritative.
 - Branch-end manual-test checklist (interactive HTML, per global rules) goes in `.scratch/` — this repo has no committed-checklist mandate.
 
 ## Session logs
 
 Every AI coding session that makes commits logs to **`docs/sessions/`** (one markdown file per session, `docs/sessions/README.md` is index + counter) — same template and rules as Cubby: checkpoint at phase boundaries and session end with **Achieved / Decisions / Follow-ups / Resume pointer / Models**. Read the latest log before resuming stale work. Log commits are separate `docs:` commits after the work they describe. A decision that constrains future sessions gets folded into this file — a decision living only in a session log is session-local by definition.
+
+## SVG figures & fullscreen/modal overlays
+
+Learned the hard way (session 6, harness page) — three CSS traps that will bite again the moment a new figure or overlay is added:
+
+- **`--ds-accent`/`--ds-secondary`/etc. are brand-scoped** (`.brand-skills` and friends in `tokens/brands.css`), not set at `:root` — `:root`'s own default is Paperix red. Any fixed/portal-style overlay that isn't a DOM descendant of the page's `.brand-*` wrapper needs that class added explicitly, or every accent-colored element inside it silently renders the wrong brand's color.
+- **A `viewBox`-only `<svg>` (no `width`/`height` attributes) has no intrinsic size.** Giving it `width:auto` inside a shrink-to-fit parent (or capping it with a *percentage* `max-width`/`max-height` relative to that same parent) is a circular size dependency — verified in-browser that Chrome resolves it by collapsing both to 0×0, not by falling back to any default. Fix: give the wrapper a definite width (viewport units or px, not `%`, not `auto`), then leave the svg's own `width:100%;height:auto` alone — it resolves against that definite width the same way it already does in every non-modal embed on this site.
+- **`transform:scale()` on an svg doesn't push down HTML that follows it in document flow.** Zooming only the `<svg>` inside a card that also has trailing caption/paragraph content visibly overlaps that text. Scale the whole card (wrapper), not the svg alone.
 
 ## Higgsfield / generative design assets
 

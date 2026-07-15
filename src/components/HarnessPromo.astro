@@ -1,0 +1,24 @@
+---
+// HarnessPromo.astro — small, subtle teaser card linking to /harness/ (the
+// "Foundry 5A" showcase page). Sits between About and Footer on the main
+// page; deliberately not a full section — one ds-card, no figures, no
+// heading rule. Mobile-responsive via ds-card's own fluid padding (no
+// fixed widths) — see src/styles/tokens/components.css.
+---
+
+<div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px) clamp(48px,7vw,80px);box-sizing:border-box">
+	<a
+		data-reveal
+		href={`${import.meta.env.BASE_URL}harness/`}
+		class="ds-card fy-tilt"
+		style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:14px 24px;text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard),transform var(--ds-duration-base) var(--ds-ease-standard)"
+	>
+		<div style="display:flex;flex-direction:column;gap:8px;max-width:56ch">
+			<span class="ds-kicker">Behind the build</span>
+			<p class="ds-body-sm" style="margin:0;color:var(--ds-text-2);text-wrap:pretty">
+				How this site itself gets built — hooks, routing, and an honest audit of the harness behind it.
+			</p>
+		</div>
+		<span class="ds-micro" style="color:var(--ds-accent-hover);white-space:nowrap">Walk the harness →</span>
+	</a>
+</div>

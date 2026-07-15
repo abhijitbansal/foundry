@@ -1,0 +1,88 @@
+---
+// HarnessArsenal.astro — id harness-arsenal, "05 · The arsenal". Kicker/h2/
+// lead/rule, then the Plugins / Skills / Slash-commands 3-column grid,
+// verbatim chips and copy from dc.html lines ~274-355.
+---
+
+<section id="harness-arsenal" data-screen-label="05 Arsenal" style="scroll-margin-top:72px">
+	<div style="max-width:1200px;margin:0 auto;padding:clamp(64px,9vw,110px) clamp(20px,5vw,56px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:26px">
+		<div>
+			<p class="ds-kicker" style="margin:0 0 12px">05 · The arsenal</p>
+			<h2 class="ds-display-lg" style="margin:0">What's actually on the racks.</h2>
+			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">The enabled surface, not the installed one — and the distinction matters: ~360 skills are installed; curation is the open problem the audit keeps naming.</p>
+			<hr class="ds-rule" style="margin-top:16px" />
+		</div>
+		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:clamp(18px,3vw,36px)">
+			<article style="border-top:1px solid var(--ds-line);padding-top:20px;display:flex;flex-direction:column;gap:14px">
+				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+					<h3 class="ds-title" style="margin:0">Plugins</h3>
+					<span class="ds-micro" style="color:var(--ds-accent-hover)">13 on · 4 retired 07-12</span>
+				</div>
+				<div style="display:flex;flex-wrap:wrap;gap:7px">
+					<span class="ds-chip--accent ds-chip">superpowers</span>
+					<span class="ds-chip--accent ds-chip">ios-dev</span>
+					<span class="ds-chip--accent ds-chip">ecc</span>
+					<span class="ds-chip">cartoon</span>
+					<span class="ds-chip">caveman</span>
+					<span class="ds-chip">context7</span>
+					<span class="ds-chip">visual-explainer</span>
+					<span class="ds-chip">core-workflow</span>
+					<span class="ds-chip">commit-commands</span>
+					<span class="ds-chip">claude-md-management</span>
+					<span class="ds-chip">skill-creator</span>
+					<span class="ds-chip">plugin-dev</span>
+					<span class="ds-chip">swift-lsp</span>
+				</div>
+				<p class="ds-caption" style="margin:0;color:var(--ds-text-3);text-wrap:pretty">cartoon wraps noisy build output into TOON (~70% fewer input tokens); caveman strips output filler (~65%). Compression is what makes the exhaustive default affordable. Retired as safe-defaults: security-guidance, claude-code-setup, ralph-loop, frontend-design.</p>
+			</article>
+			<article style="border-top:1px solid var(--ds-line);padding-top:20px;display:flex;flex-direction:column;gap:14px">
+				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+					<h3 class="ds-title" style="margin:0">Skills that earn their keep</h3>
+					<span class="ds-micro" style="color:var(--ds-accent-hover)">114 enabled · ~360 installed</span>
+				</div>
+				<div style="display:flex;flex-direction:column;gap:10px">
+					<div>
+						<span class="ds-micro" style="color:var(--ds-text-3)">Process — run first, always</span>
+						<p class="ds-caption" style="margin:4px 0 0;color:var(--ds-text-2);line-height:1.8">brainstorming · writing-plans · test-driven-development · systematic-debugging · verification-before-completion</p>
+					</div>
+					<div>
+						<span class="ds-micro" style="color:var(--ds-text-3)">Mined from real Cubby incidents (~51)</span>
+						<p class="ds-caption" style="margin:4px 0 0;color:var(--ds-text-2);line-height:1.8">avfoundation-capture-delivery-watchdog · swift6-mainactor-compile-fixes · xcodegen-test-targets · release-inapp-vs-asc-whatsnew-surfaces</p>
+					</div>
+					<div>
+						<span class="ds-micro" style="color:var(--ds-text-3)">Project-local</span>
+						<p class="ds-caption" style="margin:4px 0 0;color:var(--ds-text-2);line-height:1.8">session-log · tracker <span style="color:var(--ds-secondary)">new</span></p>
+					</div>
+				</div>
+				<p class="ds-caption" style="margin:0;color:var(--ds-text-3);text-wrap:pretty">Precedence when several match: project-mined > AGENTS.md playbook > global rules > generic catalog. Declared this month; before that, first-match won.</p>
+			</article>
+			<article style="border-top:1px solid var(--ds-line);padding-top:20px;display:flex;flex-direction:column;gap:14px">
+				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+					<h3 class="ds-title" style="margin:0">Slash commands</h3>
+					<span class="ds-micro" style="color:var(--ds-accent-hover)">the daily levers</span>
+				</div>
+				<div style="display:flex;flex-direction:column;gap:10px">
+					<div>
+						<span class="ds-micro" style="color:var(--ds-text-3)">Tracker <span style="color:var(--ds-secondary)">new this week</span></span>
+						<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:6px">
+							<code class="ds-code">/issue</code><code class="ds-code">/feature</code><code class="ds-code">/task</code><code class="ds-code">/backlog</code><code class="ds-code">/fix</code><code class="ds-code">/tracker-learn</code>
+						</div>
+					</div>
+					<div>
+						<span class="ds-micro" style="color:var(--ds-text-3)">Session & quality</span>
+						<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:6px">
+							<code class="ds-code">/goal</code><code class="ds-code">/code-review</code><code class="ds-code">/release testflight</code><code class="ds-code">/compact</code>
+						</div>
+					</div>
+					<div>
+						<span class="ds-micro" style="color:var(--ds-text-3)">Learning</span>
+						<div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:6px">
+							<code class="ds-code">/learn</code><code class="ds-code">/evolve</code><code class="ds-code">/promote</code><code class="ds-code">/instinct-status</code>
+						</div>
+					</div>
+				</div>
+				<p class="ds-caption" style="margin:0;color:var(--ds-text-3);text-wrap:pretty"><code class="ds-code">/goal</code> arms a Stop hook that blocks the session from ending until the stated condition holds. <code class="ds-code">/compact</code> is user-typed only — the agent's ceiling is suggesting a safe compaction point.</p>
+			</article>
+		</div>
+	</div>
+</section>

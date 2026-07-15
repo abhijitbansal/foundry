@@ -263,3 +263,212 @@ html[data-theme="light"] .ds-btn:hover {
   --fyw-furnace-glow-op: 0.3 !important;
   --fyw-furnace-glow-r: 15px !important;
 }
+
+/* harness figures — fyh-* animation classes, see src/lib/harness-svg*.ts and
+   RoutingCard.tsx. Copied verbatim from design_handoff_harness's <style>
+   block — do not alter timings. */
+@keyframes fyh-flow {
+  to { stroke-dashoffset: -26; }
+}
+.fyh-flow {
+  animation: fyh-flow 1.7s linear infinite;
+}
+@keyframes fyh-smoke {
+  0% { transform: translateY(0) scale(0.85); opacity: 0; }
+  14% { opacity: 0.5; }
+  100% { transform: translateY(-44px) scale(1.45); opacity: 0; }
+}
+.fyh-smoke {
+  animation: fyh-smoke 5.2s ease-out infinite;
+}
+@keyframes fyh-glow {
+  0%, 100% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+}
+.fyh-glow {
+  animation: fyh-glow 3.4s var(--ds-ease-standard) infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fyh-flow, .fyh-smoke, .fyh-glow { animation: none; }
+}
+
+/* harness figure fullscreen — see src/lib/harness-fullscreen.ts. The
+   trigger button is injected by that script (not markup here) onto every
+   [data-harness-figure] wrapper, which all set position:relative inline.
+   .harness-fs-active is applied to whichever figure DOM node the script has
+   relocated into #harness-fs-overlay.
+
+   Sizing: contain-fit the SVG against viewport units (vw/vh), not a
+   percentage of its wrapper — the wrapper's own width is indeterminate
+   (flex-centered, shrink-to-fit), so a percentage max-width/max-height on
+   the svg wouldn't resolve reliably. A prior version forced width:1100px,
+   which is *smaller* than the 1140-wide viewBox most figures use (0.96x) —
+   fullscreen was accidentally shrinking text, not growing it. Real
+   magnification comes from the --harness-fs-zoom CSS var the zoom
+   controls drive via transform:scale(), on top of the contain-fit base
+   size; .harness-fs-stage's overflow:auto makes the zoomed-in area
+   scrollable/pannable. */
+.harness-fs-trigger {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: var(--ds-radius-pill);
+  border: 1px solid var(--ds-line-strong);
+  background: color-mix(in srgb, var(--ds-surface) 88%, transparent);
+  color: var(--ds-text-3);
+  cursor: pointer;
+  transition: border-color var(--ds-duration-base) var(--ds-ease-standard), color var(--ds-duration-base) var(--ds-ease-standard);
+}
+.harness-fs-trigger:hover, .harness-fs-trigger:focus-visible {
+  border-color: var(--ds-accent);
+  color: var(--ds-accent);
+}
+/* Switchyard's wrapper starts at the scenario-pill row, not the card — push
+   the trigger above it so it doesn't sit on top of the pills. */
+[data-harness-figure="Switchyard"] > .harness-fs-trigger {
+  top: -42px;
+  right: 0;
+}
+#harness-fs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  background: var(--ds-surface);
+}
+#harness-fs-overlay[hidden] { display: none; }
+.harness-fs-bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px clamp(14px, 3vw, 24px);
+  border-bottom: 1px solid var(--ds-line);
+}
+.harness-fs-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.harness-fs-tab {
+  padding: 7px 14px;
+  border-radius: var(--ds-radius-pill);
+  border: 1px solid var(--ds-line-strong);
+  background: transparent;
+  color: var(--ds-text-3);
+  cursor: pointer;
+  font-family: var(--ds-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.harness-fs-tab[aria-current="true"] {
+  border-color: var(--ds-accent);
+  color: var(--ds-accent);
+  background: color-mix(in srgb, var(--ds-accent) 14%, transparent);
+}
+.harness-fs-close {
+  padding: 7px 14px;
+  border-radius: var(--ds-radius-pill);
+  border: 1px solid var(--ds-line-strong);
+  background: transparent;
+  color: var(--ds-text-2);
+  cursor: pointer;
+}
+.harness-fs-close:hover, .harness-fs-close:focus-visible { border-color: var(--ds-accent); color: var(--ds-accent); }
+.harness-fs-zoom {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-radius-pill);
+  padding: 3px;
+}
+.harness-fs-zoom button {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ds-text-2);
+  cursor: pointer;
+  font-family: var(--ds-font-mono);
+  font-size: 14px;
+  line-height: 1;
+}
+.harness-fs-zoom button:hover, .harness-fs-zoom button:focus-visible { background: color-mix(in srgb, var(--ds-accent) 16%, transparent); color: var(--ds-accent); }
+.harness-fs-zoom button:disabled { opacity: 0.35; cursor: default; background: none; color: var(--ds-text-2); }
+#harness-fs-zoom-level {
+  min-width: 40px;
+  text-align: center;
+  font-family: var(--ds-font-mono);
+  font-size: 11px;
+  color: var(--ds-text-3);
+}
+.harness-fs-stage {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  /* align-items:flex-start, not center: a vertically-centered flex item
+     taller than its container does NOT reliably reveal its true top edge
+     at scrollTop:0 (verified in-browser) — the Switchyard's scenario
+     pills sit at the very top of its content and were scrolled out of
+     view above the fold on open, with no visual cue they existed.
+     Top-aligning means scrollTop:0 (set in open()) always shows the
+     actual top of whatever figure is active. justify-content still
+     centers horizontally. */
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(16px, 3vw, 32px);
+  touch-action: pan-x pan-y pinch-zoom;
+}
+.harness-fs-active {
+  position: static !important;
+  flex: none;
+  /* An explicit WIDTH, not max-width: a shrink-to-fit wrapper around a
+     width:auto;height:auto svg (no width/height attributes, only viewBox)
+     is a circular size dependency — verified in-browser, Chrome resolves
+     it by collapsing both wrapper and svg to 0x0 rather than falling back
+     to any default. Giving the wrapper a definite width breaks the cycle:
+     the svg's own untouched width:100% (from its inline style, left
+     alone below) then resolves against it directly, and height:auto
+     follows the viewBox aspect ratio the same way it already does in the
+     normal (non-fullscreen) embed. Also covers the Switchyard's non-SVG
+     content (scenario pills, caption paragraph), which has no width
+     constraint of its own and would otherwise size to its unconstrained
+     max-content width and bleed off both edges of the centered stage. */
+  width: min(88vw, 1500px);
+  /* Scaling the whole card, not just the svg inside it: a transform on the
+     svg alone doesn't push down the caption grid/paragraph that follow it
+     in document flow (transform is paint-only, it doesn't reflow
+     siblings), so a zoomed-in svg would visually overlap the text below
+     it. Scaling this whole box keeps every child's relative layout intact
+     - it just paints bigger - and .harness-fs-stage's overflow:auto still
+     accounts for the transformed paint bounds when sizing its scrollbars. */
+  /* transform-origin is left (not center): .harness-fs-stage centers this
+     box via justify-content:center at 1x, where transform-origin has no
+     visible effect (scale(1) is origin-independent) — but past 1x, a
+     center-anchored scale grows the box equally left AND right, and
+     overflow:auto's scrollable region only reliably reaches content that
+     grows in the positive direction from a fixed point, not content that
+     grows to the left of where the viewport is already resting. Anchoring
+     at the left edge means zooming only ever grows rightward/downward
+     from a fixed point, which is what native scrolling can actually reach
+     — the wide (~1140-viewBox) Switchyard figure was the case this
+     mattered for. */
+  transform: scale(var(--harness-fs-zoom, 1));
+  transform-origin: left top;
+  transition: transform 150ms var(--ds-ease-standard);
+}
+.harness-fs-active .harness-fs-trigger { display: none; }

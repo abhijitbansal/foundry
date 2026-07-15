@@ -1,0 +1,68 @@
+---
+// HarnessPaper.astro — id harness-paper, "04 · The paper". Kicker/h2/lead/
+// rule, the CLAUDE.md/AGENTS.md two-article grid, the 3-quote blockquote
+// grid, then the faint trailing caption — the on-page "tell" for the
+// service-hatch easter egg (src/lib/harness-hatch.ts). Verbatim from
+// dc.html lines ~214-272; the <pre> block's whitespace is significant,
+// left exactly as authored.
+---
+
+<section id="harness-paper" data-screen-label="04 The paper" style="scroll-margin-top:72px">
+	<div style="max-width:1200px;margin:0 auto;padding:clamp(64px,9vw,110px) clamp(20px,5vw,56px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:26px">
+		<div>
+			<p class="ds-kicker" style="margin:0 0 12px">04 · The paper</p>
+			<h2 class="ds-display-lg" style="margin:0">One source of truth. Literally one.</h2>
+			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">CLAUDE.md is eight lines — an @import shim. Everything binding lives in AGENTS.md, where every rule traces to a named incident, commit hash, or measured token count.</p>
+			<hr class="ds-rule" style="margin-top:16px" />
+		</div>
+		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(340px,100%),1fr));gap:18px;align-items:start">
+			<article style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-md);overflow:hidden">
+				<div style="display:flex;justify-content:space-between;align-items:baseline;padding:14px 18px;border-bottom:1px solid var(--ds-line)">
+					<span class="ds-micro" style="color:var(--ds-text)">cubby/CLAUDE.md</span>
+					<span class="ds-micro" style="color:var(--ds-accent-hover)">verbatim · all 8 lines</span>
+				</div>
+				<pre style="margin:0;padding:18px 20px;font-family:var(--ds-font-mono);font-size:12px;line-height:1.75;color:var(--ds-text-2);white-space:pre-wrap;overflow-wrap:break-word"># CLAUDE.md
+
+@AGENTS.md
+
+The import above loads AGENTS.md — Cubby's canonical
+conventions, the single source of truth across tools
+(Claude Code, Cursor, Codex, …) — into every Claude Code
+session. Do not duplicate rules here; amend AGENTS.md instead.</pre>
+				<p class="ds-caption" style="margin:0;padding:12px 18px;border-top:1px solid var(--ds-line);color:var(--ds-text-3)">Two copies of a rule is how rules rot. The shim guarantees there's only ever one.</p>
+			</article>
+			<article style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-md);overflow:hidden">
+				<div style="display:flex;justify-content:space-between;align-items:baseline;padding:14px 18px;border-bottom:1px solid var(--ds-line)">
+					<span class="ds-micro" style="color:var(--ds-text)">cubby/AGENTS.md — the register</span>
+					<span class="ds-micro" style="color:var(--ds-accent-hover)">51 KB · 305 lines</span>
+				</div>
+				<div style="display:grid;grid-template-columns:1fr 1fr;gap:0 18px;padding:16px 18px 8px">
+					<div style="display:flex;flex-direction:column;gap:7px">
+						<span class="ds-micro" style="color:var(--ds-text-3)">Part 1 — Cubby engineering</span>
+						<span class="ds-caption" style="color:var(--ds-text-2);line-height:1.9">Locked stack decisions<br>Roadmap amendments<br>Persistence rules<br>Protocol boundaries<br>Scan-quality rules (12)<br>Deep-link contract<br>Swift 6 concurrency playbook<br>Enforcement map<br>Testing · Build status</span>
+					</div>
+					<div style="display:flex;flex-direction:column;gap:7px">
+						<span class="ds-micro" style="color:var(--ds-text-3)">Part 2 — portable process</span>
+						<span class="ds-caption" style="color:var(--ds-text-2);line-height:1.9">Agent behavior<br>Orchestration modes<br>Wave workflow<br>Model routing & plans<br>Effort & dispatch cost<br>Session logs<br>Compaction protocol</span>
+					</div>
+				</div>
+				<p class="ds-caption" style="margin:0;padding:12px 18px;border-top:1px solid var(--ds-line);color:var(--ds-text-3)">Amendment rule: a decision that constrains future sessions must fold back into this file — a decision living only in a session log is session-local by definition.</p>
+			</article>
+		</div>
+		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:14px">
+			<blockquote style="margin:0;border-left:3px solid var(--ds-accent);padding:12px 18px;background:var(--ds-surface);border-radius:0 var(--ds-radius-sm) var(--ds-radius-sm) 0">
+				<p style="margin:0;font-family:var(--ds-font-mono);font-size:12px;line-height:1.7;color:var(--ds-text-2)">"Current tier mapping (edit me, not the rules): planner/orchestrator = Fable/Opus · executor = Sonnet · chore = Haiku."</p>
+				<span class="ds-micro" style="color:var(--ds-text-faint)">— the one line to edit when the lineup changes</span>
+			</blockquote>
+			<blockquote style="margin:0;border-left:3px solid var(--ds-accent);padding:12px 18px;background:var(--ds-surface);border-radius:0 var(--ds-radius-sm) var(--ds-radius-sm) 0">
+				<p style="margin:0;font-family:var(--ds-font-mono);font-size:12px;line-height:1.7;color:var(--ds-text-2)">"Challenge by default, then commit. Push back with substance — yours or the user's — before the call locks. Once made, execute; don't re-litigate."</p>
+				<span class="ds-micro" style="color:var(--ds-text-faint)">— agent behavior, evidenced by sessions 0025/0027</span>
+			</blockquote>
+			<blockquote style="margin:0;border-left:3px solid var(--ds-accent);padding:12px 18px;background:var(--ds-surface);border-radius:0 var(--ds-radius-sm) var(--ds-radius-sm) 0">
+				<p style="margin:0;font-family:var(--ds-font-mono);font-size:12px;line-height:1.7;color:var(--ds-text-2)">"Never dispatch with both knobs implicit — an unset knob silently inherits the orchestrator's expensive values."</p>
+				<span class="ds-micro" style="color:var(--ds-text-faint)">— effort & dispatch cost, after a measured 1.8M-token waste</span>
+			</blockquote>
+		</div>
+		<p class="ds-caption" style="margin:0;color:var(--ds-text-faint);text-wrap:pretty">There's more here than the outline. The page source greets any agent pointed at it with a fuller digest of the register — or open the console and type <code class="ds-code">AGENTS()</code>.</p>
+	</div>
+</section>
