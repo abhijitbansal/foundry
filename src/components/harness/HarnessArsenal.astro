@@ -1,7 +1,9 @@
 ---
 // HarnessArsenal.astro — id harness-arsenal, "05 · The arsenal". Kicker/h2/
 // lead/rule, then the Plugins / Skills / Slash-commands 3-column grid,
-// verbatim chips and copy from dc.html lines ~274-355.
+// verbatim chips and copy from dc.html lines ~274-355. Volatile counts read
+// from SCALARS (src/data/harness.ts) so a re-score only ever touches one file.
+import { SCALARS } from '../../data/harness';
 ---
 
 <section id="harness-arsenal" data-screen-label="05 Arsenal" style="scroll-margin-top:72px">
@@ -9,7 +11,7 @@
 		<div>
 			<p class="ds-kicker" style="margin:0 0 12px">05 · The arsenal</p>
 			<h2 class="ds-display-lg" style="margin:0">What's actually on the racks.</h2>
-			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">The enabled surface, not the installed one — and the distinction matters: ~360 skills are installed; curation is the open problem the audit keeps naming.</p>
+			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">The enabled surface, not the installed one — and the distinction matters: {SCALARS.skillsInstalled} skills are installed; curation is the open problem the audit keeps naming.</p>
 			<hr class="ds-rule" style="margin-top:16px" />
 		</div>
 		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:clamp(18px,3vw,36px)">
@@ -17,7 +19,7 @@
 				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
 					<h3 class="ds-title" style="margin:0">Plugins</h3>
 					<span style="display:flex;align-items:center;gap:8px">
-						<span class="ds-micro" style="color:var(--ds-accent-hover)">17 on · enabled subset</span>
+						<span class="ds-micro" style="color:var(--ds-accent-hover)">{SCALARS.plugins} on · enabled subset</span>
 						<span class="ds-chip ds-chip--accent">v2</span>
 					</span>
 				</div>
@@ -42,7 +44,7 @@
 			<article style="border-top:1px solid var(--ds-line);padding-top:20px;display:flex;flex-direction:column;gap:14px">
 				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
 					<h3 class="ds-title" style="margin:0">Skills that earn their keep</h3>
-					<span class="ds-micro" style="color:var(--ds-accent-hover)">114 enabled · ~360 installed</span>
+					<span class="ds-micro" style="color:var(--ds-accent-hover)">{SCALARS.skills} enabled · {SCALARS.skillsInstalled} installed</span>
 				</div>
 				<div style="display:flex;flex-direction:column;gap:10px">
 					<div>

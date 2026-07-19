@@ -74,7 +74,7 @@ export const DELTA_ITEMS: DeltaItem[] = [
 		badge: 'CHANGED',
 		wave: 's56',
 		title: 'The arsenal grew and got counted honestly.',
-		body: "The source repo's own banner now reads 17 plugins · 114 skills · 81 agents · 43 hooks — with the explicit caveat that this is the enabled subset of a much larger installed surface. Plugins moved 13→17 since this page was built.",
+		body: `The source repo's own banner now reads ${SCALARS.plugins} plugins · ${SCALARS.skills} skills · ${SCALARS.agents} agents · ${SCALARS.hooks} hooks — with the explicit caveat that this is the enabled subset of a much larger installed surface. Plugins moved 13→${SCALARS.plugins} since this page was built.`,
 	},
 	{
 		badge: 'CHANGED',
