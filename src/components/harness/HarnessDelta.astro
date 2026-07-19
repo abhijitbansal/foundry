@@ -1,0 +1,45 @@
+---
+// HarnessDelta.astro — id harness-delta, "07 · The retool". Kicker/h2/lead/
+// rule, an ownership callout naming the locked-figure mismatch, then an
+// 11-item delta card grid. No SVG figure — mirrors Paper/Arsenal's
+// figure-less pattern. Data: src/data/harness.ts (plan Task 2.1/2.2).
+import { DELTA_ITEMS, SCALARS } from '../../data/harness';
+import type { DeltaBadge } from '../../data/harness.types';
+
+const BADGE_CLASS: Record<DeltaBadge, string> = {
+	NEW: 'ds-chip ds-chip--accent',
+	RULE: 'ds-chip ds-chip--accent',
+	APPLIED: 'ds-chip ds-chip--accent',
+	RETIRED: 'ds-chip ds-chip--warn',
+	CLOSED: 'ds-chip ds-chip--warn',
+	CHANGED: 'ds-chip',
+	NOTE: 'ds-chip',
+};
+---
+
+<section id="harness-delta" data-screen-label="07 Retool" style="scroll-margin-top:72px">
+	<div style="max-width:1200px;margin:0 auto;padding:clamp(64px,9vw,110px) clamp(20px,5vw,56px) 0;box-sizing:border-box;display:flex;flex-direction:column;gap:26px">
+		<div>
+			<p class="ds-kicker" style="margin:0 0 12px">07 · The retool</p>
+			<h2 class="ds-display-lg" style="margin:0">What changed since — without re-grading our own homework.</h2>
+			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">The audit above still reads {SCALARS.score}. Six days of hardening later, the source docs deliberately decline a fresh score — the evaluation's own note treats {SCALARS.score} as stale until an independent re-run, and the {SCALARS.deltaWaveDate} wave records status deltas only, not a new grade. So this is the honest version of a changelog: what moved, what got retired, what got turned down — no self-assigned number attached.</p>
+			<hr class="ds-rule" style="margin-top:16px" />
+		</div>
+		<div class="ds-callout" style="max-width:80ch">
+			<span class="ds-body-sm" style="color:var(--ds-text-2)">The conveyor up in 02 still draws the v1 guards, the ledger in 03 still shows the 07-13 backlog snapshot, and the loop in 06 still shows the metrics observer — those figures are frozen at the point they were drawn. Here's what the drawings don't yet show.</span>
+		</div>
+		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:clamp(18px,3vw,36px)">
+			{DELTA_ITEMS.map((item) => (
+				<article style="border-top:1px solid var(--ds-line);padding-top:20px;display:flex;flex-direction:column;gap:10px">
+					<div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px">
+						<span class={BADGE_CLASS[item.badge]}>{item.badge}</span>
+						<span class="ds-micro" style="color:var(--ds-text-3)">{item.wave}</span>
+					</div>
+					<h3 class="ds-title" style="margin:0;font-size:16px">{item.title}</h3>
+					<p class="ds-caption" style="margin:0;color:var(--ds-text-2);text-wrap:pretty">{item.body}</p>
+					{item.ref && <code class="ds-code" style="align-self:flex-start">{item.ref}</code>}
+				</article>
+			))}
+		</div>
+	</div>
+</section>

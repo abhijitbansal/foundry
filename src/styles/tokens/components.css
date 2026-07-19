@@ -92,6 +92,8 @@
    contrast fix as .ds-kicker (foundation.css) — border/background keep the
    brighter --ds-accent since those aren't text. */
 .ds-chip--accent { color: var(--ds-accent-hover); border-color: var(--ds-accent); background: var(--ds-accent-soft); }
+/* warn weight: retired/closed delta badges — mirrors --accent's shape on the warning token */
+.ds-chip--warn { color: var(--ds-warning); border-color: color-mix(in srgb, var(--ds-warning) 55%, transparent); background: color-mix(in srgb, var(--ds-warning) 10%, transparent); }
 
 /* ---- inline code / kbd ---- */
 .ds-code {
