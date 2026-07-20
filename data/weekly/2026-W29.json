@@ -1,0 +1,806 @@
+{
+  "week_id": "2026-W29",
+  "week_start": "2026-07-13",
+  "week_end": "2026-07-19",
+  "generated_at": "2026-07-20T13:01:08.926331+00:00",
+  "repos": [
+    {
+      "repo": "cubby",
+      "sessions": 636,
+      "lines_added": 88599,
+      "lines_removed": 15577,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5"
+    },
+    {
+      "repo": "folix",
+      "sessions": 79,
+      "lines_added": 9318,
+      "lines_removed": 1631,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-4-8"
+    },
+    {
+      "repo": "doc-scan",
+      "sessions": 15,
+      "lines_added": 4413,
+      "lines_removed": 409,
+      "top_tool": "Bash",
+      "top_model": "claude-fable-5"
+    },
+    {
+      "repo": "foundry",
+      "sessions": 90,
+      "lines_added": 4074,
+      "lines_removed": 721,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5"
+    },
+    {
+      "repo": "claude-skills",
+      "sessions": 48,
+      "lines_added": 3394,
+      "lines_removed": 349,
+      "top_tool": "Bash",
+      "top_model": "claude-fable-5"
+    }
+  ],
+  "heatmap": {
+    "timezone": "EDT",
+    "weekday_labels": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ],
+    "cells": [
+      [
+        {
+          "count": 2145,
+          "out_tokens": 1368154
+        },
+        {
+          "count": 1158,
+          "out_tokens": 730243
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 327,
+          "out_tokens": 370590
+        },
+        {
+          "count": 210,
+          "out_tokens": 136552
+        },
+        {
+          "count": 478,
+          "out_tokens": 258090
+        },
+        {
+          "count": 68,
+          "out_tokens": 38196
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 1,
+          "out_tokens": 51
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 3,
+          "out_tokens": 14589
+        },
+        {
+          "count": 16,
+          "out_tokens": 17722
+        },
+        {
+          "count": 3,
+          "out_tokens": 517
+        },
+        {
+          "count": 135,
+          "out_tokens": 343481
+        },
+        {
+          "count": 146,
+          "out_tokens": 183290
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 152,
+          "out_tokens": 260113
+        },
+        {
+          "count": 38,
+          "out_tokens": 42143
+        },
+        {
+          "count": 761,
+          "out_tokens": 788345
+        }
+      ],
+      [
+        {
+          "count": 911,
+          "out_tokens": 842093
+        },
+        {
+          "count": 1064,
+          "out_tokens": 676987
+        },
+        {
+          "count": 272,
+          "out_tokens": 217703
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 366,
+          "out_tokens": 331144
+        },
+        {
+          "count": 768,
+          "out_tokens": 467944
+        },
+        {
+          "count": 686,
+          "out_tokens": 413548
+        },
+        {
+          "count": 546,
+          "out_tokens": 308429
+        },
+        {
+          "count": 597,
+          "out_tokens": 416008
+        },
+        {
+          "count": 374,
+          "out_tokens": 288504
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 23,
+          "out_tokens": 20513
+        },
+        {
+          "count": 1054,
+          "out_tokens": 936874
+        },
+        {
+          "count": 644,
+          "out_tokens": 414364
+        },
+        {
+          "count": 383,
+          "out_tokens": 268737
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 516,
+          "out_tokens": 261131
+        },
+        {
+          "count": 1093,
+          "out_tokens": 484391
+        }
+      ],
+      [
+        {
+          "count": 745,
+          "out_tokens": 700533
+        },
+        {
+          "count": 76,
+          "out_tokens": 106292
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 625,
+          "out_tokens": 215190
+        },
+        {
+          "count": 538,
+          "out_tokens": 195394
+        },
+        {
+          "count": 571,
+          "out_tokens": 197556
+        },
+        {
+          "count": 70,
+          "out_tokens": 16102
+        },
+        {
+          "count": 216,
+          "out_tokens": 111307
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 433,
+          "out_tokens": 408658
+        },
+        {
+          "count": 372,
+          "out_tokens": 275984
+        },
+        {
+          "count": 410,
+          "out_tokens": 156133
+        },
+        {
+          "count": 577,
+          "out_tokens": 172305
+        },
+        {
+          "count": 613,
+          "out_tokens": 157509
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 233,
+          "out_tokens": 87076
+        },
+        {
+          "count": 570,
+          "out_tokens": 263757
+        },
+        {
+          "count": 588,
+          "out_tokens": 224126
+        },
+        {
+          "count": 311,
+          "out_tokens": 307667
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 192,
+          "out_tokens": 192425
+        },
+        {
+          "count": 556,
+          "out_tokens": 239916
+        },
+        {
+          "count": 203,
+          "out_tokens": 270081
+        },
+        {
+          "count": 36,
+          "out_tokens": 61601
+        },
+        {
+          "count": 22,
+          "out_tokens": 13832
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 62,
+          "out_tokens": 44919
+        },
+        {
+          "count": 351,
+          "out_tokens": 310255
+        },
+        {
+          "count": 516,
+          "out_tokens": 259720
+        }
+      ],
+      [
+        {
+          "count": 419,
+          "out_tokens": 350791
+        },
+        {
+          "count": 348,
+          "out_tokens": 217999
+        },
+        {
+          "count": 444,
+          "out_tokens": 273350
+        },
+        {
+          "count": 338,
+          "out_tokens": 199196
+        },
+        {
+          "count": 211,
+          "out_tokens": 147689
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 12,
+          "out_tokens": 9541
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 45,
+          "out_tokens": 44465
+        },
+        {
+          "count": 273,
+          "out_tokens": 110247
+        },
+        {
+          "count": 1386,
+          "out_tokens": 667345
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 149,
+          "out_tokens": 295089
+        },
+        {
+          "count": 288,
+          "out_tokens": 106031
+        },
+        {
+          "count": 567,
+          "out_tokens": 225414
+        },
+        {
+          "count": 461,
+          "out_tokens": 256415
+        },
+        {
+          "count": 149,
+          "out_tokens": 133027
+        },
+        {
+          "count": 28,
+          "out_tokens": 13098
+        },
+        {
+          "count": 16,
+          "out_tokens": 7859
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 301,
+          "out_tokens": 215719
+        },
+        {
+          "count": 310,
+          "out_tokens": 210979
+        },
+        {
+          "count": 207,
+          "out_tokens": 229242
+        },
+        {
+          "count": 301,
+          "out_tokens": 215054
+        }
+      ],
+      [
+        {
+          "count": 16,
+          "out_tokens": 14799
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 12,
+          "out_tokens": 15942
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 152,
+          "out_tokens": 174216
+        },
+        {
+          "count": 381,
+          "out_tokens": 564270
+        },
+        {
+          "count": 658,
+          "out_tokens": 860251
+        },
+        {
+          "count": 435,
+          "out_tokens": 443967
+        },
+        {
+          "count": 22,
+          "out_tokens": 64360
+        },
+        {
+          "count": 825,
+          "out_tokens": 902817
+        },
+        {
+          "count": 649,
+          "out_tokens": 656511
+        },
+        {
+          "count": 76,
+          "out_tokens": 61435
+        },
+        {
+          "count": 479,
+          "out_tokens": 597606
+        },
+        {
+          "count": 15,
+          "out_tokens": 18585
+        },
+        {
+          "count": 965,
+          "out_tokens": 825871
+        },
+        {
+          "count": 1863,
+          "out_tokens": 1481174
+        },
+        {
+          "count": 831,
+          "out_tokens": 471779
+        },
+        {
+          "count": 558,
+          "out_tokens": 239425
+        }
+      ],
+      [
+        {
+          "count": 488,
+          "out_tokens": 317294
+        },
+        {
+          "count": 528,
+          "out_tokens": 201178
+        },
+        {
+          "count": 526,
+          "out_tokens": 233346
+        },
+        {
+          "count": 471,
+          "out_tokens": 206804
+        },
+        {
+          "count": 523,
+          "out_tokens": 203548
+        },
+        {
+          "count": 523,
+          "out_tokens": 186174
+        },
+        {
+          "count": 567,
+          "out_tokens": 271092
+        },
+        {
+          "count": 18,
+          "out_tokens": 13840
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 760,
+          "out_tokens": 420695
+        },
+        {
+          "count": 17,
+          "out_tokens": 13971
+        },
+        {
+          "count": 913,
+          "out_tokens": 816208
+        },
+        {
+          "count": 550,
+          "out_tokens": 276274
+        },
+        {
+          "count": 653,
+          "out_tokens": 337983
+        },
+        {
+          "count": 455,
+          "out_tokens": 206246
+        },
+        {
+          "count": 507,
+          "out_tokens": 265839
+        },
+        {
+          "count": 383,
+          "out_tokens": 162887
+        },
+        {
+          "count": 1241,
+          "out_tokens": 481684
+        },
+        {
+          "count": 262,
+          "out_tokens": 194777
+        },
+        {
+          "count": 319,
+          "out_tokens": 110387
+        },
+        {
+          "count": 408,
+          "out_tokens": 195984
+        },
+        {
+          "count": 324,
+          "out_tokens": 110494
+        },
+        {
+          "count": 404,
+          "out_tokens": 177883
+        },
+        {
+          "count": 298,
+          "out_tokens": 212581
+        }
+      ]
+    ]
+  },
+  "releases": {
+    "cubby": {
+      "pr_merge_count": 9,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "folix": {
+      "pr_merge_count": 0,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "doc-scan": {
+      "pr_merge_count": 0,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "foundry": {
+      "pr_merge_count": 12,
+      "pr_titles": [
+        "docs: Cubby CloudKit postmortem LinkedIn post + performance log",
+        "Revert: collapse fullscreen bar on mobile landscape",
+        "Collapse fullscreen bar on mobile landscape",
+        "Rotate-hint on mobile fullscreen + LinkedIn post draft",
+        "feat: add The Harness showcase page",
+        "Weekly digest: 2026-W28",
+        "fix: RUN_LOG suffix aborts real (non-dry-run) runs under set -e",
+        "fix: log-retention glob nomatch error on empty dir (zsh)",
+        "feat: DRY_RUN mode + persistent logging for run_weekly.sh",
+        "docs: fix weekly-pipeline explainer auto-merge drift",
+        "Weekly digest: 2026-W28",
+        "Weekly automation: abhijitbansal telemetry stage + week backfill + notify"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    },
+    "claude-skills": {
+      "pr_merge_count": 2,
+      "pr_titles": [
+        "feat: upstream Cubby release-skill fixes (TASK-023) + adopt 8 mined skills",
+        "feat(ios-dev): in-app What's New pop-up + About build-info reference skill"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    }
+  },
+  "highlights": {
+    "overall": "Across the week's 5 active repos: 868 sessions, 109,798 lines added (18,687 removed), and 23 merged PRs. Cubby led by a wide margin on sessions (636) and lines added (88,599), while foundry — this site — merged the most PRs (12), including the new Harness showcase page and the Cubby CloudKit postmortem write-up.",
+    "repos": {
+      "cubby": "Cubby led the week on sessions and lines added — 636 sessions, 88,599 lines added (15,577 removed), mostly via Bash on claude-sonnet-5 — with 9 PRs merged.",
+      "folix": "folix ran 79 sessions and added 9,318 lines (1,631 removed), mostly on claude-opus-4-8, with no PRs merged.",
+      "doc-scan": "doc-scan logged 15 sessions and 4,413 lines added (409 removed) on claude-fable-5, with no PRs merged.",
+      "foundry": "foundry (this site) merged the most PRs this week — 12, including the new Harness showcase page and a mobile fullscreen-bar fix that was reverted — across 90 sessions and 4,074 lines added (721 removed).",
+      "claude-skills": "claude-skills ran 48 sessions on claude-fable-5, added 3,394 lines (349 removed), and merged 2 PRs — including upstreaming Cubby release-skill fixes and adopting 8 mined skills."
+    }
+  }
+}
