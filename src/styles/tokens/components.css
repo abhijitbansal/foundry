@@ -92,6 +92,13 @@
    contrast fix as .ds-kicker (foundation.css) — border/background keep the
    brighter --ds-accent since those aren't text. */
 .ds-chip--accent { color: var(--ds-accent-hover); border-color: var(--ds-accent); background: var(--ds-accent-soft); }
+/* warn weight: retired/closed delta badges — mirrors --accent's shape on the warning token */
+.ds-chip--warn { color: var(--ds-warning); border-color: color-mix(in srgb, var(--ds-warning) 55%, transparent); background: color-mix(in srgb, var(--ds-warning) 10%, transparent); }
+/* Light theme only: --ds-warning (#8A6614) on this chip's own tinted background computes to
+   ~4.06-4.36:1, below WCAG AA's 4.5:1 for normal 11px text — same bug class as global.css's
+   accent/hover swap. #6B5210 clears it (~5.7:1). Dark theme's --ds-warning is already light
+   against a dark chip (~7.4-8.2:1) — untouched, scoping this fix to light only avoids dimming it. */
+[data-theme="light"] .ds-chip--warn { color: #6B5210; }
 
 /* ---- inline code / kbd ---- */
 .ds-code {
