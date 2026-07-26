@@ -266,6 +266,36 @@ html[data-theme="light"] .brand-skills {
   --ds-accent-hover: #0A6E88;
 }
 
+/* --fy-ember (BRA-1): the site's second brand color — fire, forge material,
+   and temperature (including a status whose status IS a temperature, e.g.
+   heat-ramp steps). Never used for a link, focus ring, or toggle
+   affordance — that's --ds-accent's job. Scoped at :root, NOT .brand-skills:
+   a brand-scoped token would silently unset inside any fixed/portal overlay
+   that isn't a .brand-* descendant (the AGENTS.md "SVG figures &
+   fullscreen/modal overlays" hazard, already bitten once). Additive --fy-*
+   custom property, same namespace as --fyw-*; the vendored --ds-* contract
+   in tokens/*.css is untouched. Dark hex is #E8663A, not the originally
+   proposed #FF8A4C — design-judge review: #FF8A4C is hsl(20,100%,65%),
+   over PAL-2's sub-80%-saturation ceiling, and sits ~5° of hue / 1.12:1
+   from --ds-danger #E08A6D. #E8663A separates further (1.255:1) and still
+   clears AA as text: 5.38:1 on --ds-bg #1B1814, 4.93:1 on --ds-surface
+   #24201A, 5.64:1 on --ds-surface-2 #16130F. Light #AE4318 clears AA at
+   every tier too: 5.07:1 / 5.48:1 / 4.67:1. */
+:root {
+  --fy-ember: #AE4318;
+  --fy-ember-soft: rgba(174, 67, 24, .10);
+}
+html[data-theme="dark"] {
+  --fy-ember: #E8663A;
+  --fy-ember-soft: rgba(232, 102, 58, .14);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    --fy-ember: #E8663A;
+    --fy-ember-soft: rgba(232, 102, 58, .14);
+  }
+}
+
 /* ===== Easter eggs — design_handoff_eggs/PROMPT.md ===== */
 
 /* Shared keyframes, copied verbatim from the reference dc.html <style>
