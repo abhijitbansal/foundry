@@ -4,6 +4,7 @@
 **Status:** Approved (pending spec review)
 **Scope:** Global harness config (`~/.claude`, `~/.agents`) + one foundry override row
 **Author:** Claude Opus 5, session on `docs/design-skill-routing`
+**Explainer:** [`docs/explainers/design-skill-routing.html`](../../explainers/design-skill-routing.html) — visual walkthrough of the system, its usage, and the 0008 verification review (also published as a Claude artifact)
 
 ---
 
