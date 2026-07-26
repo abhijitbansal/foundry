@@ -302,15 +302,34 @@ html:root[data-theme="dark"] .fy-well {
    12-col grid so each card's span matches its content's shape (wide-short
    heatmap, narrow-tall bar list, full-measure stacked bar) instead of
    `align-items:stretch` padding the shortest card with void it can't use.
-   Below 900px the wrapper's own inline auto-fit still governs and
-   everything stacks — this block only applies at/above the breakpoint
+   Below the gate the wrapper's own auto-fit default (below) still governs
+   and everything stacks — this block only applies at/above the breakpoint
    where a 3-card row has room to mean something. Lands together with
    SUR-7 per the design judge: the three cards this reshapes are the same
    three converting to .fy-well, and Model mix moves from a nested
    flex-column wrapper to a direct grid child, so the class/DOM
    restructuring has to happen in the same change or the spans and the
-   markup they target would mismatch. */
-@media (min-width: 900px) {
+   markup they target would mismatch.
+   REVIEW FIX (CRITICAL): the wrapper div's inline style used to set
+   grid-template-columns directly (same trap as .fy-bench/.fy-cards) — an
+   inline declaration always wins over an external class rule for the same
+   property regardless of media-query scoping, so this whole 12-col rule
+   had never actually rendered; cards spilled into implicit auto-fit
+   tracks and overflowed the viewport by 272px at 900, 155px at 1024, 3px
+   at 1180 (measured via documentElement.scrollWidth - clientWidth). Fixed
+   by moving the auto-fit default to the unconditional .fy-tele-grid rule
+   below (byte-identical value) and stripping it from the inline style, so
+   this override can finally cascade over it. Gate RAISED from 900 to
+   1100px on re-verification: with the 12-col grid actually live for the
+   first time, the 900-1100 band put the 7-col heat card's stats column
+   (min-width:150px) and heatmap side by side in too little room and they
+   wrapped ugly (measured heat-card content width ~360px at 1024, well
+   under stats(150)+gap(~27)+any visible heatmap). At 1100 the same card
+   has enough room for both without wrapping. Below 1100 the auto-fit
+   default (one column per card, min 380px) governs, matching the original
+   pre-12-col stacked reading exactly. */
+.fy-tele-grid { grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); }
+@media (min-width: 1100px) {
   .fy-tele-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
   .fy-tele-heat { grid-column: 1 / span 7; }
   .fy-tele-tools { grid-column: 8 / span 5; }
