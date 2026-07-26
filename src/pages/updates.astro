@@ -43,13 +43,15 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 	</script>
 	<main class="brand-skills">
 		<div style="max-width:1200px;margin:0 auto;padding:clamp(120px,12vw,160px) clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
-			<p class="ds-kicker" style="margin:0 0 12px">Weekly updates</p>
-			<h1 class="ds-display-lg" style="margin:0">What shipped, week by week.</h1>
-			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">
-				A rolling log, separate from the all-time telemetry above — lines of code, activity by hour and day, model mix,
-				and PR/release activity for one completed week at a time. Generated locally every Monday morning.
-			</p>
-			<hr class="ds-rule" style="margin-top:18px" />
+			<div data-reveal>
+				<p class="ds-kicker" style="margin:0 0 12px">Weekly updates</p>
+				<h1 class="ds-display-lg" style="margin:0">What shipped, week by week.</h1>
+				<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">
+					A rolling log, separate from the all-time telemetry above — lines of code, activity by hour and day, model mix,
+					and PR/release activity for one completed week at a time. Generated locally every Monday morning.
+				</p>
+				<hr class="ds-rule" style="margin-top:18px" />
+			</div>
 
 			{weeks.length > 0 && (
 				<nav aria-label="Jump to week" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
@@ -87,7 +89,7 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 										<p class="ds-body" style="margin:0 0 20px;color:var(--ds-text-2);max-width:58ch;text-wrap:pretty">{week.highlights.overall}</p>
 									)}
 
-									<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:14px;margin-bottom:22px">
+									<div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:14px;margin-bottom:22px">
 										<div style="display:flex;flex-direction:column;gap:3px">
 											<span class="ds-display-md">{formatCompact(totalWeeklyLines(week.repos))}</span>
 											<span class="ds-micro" style="color:var(--ds-accent-hover)">Lines added</span>
@@ -171,6 +173,11 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 	</main>
 	<Footer />
 </BaseLayout>
+
+<script>
+	import { initReveals } from '../lib/reveal';
+	initReveals();
+</script>
 
 <style>
 	.fy-view-btn {
