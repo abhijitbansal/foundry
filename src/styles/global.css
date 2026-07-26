@@ -78,6 +78,34 @@ a:hover {
 .fy-skip-link { top: -56px; }
 .fy-skip-link:focus-visible { top: 16px; }
 
+/* Hero scrim — only the `background` property changes (narrow layout swaps
+   it for a vertical band), so it is the one moved out of Hero.astro:60's
+   inline style per the convention above; position/inset/z-index/pointer-events
+   stay inline verbatim. Desktop value below is byte-identical to that inline
+   background — do not hand-retune it here, retune the source and copy back. */
+.fy-hero-scrim {
+  background: linear-gradient(102deg, color-mix(in srgb, var(--ds-bg) 90%, transparent) 8%, color-mix(in srgb, var(--ds-bg) 52%, transparent) 42%, transparent 66%), linear-gradient(180deg, color-mix(in srgb, var(--ds-bg) 62%, transparent), transparent 20%), linear-gradient(180deg, transparent 72%, var(--ds-bg) 98%);
+}
+/* Hero scrim. Layer 1's 102deg wash is tuned for the desktop layout, where
+   scene.ts:285 parks the 3D group at x:2.1, clear of the text column. Below
+   w/h = 1.05 the group snaps to x:0 — dead centre, behind the h1 and lead —
+   so layer 1 becomes a vertical band. Measured at 390x844 with a glyph-core
+   ink mask (WCAG 2.x): unpatched, the 19px lead runs to 1.39:1 light and
+   1.44:1 dark over the molten core (needs 4.5:1), and the 40px h1 to 1.47:1
+   light when an ingot orbits behind it (needs 3:1). The 90% plateau is the
+   legibility floor — 75% is the minimum that still clears AA in dark over a
+   lit ingot; do not weaken it without re-probing. */
+#top[data-scene-layout='narrow'] .fy-hero-scrim {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--ds-bg) 62%, transparent) 0 10%,
+      color-mix(in srgb, var(--ds-bg) 90%, transparent) 18% 70%,
+      color-mix(in srgb, var(--ds-bg) 40%, transparent) 84%,
+      transparent 94%),
+    linear-gradient(180deg, color-mix(in srgb, var(--ds-bg) 62%, transparent), transparent 20%),
+    linear-gradient(180deg, transparent 72%, var(--ds-bg) 98%);
+}
+
 /* #fy-nav — acceptance-pass fix (Phase 10), superseded below 900px by the
    hamburger toggle (user-reported: horizontal scroll still required
    scrolling to reach every link). #fy-nav collapses into a fixed dropdown

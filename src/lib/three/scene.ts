@@ -125,8 +125,22 @@ export function createHeroScene(
 		grp.add(s);
 		return s;
 	};
-	const halo1 = mkHalo(5, 0.55);
-	const halo2 = mkHalo(9.5, 0.14);
+	// Portrait/narrow-layout halo treatment (Task C7): the halo sprites are
+	// world-space sized, so in a portrait frame (narrow horizontal world
+	// extent) their bright cores fill the frame behind the text column
+	// instead of falling off past its edges. HALO_FIT_NARROW dampens
+	// opacity (applied in the frame loop, alongside pulse/heat — never
+	// folded into haloBase1/haloBase2, which applyTheme() reassigns
+	// unconditionally on every theme toggle) and HALO_SCALE_NARROW shrinks
+	// the sprites themselves so the falloff pulls back into frame. Both are
+	// tuned against the acceptance probe in docs/plans/2026-07-26-site-design-pass.md
+	// Task C7 Step 5 — do not hand-guess new values without re-running it.
+	const HALO1_SCALE = 5;
+	const HALO2_SCALE = 9.5;
+	const HALO_FIT_NARROW = 0.55;
+	const HALO_SCALE_NARROW = 0.6;
+	const halo1 = mkHalo(HALO1_SCALE, 0.55);
+	const halo2 = mkHalo(HALO2_SCALE, 0.14);
 
 	// ---- instrument rings (orrery guides) ----
 	const ringMat1 = new THREE.MeshBasicMaterial({ color: 0x544a3a, transparent: true, opacity: 0.7, fog: false });
@@ -270,6 +284,7 @@ export function createHeroScene(
 	let frames = 0;
 	let slowFrames = 0;
 	let degraded = false;
+	let haloFit = 1;
 	const ringsSvg = document.getElementById('fy-poster-rings');
 	const v3 = new THREE.Vector3();
 	const shouldAnimate = !opts.reducedMotion;
@@ -282,7 +297,11 @@ export function createHeroScene(
 		camera.aspect = w / h;
 		camera.updateProjectionMatrix();
 		const wide = w / h > 1.05;
+		hero.dataset.sceneLayout = wide ? 'wide' : 'narrow';
 		grp.position.set(wide ? 2.1 : 0, wide ? -0.05 : 0.62, 0);
+		haloFit = wide ? 1 : HALO_FIT_NARROW;
+		halo1.scale.setScalar(wide ? HALO1_SCALE : HALO1_SCALE * HALO_SCALE_NARROW);
+		halo2.scale.setScalar(wide ? HALO2_SCALE : HALO2_SCALE * HALO_SCALE_NARROW);
 	};
 	sizeIt();
 	const ro = new ResizeObserver(sizeIt);
@@ -323,8 +342,8 @@ export function createHeroScene(
 		core.rotation.x = Math.sin(t * 0.1) * 0.1;
 		coreMat.emissiveIntensity = (0.52 + 0.48 * pulse) * heat + 0.05;
 		forge.intensity = 55 * pulse * heat + 4;
-		halo1.material.opacity = haloBase1 * pulse * heat;
-		halo2.material.opacity = haloBase2 * heat;
+		halo1.material.opacity = haloBase1 * pulse * heat * haloFit;
+		halo2.material.opacity = haloBase2 * heat * haloFit;
 
 		for (const it of ingots) {
 			const p = it.p;
@@ -412,6 +431,7 @@ export function createHeroScene(
 			ro.disconnect();
 			document.removeEventListener('visibilitychange', onVis);
 			window.removeEventListener('pointermove', onPtr);
+			delete hero.dataset.sceneLayout;
 			[coreGeo, ingotGeo, egeo, ring1.geometry, ring2.geometry].forEach((g) => g.dispose());
 			[coreMat, emat, ringMat1, ringMat2, halo1.material, halo2.material].concat(ingotMats).forEach((m) => m.dispose());
 			haloTex.dispose();
