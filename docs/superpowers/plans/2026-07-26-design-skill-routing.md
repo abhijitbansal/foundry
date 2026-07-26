@@ -10,6 +10,17 @@
 
 **Spec:** `docs/superpowers/specs/2026-07-26-design-skill-routing-design.md`
 
+> **Errata (2026-07-26, post-implementation):** three review-cycle commits and one
+> live verification supersede parts of this plan as written. Probe 5's expected
+> route is `impeccable:impeccable` (animate) + `apple-design`, not
+> `find-animation-opportunities` (fixed in `260ae35`; Task 7's probe table below
+> is stale). The impeccable init invocation is `/impeccable:impeccable init`,
+> not `/impeccable init` (`260ae35`). Task 3's router body snapshot predates the
+> stack-gate and motion-build-row fixes (`5856e08`, `260ae35`). And probe 9's
+> premise is settled: a model `Skill()` call to a `disable-model-invocation`
+> target hard-fails (verified live), so the working path is the user typing
+> `/<skill-name>` directly. The shipped files, not this plan, are authoritative.
+
 ## Global Constraints
 
 - All routing config lives **global**: `~/.agents/skills/design-router/`, `~/.claude/hooks/`, `~/.claude/commands/`, `~/.claude/settings.json`, `~/.claude/CLAUDE.md`. The only foundry change is one AGENTS.md subsection.

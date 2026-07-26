@@ -120,6 +120,8 @@ Target size ≈70 lines.
 
 This is an assumption for the two `disable-model-invocation` skills. That flag documented-ly blocks *autonomous description-matching* invocation (`writing-great-skills/GLOSSARY.md:33`); whether an explicit `Skill` call originating inside another skill's body reaches such a target was **not** tested during the audit. Probe 9 exists to test exactly this. If it fails, the fallback is stated in §7.
 
+> **Resolved 2026-07-26 (post-implementation review):** tested live — a model-issued `Skill()` call hard-fails on such targets ("cannot be used with Skill tool due to disable-model-invocation"), regardless of where it originates. The router therefore never calls these two; it directs the user to type `/review-animations` / `/pick-ui-library` directly, and `/design <name>` reads the skill file from disk instead of calling `Skill()`. Router, command, CLAUDE.md, and checklist updated accordingly.
+
 **Description** (third person, trigger-condition-led, no workflow summary — per `writing-skills/SKILL.md:99-102`, which documents that a description summarizing workflow causes agents to follow the description instead of reading the body):
 
 > Use when a request concerns how something looks, feels, or moves — designing, redesigning, restyling, polishing, critiquing, or auditing a UI; making a page feel premium, less generic, bolder, or quieter; layout, spacing, typography, color, theming, or design tokens; adding, fixing, or reviewing animation, motion, transitions, gestures, springs, or drag; naming a motion effect; picking a frontend library; or refactoring code whose purpose is presentation (CSS, styles, components, markup). Also use when unsure whether a design skill applies.
@@ -137,7 +139,7 @@ This is an assumption for the two `disable-model-invocation` skills. That flag d
 | Review a motion diff | `review-animations` | **router invokes explicitly** — cannot auto-fire |
 | "What's it called when…" | `animation-vocabulary` | naming only; hands off for implementation |
 | Gestures, springs, sheets, drag, momentum, iOS feel | `apple-design` | framework-agnostic physics |
-| Component polish, "does this feel right" | `emil-design-eng` | non-motion UI craft |
+| Interaction feel, micro-interaction polish, "does this feel right" | `emil-design-eng` | motion-centric craft — verified 2026-07-26 the skill body is motion end to end; purely static polish goes to `impeccable` critique instead |
 | Library pick (toasts, charts, cmdk, virtualization) | `pick-ui-library` | **router invokes explicitly** — cannot auto-fire |
 | Module / API shape, seams, testability | `codebase-design`, `design-an-interface` | **not visual** — "interface" here means module API surface |
 
@@ -240,7 +242,7 @@ Run each probe in a **fresh session** (skill listing and injected context are pe
 | 6 | "the modal transition feels janky" | `apple-design` or `emil-design-eng` |
 | 7 | "what's it called when the sheet bounces at the top" | `animation-vocabulary` |
 | 8 | "redesign the projects page" | `redesign-existing-projects` |
-| 9 | "what should I use for toasts" | `pick-ui-library` — proves the explicit-invoke path works |
+| 9 | "what should I use for toasts" | clean handoff: router directs the user to `/pick-ui-library` (model `Skill()` is hard-blocked — verified 2026-07-26); fails on silent substitution of another skill |
 | 10 | "let's build a new case-study page" | `superpowers:brainstorming`, **not** `impeccable` — proves precedence set 2 |
 
 **Pass threshold: 8 of 10 overall, *and* probes 2, 9, and 10 must each pass individually.** Those three are diagnostic — 2 proves no over-firing, 9 proves the router reaches a non-auto-firing skill, 10 proves the brainstorming/impeccable precedence holds. A run that scores 8/10 by failing exactly those three is a failure, not a pass.
@@ -257,7 +259,7 @@ Run each probe in a **fresh session** (skill listing and injected context are pe
 | Router accumulates design content over time and becomes a 13th rulebook | Stated contract in 4.1: dispatch only, zero design content. Enforced at review. |
 | Hook keyword set drifts out of sync with the routing table | Both live in files edited together; the acceptance gate is the check. |
 | `impeccable` routes fail silently in a project without `/impeccable init` | Router's impeccable rows carry the init precondition. |
-| A `Skill` call from the router cannot reach a `disable-model-invocation` target (4.1) | Probe 9 tests it. On failure, the router instead instructs the user to run `/design pick-ui-library` (or `/design review-animations`) — one manual step, routing table unchanged. |
+| A `Skill` call from the router cannot reach a `disable-model-invocation` target (4.1) | **Confirmed 2026-07-26 — it cannot.** Router and `/design` updated: the user typing `/<skill-name>` is the invocation path; `/design <name>` reads the skill file from disk. Probe 9 now tests the handoff, not the (settled) mechanism. |
 | Upstream skill update changes a description and shifts trigger behavior | Re-run the acceptance gate after any design-skill update. |
 
 ---
