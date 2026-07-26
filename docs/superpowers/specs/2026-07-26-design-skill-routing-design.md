@@ -132,6 +132,7 @@ This is an assumption for the two `disable-model-invocation` skills. That flag d
 | Redesign existing, "looks generic", "AI slop" | `redesign-existing-projects` | framework-agnostic; has don't-break-functionality rules |
 | UX critique, a11y audit, visual hierarchy | `impeccable:impeccable` (critique / audit) | |
 | "What could be animated here", "feel more alive" | `find-animation-opportunities` | read-only; caps at 5–7 suggestions, requires a rejected-candidates section |
+| **Build a specific named animation/transition** | `impeccable:impeccable` (animate) + `apple-design` | the only motion row that writes code |
 | "Improve the animations", motion roadmap | `improve-animations` | read-only; writes plans to `plans/`, never touches source |
 | Review a motion diff | `review-animations` | **router invokes explicitly** — cannot auto-fire |
 | "What's it called when…" | `animation-vocabulary` | naming only; hands off for implementation |
@@ -235,7 +236,7 @@ Run each probe in a **fresh session** (skill listing and injected context are pe
 | 2 | "refactor works.ts" | **no design skill** — logic refactor |
 | 3 | "refactor the harness page CSS" | design lane |
 | 4 | "review this diff" | no design skill unless the diff contains motion |
-| 5 | "add a hover animation to the project cards" | `find-animation-opportunities` |
+| 5 | "add a hover animation to the project cards" | `impeccable:impeccable` (animate) + `apple-design` for physics — **corrected**; see below |
 | 6 | "the modal transition feels janky" | `apple-design` or `emil-design-eng` |
 | 7 | "what's it called when the sheet bounces at the top" | `animation-vocabulary` |
 | 8 | "redesign the projects page" | `redesign-existing-projects` |
