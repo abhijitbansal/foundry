@@ -12,6 +12,11 @@
 // clipped items — GitHub/Theme land off-canvas. Copy/markup/visual design
 // are unchanged; the nav strip becomes internally swipe-scrollable below
 // ~600px instead of pushed off-canvas.
+
+const base = import.meta.env.BASE_URL;
+const here = Astro.url.pathname;
+const isUpdates = here.startsWith(`${base}updates`);
+const isHarness = here.startsWith(`${base}harness`);
 ---
 
 <header data-screen-label="Nav" class="brand-skills" style="position:fixed;top:0;left:0;right:0;z-index:50">
@@ -56,12 +61,14 @@
 			<a
 				class="ds-micro fy-link-t2"
 				href={`${import.meta.env.BASE_URL}updates/`}
+				aria-current={isUpdates ? 'page' : undefined}
 				style="text-decoration:none;padding:6px 2px;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
 				>Updates</a
 			>
 			<a
 				class="ds-micro fy-link-t2"
 				href={`${import.meta.env.BASE_URL}harness/`}
+				aria-current={isHarness ? 'page' : undefined}
 				style="text-decoration:none;padding:6px 2px;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
 				>Harness</a
 			>
