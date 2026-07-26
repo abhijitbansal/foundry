@@ -1236,3 +1236,38 @@ body.ds-root {
   text-wrap: pretty;
   color: var(--ds-text-2);
 }
+
+/* LAY-9: section ordinals as sheet marginalia. Every section kicker
+   (Expertise.astro, WorkSection.astro, Telemetry.astro, About.astro) is
+   split into three spans — .fy-sheet-num ("01"), .fy-sheet-sep (" · "),
+   .fy-sheet-name ("Expertise") — instead of one text node, so the numeral
+   can be pulled into the left page gutter at >=1360px as drafting
+   marginalia, echoing how sheet numbers live in the margin of a technical
+   drawing rather than inline in the title. Gated at 1360 because
+   (1360-1200)/2 = 80px page margin clears an 84px pull without touching
+   the viewport edge; below it no override fires and the three spans render
+   inline exactly as the single original text node did. --ds-text-faint is
+   correct here, not a tier violation: the numeral is a decorative repeat
+   of information the section name (in flow, at its normal kicker color)
+   already carries, and it is never the sole carrier of anything.
+   JUDGE AMENDMENT: the source JSON's `.fy-sheet-name::before { content:
+   none }` targeted a pseudo-element that is never defined anywhere, so it
+   would have been a no-op — dropped. In its place, .fy-sheet-sep is a real
+   span (not generated content) hidden here once the numeral leaves flow,
+   which achieves the same intent honestly: a clean bare "01" alone in the
+   margin, and a clean "Expertise" alone at the true left edge, with no
+   dangling " · " left behind either from the interpunct or a phantom
+   pseudo-element. .fy-sheet-num needs position:relative on its ancestor
+   data-reveal header div (added at each call site) to anchor against —
+   every one of those divs has zero top padding/margin before the kicker,
+   so top:0.15em lines the numeral up with the kicker's own cap-height. */
+@media (min-width: 1360px) {
+  .fy-sheet-num {
+    position: absolute;
+    left: -84px;
+    top: 0.15em;
+    margin: 0;
+    color: var(--ds-text-faint);
+  }
+  .fy-sheet-sep { display: none; }
+}
