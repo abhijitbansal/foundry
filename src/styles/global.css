@@ -1038,3 +1038,48 @@ body.ds-root {
   .fy-burger span { transition: none; }
   .harness-fs-active { transition: none; }
 }
+
+/* MOT-2 — strike the .ds-rule accent tab: one scroll-driven, spring-eased
+   draw on the site's most-repeated signature idiom (Expertise.astro:10,
+   WorkSection.astro:18, Telemetry.astro:114, updates.astro:57 — all four
+   now qualify: MOT-8 wraps updates' header in [data-reveal] too, so every
+   .ds-rule on the site sits as a direct child of either a [data-reveal] or
+   a bare `main > div`). The whole thing lives inside @supports — this is
+   the load-bearing detail: transform:scaleX(0) must never appear on the
+   base foundation.css:187-196 rule (read-only, untouched here), or a
+   non-supporting browser (Firefox, pre-26 Safari) ships every section tick
+   invisible instead of today's static 64px tab. Longhands, not the
+   `animation` shorthand: animation-duration:auto is required for a
+   view-timeline-driven animation and the shorthand's 0s default silently
+   breaks it. scaleX, not width, so the draw stays on the compositor.
+   Range: reveal.ts:40 releases a [data-reveal] block at entry ≈42% (a
+   ~170px header against a 900px viewport's 0.92·vh threshold) — starting
+   the strike at entry 100% guarantees it can only begin once the header
+   has fully cleared the viewport bottom, ~170px after the fade-in already
+   fired, so the tick can never animate while its own header is still at
+   opacity 0; cover 34% ends it with the header sitting in the reading
+   zone. The linear() stops sample a critically-underdamped spring
+   (m=1, k=260, c=19, ζ=0.589, 10.1% overshoot) — the deliberate opposite
+   of reveal.ts's own entrance curve (front-loaded, no ring-down), so this
+   is the one element on the page whose travel is long enough (64px) for
+   that overshoot to actually read. */
+@keyframes fy-rule-strike { to { transform: scaleX(1); } }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    :is([data-reveal], main > div):has(> .ds-rule) {
+      view-timeline-name: --fy-rule;
+      view-timeline-axis: block;
+    }
+    .ds-rule::before {
+      transform: scaleX(0);
+      transform-origin: left center;
+      animation-name: fy-rule-strike;
+      animation-duration: auto;
+      animation-fill-mode: both;
+      animation-timeline: --fy-rule;
+      animation-range: entry 100% cover 34%;
+      animation-timing-function: linear(0, 0.102, 0.324, 0.573, 0.790, 0.949, 1.047, 1.092, 1.101, 1.087, 1.063, 1.038, 1.017, 1.002, 0.994, 0.990, 0.990, 0.992, 0.994, 0.997, 1);
+    }
+  }
+}
