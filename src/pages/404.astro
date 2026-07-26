@@ -1,30 +1,41 @@
 ---
-// 404.astro — plan Task 9.2. Minimal, token-styled page that redirects to
-// the homepage; the plain-text link is the fallback for the (rare) case the
-// meta-refresh doesn't fire.
+// 404.astro — plan Task 9.2, revised (design-pass C17). Minimal, token-styled
+// page. No longer a redirect: it used to meta-refresh straight to the
+// homepage, which made it unreachable and left Updates/Harness unreachable
+// from it (its only exit was the homepage link). Now a real destination with
+// the standard SkipLink/Nav/Footer shell, matching every other route.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
 ---
 
-<BaseLayout>
-	<meta http-equiv="refresh" content={`0; url=${import.meta.env.BASE_URL}`} />
-	<main class="brand-skills fy-404">
+<BaseLayout title="Page not found — Abhijit Bansal — Foundry">
+	<SkipLink href="#not-found" label="Skip to the message" />
+	<Nav />
+	<main id="not-found" class="brand-skills fy-404">
 		<p class="ds-micro fy-404-kicker">404</p>
 		<h1 class="fy-404-title">Page not found</h1>
-		<p class="fy-404-lead">Redirecting you to the homepage&hellip;</p>
+		<p class="fy-404-lead">Nothing was forged at this address.</p>
 		<p class="fy-404-lead"><a href={import.meta.env.BASE_URL}>Go to the homepage &rarr;</a></p>
 	</main>
+	<Footer />
 </BaseLayout>
 
 <style>
 	.fy-404 {
-		min-height: 100vh;
+		/* Nav is fixed at 64px; box-sizing:border-box (no global default)
+		   plus this padding keeps the h1 clear of the header and the
+		   footer just below the fold, same as every other route. */
+		min-height: calc(100vh - 64px);
+		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		text-align: center;
 		gap: 0.75rem;
-		padding: 2rem;
+		padding: calc(64px + 2rem) 2rem 2rem;
 		background: var(--ds-bg);
 		color: var(--ds-text);
 	}

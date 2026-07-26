@@ -135,7 +135,7 @@ Full working code is in each `src/*.dc.html` (`_buildScene`). Port it as an ES m
 ## SEO / meta / deploy
 
 - `<title>Abhijit Bansal — Foundry</title>`; meta description (one-liner identity); canonical `https://abhijitbansal.com`; Open Graph + Twitter card (`summary_large_image`) — generate a 1200×630 OG image of the hero (dark bg, ember core, name + identity line); favicon set from the ember-tab mark; `sitemap.xml` + `robots.txt`.
-- GitHub Pages: build workflow → `dist/` → Pages artifact; `CNAME` = `abhijitbansal.com`; 404.html redirecting to `/`. Contact is mailto + external links only.
+- GitHub Pages: build workflow → `dist/` → Pages artifact; `CNAME` = `abhijitbansal.com`; `404.html` is a real branded destination (SkipLink/Nav/Footer, no redirect) — amended in design-pass C17: the original interim-`/foundry/`-base-path redirect became vestigial once the custom domain landed and GitHub Pages started serving a genuine 404 status. Contact is mailto + external links only.
 - LinkedIn URL used in prototypes: `linkedin.com/in/abhijitbansal` — **verify before ship**.
 
 ## Deviations for production (allowed/required)
