@@ -266,6 +266,56 @@ html[data-theme="light"] .brand-skills {
   --ds-accent-hover: #0A6E88;
 }
 
+/* Kill the :root Paperix-red fallback (PAL-3). Right now every accent-
+   colored element must be a DOM descendant of one of seven hand-placed
+   .brand-* wrappers (Nav.astro:22, Footer.astro:21, SkipLink.astro:15, the
+   four page mains, harness.astro:55's fullscreen overlay) or it silently
+   inherits brands.css's default Paperix accent (:root, brands.css:10-23) —
+   a hazard already documented in-repo at harness.astro:50-53. body.ds-root
+   (BaseLayout.astro:70) is the anchor, not :root: it is an ancestor of
+   every rendered element including fixed/portal overlays, and it leaves
+   the vendored :root contract untouched so a future .brand-paperix wrapper
+   still works by cascade. This restates .brand-skills's accent family as
+   the document default — a safety net, not a replacement; the seven
+   existing wrappers still win inside their own scope (same-element rule
+   match beats an inherited value regardless of source order). */
+body.ds-root {
+  --ds-accent: #0E8FB0;
+  --ds-accent-hover: #0B7894;
+  --ds-accent-soft: rgba(14, 143, 176, 0.10);
+  --ds-on-accent: #04141A;
+  --ds-secondary: #B07A18;
+  --ds-tertiary: #6D52C4;
+}
+/* Deviation from the sanctioned PAL-3 values: without this, body.ds-root's
+   own #0B7894 default (4.44:1 on --ds-bg, see the comment above) would
+   reopen the exact AA failure the .brand-skills fix above exists to close,
+   for any element outside the seven wrappers — swapping a wrong-brand-but-
+   AA-passing default (Paperix #A2362E) for a right-brand-but-AA-failing
+   one. Same sanctioned #0A6E88 value, same reasoning, just re-scoped to
+   the new default's anchor. */
+html[data-theme="light"] body.ds-root {
+  --ds-accent-hover: #0A6E88;
+}
+html[data-theme="dark"] body.ds-root {
+  --ds-accent: #34D3EE;
+  --ds-accent-hover: #5ADCF1;
+  --ds-accent-soft: rgba(52, 211, 238, 0.10);
+  --ds-on-accent: #04141A;
+  --ds-secondary: #E8B94A;
+  --ds-tertiary: #A892F0;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) body.ds-root {
+    --ds-accent: #34D3EE;
+    --ds-accent-hover: #5ADCF1;
+    --ds-accent-soft: rgba(52, 211, 238, 0.10);
+    --ds-on-accent: #04141A;
+    --ds-secondary: #E8B94A;
+    --ds-tertiary: #A892F0;
+  }
+}
+
 /* --fy-ember (BRA-1): the site's second brand color — fire, forge material,
    and temperature (including a status whose status IS a temperature, e.g.
    heat-ramp steps). Never used for a link, focus ring, or toggle
