@@ -306,7 +306,7 @@ If the validation fails, do **not** move the file. Restore with `cp ~/.claude/se
 ```bash
 jq -e '[.hooks.UserPromptSubmit[]?.hooks[]?.command] | any(test("design-nudge"))' ~/.claude/settings.json
 jq -c '.hooks | keys' ~/.claude/settings.json
-jq -c '[.hooks.PreToolUse | length, .hooks.SessionStart | length]' ~/.claude/settings.json
+jq -c '[(.hooks.PreToolUse|length), (.hooks.SessionStart|length)]' ~/.claude/settings.json
 ```
 
 Expected: `true`, then `["PreToolUse","SessionStart","UserPromptSubmit"]`, then `[2,2]`.
@@ -362,7 +362,7 @@ The description below is load-bearing and must be copied **verbatim**. It is the
 
 Do not add design content to the body. The contract is dispatch-only.
 
-- [ ] **Step 1: Write the failing structural check**
+- [x] **Step 1: Write the failing structural check**
 
 ```bash
 test -f ~/.agents/skills/design-router/SKILL.md \
@@ -372,7 +372,7 @@ test -f ~/.agents/skills/design-router/SKILL.md \
 
 Expected: `absent`.
 
-- [ ] **Step 2: Create the skill file**
+- [x] **Step 2: Create the skill file**
 
 ```bash
 mkdir -p ~/.agents/skills/design-router
@@ -479,7 +479,7 @@ that directory exists; if it does not, tell the user to run `/impeccable init`
 first.
 ````
 
-- [ ] **Step 3: Create the symlink**
+- [x] **Step 3: Create the symlink**
 
 ```bash
 ln -s ../../.agents/skills/design-router ~/.claude/skills/design-router
@@ -488,21 +488,23 @@ ls -la ~/.claude/skills/design-router
 
 Expected: a symlink entry resolving to `../../.agents/skills/design-router`, matching the form of the neighbouring entries (`ls -la ~/.claude/skills/ | grep apple-design` shows the pattern).
 
-- [ ] **Step 4: Run the structural checks to verify they pass**
+- [x] **Step 4: Run the structural checks to verify they pass**
 
 ```bash
 test -f ~/.agents/skills/design-router/SKILL.md && echo "skill file ok"
 test -L ~/.claude/skills/design-router && echo "symlink ok"
 test -f ~/.claude/skills/design-router/SKILL.md && echo "symlink resolves ok"
-grep -c 'disable-model-invocation' ~/.agents/skills/design-router/SKILL.md
+awk '/^---$/{n++; next} n==1' ~/.agents/skills/design-router/SKILL.md | grep -c 'disable-model-invocation'
 awk '/^---$/{n++; next} n==1' ~/.agents/skills/design-router/SKILL.md | grep -c '^description: Use when'
 ```
 
-Expected: `skill file ok`, `symlink ok`, `symlink resolves ok`, then `0` (the flag must be absent so the skill is model-invocable), then `1`.
+Expected: `skill file ok`, `symlink ok`, `symlink resolves ok`, then `0` (the flag must be absent from the **frontmatter** so the skill is model-invocable), then `1`.
+
+Both of the last two checks scope themselves to the frontmatter with `awk`. Do not grep the whole file for `disable-model-invocation` — the body legitimately mentions it once, in the "Skills that cannot auto-fire" section, describing `review-animations` and `pick-ui-library`. A whole-file grep returns `1` and false-flags a correct skill.
 
 `grep -c` exits non-zero when the count is 0, so the fourth command prints `0` and returns 1 — that is the passing case here. Read the printed number, not the exit status.
 
-- [ ] **Step 5: Verify the body stayed dispatch-only**
+- [x] **Step 5: Verify the body stayed dispatch-only**
 
 ```bash
 wc -l ~/.agents/skills/design-router/SKILL.md
@@ -511,7 +513,7 @@ grep -icE 'font-family|cubic-bezier|#[0-9a-f]{6}|ease-out|rem;' ~/.agents/skills
 
 Expected: roughly 100 lines or fewer, and `0` design-content matches. A non-zero second number means design opinions leaked into the router — move them out.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /Users/abhijitbansal/projects/foundry
