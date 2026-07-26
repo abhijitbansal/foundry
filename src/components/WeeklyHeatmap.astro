@@ -12,11 +12,16 @@ import type { WeeklyHeatmap } from '../lib/weekly.types';
 
 interface Props {
 	heatmap: WeeklyHeatmap;
+	// Week identity for the accessible name — without it every week's grid on
+	// /updates announces the identical label (audit C16, item 3).
+	weekLabel?: string;
 }
 
-const { heatmap } = Astro.props;
+const { heatmap, weekLabel } = Astro.props;
 const max = maxHeatmapValue(heatmap.cells);
-const ariaLabel = `Activity by hour and day of week, ${heatmap.timezone} time`;
+const ariaLabel = weekLabel
+	? `Activity by hour and day of week for ${weekLabel}, ${heatmap.timezone} time`
+	: `Activity by hour and day of week, ${heatmap.timezone} time`;
 ---
 
 <div style="display:flex;gap:8px">
