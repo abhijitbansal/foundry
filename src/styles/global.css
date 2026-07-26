@@ -1217,3 +1217,22 @@ body.ds-root {
    here, and if the face lacks the feature this is a harmless no-op — the
    letter-spacing:0 reset is the verifiable, load-bearing half. */
 .fy-stat { letter-spacing: 0; font-variant-numeric: lining-nums tabular-nums; }
+
+/* TYP-9 (bold): /updates' editorial anchor. The H1 ("What shipped, week by
+   week.") is evergreen chrome carrying no news, so the newest week's
+   `highlights.overall` becomes the page's real lead sentence — a serif
+   standfirst at display-md size, tighter measure than body, only on the
+   first (most recent) week card; weeks 2..n keep the plain .ds-body
+   58ch treatment (TYP-6). Contrast: --ds-text-2 on --ds-surface is
+   11.5:1 light / 8.5:1 dark; at 21-26px this is large text (3:1 bar)
+   but clears the stricter 4.5:1 anyway. */
+.fy-week-standfirst {
+  font-family: var(--ds-font-display);
+  font-weight: 400;
+  font-size: clamp(21px, 2.4vw, 26px);
+  line-height: 1.32;
+  letter-spacing: -0.005em;
+  max-width: 46ch;
+  text-wrap: pretty;
+  color: var(--ds-text-2);
+}
