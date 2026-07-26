@@ -496,9 +496,12 @@ html[data-theme="light"] .brand-skills {
   color: var(--ds-accent);
   background: color-mix(in srgb, var(--ds-accent) 14%, transparent);
 }
+/* --ds-text, not --ds-text-2: resting color moved to text-2 for AA, so a
+   text-2 hover would be invisible. Ladder: resting text-2 → hover text →
+   selected accent. */
 .harness-fs-tab:not([aria-current='true']):hover,
 .harness-fs-tab:not([aria-current='true']):focus-visible {
-  color: var(--ds-text-2);
+  color: var(--ds-text);
 }
 .harness-fs-close {
   padding: 7px 14px;

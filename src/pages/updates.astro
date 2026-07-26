@@ -192,9 +192,13 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 		color: var(--ds-accent);
 		border-color: var(--ds-accent);
 	}
+	/* Hover steps to --ds-text, not --ds-text-2: the resting color already
+	   moved to text-2 for AA (was text-3 when this hover step was designed),
+	   so text-2 here would be a color no-op. --ds-text keeps the intended
+	   ladder: resting text-2 → hover text → selected accent. */
 	.fy-view-btn:not([aria-pressed='true']):hover,
 	.fy-view-btn:not([aria-pressed='true']):focus-visible {
-		color: var(--ds-text-2);
+		color: var(--ds-text);
 		border-color: var(--ds-line-strong);
 	}
 	:root[data-fy-view='grid'] [data-fy-view-panel='works'] {
