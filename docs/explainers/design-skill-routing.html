@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The design router — how it works, how to use it, what the review changed</title>
+</head>
+<body>
+
+<style>
+  :root {
+    --paper:   #F7F6F1;
+    --panel:   #FFFFFF;
+    --ink:     #1A1D28;
+    --ink-2:   #434857;
+    --dim:     #6E7383;
+    --rule:    #DEDCD2;
+    --blue:    #2B4C9B;
+    --blue-bg: #E8EDF8;
+    --gold:    #9A6B1F;
+    --gold-bg: #F5EBD8;
+    --ok:      #3E7A53;
+    --ok-bg:   #E3EFE7;
+    --bad:     #A5402B;
+    --bad-bg:  #F6E3DE;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper:   #13151D;
+      --panel:   #1B1E29;
+      --ink:     #E9EAEE;
+      --ink-2:   #B8BCC8;
+      --dim:     #7E8494;
+      --rule:    #2E3240;
+      --blue:    #7C9AE8;
+      --blue-bg: #1E2A45;
+      --gold:    #D8A855;
+      --gold-bg: #33270F;
+      --ok:      #7DBB92;
+      --ok-bg:   #1B2F22;
+      --bad:     #E08A72;
+      --bad-bg:  #3A1F17;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #13151D; --panel: #1B1E29; --ink: #E9EAEE; --ink-2: #B8BCC8;
+    --dim: #7E8494; --rule: #2E3240; --blue: #7C9AE8; --blue-bg: #1E2A45;
+    --gold: #D8A855; --gold-bg: #33270F; --ok: #7DBB92; --ok-bg: #1B2F22;
+    --bad: #E08A72; --bad-bg: #3A1F17;
+  }
+  :root[data-theme="light"] {
+    --paper: #F7F6F1; --panel: #FFFFFF; --ink: #1A1D28; --ink-2: #434857;
+    --dim: #6E7383; --rule: #DEDCD2; --blue: #2B4C9B; --blue-bg: #E8EDF8;
+    --gold: #9A6B1F; --gold-bg: #F5EBD8; --ok: #3E7A53; --ok-bg: #E3EFE7;
+    --bad: #A5402B; --bad-bg: #F6E3DE;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font: 16.5px/1.62 "Avenir Next", Avenir, "Segoe UI", Frutiger, -apple-system, sans-serif;
+    margin: 0;
+  }
+  main { max-width: 74rem; margin: 0 auto; padding: 3.5rem 1.4rem 5rem; }
+  section { margin-block: 3.4rem; }
+  .prose { max-width: 66ch; }
+
+  h1, h2 { font-weight: 650; letter-spacing: -0.015em; text-wrap: balance; line-height: 1.18; margin: 0 0 0.9rem; }
+  h1 { font-size: clamp(1.9rem, 4.4vw, 2.9rem); }
+  h2 { font-size: clamp(1.35rem, 2.6vw, 1.75rem); }
+  h3 { font-size: 1.02rem; font-weight: 650; margin: 0 0 0.35rem; }
+  p { color: var(--ink-2); margin: 0.65rem 0; }
+  strong { color: var(--ink); }
+
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.55rem;
+  }
+  code {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.84em; background: var(--blue-bg); color: var(--ink);
+    padding: 0.1em 0.34em; border-radius: 3px; overflow-wrap: break-word;
+  }
+  pre {
+    background: var(--panel); border: 1px solid var(--rule); border-radius: 6px;
+    padding: 0.9rem 1rem; overflow-x: auto; font-size: 0.8rem; line-height: 1.55;
+  }
+  pre code { background: none; padding: 0; }
+
+  .verdict {
+    background: var(--gold-bg); border: 1px solid var(--rule);
+    border-radius: 8px; padding: 1.1rem 1.3rem; max-width: 66ch;
+  }
+  .verdict p { margin: 0.3rem 0; }
+
+  /* rail flow */
+  .rail { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: stretch; margin: 1.1rem 0; }
+  .rail .stop {
+    flex: 1 1 11rem; min-width: 0; background: var(--panel);
+    border: 1px solid var(--rule); border-top: 2px solid var(--blue);
+    border-radius: 6px; padding: 0.7rem 0.85rem; font-size: 0.87rem;
+    line-height: 1.45; color: var(--ink-2);
+  }
+  .rail .stop b {
+    display: block; font-family: ui-monospace, Menlo, monospace;
+    font-size: 0.7rem; letter-spacing: 0.06em; color: var(--blue); margin-bottom: 0.3rem;
+  }
+  .rail .joint { align-self: center; color: var(--dim); }
+
+  .lanes { display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); gap: 0.9rem; }
+  .lane {
+    background: var(--panel); border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1.1rem 1.25rem; min-width: 0;
+  }
+  .lane .kind {
+    font-family: ui-monospace, Menlo, monospace; font-size: 0.68rem;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim);
+  }
+  .lane ul { margin: 0.55rem 0 0; padding-left: 1.1rem; color: var(--ink-2); font-size: 0.92rem; }
+  .lane li { margin: 0.3rem 0; }
+  .pill {
+    display: inline-block; font-family: ui-monospace, Menlo, monospace; font-size: 0.66rem;
+    letter-spacing: 0.08em; text-transform: uppercase; padding: 0.16em 0.5em;
+    border-radius: 999px; vertical-align: 0.12em; margin-left: 0.4rem;
+  }
+  .pill.off { background: var(--bad-bg); color: var(--bad); }
+  .pill.on  { background: var(--ok-bg); color: var(--ok); }
+
+  .scroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.89rem; background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; }
+  th, td { text-align: left; padding: 0.55rem 0.8rem; border-bottom: 1px solid var(--rule); vertical-align: top; min-width: 0; }
+  tr:last-child td { border-bottom: none; }
+  th {
+    font-family: ui-monospace, Menlo, monospace; font-size: 0.68rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); font-weight: 500;
+  }
+  td code { background: none; padding: 0; color: var(--blue); }
+  tr.hot td { background: var(--gold-bg); }
+  td .why { color: var(--dim); font-size: 0.82rem; }
+
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr)); gap: 0.9rem; }
+  .card {
+    background: var(--panel); border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1.05rem 1.2rem; min-width: 0; font-size: 0.92rem; color: var(--ink-2);
+  }
+  .card p { font-size: inherit; }
+
+  .tag {
+    display: inline-block; font-family: ui-monospace, Menlo, monospace; font-size: 0.64rem;
+    letter-spacing: 0.1em; text-transform: uppercase; padding: 0.18em 0.55em;
+    border-radius: 3px; margin-bottom: 0.45rem;
+  }
+  .tag.fixed    { background: var(--ok-bg);  color: var(--ok); }
+  .tag.settled  { background: var(--blue-bg); color: var(--blue); }
+  .tag.refuted  { background: var(--bad-bg); color: var(--bad); }
+  .tag.open     { background: var(--gold-bg); color: var(--gold); }
+
+  .findings { display: flex; flex-direction: column; gap: 0.8rem; }
+  .finding { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 1rem 1.2rem; }
+  .finding p { font-size: 0.92rem; margin: 0.2rem 0 0; }
+
+  ol.todo { padding-left: 1.3rem; color: var(--ink-2); max-width: 70ch; }
+  ol.todo li { margin: 0.75rem 0; }
+  ol.todo li::marker { font-family: ui-monospace, Menlo, monospace; color: var(--gold); font-weight: 600; }
+
+  .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 0.7rem; margin: 1.1rem 0; }
+  .kpi { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 0.75rem 0.9rem; min-width: 0; }
+  .kpi .n { font-size: 1.45rem; font-weight: 650; font-variant-numeric: tabular-nums; color: var(--blue); }
+  .kpi .l { font-size: 0.78rem; color: var(--dim); line-height: 1.35; }
+
+  footer { margin-top: 4rem; color: var(--dim); font-size: 0.84rem; border-top: 1px solid var(--rule); padding-top: 1.2rem; }
+  a { color: var(--blue); }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<main>
+
+<section style="margin-top:0">
+  <div class="eyebrow">Harness engineering · foundry · branch <code style="text-transform:none">docs/design-skill-routing</code> · 26 July 2026</div>
+  <h1>The design router, verified</h1>
+  <div class="prose">
+    <p class="lede" style="font-size:1.12rem">
+      25 design-domain skills are installed on this machine. One owned router decides which
+      single one loads for any design, UI, or motion request — and this session put every claim
+      it makes under adversarial verification, settled its one untested assumption, and fixed
+      what that turned up.
+    </p>
+  </div>
+  <div class="verdict" style="margin-top:1.3rem">
+    <p><strong>Verdict:</strong> the design is sound, consistent end to end, and now fully
+    live — the nudge hook was registered (user-authorized) at the end of this session and fires
+    from the next session on. Remaining: the acceptance gate — PR
+    <a href="https://github.com/abhijitbansal/foundry/pull/26">#26</a> is open.</p>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">How it works</div>
+  <h2>One request path, two entry lanes</h2>
+  <div class="prose">
+    <p>Only a skill's <strong>description</strong> sits in model context — the body loads after it
+    fires. So triggering lives in one owned place: the <code>design-router</code> skill carries
+    every trigger phrase, and its body is a dispatch table with zero design opinions. The skills
+    it routes to are symlinked third-party content, never edited.</p>
+  </div>
+
+  <div class="rail">
+    <div class="stop"><b>01 · prompt</b>"shrink the padding on the cards"</div>
+    <span class="joint">→</span>
+    <div class="stop"><b>02 · design-nudge.sh</b>Matches only the first 400 chars against three regex classes (prefixes / words / phrases). Fires on 6.5% of 1,826 real prompts. Injects one advisory line; exits 0 no matter what.</div>
+    <span class="joint">→</span>
+    <div class="stop"><b>03 · design-router</b>Classifies against the table, applies the refactor split, stack gate, and exclusion sets.</div>
+    <span class="joint">→</span>
+    <div class="stop"><b>04 · dispatch</b>Exactly one design skill loads. Never two from the same exclusion set.</div>
+  </div>
+
+  <div class="lanes">
+    <div class="lane">
+      <span class="kind">Auto lane</span><span class="pill on">registered · live next session</span>
+      <ul>
+        <li>Hook nudges, never mandates — a false positive costs one injected line; the router's refactor split bounces non-design work straight back out.</li>
+        <li>Registered in <code>settings.json</code> 2026-07-26 (user-authorized, Edit-tool path; backup at <code>settings.json.bak-20260726-designnudge</code>). Hooks load at session start, so it fires from the next session on.</li>
+      </ul>
+    </div>
+    <div class="lane">
+      <span class="kind">Manual lane</span><span class="pill on">live</span>
+      <ul>
+        <li><code>/design</code> — classify the current request, dispatch the best target.</li>
+        <li><code>/design &lt;name&gt;</code> — skip classification, dispatch straight to a route or skill.</li>
+        <li><code>/review-animations</code>, <code>/pick-ui-library</code> — typed directly by you; the only path that loads these two (see below).</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">The table</div>
+  <h2>Where a request goes now</h2>
+  <div class="scroll">
+    <table>
+      <thead><tr><th>Request shape</th><th>Routes to</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>New visual surface — page, landing, component</td><td><code>impeccable:impeccable</code></td><td class="why"><code>design-taste-frontend</code> instead if the stack gate passes</td></tr>
+        <tr><td>Redesign existing, "looks generic", "AI slop"</td><td><code>redesign-existing-projects</code></td><td class="why">framework-agnostic, don't-break-it rules; same gate swap</td></tr>
+        <tr><td>UX critique, a11y audit, visual hierarchy</td><td><code>impeccable:impeccable</code></td><td class="why">critique / audit routes — no init needed</td></tr>
+        <tr class="hot"><td><strong>Build this specific animation</strong></td><td><code>impeccable</code> (animate) + <code>apple-design</code></td><td class="why">the only motion row that writes code</td></tr>
+        <tr><td>"What could be animated here", "feel more alive"</td><td><code>find-animation-opportunities</code></td><td class="why">read-only; 5–7 capped proposals</td></tr>
+        <tr><td>"Improve the animations", motion roadmap</td><td><code>improve-animations</code></td><td class="why">plans only (its <code>execute</code> route is the one exception)</td></tr>
+        <tr><td>Review a motion diff</td><td><code>review-animations</code></td><td class="why">user-typed <code>/review-animations</code> only</td></tr>
+        <tr><td>"What's it called when…"</td><td><code>animation-vocabulary</code></td><td class="why">naming only</td></tr>
+        <tr><td>Gestures, springs, sheets, drag, momentum</td><td><code>apple-design</code></td><td class="why">framework-agnostic physics</td></tr>
+        <tr class="hot"><td>Interaction feel, micro-interaction polish</td><td><code>emil-design-eng</code></td><td class="why"><strong>relabeled this session</strong> — motion-centric; static polish → impeccable critique</td></tr>
+        <tr><td>Library pick — toasts, charts, cmdk, virtualization</td><td><code>pick-ui-library</code></td><td class="why">user-typed <code>/pick-ui-library</code> only</td></tr>
+        <tr><td>Module / API shape, seams, testability</td><td><code>codebase-design</code>, <code>design-an-interface</code></td><td class="why">not visual — "interface" means API surface</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cards" style="margin-top:1rem">
+    <div class="card">
+      <h3>Refactor split</h3>
+      <p>"Refactor" routes on what the change is <em>for</em>, never the file extension. State
+      refactor in a <code>.tsx</code> → logic lane. Spacing change in a <code>.ts</code> markup
+      builder → design lane. Both present → split, logic first.</p>
+    </div>
+    <div class="card">
+      <h3>Stack gate</h3>
+      <p><code>design-taste-frontend</code> / <code>high-end-visual-design</code> need React
+      <strong>and</strong> Tailwind in the actually-read <code>package.json</code>. Foundry fails
+      it on purpose — React there is one scoped component, no Tailwind.</p>
+    </div>
+    <div class="card">
+      <h3>Exclusion sets</h3>
+      <p>Never two from one set: the three full rulebooks (impeccable ⊗ taste ⊗ high-end);
+      brainstorming ⊗ impeccable; emil ⊗ review-animations. One rulebook per request, always.</p>
+    </div>
+    <div class="card">
+      <h3>Out of the pool <span class="tag fixed" style="margin-left:0.3rem">new</span></h3>
+      <p>Native (SwiftUI/UIKit) → <code>swiftui-expert-skill</code> / <code>apple-design</code> /
+      <code>ecc:liquid-glass-design</code> directly. The ecc design fleet stays unrouted —
+      overlapping or React-locked. Now written down as a decision, not an accident.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">This session</div>
+  <h2>Verified first, then fixed</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="n">14</div><div class="l">verification agents, 0 errors</div></div>
+    <div class="kpi"><div class="n">~30</div><div class="l">router claims checked with file:line evidence</div></div>
+    <div class="kpi"><div class="n">55/55</div><div class="l">hook assertions green</div></div>
+    <div class="kpi"><div class="n">10/10</div><div class="l">acceptance prompts correct at hook level</div></div>
+    <div class="kpi"><div class="n">25 → 13</div><div class="l">installed design skills vs routed pool, now documented</div></div>
+    <div class="kpi"><div class="n">5</div><div class="l">commits pushed this session</div></div>
+  </div>
+
+  <div class="findings">
+    <div class="finding">
+      <span class="tag settled">settled by live test</span>
+      <h3>The two "call by name" skills can never be model-called</h3>
+      <p><code>Skill(pick-ui-library)</code> was invoked for real: hard error — the
+      <code>disable-model-invocation</code> flag blocks <em>every</em> model
+      <code>Skill()</code> call, not just auto-firing. The router's "call them by name" and the
+      <code>/design &lt;name&gt;</code> fallback were both mechanically impossible. Fix shipped in
+      four files: the working path is you typing <code>/&lt;skill-name&gt;</code>, and
+      <code>/design &lt;name&gt;</code> now reads the skill file from disk instead. Probe 9 of the
+      acceptance gate now tests the handoff, not the settled mechanism.</p>
+    </div>
+    <div class="finding">
+      <span class="tag refuted">claim refuted</span>
+      <h3>emil-design-eng is not "non-motion UI craft"</h3>
+      <p>All 674 lines are motion — spring curves, <code>scale(0.97)</code> presses, animation
+      decision frameworks. The row is relabeled motion-centric and purely static polish now
+      routes to impeccable critique. Two neighboring passages the reviewer caught still carrying
+      the old wording were aligned too.</p>
+    </div>
+    <div class="finding">
+      <span class="tag fixed">fixed</span>
+      <h3>Branch hygiene</h3>
+      <p>A 442-line unrelated plan doc that a hook-fix commit accidentally swept in was removed.
+      The missing session log was retrofitted (0007) and this review logged (0008). The plan doc
+      got an errata block for the three post-review commits that superseded parts of it. Spec
+      §4.1 / §6 / §7 now agree with verified reality.</p>
+    </div>
+    <div class="finding">
+      <span class="tag fixed">fixed</span>
+      <h3>Router accuracy nits from the claim sweep</h3>
+      <p><code>improve-animations</code> isn't fully read-only (it has an
+      <code>execute&nbsp;&lt;plan&gt;</code> route) — wording corrected. And the native carve-out
+      that lived only in CLAUDE.md now also lives in the router's own "Out of the pool" section,
+      restoring single-source-of-truth in both directions.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Remaining</div>
+  <h2>One step to done</h2>
+  <p class="prose" style="font-size:0.92rem"><strong>Done since first publish:</strong> hook
+  registered — <code>settings.json</code> now carries <code>UserPromptSubmit</code>, validated
+  (<code>[2,2,1]</code> hook counts, smoke test emits the nudge), backup saved — and PR
+  <a href="https://github.com/abhijitbansal/foundry/pull/26">#26</a> opened.</p>
+  <ol class="todo">
+    <li><strong>Run the acceptance gate, then merge</strong> — 10 probes, each in a fresh
+      session, from <code>.scratch/design-skill-routing-test-checklist.html</code>. Pass = 8/10
+      overall <em>and</em> diagnostics #2, #9, #10 individually. Probe 9's expectation is
+      already updated to the clean-handoff form. Optional while merging: decide whether
+      <code>ecc:accessibility</code> earns an exception row for deep web a11y audits.</li>
+  </ol>
+</section>
+
+<footer>
+  Branch <code>docs/design-skill-routing</code> · repo-side artifacts: spec, plan, session logs
+  0007–0008 · harness-side: router skill, nudge hook + tests, <code>/design</code>, CLAUDE.md
+  pointer · verification: live Skill() probe, 55-assertion suite, 10-probe hook replay,
+  14-agent claim sweep, coverage census.
+</footer>
+
+</main>
+</body>
+</html>
