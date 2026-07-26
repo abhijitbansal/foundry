@@ -126,7 +126,7 @@ describe('buildLedger', () => {
 
 describe('buildYard', () => {
 	it('renders an accessible inline SVG with a title per building', () => {
-		const { svg, ariaLabel } = buildYard(YARD_REPOS, { metaLine: 'Test survey line' });
+		const { svg, ariaLabel } = buildYard(YARD_REPOS, {});
 		expect(svg).toContain('role="img"');
 		expect(svg).toContain(ariaLabel);
 		expect(svg).toContain('<title>cubby');
@@ -135,7 +135,7 @@ describe('buildYard', () => {
 
 	it('throws when a repo in the input has no YARD slot', () => {
 		const repos: WorksRepo[] = [...YARD_REPOS, { repo: 'brand-new-repo', lines: 500, sessions: 5, active: true }];
-		expect(() => buildYard(repos, { metaLine: 'x' })).toThrow(/brand-new-repo/);
+		expect(() => buildYard(repos, {})).toThrow(/brand-new-repo/);
 	});
 });
 

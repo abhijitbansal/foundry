@@ -14,7 +14,7 @@ export { fmtK, pennantCount, seeded } from './works-svg';
 const YARD_MAX_STOREYS = 8;
 const STRIP_MAX_STOREYS = 6;
 
-const YARD_CONF = { S: 30, ox: 268, oy: 236, vw: 1160, vh: 612 };
+const YARD_CONF = { S: 30, ox: 268, oy: 236, vw: 1010, vh: 612 };
 const STRIP_CONF = { S: 26, ox: 126, oy: 172, vw: 620, vh: 448 };
 
 const YARD_ARIA_LABEL = 'Isometric yard plan: one building per repository, height mapped to lines added.';
@@ -73,10 +73,8 @@ export function buildLedger(repos: WorksRepo[]): LedgerEntry[] {
 }
 
 /** All-time yard plan (index `#telemetry`). `repos` should cover every
- * repo in data/stats.json — throws via assertYardCoverage otherwise.
- * `metaLine` fills the title block's survey line (e.g. session count + date
- * range); it's upper-cased to match the engraved-plate style. */
-export function buildYard(repos: WorksRepo[], opts: { metaLine: string; instanceId?: string }): WorksResult {
+ * repo in data/stats.json — throws via assertYardCoverage otherwise. */
+export function buildYard(repos: WorksRepo[], opts: { instanceId?: string }): WorksResult {
 	assertYardCoverage(repos);
 	const { S, ox, oy, vw, vh } = YARD_CONF;
 	const P = makeProj(S, ox, oy);
@@ -106,11 +104,9 @@ export function buildYard(repos: WorksRepo[], opts: { metaLine: string; instance
 		ingotStack(P, 3.2, 5.6, [2, 1], false);
 
 	const furn =
-		titleBlock(vw - 316, vh - 96, {
+		titleBlock(vw - 194, vh - 76, {
 			sheetLabel: 'SHEET 03',
 			sheetNo: 'NO. 03-A',
-			l1: 'FORGE YARD PLAN — ONE BUILDING PER REPO',
-			l2: opts.metaLine.toUpperCase(),
 			l3: 'SCALE: 1 STOREY ≈ LINES ADDED · 8-STOREY MAX',
 		}) +
 		northArrow(vw - 46, 40) +

@@ -16,14 +16,11 @@ import { buildStrip, buildYard } from '../lib/works';
 import type { WorksRepo } from '../lib/works.types';
 
 type Props =
-	| { variant: 'yard'; repos: WorksRepo[]; metaLine: string; label?: string }
+	| { variant: 'yard'; repos: WorksRepo[]; label?: string }
 	| { variant: 'strip'; repos: WorksRepo[]; stamp: string; instanceId: string; label?: string };
 
 const props = Astro.props as Props;
-const result =
-	props.variant === 'yard'
-		? buildYard(props.repos, { metaLine: props.metaLine })
-		: buildStrip(props.repos, { stamp: props.stamp, instanceId: props.instanceId });
+const result = props.variant === 'yard' ? buildYard(props.repos, {}) : buildStrip(props.repos, { stamp: props.stamp, instanceId: props.instanceId });
 
 const domId = props.variant === 'yard' ? 'yard' : props.instanceId;
 const dialogId = `fyw-dialog-${domId}`;
