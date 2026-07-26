@@ -237,17 +237,27 @@ a:hover {
 }
 
 /* Light-theme .ds-btn legibility fix: brand-skills' light pairing is
-   --ds-on-accent #04141A on --ds-accent #0E8FB0 — ~4.4:1 on paper but the
-   dark-on-mid-teal combination reads muddy at 13px (user-reported: the
-   hero's "See the work" is hard to read). Darken the fill one step and
-   flip the label light: #FBF8F1 on #0B7894 ≈ 4.8:1, on the darker hover
-   fill ≈ 6.8:1. Dark theme (#04141A on #34D3EE, ~9:1) is untouched. */
+   --ds-on-accent #04141A on --ds-accent — even at PAL-2's desaturated
+   #236F86 that's only 3.29:1 (dark ink needs a much lighter or much
+   darker partner than a mid-lightness teal, not this one). Darken the
+   fill one step and flip the label light: #FBF8F1 on the new resting
+   --ds-accent-hover (#175260) = 8.21:1. Dark theme (#04141A on #62C4D8,
+   9.29:1) is untouched — PAL-2 keeps dark's accent light enough that the
+   default accent/on-accent pairing already works there. */
 html[data-theme="light"] .ds-btn {
   background: var(--ds-accent-hover);
   color: #FBF8F1;
 }
+/* PAL-2 judge-found fix: with resting fill now --ds-accent-hover (#175260,
+   relative luminance 0.0706), the old hover fill #085E74 (luminance
+   0.0932) is LIGHTER than resting — hover would brighten instead of
+   darken in light theme, inverting the documented rule below the focus-
+   ring block. #0F3A44 (hsl(191,64%,16%): one step further down the same
+   accent → accent-hover lightness ramp, 33%→23%→16%) is darker
+   (luminance 0.0355) and stays under PAL-2's 80%-saturation ceiling;
+   #FBF8F1 label on it = 11.59:1. */
 html[data-theme="light"] .ds-btn:hover {
-  background: #085E74;
+  background: #0F3A44;
 }
 
 /* Restore the site focus ring on buttons. components.css:33/55 set
@@ -267,16 +277,49 @@ html .ds-btn-quiet:focus-visible {
   outline-offset: 3px;
 }
 
-/* Light-theme accent-text contrast, second pass. --ds-accent-hover #0B7894
-   on --ds-bg #F4EFE6 measures 4.44:1 — 0.06 short of AA for the 11-13px
-   mono text it carries; worse over accent-tinted composites (.ds-callout
-   3.97:1, .ds-chip--accent 4.28:1). Darkening the variable one step reaches
-   the ~20 inline var(--ds-accent-hover) consumers no class rule can touch.
-   #0A6E88: 5.10:1 on --ds-bg, 5.50:1 on --ds-surface, 4.55:1 on the callout
-   composite. Light only — dark's accent-hover is the deliberately brighter
-   half (9.98-10.90:1). Off-palette by one step, same as #085E74 above. */
+/* PAL-2: desaturate both accents from ~85% to ~60% saturation — the
+   redesign rulebook's ceiling is 80%, and the old resting accent was only
+   3.29:1 on its own (the root cause of six "use --ds-accent-hover, not
+   --ds-accent" workarounds across foundation.css/components.css/global.css
+   — left as harmless no-ops here per plan; retire separately). Restates
+   --ds-accent-soft too: brands.css hardcodes it as literal rgba channels
+   (:29/:49/:59), so overriding --ds-accent alone would silently desync
+   every callout background/chip fill/progress rail from the new hue.
+   Light #236F86 (hsl(194,59%,33%)) is 4.97:1 on --ds-bg / 5.37:1 on
+   --ds-surface — clears AA as *resting* text, which #0E8FB0's 3.29:1
+   never did. Hover #175260 (hsl(192,61%,23%)) is 7.60:1 / 8.21:1,
+   comfortably past AA on its own — this retires the former separate
+   #0A6E88 AA patch that used to live at this exact selector (it existed
+   only to darken #0B7894's 4.44:1 shortfall; the new hover doesn't need
+   a further one-step darken). */
 html[data-theme="light"] .brand-skills {
-  --ds-accent-hover: #0A6E88;
+  --ds-accent: #236F86;
+  --ds-accent-hover: #175260;
+  --ds-accent-soft: rgba(35, 111, 134, 0.10);
+}
+/* Dark twin — brands.css never had a global.css override for
+   .brand-skills dark before now (only body.ds-root did, added by PAL-3);
+   needed since the dark accent desaturates too. #62C4D8 (hsl(190,60%,62%))
+   is 8.76:1 on --ds-bg / 8.03:1 on --ds-surface; --ds-on-accent #04141A on
+   it is 9.29:1 (the .ds-btn combo). Hover #7FD0E0 (hsl(190,61%,69%)) is
+   10.11:1 / 9.26:1. `html` prefix matches the focus-ring idiom above:
+   raises these to (0,2,1) so they outrank brands.css's own
+   `[data-theme="dark"] .brand-skills` (0,2,0) and its
+   `@media(...) { html:not(...) .brand-skills }` mirror (0,2,1) — the
+   media mirror ties on specificity, so global.css loading after
+   brands.css in BaseLayout.astro is what decides it, same as every other
+   .brand-skills/body.ds-root override in this file. */
+html[data-theme="dark"] .brand-skills {
+  --ds-accent: #62C4D8;
+  --ds-accent-hover: #7FD0E0;
+  --ds-accent-soft: rgba(98, 196, 216, 0.10);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .brand-skills {
+    --ds-accent: #62C4D8;
+    --ds-accent-hover: #7FD0E0;
+    --ds-accent-soft: rgba(98, 196, 216, 0.10);
+  }
 }
 
 /* Kill the :root Paperix-red fallback (PAL-3). Right now every accent-
@@ -293,36 +336,32 @@ html[data-theme="light"] .brand-skills {
    existing wrappers still win inside their own scope (same-element rule
    match beats an inherited value regardless of source order). */
 body.ds-root {
-  --ds-accent: #0E8FB0;
-  --ds-accent-hover: #0B7894;
-  --ds-accent-soft: rgba(14, 143, 176, 0.10);
+  --ds-accent: #236F86;
+  --ds-accent-hover: #175260;
+  --ds-accent-soft: rgba(35, 111, 134, 0.10);
   --ds-on-accent: #04141A;
   --ds-secondary: #B07A18;
   --ds-tertiary: #6D52C4;
 }
-/* Deviation from the sanctioned PAL-3 values: without this, body.ds-root's
-   own #0B7894 default (4.44:1 on --ds-bg, see the comment above) would
-   reopen the exact AA failure the .brand-skills fix above exists to close,
-   for any element outside the seven wrappers — swapping a wrong-brand-but-
-   AA-passing default (Paperix #A2362E) for a right-brand-but-AA-failing
-   one. Same sanctioned #0A6E88 value, same reasoning, just re-scoped to
-   the new default's anchor. */
-html[data-theme="light"] body.ds-root {
-  --ds-accent-hover: #0A6E88;
-}
+/* PAL-2 retires the separate html[data-theme="light"] body.ds-root
+   accent-hover patch that used to live here: it existed only to darken
+   #0B7894 (4.44:1, short of AA) one further step to #0A6E88 (5.10:1). The
+   new resting --ds-accent-hover, #175260, already clears AA at 7.60:1 on
+   --ds-bg / 8.21:1 on --ds-surface without a further patch — see the
+   .brand-skills comment above for the full PAL-2 rationale/ratios. */
 html[data-theme="dark"] body.ds-root {
-  --ds-accent: #34D3EE;
-  --ds-accent-hover: #5ADCF1;
-  --ds-accent-soft: rgba(52, 211, 238, 0.10);
+  --ds-accent: #62C4D8;
+  --ds-accent-hover: #7FD0E0;
+  --ds-accent-soft: rgba(98, 196, 216, 0.10);
   --ds-on-accent: #04141A;
   --ds-secondary: #E8B94A;
   --ds-tertiary: #A892F0;
 }
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) body.ds-root {
-    --ds-accent: #34D3EE;
-    --ds-accent-hover: #5ADCF1;
-    --ds-accent-soft: rgba(52, 211, 238, 0.10);
+    --ds-accent: #62C4D8;
+    --ds-accent-hover: #7FD0E0;
+    --ds-accent-soft: rgba(98, 196, 216, 0.10);
     --ds-on-accent: #04141A;
     --ds-secondary: #E8B94A;
     --ds-tertiary: #A892F0;
