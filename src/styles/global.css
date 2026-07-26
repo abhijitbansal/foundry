@@ -174,6 +174,57 @@ html:root[data-theme="dark"] .fy-plate {
   border-color: color-mix(in srgb, var(--ds-accent) 45%, var(--ds-line-strong));
 }
 
+/* SUR-7: second card species for figures/data grids, beside .fy-plate for
+   prose. --ds-surface-2 is already the recessed step in both themes
+   (1.086:1 below bg light, 1.039:1 dark) — direction is right, the inset
+   supplies the missing magnitude. Dark's border also steps up to
+   --ds-line-strong (matching .fy-plate's dark treatment) plus a bottom
+   inner lip at 5% --ds-text — the mirror of .fy-plate's top rim, since
+   light falling into a recess catches the FAR wall, not the near one.
+   All decorative non-text. Same invalid-CSS-snippet issue as SUR-2's
+   posted form (an @media inside a selector list) — split into three
+   rules, same pattern as .fy-plate above. Never applied to #fy-yard-card
+   (the night egg pins that card's background/border with !important and
+   the well's --ds-surface-2 background would change what its transition
+   animates FROM — SUR-7's own conflict note). */
+.fy-well {
+  background: var(--ds-surface-2);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: inset 0 1px 3px rgba(22, 20, 15, 0.07);
+}
+html:root[data-theme="dark"] .fy-well {
+  border-color: var(--ds-line-strong);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55),
+              inset 0 -1px 0 rgba(240, 234, 214, 0.05);
+}
+@media (prefers-color-scheme: dark) {
+  html:root:not([data-theme="light"]) .fy-well {
+    border-color: var(--ds-line-strong);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55),
+                inset 0 -1px 0 rgba(240, 234, 214, 0.05);
+  }
+}
+
+/* LAY-4: Telemetry's since-May-1/top-tools/model-mix row re-cut as a
+   12-col grid so each card's span matches its content's shape (wide-short
+   heatmap, narrow-tall bar list, full-measure stacked bar) instead of
+   `align-items:stretch` padding the shortest card with void it can't use.
+   Below 900px the wrapper's own inline auto-fit still governs and
+   everything stacks — this block only applies at/above the breakpoint
+   where a 3-card row has room to mean something. Lands together with
+   SUR-7 per the design judge: the three cards this reshapes are the same
+   three converting to .fy-well, and Model mix moves from a nested
+   flex-column wrapper to a direct grid child, so the class/DOM
+   restructuring has to happen in the same change or the spans and the
+   markup they target would mismatch. */
+@media (min-width: 900px) {
+  .fy-tele-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
+  .fy-tele-heat { grid-column: 1 / span 7; }
+  .fy-tele-tools { grid-column: 8 / span 5; }
+  .fy-tele-mix { grid-column: 1 / span 12; }
+}
+
 /* .ds-micro's text-transform:uppercase (foundation.css:169) is correct for
    labels but destroys casing that carries meaning — camelCase framework
    names, an email address, a domain (TYP-1). Keeps the mono family + micro
