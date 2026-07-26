@@ -137,6 +137,20 @@ describe('buildYard', () => {
 		const repos: WorksRepo[] = [...YARD_REPOS, { repo: 'brand-new-repo', lines: 500, sessions: 5, active: true }];
 		expect(() => buildYard(repos, {})).toThrow(/brand-new-repo/);
 	});
+
+	// LAY-2 regression pins — the crop (1160->1010) and the removed
+	// duplicate title block (l1/l2, "FORGE YARD PLAN...") are both easy to
+	// silently revert (e.g. a future YARD_CONF.vw tweak, or restoring l1/l2
+	// on titleBlock's meta) without any other test catching it.
+	it('keeps the LAY-2 viewBox crop (1010x612, not the old 1160-wide frame)', () => {
+		const { svg } = buildYard(YARD_REPOS, {});
+		expect(svg).toContain('viewBox="0 0 1010 612"');
+	});
+
+	it('never re-adds the duplicated yard title line (LAY-2)', () => {
+		const { svg } = buildYard(YARD_REPOS, {});
+		expect(svg).not.toContain('FORGE YARD PLAN');
+	});
 });
 
 describe('buildStrip', () => {
