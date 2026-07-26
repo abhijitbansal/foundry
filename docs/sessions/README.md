@@ -10,4 +10,6 @@ One markdown file per AI coding session that makes commits. Rules: [AGENTS.md â†
 | 0004 | 2026-07-11 | Main-issues fixes: nav anchors, week selector, since-May-1 telemetry archive, dark default, Monday 9am automation | [0004-2026-07-11-main-issues-dark-default-automation.md](./0004-2026-07-11-main-issues-dark-default-automation.md) |
 | 0005 | 2026-07-11 | The Works: isometric commit-city visualization (yard card + weekly strip toggle) | [0005-2026-07-11-the-works-commit-city.md](./0005-2026-07-11-the-works-commit-city.md) |
 | 0006 | 2026-07-14 | The Harness: standalone showcase page for the Claude Code harness behind this site | [0006-2026-07-14-the-harness-showcase.md](./0006-2026-07-14-the-harness-showcase.md) |
-| 0007 | 2026-07-26 | Site design pass: 22 adversarially-verified findings from the redesign rulebook, 18 units shipped | [0007-2026-07-26-site-design-pass.md](./0007-2026-07-26-site-design-pass.md) |
+| 0007 | 2026-07-26 | Design-skill auto-routing: router skill, nudge hook, /design command, acceptance gate (retrofit log) | [0007-2026-07-26-design-skill-routing.md](./0007-2026-07-26-design-skill-routing.md) |
+| 0008 | 2026-07-26 | Design-routing verification review: probe-9 mechanism settled, 14-agent claim verify, fixes | [0008-2026-07-26-design-routing-review.md](./0008-2026-07-26-design-routing-review.md) |
+| 0009 | 2026-07-26 | Site design pass + palette & design program: 22 + 42 adversarially-verified changes, PR #25 | [0009-2026-07-26-site-design-pass.md](./0009-2026-07-26-site-design-pass.md) |

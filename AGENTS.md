@@ -28,6 +28,16 @@ The core lesson imported from Cubby: **route by tier, decide routing at plan tim
 - **Never dispatch with both knobs implicit** — an unset knob inherits the orchestrator's top-tier/high-effort, pure waste on mechanical work.
 - **Caching etiquette:** subagents don't share the session prompt cache — anchor `file:line`, never re-paste repo code; continue warm agents via SendMessage instead of respawning; schema every data-returning dispatch.
 
+### Which design skill applies here
+
+Skill routing is global (`design-router`); this is what that router resolves to **in this repo**.
+
+- UI here uses House DS `--ds-*` custom properties with inline styles — **no Tailwind, no CSS modules, no hardcoded color values**. Any skill that assumes utility classes is the wrong tool.
+- **`design-taste-frontend` and `high-end-visual-design` are not eligible in this repo.** Both assume React/Next + Tailwind. Foundry carries React only as the narrowly scoped `RoutingCard.tsx` exception and has no Tailwind, so the router's `React AND Tailwind` gate correctly excludes them — React alone is not the signal.
+- Sanctioned set here: `impeccable:impeccable`, `redesign-existing-projects`, `apple-design`, and the motion trio (`find-animation-opportunities`, `improve-animations`, `review-animations`).
+- `impeccable:impeccable` needs `/impeccable:impeccable init` run in this repo before its **script-backed** routes work (critique/audit/planning don't run `context.mjs` and need no init). The plugin ships no `commands/` directory, so `/impeccable init` is not a valid invocation.
+- Skill routing composes with the model-tier routing above; it does not replace it. Design still runs at planner tier, implementation at executor tier.
+
 ## Orchestration modes
 
 Pick the cheapest mode that fits the task shape — escalate the mode, not by default:
