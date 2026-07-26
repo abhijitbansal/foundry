@@ -162,6 +162,18 @@ html .ds-btn-quiet:focus-visible {
   outline-offset: 3px;
 }
 
+/* Light-theme accent-text contrast, second pass. --ds-accent-hover #0B7894
+   on --ds-bg #F4EFE6 measures 4.44:1 — 0.06 short of AA for the 11-13px
+   mono text it carries; worse over accent-tinted composites (.ds-callout
+   3.97:1, .ds-chip--accent 4.28:1). Darkening the variable one step reaches
+   the ~20 inline var(--ds-accent-hover) consumers no class rule can touch.
+   #0A6E88: 5.10:1 on --ds-bg, 5.50:1 on --ds-surface, 4.55:1 on the callout
+   composite. Light only — dark's accent-hover is the deliberately brighter
+   half (9.98-10.90:1). Off-palette by one step, same as #085E74 above. */
+html[data-theme="light"] .brand-skills {
+  --ds-accent-hover: #0A6E88;
+}
+
 /* ===== Easter eggs — design_handoff_eggs/PROMPT.md ===== */
 
 /* Shared keyframes, copied verbatim from the reference dc.html <style>
