@@ -116,6 +116,10 @@ foundry/AGENTS.md                            # repo-specific overrides only
 
 Target size ≈70 lines.
 
+**Dispatch mechanism.** When the router fires, it resolves the request shape against the table and then calls `Skill(<target>)` itself, rather than emitting a recommendation for the outer agent to act on. One hop, no ambiguity about who invokes.
+
+This is an assumption for the two `disable-model-invocation` skills. That flag documented-ly blocks *autonomous description-matching* invocation (`writing-great-skills/GLOSSARY.md:33`); whether an explicit `Skill` call originating inside another skill's body reaches such a target was **not** tested during the audit. Probe 9 exists to test exactly this. If it fails, the fallback is stated in §7.
+
 **Description** (third person, trigger-condition-led, no workflow summary — per `writing-skills/SKILL.md:99-102`, which documents that a description summarizing workflow causes agents to follow the description instead of reading the body):
 
 > Use when a request concerns how something looks, feels, or moves — designing, redesigning, restyling, polishing, critiquing, or auditing a UI; making a page feel premium, less generic, bolder, or quieter; layout, spacing, typography, color, theming, or design tokens; adding, fixing, or reviewing animation, motion, transitions, gestures, springs, or drag; naming a motion effect; picking a frontend library; or refactoring code whose purpose is presentation (CSS, styles, components, markup). Also use when unsure whether a design skill applies.
@@ -213,7 +217,7 @@ A short subsection appended to **Design → build model routing** (not a new Pro
 - **No edits to upstream skill files.** No `description:` rewrites in `~/.agents/skills/*`, no frontmatter changes, no forking. Per 2.8 those are clobbered on update, and the router makes them unnecessary.
 - **No mandate hook.** Nudge only, per decision.
 - **No consolidation of the overlapping taste skills.** They stay installed and eligible under the stack gate.
-- **No changes to impeccable's hooks.** Kept as-is, per decision.
+- **No changes to impeccable's hooks.** Kept as-is, per decision. Recorded cost, so the §8 follow-up has something concrete to re-evaluate: the PostToolUse matcher is `Edit|Write|MultiEdit` with no path filter, so the detector runs after *every* edit in a project that has impeccable installed — backend files, config, and markdown included, not only UI source.
 
 ---
 
@@ -236,7 +240,7 @@ Run each probe in a **fresh session** (skill listing and injected context are pe
 | 9 | "what should I use for toasts" | `pick-ui-library` — proves the explicit-invoke path works |
 | 10 | "let's build a new case-study page" | `superpowers:brainstorming`, **not** `impeccable` — proves precedence set 2 |
 
-**Pass threshold: 8 of 10.** Probes 2, 9, and 10 are the diagnostic ones — 2 proves no over-firing, 9 proves the router reaches a non-auto-firing skill, 10 proves the brainstorming/impeccable precedence holds.
+**Pass threshold: 8 of 10 overall, *and* probes 2, 9, and 10 must each pass individually.** Those three are diagnostic — 2 proves no over-firing, 9 proves the router reaches a non-auto-firing skill, 10 proves the brainstorming/impeccable precedence holds. A run that scores 8/10 by failing exactly those three is a failure, not a pass.
 
 **Failure handling:** under-firing is fixed by widening the hook keyword set, not by enlarging the router body. Over-firing (probe 2 fails) is fixed by tightening the refactor split in the router, not by removing keywords from the hook.
 
@@ -250,6 +254,7 @@ Run each probe in a **fresh session** (skill listing and injected context are pe
 | Router accumulates design content over time and becomes a 13th rulebook | Stated contract in 4.1: dispatch only, zero design content. Enforced at review. |
 | Hook keyword set drifts out of sync with the routing table | Both live in files edited together; the acceptance gate is the check. |
 | `impeccable` routes fail silently in a project without `/impeccable init` | Router's impeccable rows carry the init precondition. |
+| A `Skill` call from the router cannot reach a `disable-model-invocation` target (4.1) | Probe 9 tests it. On failure, the router instead instructs the user to run `/design pick-ui-library` (or `/design review-animations`) — one manual step, routing table unchanged. |
 | Upstream skill update changes a description and shifts trigger behavior | Re-run the acceptance gate after any design-skill update. |
 
 ---
