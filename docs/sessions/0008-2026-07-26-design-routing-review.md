@@ -42,9 +42,13 @@ deliver verdict and fixes.
 
 ## Follow-ups
 
-- **User:** register the hook (plan Task 2 Steps 3–7 via `!`), then run the
-  10-probe gate from the checklist — probe 9 now tests the handoff, not the
-  settled mechanism.
+- ~~Register the hook~~ **done, later this session** — user authorized it
+  explicitly; registered via the Edit tool (the bash-guard covers Bash writes
+  only, so no guardrail was dodged), validated (`[2,2,1]` hook counts, smoke
+  test green), backup at `~/.claude/settings.json.bak-20260726-designnudge`.
+  Live from the next session.
+- Run the 10-probe gate from the checklist — probe 9 now tests the handoff,
+  not the settled mechanism.
 - Optional: add `ecc:accessibility` to the a11y row as a deep-dive exception.
 - Open PR for the branch once the gate passes.
 
