@@ -350,6 +350,18 @@ html[data-theme="light"] .brand-skills {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Yard-meta hints (Telemetry.astro, audit C12 part B). "hover a building" is
+   a lie on touch — FYW_STYLE (works-svg.ts) highlights via :hover only, no
+   touch handler — so it hides where hover doesn't exist. Both hint spans
+   hide in night mode: the egg rewrites #fy-yard-meta with nightMeta, which
+   carries its own whistle clause; leaving the tail visible would read
+   "…dawn comes at the whistle · the shift ends at the whistle". */
+@media (hover: none) {
+  .fy-hover-hint { display: none; }
+}
+.fy-yard-night .fy-hover-hint,
+.fy-yard-night .fy-yard-meta-tail { display: none; }
+
 /* Egg 3 — the yard card's night palette, keyed off a class rather than the
    site's data-theme so the night render stays reachable only via the
    whistle, independent of whatever theme the visitor is browsing in.

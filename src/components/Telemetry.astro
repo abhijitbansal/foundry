@@ -134,7 +134,17 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 		<article id="fy-yard-card" data-reveal style="display:flex;flex-direction:column;gap:18px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px;margin-top:clamp(26px,4vw,40px)">
 			<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
 				<span id="fy-yard-title" class="ds-micro" style="color:var(--ds-accent-hover)">The works — one building per repo</span>
-				<span id="fy-yard-meta" class="ds-micro" style="color:var(--ds-text-2);line-height:1.8">All-time · {dateRange} · {statsRepos.length} repos · hover a building · the shift ends at the whistle</span>
+				<!-- The hover/whistle hints are SIBLINGS of #fy-yard-meta, not children:
+				     the night egg does meta.textContent = … (applyState below), which
+				     would destroy child elements. The wrapper keeps the header flex row
+				     seeing one item. .fy-hover-hint hides on touch (no :hover highlight
+				     exists in works-svg.ts) and both hint spans hide in night mode —
+				     nightMeta carries its own whistle clause (rules in global.css). -->
+				<span class="ds-micro" style="color:var(--ds-text-2);line-height:1.8"
+					><span id="fy-yard-meta">All-time · {dateRange} · {statsRepos.length} repos</span
+					><span class="fy-hover-hint"> · hover a building</span
+					><span class="fy-yard-meta-tail"> · the shift ends at the whistle</span
+				></span>
 			</div>
 			<div id="fy-yard-wrap" class="fy-hold-target" style="position:relative;touch-action:manipulation">
 				<WorksCity variant="yard" repos={worksRepos} metaLine={`Surveyed from ${filesFound} session logs · ${dateRange}`} />
