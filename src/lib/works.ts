@@ -107,7 +107,14 @@ export function buildYard(repos: WorksRepo[], opts: { instanceId?: string }): Wo
 		titleBlock(vw - 194, vh - 76, {
 			sheetLabel: 'SHEET 03',
 			sheetNo: 'NO. 03-A',
-			l3: 'SCALE: 1 STOREY ≈ LINES ADDED · 8-STOREY MAX',
+			// Review fix: at titleBlock's current w:170 (LAY-2), textMaxWidth is
+			// w-24=146, but the old 44-char line estimates to 227px by the same
+			// heuristic text() uses for its own textLength clamp (t.length *
+			// size * (0.6+lsEm), size 7.6, default ls 0.08em) — the SVG was
+			// shipping with the glyphs squeezed ~36% via textLength, not
+			// actually fitting. This line is 27 chars, estimate 139.5px,
+			// leaving ~6.5px margin.
+			l3: '1 STY ≈ LINES ADDED · 8 MAX',
 		}) +
 		northArrow(vw - 46, 40) +
 		scaleBar(24, vh - 26, S);
