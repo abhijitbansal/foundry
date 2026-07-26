@@ -1,6 +1,6 @@
 # Session 0007 — 2026-07-26 — Design-skill auto-routing
 
-**Branch:** `docs/design-skill-routing` · **Commits:** `45e2829..260ae35` (10)
+**Branch:** `docs/design-skill-routing` · **Commits:** `45e2829`–`260ae35` (10, inclusive)
 **Written retrospectively** by session 0008's review pass — the build session
 itself violated the log mandate; reconstructed from spec, plan, SDD ledger,
 commit messages, and the published explainer artifact.

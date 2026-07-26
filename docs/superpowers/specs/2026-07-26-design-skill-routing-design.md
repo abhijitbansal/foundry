@@ -161,7 +161,7 @@ The gate must **select**, not merely filter. A first implementation made it remo
 
 1. `impeccable:impeccable` ⊗ `design-taste-frontend` ⊗ `high-end-visual-design` — three full rulebooks with contradicting bans. Pick exactly one.
 2. `superpowers:brainstorming` ⊗ `impeccable:impeccable` — brainstorming owns "what should we build" and terminates at `writing-plans`; impeccable owns "make this look right" and runs its own gated pipeline. Two incompatible terminal states.
-3. `emil-design-eng` ⊗ `review-animations` — near-duplicate content, same mandatory Before/After/Why table. Motion diff → `review-animations`; everything else → `emil-design-eng`.
+3. `emil-design-eng` ⊗ `review-animations` — near-duplicate content, same mandatory Before/After/Why table. Motion diff → `review-animations`; other motion/interaction-feel work → `emil-design-eng`; purely static polish → `impeccable` critique (per the relabeled table row).
 
 **Composable, not competing:** `full-output-enforcement` is domain-agnostic (bans placeholders and elision in generated output) and has no content overlap with any design skill. It layers onto any route.
 
@@ -245,7 +245,7 @@ Run each probe in a **fresh session** (skill listing and injected context are pe
 | 9 | "what should I use for toasts" | clean handoff: router directs the user to `/pick-ui-library` (model `Skill()` is hard-blocked — verified 2026-07-26); fails on silent substitution of another skill |
 | 10 | "let's build a new case-study page" | `superpowers:brainstorming`, **not** `impeccable` — proves precedence set 2 |
 
-**Pass threshold: 8 of 10 overall, *and* probes 2, 9, and 10 must each pass individually.** Those three are diagnostic — 2 proves no over-firing, 9 proves the router reaches a non-auto-firing skill, 10 proves the brainstorming/impeccable precedence holds. A run that scores 8/10 by failing exactly those three is a failure, not a pass.
+**Pass threshold: 8 of 10 overall, *and* probes 2, 9, and 10 must each pass individually.** Those three are diagnostic — 2 proves no over-firing, 9 proves the handoff to a non-auto-firing skill is clean (the router directs the user to `/pick-ui-library` rather than substituting — the direct `Skill()` path is settled-impossible, see §4.1), 10 proves the brainstorming/impeccable precedence holds. A run that scores 8/10 by failing exactly those three is a failure, not a pass.
 
 **Failure handling:** under-firing is fixed by widening the hook keyword set, not by enlarging the router body. Over-firing (probe 2 fails) is fixed by tightening the refactor split in the router, not by removing keywords from the hook.
 
