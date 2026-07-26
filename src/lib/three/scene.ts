@@ -21,7 +21,9 @@
 // `src/lib/tilt.ts` for `cardTilt`.
 //
 // Molten core color (#ff4a1c emissive / #1a1108 base) does not change with
-// theme — only ambient/environment values re-palette, per 2A's `applyTheme`.
+// theme, but its emissive *intensity* now does (`coreEmissiveScale`), and the
+// halo sprites / ember points swap both map and blending mode per theme — the
+// light hero is its own art direction, not a dimmed dark. See `applyTheme`.
 
 export interface HeroScene {
 	setTheme(dark: boolean): void;
@@ -111,6 +113,15 @@ export function createHeroScene(
 		[0.22, 'rgba(255,110,50,0.38)'],
 		[0.55, 'rgba(190,60,22,0.10)'],
 		[1, 'rgba(0,0,0,0)'],
+	]);
+	// Light-theme corona (Task BRA-7). AdditiveBlending over the #f4efe6 page
+	// can only climb toward white, so on light the halo switches to
+	// NormalBlending and needs an *opaque, ember-tinted* map: a corona that
+	// paints warm pigment onto paper instead of adding light to a dark room.
+	const haloTexLight = glowTex([
+		[0, 'rgba(214,120,60,0.42)'],
+		[0.22, 'rgba(226,150,90,0.16)'],
+		[1, 'rgba(244,239,230,0)'],
 	]);
 	const mkHalo = (scale: number, op: number) => {
 		const m = new THREE.SpriteMaterial({
@@ -237,6 +248,13 @@ export function createHeroScene(
 		[0.4, 'rgba(255,120,60,0.5)'],
 		[1, 'rgba(0,0,0,0)'],
 	]);
+	// Light-theme ember speck (Task BRA-7), same reasoning as `haloTexLight`:
+	// on paper an ember has to be *darker* than the sheet to exist at all.
+	const etexLight = glowTex([
+		[0, 'rgba(198,96,42,0.92)'],
+		[0.4, 'rgba(214,120,60,0.42)'],
+		[1, 'rgba(244,239,230,0)'],
+	]);
 	const emat = new THREE.PointsMaterial({
 		size: 0.085,
 		map: etex,
@@ -254,19 +272,41 @@ export function createHeroScene(
 	let haloBase1 = 0.5;
 	let haloBase2 = 0.14;
 	let emberBase = 0.85;
+	let coreEmissiveScale = 1;
 	const applyTheme = (dark: boolean) => {
 		sceneBackground.set(dark ? 0x1b1814 : 0xf4efe6);
 		sceneFog.color.set(dark ? 0x17130e : 0xefe9dc);
-		ringMat1.color.set(dark ? 0x544a3a : 0xa89e88);
-		ringMat2.color.set(dark ? 0x544a3a : 0xa89e88);
+		// 0x8c8272 is 3.30:1 on #f4efe6 (0xa89e88 was 2.32:1) — the orrery
+		// guides have to read as drafting guides, not a smudge.
+		ringMat1.color.set(dark ? 0x544a3a : 0x8c8272);
+		ringMat2.color.set(dark ? 0x544a3a : 0x8c8272);
 		hemi.color.set(dark ? 0x9a8a68 : 0xfff3d8);
 		hemi.groundColor.set(dark ? 0x0c0a07 : 0x9a8a68);
 		hemi.intensity = dark ? 0.7 : 1.0;
 		dir.color.set(dark ? 0xaeb8cc : 0xffffff);
 		dir.intensity = dark ? 0.85 : 1.2;
+		// Blending/map swap (BRA-7): additive on dark, normal-over-paper on
+		// light. Both branches set `needsUpdate` so the two themes take the
+		// same program-rebuild path.
+		const blending = dark ? THREE.AdditiveBlending : THREE.NormalBlending;
+		for (const m of [halo1.material, halo2.material]) {
+			m.map = dark ? haloTex : haloTexLight;
+			m.blending = blending;
+			m.needsUpdate = true;
+		}
+		emat.map = dark ? etex : etexLight;
+		// The dark speck tint is baked into `etexLight`, so light drops the
+		// multiplier to white rather than double-tinting the warm map.
+		emat.color.set(dark ? 0xffb27a : 0xffffff);
+		emat.blending = blending;
+		emat.needsUpdate = true;
 		haloBase1 = dark ? 0.5 : 0.36;
 		haloBase2 = dark ? 0.14 : 0.06;
 		emberBase = dark ? 0.85 : 0.62;
+		// Task SUR-6: ACES headroom on a light backdrop is ~40% smaller, so an
+		// unscaled emissive clips the whole disc flat and throws away the
+		// flatShading facets. Applied in the frame loop alongside pulse/heat.
+		coreEmissiveScale = dark ? 1 : 0.6;
 	};
 	applyTheme(document.documentElement.getAttribute('data-theme') === 'dark');
 
@@ -285,8 +325,13 @@ export function createHeroScene(
 	let slowFrames = 0;
 	let degraded = false;
 	let haloFit = 1;
+	let near = 0;
 	const ringsSvg = document.getElementById('fy-poster-rings');
 	const v3 = new THREE.Vector3();
+	const nearV = new THREE.Vector3();
+	// Task MOT-5: pointer-proximity heat is a fine-pointer affordance only —
+	// on a touch screen a scroll drag would otherwise flare the sun.
+	const finePointer = window.matchMedia('(pointer: fine)').matches;
 	const shouldAnimate = !opts.reducedMotion;
 
 	const sizeIt = () => {
@@ -340,8 +385,16 @@ export function createHeroScene(
 		coreGeo.attributes.position.needsUpdate = true;
 		core.rotation.y = t * 0.12;
 		core.rotation.x = Math.sin(t * 0.1) * 0.1;
-		coreMat.emissiveIntensity = (0.52 + 0.48 * pulse) * heat + 0.05;
-		forge.intensity = 55 * pulse * heat + 4;
+		// Proximity heat (MOT-5): distance from the pointer to the *core's* own
+		// NDC position, so approaching the furnace is what warms it — the
+		// existing parallax moves everything uniformly and reads as drift.
+		// Damped at the same 0.04 rate as the camera lerp below, and it
+		// multiplies `heat`, so scroll-cooling still wins on the way down.
+		nearV.copy(grp.position).project(camera);
+		const prox = finePointer ? Math.max(0, 1 - Math.hypot(px * 2 - nearV.x, -py * 2 - nearV.y) / 1.1) : 0;
+		near += (prox - near) * 0.04;
+		coreMat.emissiveIntensity = ((0.52 + 0.48 * pulse) * heat * (1 + 0.22 * near) + 0.05) * coreEmissiveScale;
+		forge.intensity = 55 * pulse * heat * (1 + 0.3 * near) + 4;
 		halo1.material.opacity = haloBase1 * pulse * heat * haloFit;
 		halo2.material.opacity = haloBase2 * heat * haloFit;
 
@@ -435,7 +488,9 @@ export function createHeroScene(
 			[coreGeo, ingotGeo, egeo, ring1.geometry, ring2.geometry].forEach((g) => g.dispose());
 			[coreMat, emat, ringMat1, ringMat2, halo1.material, halo2.material].concat(ingotMats).forEach((m) => m.dispose());
 			haloTex.dispose();
+			haloTexLight.dispose();
 			etex.dispose();
+			etexLight.dispose();
 			renderer.dispose();
 			if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
 		},
