@@ -95,6 +95,19 @@ a:hover {
 .fy-skip-link { top: -56px; }
 .fy-skip-link:focus-visible { top: 16px; }
 
+/* .ds-micro's text-transform:uppercase (foundation.css:169) is correct for
+   labels but destroys casing that carries meaning — camelCase framework
+   names, an email address, a domain (TYP-1). Keeps the mono family + micro
+   size so the spec-sheet idiom survives; tracking drops to 0.02em because
+   uppercase tracking (0.10em) is over-open for mixed-case text. 0.02em is
+   the author's own value at Telemetry.astro:175, applied there for exactly
+   this reason (a repo name that must read, not be scanned). Same (0,1,0)
+   specificity as .ds-micro — relies on source order (this rule loads
+   after foundation.css, and after .ds-micro's own selector within this
+   file) to win; every call site below adds this class alongside .ds-micro,
+   never in place of it. */
+.fy-mono-cased { text-transform: none; letter-spacing: 0.02em; }
+
 /* Current-page marker for the two whole-page nav destinations (Updates,
    Harness). Colour is --ds-text, deliberately NOT --ds-accent: this
    selector is (1,1,1) and outranks the light-theme link fix at line 26
