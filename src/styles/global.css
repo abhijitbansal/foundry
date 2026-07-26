@@ -145,6 +145,23 @@ html[data-theme="light"] .ds-btn:hover {
   background: #085E74;
 }
 
+/* Restore the site focus ring on buttons. components.css:33/55 set
+   `outline: none` and lean on a 10%-alpha `--ds-accent-soft` box-shadow,
+   which composites to ~1.12:1 light / ~1.21:1 dark against --ds-bg — far
+   under the 3:1 a focus indicator needs (WCAG 1.4.11), and these are the
+   first two tab stops on the homepage. Re-applies the same 2px accent ring
+   global.css:35 already gives every other focusable element. The `html `
+   prefix is load-bearing: it lifts these to (0,2,1) so they beat
+   components.css's (0,2,0) on specificity rather than on import order —
+   components.css is vendored and an injection-order change would otherwise
+   silently revert this. The soft glow is NOT re-declared: components.css
+   already sets it on these exact selectors; it fills the 3px offset. */
+html .ds-btn:focus-visible,
+html .ds-btn-quiet:focus-visible {
+  outline: 2px solid var(--ds-accent);
+  outline-offset: 3px;
+}
+
 /* ===== Easter eggs — design_handoff_eggs/PROMPT.md ===== */
 
 /* Shared keyframes, copied verbatim from the reference dc.html <style>
