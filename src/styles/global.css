@@ -359,6 +359,32 @@ html[data-theme="dark"] {
   }
 }
 
+/* Accent-tint surface tiers (PAL-6): 50 color-mix calls exist outside the
+   vendored tokens, and the accent-into-surface ones cluster at seven
+   different ad-hoc percentages (7/10/14/28/55…) with no shared meaning —
+   --ds-accent-soft is an alpha wash correct for a barely-there callout but
+   composites to only 1.22:1/1.12:1 against --ds-surface, so it can't
+   express "a surface tinted accent" and every component hand-rolled its
+   own. --fy-tint-1/2/3 give that a real three-step tier; --fy-tint-warn-1
+   the equivalent one-step for the warning-tinted card. Additive --fy-*
+   names, vendored --ds-* contract untouched.
+   Deviation from the literal PAL-6 spec: defined at body.ds-root, not
+   .brand-skills. The JSON asks for .brand-skills scope, but that's the
+   exact hazard PAL-3 (above) exists to close — a .brand-skills-scoped
+   token silently unsets inside any fixed/portal overlay that isn't a
+   .brand-* descendant. #harness-fs-overlay happens to already carry
+   class="brand-skills" (harness.astro:55), so it would work there today,
+   but .fy-plate/.fy-well (SUR-2/SUR-7) are named as future consumers of
+   these same tiers and aren't guaranteed the same wrapper. body.ds-root
+   matches BRA-1/PAL-3's already-established precedent for exactly this
+   token category. */
+body.ds-root {
+  --fy-tint-1: color-mix(in srgb, var(--ds-accent) 6%, var(--ds-surface));
+  --fy-tint-2: color-mix(in srgb, var(--ds-accent) 14%, var(--ds-surface));
+  --fy-tint-3: color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface));
+  --fy-tint-warn-1: color-mix(in srgb, var(--ds-warning) 4%, var(--ds-surface));
+}
+
 /* ===== Easter eggs — design_handoff_eggs/PROMPT.md ===== */
 
 /* Shared keyframes, copied verbatim from the reference dc.html <style>
@@ -619,7 +645,13 @@ html[data-theme="dark"] {
 .harness-fs-tab[aria-current="true"] {
   border-color: var(--ds-accent);
   color: var(--ds-accent);
-  background: color-mix(in srgb, var(--ds-accent) 14%, transparent);
+  /* PAL-6: was color-mix(in srgb, var(--ds-accent) 14%, transparent) — an
+     exact-percentage match for --fy-tint-2. Visually identical: this pill
+     sits directly on #harness-fs-overlay's opaque var(--ds-surface)
+     backdrop (.harness-fs-bar carries no background of its own), so an
+     accent-14%-into-transparent wash over a solid --ds-surface composites
+     to the same pixel color as accent-14%-into-surface. */
+  background: var(--fy-tint-2);
 }
 /* --ds-text, not --ds-text-2: resting color moved to text-2 for AA, so a
    text-2 hover would be invisible. Ladder: resting text-2 → hover text →
@@ -645,7 +677,15 @@ html[data-theme="dark"] {
   padding: 6px 12px;
   border-radius: var(--ds-radius-pill);
   border: 1px solid var(--ds-line-strong);
-  background: color-mix(in srgb, var(--ds-accent) 10%, transparent);
+  /* PAL-6: was color-mix(in srgb, var(--ds-accent) 10%, transparent) — no
+     defined tier is an exact 10% match (tiers are 6/14/28%), so this is a
+     real, intentional value change, not a like-for-like swap. Routed to
+     --fy-tint-1 (6%) rather than --fy-tint-2 (14%, the same value the
+     *selected* tab above uses): this chip is a passive hint, not a
+     selected state, and tint-2 would flatten that hierarchy. Same
+     opaque-over-opaque reasoning as the tab above applies — this chip
+     sits directly on #harness-fs-overlay's var(--ds-surface) backdrop. */
+  background: var(--fy-tint-1);
   color: var(--ds-text-2);
   font-family: var(--ds-font-mono);
   font-size: 11px;
