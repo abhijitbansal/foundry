@@ -57,6 +57,7 @@ export const FYW_STYLE = `
 		.fyw-puff, .fyw-flick { animation: none !important; }
 		.fyw-puff { opacity: 0 !important; }
 		.fyw-puff-first { opacity: 0.55 !important; }
+		.fyw-building { transition: none; }
 	}
 	svg.fyw-svg {
 		--fyw-window-lit: var(--ds-accent);
@@ -91,7 +92,8 @@ export const FYW_STYLE = `
 			--fyw-furnace-glow-r: 10px;
 		}
 	}
-	.fyw-buildings:hover .fyw-building { opacity: 0.38; transition: opacity 0.25s var(--ds-ease-standard); }
+	.fyw-building { transition: opacity 0.25s var(--ds-ease-standard); }
+	.fyw-buildings:hover .fyw-building { opacity: 0.38; }
 	.fyw-buildings .fyw-building:hover { opacity: 1; }
 	.fyw-building:hover .fyw-np-circle { fill: var(--ds-accent-soft); stroke: var(--ds-accent); }
 	.fyw-building:hover .fyw-np-text { fill: var(--ds-accent); }
