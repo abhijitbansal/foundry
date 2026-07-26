@@ -1007,3 +1007,34 @@ body.ds-root {
   transition: transform 150ms var(--ds-ease-standard);
 }
 .harness-fs-active .harness-fs-trigger { display: none; }
+
+/* MOT-6 — three movers the existing reduce blocks above don't reach: the
+   mobile nav panel's translateY slide (:352-372, the single most-triggered
+   motion on the site below 900px), the burger's two 45deg rotations
+   (:389-402), and the harness fullscreen figure's scale zoom (:971-1007).
+   The JS side is already correct (reveal.ts:8, tilt.ts:6, three/init.ts:63
+   all bail on the same preference) — this is purely the CSS gap the
+   audit's critic flagged as unexamined. Opacity/visibility stay: they are
+   #fy-nav's show/hide mechanism, not a vestibular trigger, so only the
+   positional/rotational/scale channels are stripped. Deliberately excludes
+   the egg keyframes and .fy-yard-night (off-limits, egg 3's own behavior).
+   Selector/specificity note: each selector here is written to exactly
+   match the rule it overrides (#fy-nav, #fy-nav[data-open='true'],
+   .fy-burger span, .harness-fs-active) so the override wins on equal
+   specificity via this block's later position in the file — appended at
+   the true end for that reason, not merely "after the last existing
+   reduce block" (an earlier position would have lost the cascade to
+   .harness-fs-active's own transition declaration a few lines above,
+   which is defined after where an "insert right after the last reduce
+   block" placement would have landed). */
+@media (prefers-reduced-motion: reduce) {
+  #fy-nav,
+  #fy-nav[data-open='true'] { transform: none; }
+  #fy-nav {
+    transition:
+      opacity var(--ds-duration-base) var(--ds-ease-standard),
+      visibility var(--ds-duration-base);
+  }
+  .fy-burger span { transition: none; }
+  .harness-fs-active { transition: none; }
+}
