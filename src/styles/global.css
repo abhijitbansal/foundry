@@ -36,6 +36,23 @@ a:hover {
   outline: 2px solid var(--ds-accent);
   outline-offset: 3px;
 }
+/* #fy-anvil (Footer.astro:30) carries inline `all:unset`, which resolves
+   outline-style to `none` and, being an inline declaration, outranks the
+   :focus-visible rule above. Only !important can beat it.
+   Deliberately no outline-offset: the 44×44 hit area (margin:-20px -14px)
+   already ends 3px past #fy-footer-copy1's left edge at 390px, so the ring
+   overlaps the copyright line by 5px at offset 0 and 8px at offset 3. */
+#fy-anvil:focus-visible {
+  outline: 2px solid var(--ds-accent) !important;
+}
+/* #fy-dwg-close is only reachable while the drawings panel is open (Hero.astro
+   applyOpen toggles `inert` on the closed panel), so the ring is meaningful
+   once painted; !important on the offset for the same all:unset reason as
+   above — 3px + 2px stroke fits inside the panel's 10px padding. */
+#fy-dwg-close:focus-visible {
+  outline: 2px solid var(--ds-accent) !important;
+  outline-offset: 3px !important;
+}
 @keyframes fy-cue {
   0%, 100% { transform: scaleY(0.3); opacity: 0.35; }
   50% { transform: scaleY(1); opacity: 1; }

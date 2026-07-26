@@ -190,7 +190,8 @@ const DWG_CORNERS = [
 	.fy-dwg-piece {
 		opacity: 0;
 		pointer-events: none;
-		transition: opacity 0.45s var(--ds-ease-standard);
+		visibility: hidden;
+		transition: opacity 0.45s var(--ds-ease-standard), visibility 0.45s;
 	}
 	.fy-dwg-badge {
 		position: absolute;
@@ -205,6 +206,7 @@ const DWG_CORNERS = [
 	}
 	#top.fy-dwg-open .fy-dwg-piece {
 		opacity: 1;
+		visibility: visible;
 	}
 	#top.fy-dwg-open #fy-dwg-title-block {
 		pointer-events: auto;
@@ -236,7 +238,11 @@ const DWG_CORNERS = [
 	const closeBtn = document.getElementById('fy-dwg-close');
 
 	if (heroSection) {
-		const applyOpen = (open: boolean) => heroSection.classList.toggle('fy-dwg-open', open);
+		const titleBlock = document.getElementById('fy-dwg-title-block');
+		const applyOpen = (open: boolean) => {
+			heroSection.classList.toggle('fy-dwg-open', open);
+			titleBlock?.toggleAttribute('inert', !open);
+		};
 		applyOpen(isDrawingsOpen());
 		onDrawingsChange(applyOpen);
 	}
