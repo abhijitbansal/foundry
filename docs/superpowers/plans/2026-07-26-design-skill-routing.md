@@ -59,7 +59,7 @@ Matching uses a **leading word boundary only, no trailing boundary** — every k
 
 Write `(^|[^[:alnum:]])` rather than `\b` — BSD `grep` on macOS does not support `\b` in `-E` mode reliably.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `~/.claude/hooks/tests/test-design-nudge.sh`:
 
@@ -151,7 +151,7 @@ echo "passed: $PASS  failed: $FAIL"
 
 Delete the unused `run_hook` helper before committing — `payload` is the one the assertions use. It is listed above only so you recognize it if you see it in a draft; do not ship dead code.
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 ```bash
 bash ~/.claude/hooks/tests/test-design-nudge.sh
@@ -159,7 +159,7 @@ bash ~/.claude/hooks/tests/test-design-nudge.sh
 
 Expected: every assertion fails, because `~/.claude/hooks/design-nudge.sh` does not exist yet. `bash` will report `No such file or directory` per invocation and the final line will show `failed:` greater than zero.
 
-- [ ] **Step 3: Write the minimal implementation**
+- [x] **Step 3: Write the minimal implementation**
 
 Create `~/.claude/hooks/design-nudge.sh`:
 
@@ -197,7 +197,7 @@ Then make it executable:
 chmod +x ~/.claude/hooks/design-nudge.sh
 ```
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 ```bash
 bash ~/.claude/hooks/tests/test-design-nudge.sh
@@ -207,7 +207,7 @@ Expected: `failed: 0` and exit status 0.
 
 If `ui inside another word` fails, the leading boundary group is wrong — check for a stray `?` or a missing `^` inside the bracket expression. If `empty prompt` fails, the `jq -r '.prompt // empty'` fallback is not returning an empty string; confirm the `-r` flag is present.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 The hook lives outside the repo and is not version-controlled here. Record progress by checking off Task 1's steps in the plan and committing that:
 
