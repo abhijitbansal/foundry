@@ -6,6 +6,62 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* MOT-4 — cross-document view transitions, pure CSS, zero dependencies:
+   no astro:transitions / ClientRouter / SPA routing, which would break the
+   Three.js canvas mount and each page's own per-page egg init (verified:
+   neither appears anywhere in src/ or astro.config). The site is four
+   static pages sharing one position:fixed masthead (Nav.astro:22,
+   identical markup on all four) and today every navigation is a hard
+   white/black document swap that repaints the chrome — naming only the
+   masthead turns it into a stable anchor while the content crossfades.
+   The footer is deliberately NOT named: Footer.astro is the same component
+   on every page but sits at wildly different document offsets (index vs.
+   updates are already ~450px apart and drift further as weekly digests
+   accumulate), so a named group would tween between distant positions and
+   jump instead of holding still.
+   Do NOT nest @view-transition inside a `(prefers-reduced-motion:
+   no-preference)` media query — declare it unconditionally and neutralize
+   the pseudo-element animations under `reduce` instead; that's the
+   unambiguous pattern for this at-rule.
+   Named cost, not hidden: navigating INTO index.astro, the incoming
+   document's snapshot is captured at its first rendering opportunity,
+   which precedes scene.ts's shownOnce/canvas-opacity gate flipping the
+   molten-sun canvas to opacity:1 — so the crossfade can land on a hero
+   with no sun yet, which then pops in once Three.js finishes its first
+   frame. Every other direction (index→updates, index→harness,
+   updates↔harness, →404) has no such race. 180ms is chosen specifically
+   to shorten the window that pop is visible in; verified in-browser
+   (dev server, chrome-devtools MCP) — see commit body for the observed
+   verdict. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: var(--ds-ease-standard);
+}
+
+header[data-screen-label='Nav'] {
+  view-transition-name: fy-nav-chrome;
+}
+::view-transition-group(fy-nav-chrome) {
+  animation: none;
+}
+::view-transition-old(fy-nav-chrome),
+::view-transition-new(fy-nav-chrome) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
 body {
   margin: 0;
 }
