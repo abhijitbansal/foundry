@@ -1181,3 +1181,21 @@ body.ds-root {
    against a 350px column (98% fill), so raising the floor forces a 3rd
    line. */
 #fy-callout-a { font-size: clamp(40px, 8vw, 76px); }
+
+/* TYP-8: Hero lead only, keyed to #fy-callout-c (Hero.astro:127) so
+   /harness's .ds-lead consumers are untouched. .ds-lead is a fixed 19px
+   (foundation.css:151) while #fy-callout-a above bottoms out at its 40px
+   floor below 667px viewport, so the display:lead ratio collapses from
+   3.58 at 1440 to 2.11 at 390 — the lead nearly matches the headline in
+   weight-on-page. Fixed from the lead side, not the headline side: at 390
+   the H1's longer line already measures ~342px against a 350px column
+   (98% fill), so raising the clamp floor forces a third line instead.
+   17px restores the ratio to 2.35 and shortens the 5-line paragraph by
+   one line. The existing max-width:52ch/text-wrap:pretty at Hero.astro:127
+   stay as-is — the 350px container binds long before 52ch does at this
+   width. No colour change: --ds-text-2 is unchanged (11.5:1 light / 8.5:1
+   dark), and 17px stays comfortably in normal-text territory so the same
+   4.5:1 bar applies and clears. */
+@media (max-width: 600px) {
+  #fy-callout-c { font-size: 17px; }
+}
