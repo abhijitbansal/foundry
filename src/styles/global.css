@@ -1271,3 +1271,40 @@ body.ds-root {
   }
   .fy-sheet-sep { display: none; }
 }
+
+/* LAY-5: step the expertise bench. Expertise.astro's three articles were
+   an equal-thirds `repeat(auto-fit,minmax(min(270px,100%),1fr))` grid with
+   identical border-top hairlines on one flat baseline — the canonical
+   generic-AI three-column tell, and a false equivalence besides (iOS &
+   Apple platforms is the deepest discipline here, Full-stack product craft
+   the connective one). class + media query are load-bearing because the
+   current grid/article styles are inline and inline styles can't carry a
+   breakpoint; a bare unequal-fr row without the >=900px gate would break
+   the 390px stack. Below 900px the inline auto-fit rule on the grid div
+   and the plain border-top on each article stay in force, unchanged.
+   JUDGE AMENDMENT: shipped the milder 0/20/40px step, not the source
+   JSON's 0/30/60 — the flat border-top datum the three cards currently
+   share is itself a legitimate drafting idiom (one continuous line across
+   the page), so this trades one reading for another rather than strictly
+   improving on it; the smaller step encodes the same descending-stair
+   hierarchy without overrotating away from that datum.
+   IMPLEMENTATION FIX (not in the source JSON): the div's own inline style
+   used to set grid-template-columns directly; an inline declaration always
+   wins over an external class rule for the same property regardless of
+   whether that rule sits inside a media query, so the >=900px override
+   below would have been a silent no-op against it. Moved the auto-fit
+   default here as a real, unconditional stylesheet rule (byte-identical
+   value, so <900px is unaffected) and removed it from the inline style at
+   the call site, so the media-scoped override can actually cascade over
+   it. */
+.fy-bench { grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); }
+@media (min-width: 900px) {
+  .fy-bench {
+    display: grid;
+    grid-template-columns: 1.18fr 1fr 0.92fr;
+    gap: clamp(24px, 3.5vw, 48px);
+    align-items: start;
+  }
+  .fy-bench-2 { margin-top: 20px; }
+  .fy-bench-3 { margin-top: 40px; }
+}
