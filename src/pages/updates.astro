@@ -96,15 +96,15 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 
 									<div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:14px;margin-bottom:22px">
 										<div style="display:flex;flex-direction:column;gap:3px">
-											<span class="ds-display-md">{formatCompact(totalWeeklyLines(week.repos))}</span>
+											<span class="ds-display-md fy-stat">{formatCompact(totalWeeklyLines(week.repos))}</span>
 											<span class="ds-micro" style="color:var(--ds-accent-hover)">Lines added</span>
 										</div>
 										<div style="display:flex;flex-direction:column;gap:3px">
-											<span class="ds-display-md">{formatCompact(totalWeeklySessions(week.repos))}</span>
+											<span class="ds-display-md fy-stat">{formatCompact(totalWeeklySessions(week.repos))}</span>
 											<span class="ds-micro" style="color:var(--ds-accent-hover)">Sessions</span>
 										</div>
 										<div style="display:flex;flex-direction:column;gap:3px">
-											<span class="ds-display-md">{week.repos.length}</span>
+											<span class="ds-display-md fy-stat">{week.repos.length}</span>
 											<span class="ds-micro" style="color:var(--ds-accent-hover)">Repos active</span>
 										</div>
 										{busiest && (

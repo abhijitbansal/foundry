@@ -116,22 +116,22 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 
 		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:clamp(16px,2vw,26px);margin-top:clamp(26px,4vw,42px)">
 			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg">{formatCompact(totals.lines_added)}</span>
+				<span class="ds-display-lg fy-stat">{formatCompact(totals.lines_added)}</span>
 				<span class="ds-micro" style="color:var(--ds-accent-hover)">Lines added</span>
 				<span class="ds-caption">across every repo, {daysSpan} days</span>
 			</div>
 			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg">{formatCompact(totals.sessions)}</span>
+				<span class="ds-display-lg fy-stat">{formatCompact(totals.sessions)}</span>
 				<span class="ds-micro" style="color:var(--ds-accent-hover)">Sessions</span>
 				<span class="ds-caption">{formatCompact(totals.user_msgs)} prompts · {formatCompact(totals.assistant_msgs)} replies</span>
 			</div>
 			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg">{formatCompact(totals.out_tokens)}</span>
+				<span class="ds-display-lg fy-stat">{formatCompact(totals.out_tokens)}</span>
 				<span class="ds-micro" style="color:var(--ds-accent-hover)">Tokens written</span>
 				<span class="ds-caption">output, straight into the melt</span>
 			</div>
 			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg">{formatCompact(totals.cache_read_tokens)}</span>
+				<span class="ds-display-lg fy-stat">{formatCompact(totals.cache_read_tokens)}</span>
 				<span class="ds-micro" style="color:var(--ds-accent-hover)">Tokens cache-read</span>
 				<span class="ds-caption">the crucible remembers</span>
 			</div>
@@ -207,15 +207,15 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 					</div>
 					<div style="display:flex;flex-direction:column;gap:14px;flex:1;min-width:150px">
 						<div style="display:flex;flex-direction:column;gap:3px">
-							<span class="ds-display-md">{formatCompact(windowSessions)}</span>
+							<span class="ds-display-md fy-stat">{formatCompact(windowSessions)}</span>
 							<span class="ds-micro" style="color:var(--ds-text-2)">Sessions</span>
 						</div>
 						<div style="display:flex;flex-direction:column;gap:3px">
-							<span class="ds-display-md">{formatCompact(windowLines)}</span>
+							<span class="ds-display-md fy-stat">{formatCompact(windowLines)}</span>
 							<span class="ds-micro" style="color:var(--ds-text-2)">Lines added</span>
 						</div>
 						<div style="display:flex;flex-direction:column;gap:3px">
-							<span class="ds-display-md">{formatCompact(windowTokensOut)}</span>
+							<span class="ds-display-md fy-stat">{formatCompact(windowTokensOut)}</span>
 							<span class="ds-micro" style="color:var(--ds-text-2)">Tokens out</span>
 						</div>
 					</div>

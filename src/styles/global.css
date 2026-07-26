@@ -1199,3 +1199,21 @@ body.ds-root {
 @media (max-width: 600px) {
   #fy-callout-c { font-size: 17px; }
 }
+
+/* TYP-7: figures are not headlines. .ds-display-lg/.ds-display-md carry
+   the display tier's negative tracking (foundation.css:147-148) because
+   they were tuned for wrapped words — the same classes are reused
+   verbatim for comma-separated 6-digit figures (Telemetry.astro's stat
+   spans, updates.astro's per-week totals), where negative tracking
+   crowds the comma against the digit that follows it. Reset to 0, keep
+   everything else (family, size clamp, line-height) inherited. Applied
+   alongside ds-display-lg/-md, never in place of them — the same class
+   still sets real headline text elsewhere (Telemetry.astro's "The forge
+   runs hot.", updates.astro's week-range H2s), where the negative
+   tracking is correct and untouched. Also NOT applied to updates.astro's
+   busiest-repo slot, which renders a repo name, not a figure.
+   font-variant-numeric's tabular-nums is included per spec as an honest
+   best-effort: Instrument Serif's tnum support isn't verifiable from
+   here, and if the face lacks the feature this is a harmless no-op — the
+   letter-spacing:0 reset is the verifiable, load-bearing half. */
+.fy-stat { letter-spacing: 0; font-variant-numeric: lining-nums tabular-nums; }
