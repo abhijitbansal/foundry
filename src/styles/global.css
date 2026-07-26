@@ -78,14 +78,18 @@ a:hover {
 .fy-skip-link { top: -56px; }
 .fy-skip-link:focus-visible { top: 16px; }
 
-/* #fy-nav — acceptance-pass fix (Phase 10), superseded below 600px by the
+/* #fy-nav — acceptance-pass fix (Phase 10), superseded below 900px by the
    hamburger toggle (user-reported: horizontal scroll still required
    scrolling to reach every link). #fy-nav collapses into a fixed dropdown
-   panel toggled by #fy-nav-burger; visual design and copy are unchanged. */
+   panel toggled by #fy-nav-burger; visual design and copy are unchanged.
+   Breakpoint raised from 600px (measured first-clean width is 885/874;
+   900 is the safe band clearing both themes) — below 900px the 8-item row
+   cramps until labels wrap to 2-3 lines (e.g. "Theme · Light" at 768px),
+   which is worse than the always-visible-row goal this block exists for. */
 .fy-burger {
   display: none;
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .fy-burger {
     display: flex;
   }
