@@ -109,7 +109,7 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 									</div>
 
 									<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px">
-										<span class="ds-micro" style="color:var(--ds-text-3)">Activity</span>
+										<span class="ds-micro" style="color:var(--ds-text-2)">Activity</span>
 										<div data-fy-view-toggle style="display:flex;gap:8px">
 											<button type="button" class="fy-view-btn" data-view="works" aria-pressed="true">WORKS</button>
 											<button type="button" class="fy-view-btn" data-view="grid" aria-pressed="false">GRID</button>
@@ -144,12 +144,12 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 											return (
 												<div style="border-top:1px solid var(--ds-line);padding-top:12px;display:flex;flex-direction:column;gap:6px">
 													<span class="ds-micro" style="color:var(--ds-text);font-weight:600;letter-spacing:0.02em">{repo.repo}</span>
-													<span class="ds-caption" style="color:var(--ds-text-3)">
+													<span class="ds-caption" style="color:var(--ds-text-2)">
 														{formatCompact(repo.sessions)} sessions · {formatCompact(repo.lines_added)} lines · {repo.top_tool ?? '—'} ·{' '}
 														<span style="white-space:nowrap">{repo.top_model ?? '—'}</span>
 													</span>
 													{release && release.pr_merge_count > 0 && (
-														<span class="ds-caption" style="color:var(--ds-text-3)">
+														<span class="ds-caption" style="color:var(--ds-text-2)">
 															{release.pr_merge_count} PR{release.pr_merge_count === 1 ? '' : 's'} merged
 															{release.pr_titles && release.pr_titles.length > 0 ? `: ${release.pr_titles[0]}${release.pr_titles.length > 1 ? ' …' : ''}` : ''}
 														</span>
@@ -182,7 +182,7 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 		border-radius: var(--ds-radius-pill);
 		border: 1px solid var(--ds-line);
 		background: transparent;
-		color: var(--ds-text-3);
+		color: var(--ds-text-2);
 		cursor: pointer;
 		transition:
 			color var(--ds-duration-base) var(--ds-ease-standard),

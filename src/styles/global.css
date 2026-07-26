@@ -56,6 +56,17 @@ a:hover {
    hover/focus is moved out of the component's inline style into these
    classes (inline style specificity would otherwise block the override);
    every other inline value stays verbatim on the element. */
+/* .ds-chip's 11px --ds-text-3 on its --ds-surface-2 pill is 4.29:1 light /
+   4.87:1 dark — under AA for normal text. --ds-text-2 clears both (9.79 /
+   9.70). Site-side override rather than editing the vendored
+   components.css. :not(.ds-chip--accent) is required — global.css loads
+   after components.css (BaseLayout:14-15), so a bare .ds-chip would tie
+   .ds-chip--accent (components.css:94) on specificity and win on source
+   order, flattening the accent chips. Placed BEFORE .fy-link-t2 because
+   :not() raises this to (0,2,0), tying .fy-link-t2:hover (next rule);
+   source order must let the hover win for updates.astro:58's
+   `class="ds-chip fy-link-t2"`. Resting colour is --ds-text-2 either way. */
+.ds-chip:not(.ds-chip--accent) { color: var(--ds-text-2); }
 .fy-link-t2 { color: var(--ds-text-2); }
 .fy-link-t2:hover { color: var(--ds-accent); }
 .fy-link-t3 { color: var(--ds-text-3); }
@@ -349,7 +360,7 @@ html[data-theme="light"] .brand-skills {
   border-radius: var(--ds-radius-pill);
   border: 1px solid var(--ds-line-strong);
   background: color-mix(in srgb, var(--ds-surface) 88%, transparent);
-  color: var(--ds-text-3);
+  color: var(--ds-text-2);
   cursor: pointer;
   transition: border-color var(--ds-duration-base) var(--ds-ease-standard), color var(--ds-duration-base) var(--ds-ease-standard);
 }
@@ -392,7 +403,7 @@ html[data-theme="light"] .brand-skills {
   border-radius: var(--ds-radius-pill);
   border: 1px solid var(--ds-line-strong);
   background: transparent;
-  color: var(--ds-text-3);
+  color: var(--ds-text-2);
   cursor: pointer;
   font-family: var(--ds-font-mono);
   font-size: 11px;
@@ -469,7 +480,7 @@ html[data-theme="light"] .brand-skills {
   text-align: center;
   font-family: var(--ds-font-mono);
   font-size: 11px;
-  color: var(--ds-text-3);
+  color: var(--ds-text-2);
 }
 .harness-fs-stage {
   flex: 1;

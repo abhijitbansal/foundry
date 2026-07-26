@@ -139,7 +139,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 			<div id="fy-yard-wrap" class="fy-hold-target" style="position:relative;touch-action:manipulation">
 				<WorksCity variant="yard" repos={worksRepos} metaLine={`Surveyed from ${filesFound} session logs · ${dateRange}`} />
 				<div id="fy-yard-hold-caption" aria-hidden="true" style="position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:min(300px,64%);display:none;flex-direction:column;gap:6px;align-items:center;pointer-events:none;z-index:3">
-					<span id="fy-yard-hold-text" style="font:500 9px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-text-3);white-space:nowrap">HOLDING — THE SHIFT ENDS AT THE WHISTLE</span>
+					<span id="fy-yard-hold-text" style="font:500 9px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-text-2);white-space:nowrap">HOLDING — THE SHIFT ENDS AT THE WHISTLE</span>
 					<span style="display:block;width:100%;height:2px;background:var(--ds-accent-soft);border-radius:2px;overflow:hidden;position:relative"
 						><span id="fy-yard-hold-bar" style="position:absolute;inset:0;background:var(--ds-accent);transform-origin:left center"></span></span
 					>
@@ -147,14 +147,14 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 				<div id="fy-yard-veil" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;border-radius:inherit;display:none"></div>
 			</div>
 			<div id="fy-yard-legend-day" style="display:flex;flex-wrap:wrap;gap:10px 22px;border-top:1px solid var(--ds-line);padding-top:14px">
-				<span class="ds-micro" style="color:var(--ds-text-3)">height = lines added</span>
-				<span class="ds-micro" style="color:var(--ds-text-3)">lit windows = tokens out</span>
-				<span class="ds-micro" style="color:var(--ds-text-3)">smoke = active this week</span>
-				<span class="ds-micro" style="color:var(--ds-text-3)">ingots = 1 ≈ 10k lines</span>
-				<span class="ds-micro" style="color:var(--ds-text-3)">crane = work in progress</span>
-				<span class="ds-micro" style="color:var(--ds-text-3)">pennants = PRs merged (weekly)</span>
+				<span class="ds-micro" style="color:var(--ds-text-2)">height = lines added</span>
+				<span class="ds-micro" style="color:var(--ds-text-2)">lit windows = tokens out</span>
+				<span class="ds-micro" style="color:var(--ds-text-2)">smoke = active this week</span>
+				<span class="ds-micro" style="color:var(--ds-text-2)">ingots = 1 ≈ 10k lines</span>
+				<span class="ds-micro" style="color:var(--ds-text-2)">crane = work in progress</span>
+				<span class="ds-micro" style="color:var(--ds-text-2)">pennants = PRs merged (weekly)</span>
 			</div>
-			<p id="fy-yard-legend-night" class="ds-caption" style="display:none;margin:0;color:var(--ds-text-3);border-top:1px solid var(--ds-line);padding-top:14px">
+			<p id="fy-yard-legend-night" class="ds-caption" style="display:none;margin:0;color:var(--ds-text-2);border-top:1px solid var(--ds-line);padding-top:14px">
 				The fire kept in: every gold window was paid for in tokens. A distant two-tone whistle called the shift; hold again and a single toot brings the dawn.
 			</p>
 			<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px">
@@ -165,7 +165,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 							<span class="ds-micro" style="color:var(--ds-text);font-weight:600;letter-spacing:0.02em">{entry.repo}</span>
 							<span class="ds-caption" style="color:var(--ds-text-faint)">{entry.storeys} {entry.storeys === 1 ? 'storey' : 'storeys'}</span>
 						</span>
-						<span class="ds-caption" style="color:var(--ds-text-3)">
+						<span class="ds-caption" style="color:var(--ds-text-2)">
 							{formatCompact(entry.sessions)} sessions · {formatCompact(entry.lines)} lines · {formatCompact(entry.tokens)} tok out
 						</span>
 					</div>
@@ -189,20 +189,20 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 					<div style="display:flex;flex-direction:column;gap:14px;flex:1;min-width:150px">
 						<div style="display:flex;flex-direction:column;gap:3px">
 							<span class="ds-display-md">{formatCompact(windowSessions)}</span>
-							<span class="ds-micro" style="color:var(--ds-text-3)">Sessions</span>
+							<span class="ds-micro" style="color:var(--ds-text-2)">Sessions</span>
 						</div>
 						<div style="display:flex;flex-direction:column;gap:3px">
 							<span class="ds-display-md">{formatCompact(windowLines)}</span>
-							<span class="ds-micro" style="color:var(--ds-text-3)">Lines added</span>
+							<span class="ds-micro" style="color:var(--ds-text-2)">Lines added</span>
 						</div>
 						<div style="display:flex;flex-direction:column;gap:3px">
 							<span class="ds-display-md">{formatCompact(windowTokensOut)}</span>
-							<span class="ds-micro" style="color:var(--ds-text-3)">Tokens out</span>
+							<span class="ds-micro" style="color:var(--ds-text-2)">Tokens out</span>
 						</div>
 					</div>
 				</div>
 				<div style="margin-top:auto;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-top:1px solid var(--ds-line);padding-top:14px">
-					<span class="ds-caption">
+					<span class="ds-caption" style="color:var(--ds-text-2)">
 						{peakSessionsDay && (
 							<>
 								Peak: {peakSessionsDay.label} — {formatCompact(peakSessionsDay.value)} sessions in one day
@@ -248,7 +248,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 						<div style="display:flex;flex-direction:column;gap:5px">
 							<div style="display:flex;justify-content:space-between;gap:12px">
 								<span class="ds-micro" style="color:var(--ds-text-2)">{bar.label}</span>
-								<span class="ds-micro" style="color:var(--ds-text-3)">{formatCompact(bar.count)}</span>
+								<span class="ds-micro" style="color:var(--ds-text-2)">{formatCompact(bar.count)}</span>
 							</div>
 							<div aria-hidden="true" style="height:3px;background:var(--ds-line);border-radius:2px">
 								<div style={`width:${bar.percent}%;height:3px;background:var(--ds-accent);border-radius:2px`}></div>
