@@ -1161,3 +1161,23 @@ body.ds-root {
     }
   }
 }
+
+/* TYP-2: Hero H1 only — raise the display ceiling 68px -> 76px and steepen
+   the clamp so it stops idling at the 40px floor across the 390-667px
+   band. Scoped to #fy-callout-a (Hero.astro:121), NOT .ds-display-xl —
+   that class is also HarnessHero.astro:19's H1, a different column
+   entirely, and must stay out of this change's blast radius. The hero
+   text column is a fixed 680px (Hero.astro:93), so a vw-scaled headline
+   inside it is scaling against a dimension that never grows: the correct
+   shape is "reach the ceiling early, then hold". Measured at 1440: the
+   longer balanced line, "apps and AI agent tooling.", is 581px at 68px —
+   85% of the 680px column; 76px puts it at 649px (95%), 31px of slack for
+   the balance algorithm and font-load variance. 80px would break the
+   2-line set (683px > 680). 8vw hits the 76px ceiling at 950px viewport
+   and is verified non-overflowing at every intermediate width: 500px ->
+   40px font / 342px line vs 450px container; 700px -> 56px / 479px vs
+   630px; 900px -> 72px / 616px vs 680px cap; >=950px -> 76px / 649px vs
+   680px. Floor stays 40px — at 390 the same line already measures ~342px
+   against a 350px column (98% fill), so raising the floor forces a 3rd
+   line. */
+#fy-callout-a { font-size: clamp(40px, 8vw, 76px); }
