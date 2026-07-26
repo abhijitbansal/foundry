@@ -19,9 +19,10 @@ interface Props {
 	projects: Project[];
 	startIndex: number;
 	layout?: 'grid' | 'foundation';
+	lead?: boolean;
 }
 
-const { label, count, headerMargin, projects, startIndex, layout = 'grid' } = Astro.props;
+const { label, count, headerMargin, projects, startIndex, layout = 'grid', lead = false } = Astro.props;
 ---
 
 <div data-reveal style={`display:flex;align-items:center;gap:16px;margin:${headerMargin} 0 20px`}>
@@ -33,7 +34,7 @@ const { label, count, headerMargin, projects, startIndex, layout = 'grid' } = As
 	layout === 'foundation' ? (
 		<ProjectCard project={projects[0]} index={startIndex} layout="foundation" />
 	) : (
-		<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(390px,100%),1fr));gap:20px">
+		<div class={lead ? 'fy-cards fy-cards--lead' : 'fy-cards'} style="display:grid;gap:20px">
 			{projects.map((project, i) => <ProjectCard project={project} index={startIndex + i} />)}
 		</div>
 	)

@@ -1308,3 +1308,29 @@ body.ds-root {
   .fy-bench-2 { margin-top: 20px; }
   .fy-bench-3 { margin-top: 40px; }
 }
+
+/* LAY-6: lead card for the Apps work group. WorkGroup.astro's card grid was
+   four visually identical rows of 534px boxes at 1088px content width, so
+   Cubby (8 storeys, 221,619 lines — the tallest building in the site's own
+   yard visualization) rendered indistinguishable from memekit (0 storeys).
+   `lead` is an opt-in prop (WorkSection.astro passes it for the Apps group
+   only) rather than "first child of every group": WorkGroup is shared by
+   three groups and first-in-data-order is not first-in-importance
+   (claude-skills outranks cartoon in the AI group), and Foundation already
+   renders its one project outside this grid via layout="foundation".
+   Below 1000px the base auto-fill rule governs and every group — lead or
+   not — stacks unchanged.
+   IMPLEMENTATION FIX (not in the source JSON, same issue as LAY-5 above):
+   the grid div's inline style used to set grid-template-columns directly,
+   which would have permanently beaten any external class override
+   regardless of media query. Moved the auto-fill default here as a real,
+   unconditional rule (byte-identical value, so <1000px and every non-lead
+   group are unaffected) and removed it from the inline style at the call
+   site, so .fy-cards--lead can actually cascade over it once both classes
+   are present on the same element. */
+.fy-cards { grid-template-columns: repeat(auto-fill, minmax(min(390px, 100%), 1fr)); }
+@media (min-width: 1000px) {
+  .fy-cards--lead { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .fy-cards--lead > :nth-child(1) { grid-column: span 6; }
+  .fy-cards--lead > :nth-child(n+2) { grid-column: span 2; }
+}
