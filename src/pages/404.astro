@@ -14,10 +14,10 @@ import Footer from '../components/Footer.astro';
 	<SkipLink href="#not-found" label="Skip to the message" />
 	<Nav />
 	<main id="not-found" class="brand-skills fy-404">
-		<p class="ds-micro fy-404-kicker">404</p>
-		<h1 class="fy-404-title">Page not found</h1>
-		<p class="fy-404-lead">Nothing was forged at this address.</p>
-		<p class="fy-404-lead"><a href={import.meta.env.BASE_URL}>Go to the homepage &rarr;</a></p>
+		<p class="ds-kicker fy-404-kicker">404</p>
+		<h1 class="ds-display-lg" style="margin:0">Page not found</h1>
+		<p class="ds-lead fy-404-lead">Nothing was forged at this address.</p>
+		<p class="ds-lead fy-404-lead"><a href={import.meta.env.BASE_URL}>Go to the homepage &rarr;</a></p>
 	</main>
 	<Footer />
 </BaseLayout>
@@ -41,16 +41,11 @@ import Footer from '../components/Footer.astro';
 	}
 
 	.fy-404-kicker {
-		/* --ds-accent-hover, not --ds-accent: same 11px normal-text contrast
-		   fix as .ds-kicker (foundation.css) — see comment there. */
+		/* Redundant with .ds-kicker's own --ds-accent-hover default
+		   (foundation.css:167, the same 12px normal-text AA contrast fix) —
+		   kept explicit rather than dropped so this doesn't silently regress
+		   back to --ds-text-3 if .ds-kicker's default ever changes. */
 		color: var(--ds-accent-hover);
-		letter-spacing: 0.08em;
-	}
-
-	.fy-404-title {
-		font-family: var(--ds-font-display);
-		font-size: clamp(2rem, 5vw, 3rem);
-		margin: 0;
 	}
 
 	.fy-404-lead {
