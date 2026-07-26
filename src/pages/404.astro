@@ -8,6 +8,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SkipLink from '../components/SkipLink.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import { buildColdForge } from '../lib/works';
+
+// BRA-6 — the cold forge: works-svg's primitive vocabulary, no data
+// behind it (buildColdForge's placeholder repo is inactive so no smoke
+// ever renders). The cold palette is applied via the scoped CSS below,
+// not here — this call just gets the neutral drawing + its one ember dot.
+const forge = buildColdForge();
 ---
 
 <BaseLayout title="Page not found — Abhijit Bansal — Foundry">
@@ -15,6 +22,7 @@ import Footer from '../components/Footer.astro';
 	<Nav />
 	<main id="not-found" class="brand-skills">
 		<div style="max-width:1200px;margin:0 auto;padding:clamp(120px,12vw,160px) clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
+			<div class="fy-404-forge" style="width:240px;max-width:100%;margin:0 0 24px" aria-hidden="true" set:html={forge.svg} />
 			<p class="ds-kicker fy-404-kicker" style="margin:0 0 12px">404</p>
 			<h1 class="ds-display-lg" style="margin:0">Page not found</h1>
 			<p class="ds-lead fy-404-lead" style="margin:14px 0 0">Nothing was forged at this address.</p>
@@ -39,5 +47,26 @@ import Footer from '../components/Footer.astro';
 
 	.fy-404-lead a {
 		color: var(--ds-accent-hover);
+	}
+</style>
+
+<style is:global>
+	/* BRA-6 cold-forge palette override — deliberately global, not scoped.
+	   forge.svg is injected via set:html, so Astro's compiler never sees
+	   those elements at build time and its automatic style-scoping
+	   attribute is never applied to them; a scoped selector reaching for
+	   `.fy-404-forge svg.fyw-svg` would silently never match. `!important`
+	   is required too, not just global: FYW_STYLE (the <style> embedded
+	   inside forge.svg itself, works-svg.ts:62) sets these same custom
+	   properties directly on `svg.fyw-svg` at equal specificity, and that
+	   inline stylesheet's document position isn't guaranteed to lose a
+	   plain specificity tie. .fy-404-forge is unique to this page, so
+	   going global for this one rule is safe. */
+	.fy-404-forge svg.fyw-svg {
+		--fyw-window-lit: var(--ds-line-strong) !important;
+		--fyw-clerestory: var(--ds-line) !important;
+		--fyw-hot-fill: var(--ds-surface-2) !important;
+		--fyw-halo-op: 0 !important;
+		--fyw-furnace-glow-op: 0 !important;
 	}
 </style>

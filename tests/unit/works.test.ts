@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { assertYardCoverage, buildLedger, buildStrip, buildYard, computeLitFracs, computeStoreys, fmtK, pennantCount, seeded } from '../../src/lib/works';
+import { assertYardCoverage, buildColdForge, buildLedger, buildStrip, buildYard, computeLitFracs, computeStoreys, fmtK, pennantCount, seeded } from '../../src/lib/works';
 import { layoutStripGrid, stripGridFootprint } from '../../src/lib/works-layout';
 import type { WorksRepo } from '../../src/lib/works.types';
 
@@ -210,6 +210,28 @@ describe('stripGridFootprint', () => {
 
 	it('reports 3 rows for 7 repos', () => {
 		expect(stripGridFootprint(7).rows).toBe(3);
+	});
+});
+
+describe('buildColdForge', () => {
+	it('renders an accessible standalone building with no data-driven parts', () => {
+		const { svg, ariaLabel } = buildColdForge();
+		expect(svg).toContain('role="img"');
+		expect(svg).toContain(ariaLabel);
+		expect(svg).toContain('class="fy-forge-ember"');
+	});
+
+	it('never emits a smoke puff (the placeholder repo is inactive)', () => {
+		const { svg } = buildColdForge();
+		// FYW_STYLE's shared <style> block always defines the .fyw-puff rule
+		// and @keyframes fywPuff regardless of markup — check for an actual
+		// emitted element (smoke()'s own `class="fyw-puff..."` attribute),
+		// not the class name appearing anywhere in the string.
+		expect(svg).not.toContain('class="fyw-puff');
+	});
+
+	it('is deterministic — same output on repeat calls', () => {
+		expect(buildColdForge().svg).toBe(buildColdForge().svg);
 	});
 });
 
