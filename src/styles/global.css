@@ -496,6 +496,10 @@ html[data-theme="light"] .brand-skills {
   color: var(--ds-accent);
   background: color-mix(in srgb, var(--ds-accent) 14%, transparent);
 }
+.harness-fs-tab:not([aria-current='true']):hover,
+.harness-fs-tab:not([aria-current='true']):focus-visible {
+  color: var(--ds-text-2);
+}
 .harness-fs-close {
   padding: 7px 14px;
   border-radius: var(--ds-radius-pill);

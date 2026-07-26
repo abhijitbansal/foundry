@@ -192,6 +192,11 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 		color: var(--ds-accent);
 		border-color: var(--ds-accent);
 	}
+	.fy-view-btn:not([aria-pressed='true']):hover,
+	.fy-view-btn:not([aria-pressed='true']):focus-visible {
+		color: var(--ds-text-2);
+		border-color: var(--ds-line-strong);
+	}
 	:root[data-fy-view='grid'] [data-fy-view-panel='works'] {
 		display: none;
 	}
