@@ -93,15 +93,16 @@ export function last30DaysCells(dailyOutTokens: Record<string, number>, endDateI
 	return dateRangeCells(dailyOutTokens, start, endDateISO);
 }
 
-// Display order/colors mirror the 2A source's six model-mix segments
-// exactly: accent, secondary, tertiary, success, warning, text-faint.
+// Display order/colors mirror the 2A source's six model-mix segments except
+// slot 6, where the source's --ds-text-faint is 2.07:1 on --ds-surface and
+// is raised to --ds-text-3 (5.03/4.26) for legibility.
 const MODEL_MIX_COLORS = [
 	'var(--ds-accent)',
 	'var(--ds-secondary)',
 	'var(--ds-tertiary)',
 	'var(--ds-success)',
 	'var(--ds-warning)',
-	'var(--ds-text-faint)',
+	'var(--ds-text-3)',
 ];
 
 // Converts a raw model id (e.g. "claude-opus-4-8", "claude-haiku-4-5-20251001")

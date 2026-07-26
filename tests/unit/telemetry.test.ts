@@ -162,7 +162,7 @@ describe('modelMixSegments', () => {
 		expect(segments.every((s) => s.label !== '<synthetic>')).toBe(true);
 	});
 
-	it('assigns the six design colors in accent/secondary/tertiary/success/warning/text-faint order', () => {
+	it('assigns the six design colors in accent/secondary/tertiary/success/warning/text-3 order', () => {
 		const segments = modelMixSegments(models, 92044);
 		expect(segments.map((s) => s.colorVar)).toEqual([
 			'var(--ds-accent)',
@@ -170,7 +170,7 @@ describe('modelMixSegments', () => {
 			'var(--ds-tertiary)',
 			'var(--ds-success)',
 			'var(--ds-warning)',
-			'var(--ds-text-faint)',
+			'var(--ds-text-3)',
 		]);
 	});
 
