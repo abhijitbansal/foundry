@@ -147,10 +147,12 @@ This is an assumption for the two `disable-model-invocation` skills. That flag d
 
 **Stack gate for the taste skills.** Per the 2026-07-26 decision, `design-taste-frontend` and `high-end-visual-design` stay in the auto-fire pool for future React work. They are gated, not demoted:
 
-- **Eligible** when the project's `package.json` contains React (or Next) *and* Tailwind
-- **Not eligible** otherwise — Astro/vanilla/Svelte projects route to `impeccable:impeccable`, `redesign-existing-projects`, or `apple-design`
+- **Eligible** when the `package.json` contains React (or Next) *and* Tailwind. The router must *read* the file, not assume: nearest-first in a monorepo, absent file counts as a failed gate, and Tailwind counts as either `tailwindcss` or `@tailwindcss/vite` plus an `@import "tailwindcss"`.
+- **Gate passes** → on table rows 1 and 2 only, `design-taste-frontend` *replaces* that row's primary target. `high-end-visual-design` is the shorter alternative, taken only for an explicitly premium-agency brief. No other row is affected — the gate never redirects a motion, naming, or library-pick route.
+- **Gate fails** → both are struck from candidacy and the matched row's primary target stands unchanged.
 - The `and` is load-bearing: foundry has React as a narrowly scoped dependency (one `client:visible` figure) but no Tailwind, so the gate correctly excludes it. React alone is not the signal; the Tailwind utility-class idiom is what these two rulebooks actually assume.
-- When both are eligible, prefer `design-taste-frontend` (broader, more detailed); `high-end-visual-design` is the shorter alternative for a premium-agency brief specifically
+
+The gate must **select**, not merely filter. A first implementation made it removal-only, which left both skills absent from every table row and therefore unreachable by auto-routing — demoted rather than gated, the opposite of the 2026-07-26 decision. Rows 1 and 2 name the gate explicitly so that cannot recur.
 
 **Mutually exclusive sets.** Never load two members of a set in one request:
 
