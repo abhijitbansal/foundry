@@ -672,7 +672,7 @@ grep -c 'design-router' ~/.claude/CLAUDE.md
 grep -n '^## Design work' ~/.claude/CLAUDE.md
 ```
 
-Expected: a count of `2` or more, and the new heading located between the subagent-dispatch section and whatever followed it.
+Expected: a count of exactly `1` — the verbatim text names `design-router` once, in the first bullet — and the new heading located between the subagent-dispatch section and whatever followed it. Do not pad the text to raise the count.
 
 - [x] **Step 5: Verify nothing else was disturbed**
 
@@ -836,7 +836,7 @@ Probe table to encode (prompt → expected route):
 
 Failure guidance to include at the end: under-firing is fixed by widening the hook keyword set in `~/.claude/hooks/design-nudge.sh`, not by enlarging the router body; over-firing (probe 2 failing) is fixed by tightening the refactor split in the router, not by removing hook keywords. Probe 9 failing means a `Skill` call cannot reach a `disable-model-invocation` target — fall back to `/design pick-ui-library` and record it in the spec's §7 risk row.
 
-- [ ] **Step 1: Confirm .scratch is gitignored**
+- [x] **Step 1: Confirm .scratch is gitignored**
 
 ```bash
 cd /Users/abhijitbansal/projects/foundry
@@ -845,11 +845,11 @@ grep -n 'scratch' .gitignore || echo "NOT IGNORED"
 
 If it prints `NOT IGNORED`, append `.scratch/` to `.gitignore` and include that file in this task's commit.
 
-- [ ] **Step 2: Write the checklist**
+- [x] **Step 2: Write the checklist**
 
 Create `.scratch/design-skill-routing-test-checklist.html` implementing the mechanics and content above. Self-contained: inline CSS and JS, no external requests.
 
-- [ ] **Step 3: Verify it works**
+- [x] **Step 3: Verify it works**
 
 ```bash
 cd /Users/abhijitbansal/projects/foundry
@@ -863,7 +863,7 @@ Expected: `present`; at least `2` localStorage references (read and write); at l
 
 Then open it and confirm by hand that ticking a box, reloading, and pressing reset all behave.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd /Users/abhijitbansal/projects/foundry
