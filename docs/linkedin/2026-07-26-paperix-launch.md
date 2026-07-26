@@ -2,7 +2,8 @@
 date: 2026-07-26
 target: Paperix (iOS document scanner, doc-scan repo)
 angle: personal-motivation lead, proof beat second
-status: draft
+status: scheduled
+scheduled_time: 2026-07-27 14:30 EST
 ---
 
 I built Paperix because I didn't want my documents leaving my phone. It's an iOS document scanner, it's on the App Store, and it's free.
