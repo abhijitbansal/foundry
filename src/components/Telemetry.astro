@@ -134,7 +134,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 		<article id="fy-yard-card" data-reveal style="display:flex;flex-direction:column;gap:18px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px;margin-top:clamp(26px,4vw,40px)">
 			<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
 				<span id="fy-yard-title" class="ds-micro" style="color:var(--ds-accent-hover)">The works — one building per repo</span>
-				<span id="fy-yard-meta" class="ds-micro" style="color:var(--ds-text-faint)">All-time · {dateRange} · {statsRepos.length} repos · hover a building · the shift ends at the whistle</span>
+				<span id="fy-yard-meta" class="ds-micro" style="color:var(--ds-text-2);line-height:1.8">All-time · {dateRange} · {statsRepos.length} repos · hover a building · the shift ends at the whistle</span>
 			</div>
 			<div id="fy-yard-wrap" class="fy-hold-target" style="position:relative;touch-action:manipulation">
 				<WorksCity variant="yard" repos={worksRepos} metaLine={`Surveyed from ${filesFound} session logs · ${dateRange}`} />
@@ -163,7 +163,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 						<span style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
 							<span class="ds-micro" style="color:var(--ds-accent-hover)">{String(entry.rank).padStart(2, '0')}</span>
 							<span class="ds-micro" style="color:var(--ds-text);font-weight:600;letter-spacing:0.02em">{entry.repo}</span>
-							<span class="ds-caption" style="color:var(--ds-text-faint)">{entry.storeys} {entry.storeys === 1 ? 'storey' : 'storeys'}</span>
+							<span class="ds-caption" style="color:var(--ds-text-2)">{entry.storeys} {entry.storeys === 1 ? 'storey' : 'storeys'}</span>
 						</span>
 						<span class="ds-caption" style="color:var(--ds-text-2)">
 							{formatCompact(entry.sessions)} sessions · {formatCompact(entry.lines)} lines · {formatCompact(entry.tokens)} tok out
@@ -171,14 +171,14 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 					</div>
 				))}
 			</div>
-			<p class="ds-caption" style="margin:0;color:var(--ds-text-faint)">{worksCaption}</p>
+			<p class="ds-caption" style="margin:0;color:var(--ds-text-2)">{worksCaption}</p>
 		</article>
 
 		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr));gap:20px;margin-top:clamp(26px,4vw,40px);align-items:stretch">
 			<article data-reveal style="display:flex;flex-direction:column;gap:18px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px">
 				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
 					<span class="ds-micro" style="color:var(--ds-accent-hover)">Since May 1</span>
-					<span class="ds-micro" style="color:var(--ds-text-faint)">{windowStartLabel} – {windowEndLabel} · out-tokens per day</span>
+					<span class="ds-micro" style="color:var(--ds-text-2)">{windowStartLabel} – {windowEndLabel} · out-tokens per day</span>
 				</div>
 				<div style="display:flex;gap:clamp(18px,3vw,32px);align-items:flex-start;flex-wrap:wrap">
 					{/* the since-May-1 grid grows a 16px column every 7 days — scroll it
@@ -210,13 +210,13 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 						)}
 					</span>
 					<span style="display:inline-flex;align-items:center;gap:4px">
-						<span class="ds-micro" style="color:var(--ds-text-faint);margin-right:4px">cool</span>
+						<span class="ds-micro" style="color:var(--ds-text-2);margin-right:4px">cool</span>
 						<span style="width:12px;height:12px;border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
 						<span style="width:12px;height:12px;border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface-2))"></span>
 						<span style="width:12px;height:12px;border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))"></span>
 						<span style="width:12px;height:12px;border-radius:3px;background:var(--ds-accent)"></span>
 						<span style="width:12px;height:12px;border-radius:3px;background:var(--ds-secondary)"></span>
-						<span class="ds-micro" style="color:var(--ds-text-faint);margin-left:4px">hot</span>
+						<span class="ds-micro" style="color:var(--ds-text-2);margin-left:4px">hot</span>
 					</span>
 				</div>
 			</article>
@@ -225,7 +225,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 				<article data-reveal style="display:flex;flex-direction:column;gap:16px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px">
 					<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
 						<span class="ds-micro" style="color:var(--ds-accent-hover)">Model mix</span>
-						<span class="ds-micro" style="color:var(--ds-text-faint)">{formatCompact(totals.assistant_msgs)} assistant messages</span>
+						<span class="ds-micro" style="color:var(--ds-text-2)">{formatCompact(totals.assistant_msgs)} assistant messages</span>
 					</div>
 					<div aria-hidden="true" style="display:flex;height:8px;border-radius:var(--ds-radius-pill);overflow:hidden">
 						{modelSegments.map((seg) => <span style={`width:${seg.percent}%;background:${seg.colorVar}`} />)}
@@ -271,7 +271,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 		<aside data-reveal style="margin-top:22px;background:var(--ds-surface-2);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);overflow:hidden;max-width:760px">
 			<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 20px;border-bottom:1px solid var(--ds-line)">
 				<span class="ds-micro" style="color:var(--ds-text-3)">$ memekit react --to "the token ledger"</span>
-				<span class="ds-micro" style="color:var(--ds-text-faint)">80×24</span>
+				<span class="ds-micro" style="color:var(--ds-text-2)">80×24</span>
 			</div>
 			<pre style="margin:0;padding:20px 24px;font-family:var(--ds-font-mono);font-size:12.5px;line-height:1.65;color:var(--ds-text-2);overflow-x:auto">{memekitLines[0]}
 {memekitLines[1]}

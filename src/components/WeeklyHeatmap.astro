@@ -21,7 +21,7 @@ const ariaLabel = `Activity by hour and day of week, ${heatmap.timezone} time`;
 
 <div style="display:flex;gap:8px">
 	<div style="display:flex;flex-direction:column;gap:3px;justify-content:space-between;padding-top:2px">
-		{heatmap.weekday_labels.map((label) => <span class="ds-micro" style="color:var(--ds-text-faint);height:11px;line-height:11px">{label}</span>)}
+		{heatmap.weekday_labels.map((label) => <span class="ds-micro" style="color:var(--ds-text-2);height:11px;line-height:11px">{label}</span>)}
 	</div>
 	<div
 		role="img"
@@ -44,4 +44,4 @@ const ariaLabel = `Activity by hour and day of week, ${heatmap.timezone} time`;
 		}
 	</div>
 </div>
-<p class="ds-caption" style="margin:8px 0 0;color:var(--ds-text-faint)">Hour of day ({heatmap.timezone}), left to right = midnight to 11pm.</p>
+<p class="ds-caption" style="margin:8px 0 0;color:var(--ds-text-2)">Hour of day ({heatmap.timezone}), left to right = midnight to 11pm.</p>
