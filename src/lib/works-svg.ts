@@ -60,13 +60,13 @@ export const FYW_STYLE = `
 		.fyw-building { transition: none; }
 	}
 	svg.fyw-svg {
-		--fyw-window-lit: var(--ds-accent);
-		--fyw-clerestory: color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2));
-		--fyw-hot-fill: var(--ds-surface);
-		--fyw-annex-glass: color-mix(in srgb, var(--ds-text) 20%, var(--ds-surface-2));
+		--fyw-window-lit: var(--fy-ember);
+		--fyw-clerestory: color-mix(in srgb, var(--fy-ember) 55%, var(--ds-surface-2));
+		--fyw-hot-fill: var(--fy-ember);
+		--fyw-annex-glass: color-mix(in srgb, var(--fy-ember) 28%, var(--ds-surface-2));
 		--fyw-halo-op: 0;
 		--fyw-hot-glow-op: 0;
-		--fyw-furnace-glow-op: 0.18;
+		--fyw-furnace-glow-op: 0.22;
 		--fyw-furnace-glow-r: 10px;
 	}
 	:root[data-theme="dark"] svg.fyw-svg,
@@ -82,13 +82,13 @@ export const FYW_STYLE = `
 	}
 	@media (prefers-color-scheme: light) {
 		:root:not([data-theme="dark"]) svg.fyw-svg {
-			--fyw-window-lit: var(--ds-accent);
-			--fyw-clerestory: color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2));
-			--fyw-hot-fill: var(--ds-surface);
-			--fyw-annex-glass: color-mix(in srgb, var(--ds-text) 20%, var(--ds-surface-2));
+			--fyw-window-lit: var(--fy-ember);
+			--fyw-clerestory: color-mix(in srgb, var(--fy-ember) 55%, var(--ds-surface-2));
+			--fyw-hot-fill: var(--fy-ember);
+			--fyw-annex-glass: color-mix(in srgb, var(--fy-ember) 28%, var(--ds-surface-2));
 			--fyw-halo-op: 0;
 			--fyw-hot-glow-op: 0;
-			--fyw-furnace-glow-op: 0.18;
+			--fyw-furnace-glow-op: 0.22;
 			--fyw-furnace-glow-r: 10px;
 		}
 	}
