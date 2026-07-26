@@ -1372,9 +1372,36 @@ body.ds-root {
    are children of #fy-yard-wrap, not #fy-yard-card, so a plain
    width/margin rule with no position/transform on the card itself leaves
    that containing-block chain untouched). The clamp caps the pull below
-   the container's own offset, so it can never reach the viewport edge. */
+   the container's own offset, so it can never reach the viewport edge.
+   REVIEW FIX (HIGH): #fy-yard-card is content-box (its inline style never
+   sets box-sizing), so `width: calc(100% + 2*pull)` was being applied to
+   the CONTENT box only — the card's actual rendered (border) box came out
+   26px×2 padding + 1px×2 border = 54px wider than the calc() intended,
+   independent of the pull itself. The negative margins (correctly
+   symmetric) shift the box left by the intended amount, but the extra
+   54px then oversteps the right edge before the page's own growing outer
+   margin (past 1200px viewport) is wide enough to absorb it — measured
+   overflow of 52px at exactly the 1240px gate, shrinking to 0 by ~1356px
+   as the margin catches up. Fixed with box-sizing:border-box on this rule
+   so the calc() governs the actual rendered box directly, matching how
+   every other sized element on this site already behaves (foundation.css
+   sets a project-wide box-sizing reset for typical containers, but this
+   card's OWN inline style never opted into it, and .fy-yard-bleed only
+   ever touched width/margin, never box-sizing, until now).
+   Re-measured after the fix (iframe-isolated CSS viewports, exact widths):
+   900/1024/1100/1180/1240/1360/1440 all show zero horizontal overflow.
+   Gate stays at 1240 — no change needed: border-box removes the +54px
+   inflation entirely rather than just relocating it, so the bleed is
+   symmetric and bounded at every width above the gate, including right at
+   1240 itself (a small ~1.6px gutter both sides, +13.7% over the 1088px
+   unbled column). The moment doesn't die: at 1440 the card renders at
+   1260.8px content width with an 89.6px viewport gutter remaining,
+   exactly the original spec's own math — the content-box bug had been
+   masking that correct number under an inflated 1315px border-box
+   reading the whole time. */
 @media (min-width: 1240px) {
   .fy-yard-bleed {
+    box-sizing: border-box;
     width: calc(100% + 2 * clamp(0px, 6vw, 120px));
     margin-inline: calc(-1 * clamp(0px, 6vw, 120px));
   }
