@@ -490,6 +490,26 @@ html[data-theme="dark"] {
   --fyw-furnace-glow-r: 15px !important;
 }
 
+/* LAY-1 — updates.astro's weekly strip figure (works.ts buildStrip, 620-unit
+   viewBox) is emitted width:100%;height:auto with no cap. At the week
+   card's ~1024px inner width that's a 1.65x upscale past its authored size
+   (888px tall for five small buildings) — every stroke weight and the
+   8.5px labels were tuned at 620 units, so blowing it up reads as
+   low-craft even though it stays mathematically sharp. .fy-strip caps the
+   WorksCity wrapper (not the svg itself, which keeps its own
+   width:100%;height:auto and just resolves against the now-capped
+   parent) to 740px at >=820px viewports: 740/620 = 1.19x, 642px tall,
+   -246px per week card. Below 820px the strip keeps the uncapped
+   width:100% it already had — this is desktop-only excess, not a mobile
+   legibility problem. Index's yard figure (variant="yard") is untouched;
+   only the strip variant (updates.astro) gets the class, from
+   WorksCity.astro's class:list. */
+@media (min-width: 820px) {
+  [data-fy-view-panel='works'] .fy-strip {
+    max-width: 740px;
+  }
+}
+
 /* harness figures — fyh-* animation classes, see src/lib/harness-svg*.ts and
    RoutingCard.tsx. Copied verbatim from design_handoff_harness's <style>
    block — do not alter timings. */
