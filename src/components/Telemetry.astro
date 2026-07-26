@@ -23,12 +23,21 @@ import {
 	formatDateRange,
 	daysBetweenInclusive,
 	heatmapAriaLabel,
+	heatBucketColor,
 } from '../lib/telemetry';
+import type { HeatBucket } from '../lib/telemetry.types';
 import { buildLedger } from '../lib/works';
 import type { WorksRepo } from '../lib/works.types';
 import { getAllWeeksDesc } from '../lib/weekly';
 
 const stats = statsJson as unknown as StatsJson;
+
+// Legend swatches, quiet -> peak — reads straight off heatBucketColor()
+// (PAL-8) instead of hand-duplicating the ramp's color-mix expressions a
+// second time in markup; this legend used to hardcode its own copy of the
+// same 5 literal color-mix strings, which would have silently gone stale
+// against the actual cells the moment the ramp changed underneath it.
+const HEAT_LEGEND_BUCKETS: HeatBucket[] = ['quiet', 'low', 'mid', 'high', 'peak'];
 const { meta, totals } = stats;
 
 // The Works card — data/stats.json's repos[] carries more fields than the
@@ -221,11 +230,13 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 					</span>
 					<span style="display:inline-flex;align-items:center;gap:4px">
 						<span class="ds-micro" style="color:var(--ds-text-2);margin-right:4px">cool</span>
-						<span style="width:12px;height:12px;border-radius:3px;background:var(--ds-surface-2);border:1px solid var(--ds-line);box-sizing:border-box"></span>
-						<span style="width:12px;height:12px;border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface-2))"></span>
-						<span style="width:12px;height:12px;border-radius:3px;background:color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))"></span>
-						<span style="width:12px;height:12px;border-radius:3px;background:var(--ds-accent)"></span>
-						<span style="width:12px;height:12px;border-radius:3px;background:var(--ds-secondary)"></span>
+						{
+							HEAT_LEGEND_BUCKETS.map((bucket) => (
+								<span
+									style={`width:12px;height:12px;border-radius:3px;background:${heatBucketColor(bucket)}${bucket === 'quiet' ? ';border:1px solid var(--ds-line);box-sizing:border-box' : ''}`}
+								/>
+							))
+						}
 						<span class="ds-micro" style="color:var(--ds-text-2);margin-left:4px">hot</span>
 					</span>
 				</div>

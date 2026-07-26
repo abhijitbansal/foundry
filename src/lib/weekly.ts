@@ -41,9 +41,17 @@ export function heatmapCellPercent(value: number, max: number): number {
 	return Math.min(100, Math.max(0, Math.round((value / max) * 100)));
 }
 
+// Own copy of telemetry.ts's heatBucketColor ramp (continuous instead of
+// bucketed — this grid normalizes on a 0-100 percent, not discrete
+// thresholds). PAL-8: same single-hue warm fix, same reason — --ds-accent
+// otherwise means "interactive" everywhere else on the page, and tinting
+// it here for magnitude is the same muddle telemetry.ts had. --fy-ember
+// is the "hot" token already used for lit/hot states elsewhere
+// (works-svg.ts's window-lit and furnace glow), so re-using it here keeps
+// "warm/lit = active" consistent across both heatmaps on the site.
 export function heatmapCellColor(percent: number): string {
 	if (percent <= 0) return 'var(--ds-surface-2)';
-	return `color-mix(in srgb, var(--ds-accent) ${percent}%, var(--ds-surface-2))`;
+	return `color-mix(in srgb, var(--fy-ember) ${percent}%, var(--ds-surface-2))`;
 }
 
 /** Max message count across every cell in a week's grid — the

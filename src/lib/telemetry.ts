@@ -16,8 +16,7 @@ export function formatCompact(n: number): string {
 	return n.toLocaleString('en-US');
 }
 
-// thresholds per README §03: >0, >=1.5M, >=4.5M, >=7.5M — 'peak' is gold
-// (--ds-secondary), 'high' is full accent.
+// thresholds per README §03: >0, >=1.5M, >=4.5M, >=7.5M.
 export function heatBucket(outTokens: number | undefined): HeatBucket {
 	if (outTokens === undefined || outTokens <= 0) return 'quiet';
 	if (outTokens < 1_500_000) return 'low';
@@ -26,18 +25,25 @@ export function heatBucket(outTokens: number | undefined): HeatBucket {
 	return 'peak';
 }
 
+/** Single-hue warm sequential ramp (PAL-8) — magnitude reads as lightness
+ * within one warm family (gold → ember → white-hot) instead of tinting
+ * --ds-accent, which elsewhere means "interactive" (nav tick, focus ring,
+ * links). Contrast measured against --ds-surface-2 in dark theme
+ * (#16130F): quiet 1.0 : low 1.72 : mid 3.84 : high 5.64 : peak 15.38 —
+ * strictly monotonic, fixing the old ramp's non-monotonic top step
+ * (accent 9.85:1 → secondary/gold 9.66:1, i.e. it got *darker* at peak). */
 export function heatBucketColor(bucket: HeatBucket): string {
 	switch (bucket) {
 		case 'quiet':
 			return 'var(--ds-surface-2)';
 		case 'low':
-			return 'color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface-2))';
+			return 'color-mix(in srgb, var(--ds-secondary) 25%, var(--ds-surface-2))';
 		case 'mid':
-			return 'color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))';
+			return 'color-mix(in srgb, var(--ds-secondary) 55%, var(--ds-surface-2))';
 		case 'high':
-			return 'var(--ds-accent)';
+			return 'var(--fy-ember)';
 		case 'peak':
-			return 'var(--ds-secondary)';
+			return 'var(--ds-text)';
 	}
 }
 

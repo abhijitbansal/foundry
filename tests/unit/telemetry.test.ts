@@ -49,6 +49,16 @@ describe('heatBucket', () => {
 });
 
 describe('heatBucketColor', () => {
+	it.each([
+		['quiet', 'var(--ds-surface-2)'],
+		['low', 'color-mix(in srgb, var(--ds-secondary) 25%, var(--ds-surface-2))'],
+		['mid', 'color-mix(in srgb, var(--ds-secondary) 55%, var(--ds-surface-2))'],
+		['high', 'var(--fy-ember)'],
+		['peak', 'var(--ds-text)'],
+	] as const)('renders %s as the single-hue warm ramp step %s', (bucket, expected) => {
+		expect(heatBucketColor(bucket)).toBe(expected);
+	});
+
 	it('returns a distinct color expression for every bucket', () => {
 		const buckets = ['quiet', 'low', 'mid', 'high', 'peak'] as const;
 		const colors = buckets.map(heatBucketColor);
