@@ -1360,3 +1360,71 @@ body.ds-root {
     margin-inline: calc(-1 * clamp(0px, 6vw, 120px));
   }
 }
+
+/* SUR-5 (gated by LAY-9's own verdict — approved once the gutter still
+   read empty next to the ordinals): blueprint sheet-edge ticks for the
+   flattest text-on-bg sections (Expertise, About, the updates.astro
+   intro). Reuses two idioms the repo already owns instead of inventing a
+   new one: the 24px pitch from Hero.astro:71's (locked, egg-only)
+   blueprint grid, and .ds-rule's drafting-tick reading. Purely decorative
+   — conveys no information, so it carries no text-alternative obligation
+   and needs no reduced-motion gate (nothing animates).
+   GATE: kept the JSON's own literal max-width:900px cutoff rather than
+   aligning it to LAY-9's 1360px gate. The two gates are independently
+   derived — 900 is where "the gutter collapses into the content edge"
+   (this rule's own reasoning), 1360 is where LAY-9's 84px pull clears the
+   viewport edge (an unrelated constraint) — so forcing them to match
+   would tie two unrelated thresholds together for no real reason. Net
+   effect: ticks alone from 900-1360px (no ordinal there to compete with),
+   ticks + ordinal together at >=1360px — checked visually at 1440 in both
+   themes per the composition guard, see below.
+   OPACITY: shipped at the JSON's own 0.45, not lowered. At 1440 the tick
+   column sits at x:[0,56] (flush against the viewport edge, since it's
+   applied to the full-bleed <section>, not the padded inner div) while
+   the LAY-9 ordinal sits at x:[92,110] — a 36px gap between them, plus the
+   ticks' own top/bottom mask-fade — so the two read as distinct marginalia
+   (an outer ruler, an inner ordinal) rather than a single busy cluster;
+   0.45 did not read as competing with the ordinal in either theme.
+   updates.astro has no full-bleed <section> wrapping just its intro — the
+   page is one <main>, and its outer max-width:1200px div also directly
+   parents <div id="weeks"> as a sibling of the intro content (not a
+   sibling after it closes). Two bugs found and fixed by looking at the
+   rendered page rather than trusting the cascade on paper:
+   (1) the first version put .fy-sheet-edge on that outer div and the tick
+   ran the full page height through the week list — fixed by moving it to
+   the intro's own inner data-reveal div instead (kicker/h1/lead/rule
+   only), which correctly stops before the jump-nav and the week list.
+   Narrower than "the intro block" literally (excludes the jump-nav pill
+   row) but that row is interactive chrome, not flat text, so it doesn't
+   need a text-margin gutter next to it anyway.
+   (2) that inner div is itself already inset past the outer div's own
+   left padding (its left edge sits at the same x as the text column, not
+   at the padding-box edge), so `left:0` there put the tick directly under
+   the text instead of beside it — the opposite of "no overlap with text
+   column." Fixed with a `.fy-sheet-edge--inset` modifier that shifts the
+   tick left by the same clamp() the outer div uses for its own padding,
+   landing it back in that padding gutter regardless of viewport width
+   instead of duplicating the whole rule for one call site. Expertise and
+   About don't need the modifier: their .fy-sheet-edge sits on the
+   full-bleed <section> itself, whose own left edge already is the
+   viewport edge, so plain left:0 already lands in the page's outer
+   margin, clear of the text column. */
+.fy-sheet-edge { position: relative; }
+.fy-sheet-edge::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: clamp(20px, 5vw, 56px);
+  pointer-events: none;
+  background-image: repeating-linear-gradient(180deg,
+    var(--ds-line-strong) 0 1px, transparent 1px 24px);
+  opacity: 0.45;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+          mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+}
+.fy-sheet-edge--inset::before { left: calc(-1 * clamp(20px, 5vw, 56px)); }
+@media (max-width: 900px) {
+  .fy-sheet-edge::before { display: none; }
+}
