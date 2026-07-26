@@ -45,9 +45,9 @@ const primaryHref = project.siteUrl ?? project.repoUrl;
 {
 	layout === 'foundation' ? (
 		<article
-			class="fy-tilt"
+			class="fy-plate fy-tilt"
 			data-reveal
-			style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:18px 40px;background:var(--ds-surface);border-radius:var(--ds-radius-lg);padding:26px 28px;transition:border-color var(--ds-duration-base) var(--ds-ease-standard),transform var(--ds-duration-base) var(--ds-ease-standard)"
+			style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:18px 40px;padding:26px 28px;transition:border-color var(--ds-duration-base) var(--ds-ease-standard),transform var(--ds-duration-base) var(--ds-ease-standard)"
 		>
 			<div style="display:flex;flex-direction:column;gap:13px">
 				<span class="ds-micro" aria-hidden="true" style="position:absolute;top:28px;right:28px;color:var(--ds-text-faint)">{badge}</span>
@@ -64,9 +64,9 @@ const primaryHref = project.siteUrl ?? project.repoUrl;
 		</article>
 	) : (
 		<article
-			class="fy-tilt"
+			class="fy-plate fy-tilt"
 			data-reveal
-			style="position:relative;display:flex;flex-direction:column;gap:13px;background:var(--ds-surface);border-radius:var(--ds-radius-lg);padding:26px 28px;transition:border-color var(--ds-duration-base) var(--ds-ease-standard),transform var(--ds-duration-base) var(--ds-ease-standard)"
+			style="position:relative;display:flex;flex-direction:column;gap:13px;padding:26px 28px;transition:border-color var(--ds-duration-base) var(--ds-ease-standard),transform var(--ds-duration-base) var(--ds-ease-standard)"
 		>
 			<span class="ds-micro" aria-hidden="true" style="position:absolute;top:28px;right:28px;color:var(--ds-text-faint)">{badge}</span>
 			<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-right:44px">

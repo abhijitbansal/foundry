@@ -82,7 +82,8 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 							return (
 								<article
 									id={week.week_id}
-									style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:28px clamp(20px,3vw,32px);scroll-margin-top:88px"
+									class="fy-plate"
+									style="padding:28px clamp(20px,3vw,32px);scroll-margin-top:88px"
 								>
 									<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:14px">
 										<h2 class="ds-display-md" style="margin:0">{formatWeekRange(week.week_start, week.week_end)}</h2>

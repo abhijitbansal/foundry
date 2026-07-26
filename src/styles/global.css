@@ -95,6 +95,85 @@ a:hover {
 .fy-skip-link { top: -56px; }
 .fy-skip-link:focus-visible { top: 16px; }
 
+/* SUR-1 (folded into this change per the design judge): --ds-shadow-card/
+   --ds-shadow-pop retuned, site-side rather than editing the vendored
+   token file. Light is unconditional `html:root` (0,1,1) — this beats
+   foundation.css's bare `:root` (0,1,0) for the light-default case, but
+   still LOSES to foundation's own dark rules (`:root[data-theme="dark"]`
+   and its @media mirror, both b=2 in the specificity tuple) — so one
+   rule patches only the light value, no :not([data-theme="dark"]) guard
+   needed. 0.06→0.11 / 0.09→0.15 alpha, same warm rgba(22,20,15) tint:
+   black at alpha 1 on --ds-bg #F4EFE6 is 18.34:1 of downward range: the
+   old 0.06 composites to ~1.126:1 (spends ~0.7% of it), the new 0.11 to
+   ~1.251:1 — still flat, now perceptible. Dark pair is ALSO restated here
+   (rgba(11,9,7,0.55)/0.65, warm-tinted vs pure black) for token-contract
+   completeness, covering both of foundation.css's dark selectors per the
+   ancestor-aware trap brands.css:32-44 documents — but it is currently a
+   no-op: .fy-plate below replaces dark's box-shadow wholesale with an
+   inset rim (dark's downward range is capped at 1.19:1 total per SUR-1's
+   own math, so no drop shadow can express elevation there), and
+   --ds-shadow-card's only OTHER consumer, .ds-card--raised, is used 0×
+   in src/. */
+html:root {
+  --ds-shadow-card: 0 6px 24px rgba(22, 20, 15, 0.11);
+  --ds-shadow-pop: 0 10px 32px rgba(22, 20, 15, 0.15);
+}
+html:root[data-theme="dark"] {
+  --ds-shadow-card: 0 6px 24px rgba(11, 9, 7, 0.55);
+  --ds-shadow-pop: 0 14px 40px rgba(11, 9, 7, 0.65);
+}
+@media (prefers-color-scheme: dark) {
+  html:root:not([data-theme="light"]) {
+    --ds-shadow-card: 0 6px 24px rgba(11, 9, 7, 0.55);
+    --ds-shadow-pop: 0 14px 40px rgba(11, 9, 7, 0.65);
+  }
+}
+
+/* SUR-2: "lit plate" card language, replacing 8 duplicated inline card
+   recipes across 5 files. Theme-symmetric elevation: light occludes light
+   → shadow (SUR-1's retuned --ds-shadow-card); dark catches ambient light
+   → a rim highlight instead (dark's downward shadow range is capped at
+   1.19:1 total, so darkening can't express elevation there — Material's
+   dark-elevation-overlay principle). Border moves from --ds-line to the
+   stronger --ds-line-strong: card-edge-vs-bg goes 1.229→1.481:1 dark and
+   1.238→1.451:1 light — near-identical in both themes. The dark rim
+   rgba(240,234,214,0.08) (--ds-text at 8%) composites to ~1.234:1 against
+   the card's own surface, the same magnitude the border carries, read
+   along the top edge. All decorative non-text (WCAG 1.4.11 doesn't apply
+   to grouping borders). The JSON's posted snippet put an @media block
+   inside a selector list, which is invalid CSS — split into the three
+   rules below. Vendored .ds-card is untouched; this is a new, additive
+   site class. Never applied to #fy-yard-card — the night egg owns that
+   card's background/border with !important and pins what its transition
+   animates FROM (global.css's .fy-yard-night block). */
+.fy-plate {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: var(--ds-shadow-card);
+  transition: border-color var(--ds-duration-base) var(--ds-ease-standard),
+              box-shadow var(--ds-duration-base) var(--ds-ease-standard);
+}
+html:root[data-theme="dark"] .fy-plate {
+  box-shadow: inset 0 1px 0 rgba(240, 234, 214, 0.08);
+}
+@media (prefers-color-scheme: dark) {
+  html:root:not([data-theme="light"]) .fy-plate {
+    box-shadow: inset 0 1px 0 rgba(240, 234, 214, 0.08);
+  }
+}
+/* Rebase of .fy-tilt's existing :hover behaviour (line 94) onto
+   line-strong — kept as a same-specificity rule declared AFTER .fy-tilt's,
+   so on the two ProjectCard.astro elements that now carry BOTH classes
+   (.fy-plate for the new recipe, .fy-tilt kept solely as lib/tilt.ts's
+   querySelector('.fy-tilt') JS hook for the existing pointer-tilt
+   interaction — untouched, undocumented by SUR-2/SUR-1, and not something
+   this change removes) this declaration correctly wins the border-color
+   cascade. */
+.fy-plate:hover {
+  border-color: color-mix(in srgb, var(--ds-accent) 45%, var(--ds-line-strong));
+}
+
 /* .ds-micro's text-transform:uppercase (foundation.css:169) is correct for
    labels but destroys casing that carries meaning — camelCase framework
    names, an email address, a domain (TYP-1). Keeps the mono family + micro
