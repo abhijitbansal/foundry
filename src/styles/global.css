@@ -443,6 +443,28 @@ html .ds-btn-quiet:focus-visible {
   outline-offset: 3px;
 }
 
+/* MOT-7 — components.css:28-29 (vendored, unedited) transitions `background`
+   over --ds-duration-base (200ms) but `transform` over --ds-duration-fast
+   (120ms) on the same .ds-btn hover, so the 1px lift finishes and the fill
+   keeps shifting for another 80ms — two clocks on one gesture. Overridden
+   here via the same `html ` specificity-lift precedent as the
+   :focus-visible rule above: `html .ds-btn` is (0,1,1) — the bare type
+   selector plus the class — which already beats components.css's plain
+   `.ds-btn` at (0,1,0) on specificity alone, so this wins regardless of
+   import order (unlike the :focus-visible rule above, which needs the
+   `:focus-visible` pseudo-class to tie components.css's own :focus-visible
+   selector on that count before `html` can decide it; different tuple,
+   same prefix idiom). Unified at 120ms, not 200ms: a metal-surfaced button
+   should answer the pointer immediately. No color, geometry, or focus
+   behavior changes; components.css:146's reduced-motion kill on .ds-btn
+   still applies unchanged (this rule only restates timing, not a competing
+   transition property). */
+html .ds-btn {
+  transition:
+    background var(--ds-duration-fast) var(--ds-ease-standard),
+    transform var(--ds-duration-fast) var(--ds-ease-standard);
+}
+
 /* PAL-2: desaturate both accents from ~85% to ~60% saturation — the
    redesign rulebook's ceiling is 80%, and the old resting accent was only
    3.29:1 on its own (the root cause of six "use --ds-accent-hover, not
