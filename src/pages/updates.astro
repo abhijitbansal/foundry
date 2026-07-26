@@ -121,6 +121,7 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 											repos={worksRepoRows(week)}
 											stamp={`WEEK ${week.week_id} · ${formatWeekRange(week.week_start, week.week_end)}`}
 											instanceId={week.week_id}
+											label={formatWeekRange(week.week_start, week.week_end)}
 										/>
 										<p class="ds-caption" style="margin:8px 0 0;color:var(--ds-text-2)">
 											Height = lines added this week · pennants = PRs merged · hover for the PR titles.
