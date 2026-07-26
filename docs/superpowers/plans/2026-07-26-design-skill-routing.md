@@ -500,7 +500,7 @@ awk '/^---$/{n++; next} n==1' ~/.agents/skills/design-router/SKILL.md | grep -c 
 
 Expected: `skill file ok`, `symlink ok`, `symlink resolves ok`, then `0` (the flag must be absent from the **frontmatter** so the skill is model-invocable), then `1`.
 
-Both of the last two checks scope themselves to the frontmatter with `awk`. Do not grep the whole file for `disable-model-invocation` — the body legitimately mentions it once, in the "Skills that cannot auto-fire" section, describing `review-animations` and `pick-ui-library`. A whole-file grep returns `1` and false-flags a correct skill.
+Both of the last two checks scope themselves to the frontmatter with `awk`. Do not grep the whole file for `disable-model-invocation` — the body mentions it once, in the "Skills that cannot auto-fire" section, describing `review-animations` and `pick-ui-library`. That mention is required content, not a violation: it is the exact frontmatter key a reader needs in order to verify the claim themselves. A whole-file grep returns `1` and false-flags a correct skill, which is why the check is frontmatter-scoped rather than the body being reworded to dodge it.
 
 `grep -c` exits non-zero when the count is 0, so the fourth command prints `0` and returns 1 — that is the passing case here. Read the printed number, not the exit status.
 
@@ -554,7 +554,7 @@ EOF
 
 The command is the manual lane — a false-negative escape hatch, not the primary path. It must not restate the routing table inline; it loads the router, which owns it.
 
-- [ ] **Step 1: Write the failing check**
+- [x] **Step 1: Write the failing check**
 
 ```bash
 test -f ~/.claude/commands/design.md && echo "present" || echo "absent"
@@ -562,7 +562,7 @@ test -f ~/.claude/commands/design.md && echo "present" || echo "absent"
 
 Expected: `absent`.
 
-- [ ] **Step 2: Create the command**
+- [x] **Step 2: Create the command**
 
 Write `~/.claude/commands/design.md`:
 
@@ -586,7 +586,7 @@ on their own.
 Respect the router's exclusion sets — never load two skills from the same set.
 ```
 
-- [ ] **Step 3: Run the check to verify it passes**
+- [x] **Step 3: Run the check to verify it passes**
 
 ```bash
 test -f ~/.claude/commands/design.md && echo "present"
@@ -595,7 +595,7 @@ head -4 ~/.claude/commands/design.md
 
 Expected: `present`, then frontmatter showing the `description` and `argument-hint` lines.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 cd /Users/abhijitbansal/projects/foundry
@@ -635,7 +635,7 @@ Insert as a new top-level section. Place it immediately after the existing `## S
 
 Per `~/.claude/plugins/cache/claude-plugins-official/superpowers/6.2.0/skills/using-superpowers/SKILL.md:62`, CLAUDE.md instructions outrank skills — so this text can direct skill choice, and it is worth keeping narrow for exactly that reason.
 
-- [ ] **Step 1: Write the failing check**
+- [x] **Step 1: Write the failing check**
 
 ```bash
 grep -c 'design-router' ~/.claude/CLAUDE.md
@@ -643,7 +643,7 @@ grep -c 'design-router' ~/.claude/CLAUDE.md
 
 Expected: `0` (and a non-zero exit status, which is the passing state here — read the number).
 
-- [ ] **Step 2: Find the insertion point**
+- [x] **Step 2: Find the insertion point**
 
 ```bash
 grep -n '^## ' ~/.claude/CLAUDE.md | head -20
@@ -651,7 +651,7 @@ grep -n '^## ' ~/.claude/CLAUDE.md | head -20
 
 Note the line number of the heading that follows `## Subagent dispatch: right model, right effort`. The new section goes immediately before that heading.
 
-- [ ] **Step 3: Insert the section**
+- [x] **Step 3: Insert the section**
 
 Insert this text verbatim at that point:
 
@@ -665,7 +665,7 @@ Insert this text verbatim at that point:
 - The router holds the full routing table. Don't duplicate it here — one source of truth.
 ```
 
-- [ ] **Step 4: Run the check to verify it passes**
+- [x] **Step 4: Run the check to verify it passes**
 
 ```bash
 grep -c 'design-router' ~/.claude/CLAUDE.md
@@ -674,7 +674,7 @@ grep -n '^## Design work' ~/.claude/CLAUDE.md
 
 Expected: a count of `2` or more, and the new heading located between the subagent-dispatch section and whatever followed it.
 
-- [ ] **Step 5: Verify nothing else was disturbed**
+- [x] **Step 5: Verify nothing else was disturbed**
 
 ```bash
 grep -c '^## ' ~/.claude/CLAUDE.md
@@ -683,7 +683,7 @@ grep -n 'graphify' ~/.claude/CLAUDE.md | head -3
 
 Expected: the section count is exactly one higher than the Step 2 listing showed, and the graphify rule at the top of the file is intact.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /Users/abhijitbansal/projects/foundry
@@ -723,7 +723,7 @@ Foundry carries React as a narrowly scoped dependency (one `client:visible` figu
 
 Do not touch the existing model-tier mapping (Fable designs, Sonnet builds) — it still applies on top of skill routing.
 
-- [ ] **Step 1: Write the failing check**
+- [x] **Step 1: Write the failing check**
 
 ```bash
 cd /Users/abhijitbansal/projects/foundry
@@ -732,7 +732,7 @@ grep -c 'design-router' AGENTS.md
 
 Expected: `0`.
 
-- [ ] **Step 2: Locate the insertion point**
+- [x] **Step 2: Locate the insertion point**
 
 ```bash
 grep -n '^## ' AGENTS.md
@@ -740,7 +740,7 @@ grep -n '^## ' AGENTS.md
 
 The new subsection goes at the end of the `## Design → build model routing` section — immediately before the `## Orchestration modes` heading.
 
-- [ ] **Step 3: Insert the subsection**
+- [x] **Step 3: Insert the subsection**
 
 Insert this text verbatim immediately before `## Orchestration modes`:
 
@@ -756,7 +756,7 @@ Skill routing is global (`design-router`); this is what that router resolves to 
 - Skill routing composes with the model-tier routing above; it does not replace it. Design still runs at planner tier, implementation at executor tier.
 ```
 
-- [ ] **Step 4: Run the check to verify it passes**
+- [x] **Step 4: Run the check to verify it passes**
 
 ```bash
 grep -c 'design-router' AGENTS.md
@@ -766,7 +766,7 @@ grep -n '^## Orchestration modes' AGENTS.md
 
 Expected: count `1` or more; the new subsection heading appears on a line immediately preceding the `## Orchestration modes` heading.
 
-- [ ] **Step 5: Verify the existing routing rules survived**
+- [x] **Step 5: Verify the existing routing rules survived**
 
 ```bash
 grep -c 'Fable designs; Sonnet builds' AGENTS.md
@@ -775,7 +775,7 @@ grep -c 'Current tier mapping' AGENTS.md
 
 Expected: `1` for each.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 cd /Users/abhijitbansal/projects/foundry
