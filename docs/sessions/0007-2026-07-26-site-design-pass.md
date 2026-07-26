@@ -49,3 +49,45 @@
 **Resume pointer:** branch `feat/site-design-pass`, all 18 units + docs committed. Deliverables: `.scratch/design-pass/explainer.html` (per-change skill attribution), `.scratch/site-design-pass-test-checklist.html`. Dev server: `astro dev` daemon on 127.0.0.1:4321.
 
 **Models:** Fable 5 (orchestrator, design decisions, spec/plan, conflict resolution, acceptance measurement) · Opus 5 (audit finders high, adversarial verifiers xhigh) · Fable 5 (coherence critic) · Sonnet 5 (four executor phases, medium–high) · cavecrew-reviewer (branch diff review).
+
+---
+
+## Part 2 — Palette & design program (same session, same branch)
+
+User-approved follow-on goal: implement the palette/design review's recommendations in phases; push, test, PR, dev server.
+
+### Review → plan
+
+**Achieved:**
+- 7-agent Workflow (6 opus/high lenses — palette, surfaces, type, layout, motion, brand — → opus/xhigh adversarial judge): 51 suggestions → 46 kept / 5 killed (3 absorbed, 1 no-visual-delta, 1 falsified on a hidden-egg measurement). Result JSON: `.scratch/design-pass/palette-review/all-joined.json`.
+- **Direction call (hybrid, judge-ratified):** cyan stays the interaction accent; the hero's molten orange formalized as `--fy-ember` (light `#AE4318` / dark `#E8663A` — judge overrode the finder's `#FF8A4C` on saturation + danger-collision grounds). Standing rule: **cyan = instruments & interaction; gold→ember = material & temperature (incl. temperature-statuses); ember never a link/focus/toggle.**
+- Proposal delivered (`.scratch/design-pass/palette-plan.{md,html}`), then implementation plan `docs/plans/2026-07-26-palette-design-program.md` (routing decided at plan time: Sonnet executors, opus for scene.ts, Fable orchestration).
+
+### Implementation (44 commits, 8 phases)
+
+**Achieved:** all 42 in-scope items (46 kept minus v2-deferred PAL-9/TYP-3/TYP-5/SUR-7-harness). Sonnet executor pool (4 warm agents, SendMessage-continued) + one opus scene agent. Per-commit build+test green; per-item in-browser verification with measured numbers throughout (computed styles, ratios, scrollWidth, WebGL framebuffer sampling via a headless-CDP probe kept at `.scratch/design-pass/hero-probe.mjs`).
+
+**Decisions (constrain future sessions):**
+- `--fy-ember` + `--fy-tint-1/2/3` + Foundry-brand default all scoped at `:root`/`body.ds-root`, NOT `.brand-skills` — portal-overlay safety (extends the PAL-3 rationale). Paperix-red `:root` fallback is dead.
+- Heat ramp is single-hue warm: quiet surface-2 → gold 25% → gold 55% → ember → white-hot `--ds-text` (dark 1.0/1.72/3.84/5.64/15.38 vs surface-2, monotonic). `weekly.ts` `heatmapCellColor` uses ember too. Tests pin the exact strings.
+- Accents desaturated ~60%: light `#236F86`/hover `#175260` (btn hover `#0F3A44`), dark `#62C4D8`/`#7FD0E0`. The six accent-hover AA workarounds retired.
+- Card species: `.fy-plate` (prose; light=shadow, dark=rim-light) / `.fy-well` (data; recessed surface-2). Never on `#fy-yard-card` (egg). Shadow tokens overridden at `html:root` scope (bare `html` loses to `:root` — real trap, caught pre-commit).
+- **Inline-style trap (bitten 3×, now doctrine):** an inline `grid-template-columns`/`transition` beats any class rule — move the default into the class and strip the inline property before adding a media-query variant (`.fy-bench`, `.fy-cards`, `.fy-tele-grid`, ProjectCard transitions).
+- Scene: light theme has its own art direction (NormalBlending + ember-tinted `haloTexLight`/`etexLight`, swapped in `applyTheme` with the blending mode); `coreEmissiveScale` 1/0.60; MOT-5 pointer-proximity composes inside `heat`. Acceptance: 168,613 → 0 pixels over (250,246,238) at 1440 light. Dark byte-identical except the spec'd fine-pointer flare.
+- View transitions ship: sun-pop measured imperceptible (canvas 1.2% opacity at 180ms crossfade end). MOT-2 rule-strike degrades to static ticks on harness (unresolved named timeline renders end keyframe — verified, safe).
+- Multi-agent shared-worktree protocol: **path-scoped commits** (`git commit -m … -- <files>`) + `git diff --cached --stat` immediately pre-commit, after two staging races put foreign files in a commit (both caught + repaired via reset).
+
+### Review gate + fixes
+
+- Independent opus whole-diff review: 1 CRITICAL (telemetry 12-col never applied — the inline trap again; horizontal scroll 900–1183px), 1 HIGH (yard bleed content-box overflow 1240–1349px), 2 MEDIUM (title-block `textLength` squeeze; quiet cells 1.00:1 on wells), LOWs. All fixed (4 commits) + re-measured: zero overflow at 900/1024/1100/1180/1240/1360/1440/1728; 12-col gate raised to 1100px; `.fy-yard-bleed` border-box. 103 tests (pins added for yard geometry).
+- Hard-constraint sweep clean: zero vendored-token/harness-held-file edits, eggs verified live (night egg triggered on the full-bleed card), `HALO_FIT_NARROW`/`HALO_SCALE_NARROW` untouched.
+- 16-shot final screenshot matrix (`.scratch/design-pass/after-v2/`) + orchestrator eyeball pass.
+
+**Follow-ups:**
+- v2 branch inherits: PAL-9, TYP-3, TYP-5, `.fy-well` harness application, MOT-2 harness wiring, harness `--fy-tint-warn-1` consumer.
+- `ogImage` prop wired, unconsumed — per-page OG card art.
+- Pre-existing (reviewer-flagged, untouched): theme toggle under reduced-motion leaves last WebGL frame; memekit aside text-3 on surface-2 4.29:1 light.
+
+**Resume pointer:** branch `feat/site-design-pass` @ `e6644b2`, pushed, PR #25 updated (both programs). Deliverables: `palette-plan.{md,html}`, refreshed `site-design-pass-test-checklist.html`, `after-v2/` matrix. Dev server 127.0.0.1:4321.
+
+**Models:** Fable 5 (orchestration, direction ratification, gates) · Opus 5 (6 lens finders high, judge xhigh, scene executor, branch reviewer) · Sonnet 5 (4-agent executor pool, all batches).
