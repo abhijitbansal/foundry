@@ -19,7 +19,12 @@ export function initTilt(): void {
 			if (raf) return;
 			raf = requestAnimationFrame(() => {
 				raf = 0;
-				card.style.transition = 'border-color var(--ds-duration-base) var(--ds-ease-standard)';
+				// linear, not an ease: this identical string is reassigned every rAF,
+				// which retargets the in-flight transform transition rather than
+				// restarting it (MOT-3) — an ease would re-ease from zero velocity
+				// each frame and visibly step; linear gives a steady ~120ms lag
+				// filter so the plate trails the pointer instead of snapping to it.
+				card.style.transition = 'transform var(--ds-duration-fast) linear, border-color var(--ds-duration-base) var(--ds-ease-standard)';
 				card.style.transform =
 					'perspective(760px) rotateX(' +
 					(py * -3).toFixed(2) +

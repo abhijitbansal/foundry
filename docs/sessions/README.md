@@ -12,3 +12,4 @@ One markdown file per AI coding session that makes commits. Rules: [AGENTS.md â†
 | 0006 | 2026-07-14 | The Harness: standalone showcase page for the Claude Code harness behind this site | [0006-2026-07-14-the-harness-showcase.md](./0006-2026-07-14-the-harness-showcase.md) |
 | 0007 | 2026-07-26 | Design-skill auto-routing: router skill, nudge hook, /design command, acceptance gate (retrofit log) | [0007-2026-07-26-design-skill-routing.md](./0007-2026-07-26-design-skill-routing.md) |
 | 0008 | 2026-07-26 | Design-routing verification review: probe-9 mechanism settled, 14-agent claim verify, fixes | [0008-2026-07-26-design-routing-review.md](./0008-2026-07-26-design-routing-review.md) |
+| 0009 | 2026-07-26 | Site design pass + palette & design program: 22 + 42 adversarially-verified changes, PR #25 | [0009-2026-07-26-site-design-pass.md](./0009-2026-07-26-site-design-pass.md) |

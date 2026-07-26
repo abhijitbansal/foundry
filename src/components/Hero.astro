@@ -57,7 +57,8 @@ const DWG_CORNERS = [
 	<div id="fy-canvas-mount" aria-hidden="true" style="position:absolute;inset:0;z-index:1;pointer-events:none"></div>
 	<div
 		aria-hidden="true"
-		style="position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(102deg, color-mix(in srgb, var(--ds-bg) 90%, transparent) 8%, color-mix(in srgb, var(--ds-bg) 52%, transparent) 42%, transparent 66%), linear-gradient(180deg, color-mix(in srgb, var(--ds-bg) 62%, transparent), transparent 20%), linear-gradient(180deg, transparent 72%, var(--ds-bg) 98%)"
+		class="fy-hero-scrim"
+		style="position:absolute;inset:0;z-index:2;pointer-events:none"
 	>
 	</div>
 	<!-- Egg 2 — the working drawings overlay (design_handoff_eggs/PROMPT.md).
@@ -88,7 +89,7 @@ const DWG_CORNERS = [
 		<span style="position:absolute;right:38px;top:8px;font:500 8.5px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-accent-hover)">SHEET 1 OF 1 · NOT FOR CONSTRUCTION</span>
 	</div>
 
-	<div style="position:relative;z-index:3;max-width:1200px;margin:0 auto;padding:150px clamp(20px,5vw,56px) 130px;width:100%;box-sizing:border-box">
+	<div style="position:relative;z-index:3;max-width:1200px;margin:0 auto;padding:clamp(84px, 13vh, 150px) clamp(20px,5vw,56px) clamp(64px, 10vh, 130px);width:100%;box-sizing:border-box">
 		<div style="max-width:680px;display:flex;flex-direction:column;gap:22px">
 			<div aria-hidden="true" class="fy-dwg-piece" style="height:14px;position:relative;margin-bottom:-6px">
 				<span style="position:absolute;left:0;right:0;top:7px;border-top:1px solid color-mix(in srgb, var(--ds-accent) 60%, transparent)"></span>
@@ -137,7 +138,7 @@ const DWG_CORNERS = [
 					>D</span
 				>
 			</div>
-			<span class="ds-micro" style="color:var(--ds-text-faint);margin-top:6px">drawings on file — ask for the plans</span>
+			<span class="ds-micro" style="color:var(--ds-text-3);margin-top:6px">drawings on file — ask for the plans</span>
 			<div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:24px">
 				<a
 					class="ds-micro fy-link-t3"
@@ -158,7 +159,7 @@ const DWG_CORNERS = [
 				>
 				<span aria-hidden="true" style="width:3px;height:3px;border-radius:50%;background:var(--ds-text-faint)"></span>
 				<a
-					class="ds-micro fy-link-t3"
+					class="ds-micro fy-link-t3 fy-mono-cased"
 					href="mailto:contact@abhijitbansal.com"
 					style="text-decoration:none;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
 					>contact@abhijitbansal.com</a
@@ -189,7 +190,8 @@ const DWG_CORNERS = [
 	.fy-dwg-piece {
 		opacity: 0;
 		pointer-events: none;
-		transition: opacity 0.45s var(--ds-ease-standard);
+		visibility: hidden;
+		transition: opacity 0.45s var(--ds-ease-standard), visibility 0.45s;
 	}
 	.fy-dwg-badge {
 		position: absolute;
@@ -204,6 +206,7 @@ const DWG_CORNERS = [
 	}
 	#top.fy-dwg-open .fy-dwg-piece {
 		opacity: 1;
+		visibility: visible;
 	}
 	#top.fy-dwg-open #fy-dwg-title-block {
 		pointer-events: auto;
@@ -235,7 +238,11 @@ const DWG_CORNERS = [
 	const closeBtn = document.getElementById('fy-dwg-close');
 
 	if (heroSection) {
-		const applyOpen = (open: boolean) => heroSection.classList.toggle('fy-dwg-open', open);
+		const titleBlock = document.getElementById('fy-dwg-title-block');
+		const applyOpen = (open: boolean) => {
+			heroSection.classList.toggle('fy-dwg-open', open);
+			titleBlock?.toggleAttribute('inert', !open);
+		};
 		applyOpen(isDrawingsOpen());
 		onDrawingsChange(applyOpen);
 	}

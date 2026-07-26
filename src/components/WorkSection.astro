@@ -7,9 +7,9 @@ import { appsProjects, aiToolingProjects, foundationProjects } from '../data/pro
 ---
 
 <section id="work" data-screen-label="Work" style="position:relative;scroll-margin-top:72px">
-	<div style="max-width:1200px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(20px,5vw,56px) 0;box-sizing:border-box">
-		<div data-reveal>
-			<p class="ds-kicker" style="margin:0 0 12px">02 · The work</p>
+	<div style="max-width:1200px;margin:0 auto;padding:clamp(40px,5vw,56px) clamp(20px,5vw,56px) 0;box-sizing:border-box">
+		<div data-reveal style="position:relative">
+			<p class="ds-kicker" style="margin:0 0 12px"><span class="fy-sheet-num">02</span><span class="fy-sheet-sep"> · </span><span class="fy-sheet-name">The work</span></p>
 			<h2 class="ds-display-lg" style="margin:0">Forged here.</h2>
 			<p class="ds-lead" style="margin:14px 0 0;max-width:58ch;text-wrap:pretty">
 				Nine projects across apps, agent tooling, and foundation. Private builds tell their story here; public ones link to
@@ -24,6 +24,7 @@ import { appsProjects, aiToolingProjects, foundationProjects } from '../data/pro
 			headerMargin="clamp(28px,4vw,48px)"
 			projects={appsProjects}
 			startIndex={1}
+			lead
 		/>
 		<WorkGroup
 			label="AI / agent tooling"
@@ -53,7 +54,7 @@ import { appsProjects, aiToolingProjects, foundationProjects } from '../data/pro
 					<em style="font-family:var(--ds-font-display)">build my own tools instead of renting mediocre ones.</em>
 				</p>
 			</div>
-			<span class="ds-pill" style="--ds-success:var(--ds-info)">heating up</span>
+			<span class="ds-pill" style="--ds-success:var(--fy-ember)">heating up</span>
 		</aside>
 	</div>
 </section>

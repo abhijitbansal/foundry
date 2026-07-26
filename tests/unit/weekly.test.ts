@@ -54,7 +54,7 @@ describe('heatmapCellColor', () => {
 	});
 
 	it('returns a color-mix expression for a positive percent', () => {
-		expect(heatmapCellColor(50)).toBe('color-mix(in srgb, var(--ds-accent) 50%, var(--ds-surface-2))');
+		expect(heatmapCellColor(50)).toBe('color-mix(in srgb, var(--fy-ember) 50%, var(--ds-surface-2))');
 	});
 });
 

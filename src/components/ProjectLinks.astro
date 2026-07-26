@@ -17,7 +17,7 @@ const { project, primaryHref, primaryLabel } = Astro.props;
 	primaryHref ? (
 		<span style="display:inline-flex;align-items:baseline;gap:14px;flex-wrap:wrap">
 			<a
-				class="ds-micro fy-link-underline"
+				class="ds-micro fy-link-underline fy-mono-cased"
 				href={primaryHref}
 				target="_blank"
 				rel="noopener"
@@ -27,7 +27,7 @@ const { project, primaryHref, primaryLabel } = Astro.props;
 			</a>
 			{project.extraLink && (
 				<a
-					class="ds-micro fy-link-underline"
+					class="ds-micro fy-link-underline fy-mono-cased"
 					href={project.extraLink.url}
 					target="_blank"
 					rel="noopener"
@@ -38,6 +38,6 @@ const { project, primaryHref, primaryLabel } = Astro.props;
 			)}
 		</span>
 	) : (
-		<span class="ds-micro" style="color:var(--ds-text-faint)">Private build</span>
+		<span class="ds-micro" style="color:var(--ds-text-2)">Private build</span>
 	)
 }

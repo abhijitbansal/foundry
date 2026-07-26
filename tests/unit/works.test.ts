@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { assertYardCoverage, buildLedger, buildStrip, buildYard, computeLitFracs, computeStoreys, fmtK, pennantCount, seeded } from '../../src/lib/works';
+import { assertYardCoverage, buildColdForge, buildLedger, buildStrip, buildYard, computeLitFracs, computeStoreys, fmtK, pennantCount, seeded } from '../../src/lib/works';
 import { layoutStripGrid, stripGridFootprint } from '../../src/lib/works-layout';
 import type { WorksRepo } from '../../src/lib/works.types';
 
@@ -126,7 +126,7 @@ describe('buildLedger', () => {
 
 describe('buildYard', () => {
 	it('renders an accessible inline SVG with a title per building', () => {
-		const { svg, ariaLabel } = buildYard(YARD_REPOS, { metaLine: 'Test survey line' });
+		const { svg, ariaLabel } = buildYard(YARD_REPOS, {});
 		expect(svg).toContain('role="img"');
 		expect(svg).toContain(ariaLabel);
 		expect(svg).toContain('<title>cubby');
@@ -135,7 +135,21 @@ describe('buildYard', () => {
 
 	it('throws when a repo in the input has no YARD slot', () => {
 		const repos: WorksRepo[] = [...YARD_REPOS, { repo: 'brand-new-repo', lines: 500, sessions: 5, active: true }];
-		expect(() => buildYard(repos, { metaLine: 'x' })).toThrow(/brand-new-repo/);
+		expect(() => buildYard(repos, {})).toThrow(/brand-new-repo/);
+	});
+
+	// LAY-2 regression pins — the crop (1160->1010) and the removed
+	// duplicate title block (l1/l2, "FORGE YARD PLAN...") are both easy to
+	// silently revert (e.g. a future YARD_CONF.vw tweak, or restoring l1/l2
+	// on titleBlock's meta) without any other test catching it.
+	it('keeps the LAY-2 viewBox crop (1010x612, not the old 1160-wide frame)', () => {
+		const { svg } = buildYard(YARD_REPOS, {});
+		expect(svg).toContain('viewBox="0 0 1010 612"');
+	});
+
+	it('never re-adds the duplicated yard title line (LAY-2)', () => {
+		const { svg } = buildYard(YARD_REPOS, {});
+		expect(svg).not.toContain('FORGE YARD PLAN');
 	});
 });
 
@@ -210,6 +224,28 @@ describe('stripGridFootprint', () => {
 
 	it('reports 3 rows for 7 repos', () => {
 		expect(stripGridFootprint(7).rows).toBe(3);
+	});
+});
+
+describe('buildColdForge', () => {
+	it('renders an accessible standalone building with no data-driven parts', () => {
+		const { svg, ariaLabel } = buildColdForge();
+		expect(svg).toContain('role="img"');
+		expect(svg).toContain(ariaLabel);
+		expect(svg).toContain('class="fy-forge-ember"');
+	});
+
+	it('never emits a smoke puff (the placeholder repo is inactive)', () => {
+		const { svg } = buildColdForge();
+		// FYW_STYLE's shared <style> block always defines the .fyw-puff rule
+		// and @keyframes fywPuff regardless of markup — check for an actual
+		// emitted element (smoke()'s own `class="fyw-puff..."` attribute),
+		// not the class name appearing anywhere in the string.
+		expect(svg).not.toContain('class="fyw-puff');
+	});
+
+	it('is deterministic — same output on repeat calls', () => {
+		expect(buildColdForge().svg).toBe(buildColdForge().svg);
 	});
 });
 

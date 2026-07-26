@@ -1,53 +1,72 @@
 ---
-// 404.astro — plan Task 9.2. Minimal, token-styled page that redirects to
-// the homepage; the plain-text link is the fallback for the (rare) case the
-// meta-refresh doesn't fire.
+// 404.astro — plan Task 9.2, revised (design-pass C17). Minimal, token-styled
+// page. No longer a redirect: it used to meta-refresh straight to the
+// homepage, which made it unreachable and left Updates/Harness unreachable
+// from it (its only exit was the homepage link). Now a real destination with
+// the standard SkipLink/Nav/Footer shell, matching every other route.
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { buildColdForge } from '../lib/works';
+
+// BRA-6 — the cold forge: works-svg's primitive vocabulary, no data
+// behind it (buildColdForge's placeholder repo is inactive so no smoke
+// ever renders). The cold palette is applied via the scoped CSS below,
+// not here — this call just gets the neutral drawing + its one ember dot.
+const forge = buildColdForge();
 ---
 
-<BaseLayout>
-	<meta http-equiv="refresh" content={`0; url=${import.meta.env.BASE_URL}`} />
-	<main class="brand-skills fy-404">
-		<p class="ds-micro fy-404-kicker">404</p>
-		<h1 class="fy-404-title">Page not found</h1>
-		<p class="fy-404-lead">Redirecting you to the homepage&hellip;</p>
-		<p class="fy-404-lead"><a href={import.meta.env.BASE_URL}>Go to the homepage &rarr;</a></p>
+<BaseLayout title="Page not found — Abhijit Bansal — Foundry">
+	<SkipLink href="#not-found" label="Skip to the message" />
+	<Nav />
+	<main id="not-found" class="brand-skills" style="min-height:calc(100vh - 64px);box-sizing:border-box">
+		<div style="max-width:1200px;margin:0 auto;padding:clamp(120px,12vw,160px) clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
+			<div class="fy-404-forge" style="width:240px;max-width:100%;margin:0 0 24px" aria-hidden="true" set:html={forge.svg} />
+			<p class="ds-kicker fy-404-kicker" style="margin:0 0 12px">404</p>
+			<h1 class="ds-display-lg" style="margin:0">Page not found</h1>
+			<p class="ds-lead fy-404-lead" style="margin:14px 0 0">Nothing was forged at this address.</p>
+			<p class="ds-lead fy-404-lead" style="margin:10px 0 0"><a href={import.meta.env.BASE_URL}>Go to the homepage &rarr;</a></p>
+		</div>
 	</main>
+	<Footer />
 </BaseLayout>
 
 <style>
-	.fy-404 {
-		min-height: 100vh;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
-		gap: 0.75rem;
-		padding: 2rem;
-		background: var(--ds-bg);
-		color: var(--ds-text);
-	}
-
 	.fy-404-kicker {
-		/* --ds-accent-hover, not --ds-accent: same 11px normal-text contrast
-		   fix as .ds-kicker (foundation.css) — see comment there. */
+		/* Redundant with .ds-kicker's own --ds-accent-hover default
+		   (foundation.css:167, the same 12px normal-text AA contrast fix) —
+		   kept explicit rather than dropped so this doesn't silently regress
+		   back to --ds-text-3 if .ds-kicker's default ever changes. */
 		color: var(--ds-accent-hover);
-		letter-spacing: 0.08em;
-	}
-
-	.fy-404-title {
-		font-family: var(--ds-font-display);
-		font-size: clamp(2rem, 5vw, 3rem);
-		margin: 0;
 	}
 
 	.fy-404-lead {
-		color: var(--ds-text-faint);
-		margin: 0;
+		color: var(--ds-text-3);
 	}
 
 	.fy-404-lead a {
 		color: var(--ds-accent-hover);
+	}
+</style>
+
+<style is:global>
+	/* BRA-6 cold-forge palette override — deliberately global, not scoped.
+	   forge.svg is injected via set:html, so Astro's compiler never sees
+	   those elements at build time and its automatic style-scoping
+	   attribute is never applied to them; a scoped selector reaching for
+	   `.fy-404-forge svg.fyw-svg` would silently never match. `!important`
+	   is required too, not just global: FYW_STYLE (the <style> embedded
+	   inside forge.svg itself, works-svg.ts:62) sets these same custom
+	   properties directly on `svg.fyw-svg` at equal specificity, and that
+	   inline stylesheet's document position isn't guaranteed to lose a
+	   plain specificity tie. .fy-404-forge is unique to this page, so
+	   going global for this one rule is safe. */
+	.fy-404-forge svg.fyw-svg {
+		--fyw-window-lit: var(--ds-line-strong) !important;
+		--fyw-clerestory: var(--ds-line) !important;
+		--fyw-hot-fill: var(--ds-surface-2) !important;
+		--fyw-halo-op: 0 !important;
+		--fyw-furnace-glow-op: 0 !important;
 	}
 </style>

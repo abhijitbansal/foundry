@@ -28,7 +28,11 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 }
 ---
 
-<BaseLayout>
+<BaseLayout
+	title="Updates — Abhijit Bansal — Foundry"
+	description="Weekly build digests — lines shipped, sessions, model mix, and PR/release activity for every completed week, generated locally every Monday."
+	canonicalPath="/updates/"
+>
 	<SkipLink href="#weeks" label="Skip to the updates" />
 	<Nav />
 	<script is:inline>
@@ -43,13 +47,15 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 	</script>
 	<main class="brand-skills">
 		<div style="max-width:1200px;margin:0 auto;padding:clamp(120px,12vw,160px) clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
-			<p class="ds-kicker" style="margin:0 0 12px">Weekly updates</p>
-			<h1 class="ds-display-lg" style="margin:0">What shipped, week by week.</h1>
-			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">
-				A rolling log, separate from the all-time telemetry above — lines of code, activity by hour and day, model mix,
-				and PR/release activity for one completed week at a time. Generated locally every Monday morning.
-			</p>
-			<hr class="ds-rule" style="margin-top:18px" />
+			<div data-reveal class="fy-sheet-edge fy-sheet-edge--inset" style="position:relative">
+				<p class="ds-kicker" style="margin:0 0 12px">Weekly updates</p>
+				<h1 class="ds-display-lg" style="margin:0">What shipped, week by week.</h1>
+				<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">
+					A rolling log, separate from the all-time telemetry above — lines of code, activity by hour and day, model mix,
+					and PR/release activity for one completed week at a time. Generated locally every Monday morning.
+				</p>
+				<hr class="ds-rule" style="margin-top:18px" />
+			</div>
 
 			{weeks.length > 0 && (
 				<nav aria-label="Jump to week" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
@@ -71,33 +77,38 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 					<p class="ds-body" style="margin-top:32px;color:var(--ds-text-3)">No weekly digests yet — check back after the next Monday run.</p>
 				) : (
 					<div style="display:flex;flex-direction:column;gap:32px;margin-top:clamp(32px,4vw,48px)">
-						{weeks.map((week) => {
+						{weeks.map((week, weekIndex) => {
 							const busiest = busiestRepo(week.repos);
 							return (
 								<article
 									id={week.week_id}
-									style="background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:28px clamp(20px,3vw,32px);scroll-margin-top:88px"
+									class="fy-plate"
+									style="padding:28px clamp(20px,3vw,32px);scroll-margin-top:88px"
 								>
 									<div style="display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:14px">
 										<h2 class="ds-display-md" style="margin:0">{formatWeekRange(week.week_start, week.week_end)}</h2>
-										<span class="ds-micro" style="color:var(--ds-text-faint)">{week.week_id}</span>
+										<span class="ds-micro" style="color:var(--ds-text-2)">{week.week_id}</span>
 									</div>
 
 									{week.highlights?.overall && (
-										<p class="ds-body" style="margin:0 0 20px;color:var(--ds-text-2);max-width:72ch">{week.highlights.overall}</p>
+										weekIndex === 0 ? (
+											<p class="fy-week-standfirst" style="margin:0 0 20px">{week.highlights.overall}</p>
+										) : (
+											<p class="ds-body" style="margin:0 0 20px;color:var(--ds-text-2);max-width:58ch;text-wrap:pretty">{week.highlights.overall}</p>
+										)
 									)}
 
-									<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:14px;margin-bottom:22px">
+									<div data-reveal style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(140px,100%),1fr));gap:14px;margin-bottom:22px">
 										<div style="display:flex;flex-direction:column;gap:3px">
-											<span class="ds-display-md">{formatCompact(totalWeeklyLines(week.repos))}</span>
+											<span class="ds-display-md fy-stat">{formatCompact(totalWeeklyLines(week.repos))}</span>
 											<span class="ds-micro" style="color:var(--ds-accent-hover)">Lines added</span>
 										</div>
 										<div style="display:flex;flex-direction:column;gap:3px">
-											<span class="ds-display-md">{formatCompact(totalWeeklySessions(week.repos))}</span>
+											<span class="ds-display-md fy-stat">{formatCompact(totalWeeklySessions(week.repos))}</span>
 											<span class="ds-micro" style="color:var(--ds-accent-hover)">Sessions</span>
 										</div>
 										<div style="display:flex;flex-direction:column;gap:3px">
-											<span class="ds-display-md">{week.repos.length}</span>
+											<span class="ds-display-md fy-stat">{week.repos.length}</span>
 											<span class="ds-micro" style="color:var(--ds-accent-hover)">Repos active</span>
 										</div>
 										{busiest && (
@@ -109,7 +120,7 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 									</div>
 
 									<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px">
-										<span class="ds-micro" style="color:var(--ds-text-3)">Activity</span>
+										<span class="ds-micro" style="color:var(--ds-text-2)">Activity</span>
 										<div data-fy-view-toggle style="display:flex;gap:8px">
 											<button type="button" class="fy-view-btn" data-view="works" aria-pressed="true">WORKS</button>
 											<button type="button" class="fy-view-btn" data-view="grid" aria-pressed="false">GRID</button>
@@ -121,20 +132,21 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 											repos={worksRepoRows(week)}
 											stamp={`WEEK ${week.week_id} · ${formatWeekRange(week.week_start, week.week_end)}`}
 											instanceId={week.week_id}
+											label={formatWeekRange(week.week_start, week.week_end)}
 										/>
-										<p class="ds-caption" style="margin:8px 0 0;color:var(--ds-text-faint)">
+										<p class="ds-caption" style="margin:8px 0 0;color:var(--ds-text-2)">
 											Height = lines added this week · pennants = PRs merged · hover for the PR titles.
 										</p>
 									</div>
 									<div data-fy-view-panel="grid" hidden>
-										<WeeklyHeatmap heatmap={week.heatmap} />
+										<WeeklyHeatmap heatmap={week.heatmap} weekLabel={formatWeekRange(week.week_start, week.week_end)} />
 									</div>
 									<noscript>
 										<!-- The toggle above is JS-only; without it, "grid" is unreachable
 										     (nothing ever sets data-fy-view="grid" or handles a click), so
 										     a no-JS visitor gets the heatmap unconditionally instead of losing
 										     it outright. -->
-										<WeeklyHeatmap heatmap={week.heatmap} />
+										<WeeklyHeatmap heatmap={week.heatmap} weekLabel={formatWeekRange(week.week_start, week.week_end)} />
 									</noscript>
 
 									<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(280px,100%),1fr));gap:14px;margin-top:24px">
@@ -144,12 +156,12 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 											return (
 												<div style="border-top:1px solid var(--ds-line);padding-top:12px;display:flex;flex-direction:column;gap:6px">
 													<span class="ds-micro" style="color:var(--ds-text);font-weight:600;letter-spacing:0.02em">{repo.repo}</span>
-													<span class="ds-caption" style="color:var(--ds-text-3)">
+													<span class="ds-caption" style="color:var(--ds-text-2)">
 														{formatCompact(repo.sessions)} sessions · {formatCompact(repo.lines_added)} lines · {repo.top_tool ?? '—'} ·{' '}
 														<span style="white-space:nowrap">{repo.top_model ?? '—'}</span>
 													</span>
 													{release && release.pr_merge_count > 0 && (
-														<span class="ds-caption" style="color:var(--ds-text-3)">
+														<span class="ds-caption" style="color:var(--ds-text-2)">
 															{release.pr_merge_count} PR{release.pr_merge_count === 1 ? '' : 's'} merged
 															{release.pr_titles && release.pr_titles.length > 0 ? `: ${release.pr_titles[0]}${release.pr_titles.length > 1 ? ' …' : ''}` : ''}
 														</span>
@@ -171,6 +183,11 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 	<Footer />
 </BaseLayout>
 
+<script>
+	import { initReveals } from '../lib/reveal';
+	initReveals();
+</script>
+
 <style>
 	.fy-view-btn {
 		font-family: var(--ds-font-mono);
@@ -182,7 +199,7 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 		border-radius: var(--ds-radius-pill);
 		border: 1px solid var(--ds-line);
 		background: transparent;
-		color: var(--ds-text-3);
+		color: var(--ds-text-2);
 		cursor: pointer;
 		transition:
 			color var(--ds-duration-base) var(--ds-ease-standard),
@@ -191,6 +208,15 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 	.fy-view-btn[aria-pressed='true'] {
 		color: var(--ds-accent);
 		border-color: var(--ds-accent);
+	}
+	/* Hover steps to --ds-text, not --ds-text-2: the resting color already
+	   moved to text-2 for AA (was text-3 when this hover step was designed),
+	   so text-2 here would be a color no-op. --ds-text keeps the intended
+	   ladder: resting text-2 → hover text → selected accent. */
+	.fy-view-btn:not([aria-pressed='true']):hover,
+	.fy-view-btn:not([aria-pressed='true']):focus-visible {
+		color: var(--ds-text);
+		border-color: var(--ds-line-strong);
 	}
 	:root[data-fy-view='grid'] [data-fy-view-panel='works'] {
 		display: none;

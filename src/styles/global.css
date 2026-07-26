@@ -6,8 +6,100 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* MOT-4 — cross-document view transitions, pure CSS, zero dependencies:
+   no astro:transitions / ClientRouter / SPA routing, which would break the
+   Three.js canvas mount and each page's own per-page egg init (verified:
+   neither appears anywhere in src/ or astro.config). The site is four
+   static pages sharing one position:fixed masthead (Nav.astro:22,
+   identical markup on all four) and today every navigation is a hard
+   white/black document swap that repaints the chrome — naming only the
+   masthead turns it into a stable anchor while the content crossfades.
+   The footer is deliberately NOT named: Footer.astro is the same component
+   on every page but sits at wildly different document offsets (index vs.
+   updates are already ~450px apart and drift further as weekly digests
+   accumulate), so a named group would tween between distant positions and
+   jump instead of holding still.
+   Do NOT nest @view-transition inside a `(prefers-reduced-motion:
+   no-preference)` media query — declare it unconditionally and neutralize
+   the pseudo-element animations under `reduce` instead; that's the
+   unambiguous pattern for this at-rule.
+   Named cost, not hidden: navigating INTO index.astro, the incoming
+   document's snapshot is captured at its first rendering opportunity,
+   which precedes scene.ts's shownOnce/canvas-opacity gate flipping the
+   molten-sun canvas to opacity:1 — so the crossfade can land on a hero
+   with no sun yet, which then pops in once Three.js finishes its first
+   frame. Every other direction (index→updates, index→harness,
+   updates↔harness, →404) has no such race. 180ms is chosen specifically
+   to shorten the window that pop is visible in; verified in-browser
+   (dev server, chrome-devtools MCP) — see commit body for the observed
+   verdict. */
+@view-transition {
+  navigation: auto;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: var(--ds-ease-standard);
+}
+
+header[data-screen-label='Nav'] {
+  view-transition-name: fy-nav-chrome;
+}
+::view-transition-group(fy-nav-chrome) {
+  animation: none;
+}
+::view-transition-old(fy-nav-chrome),
+::view-transition-new(fy-nav-chrome) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
 body {
   margin: 0;
+}
+/* SUR-4: paper-tooth grain, one inlined SVG feTurbulence tile on the body
+   background, below all content. Additive to foundation.css's own
+   body.ds-root rule (which sets background-color etc. via the `background`
+   shorthand) — cascades resolve per longhand property, so declaring only
+   background-image/-repeat here doesn't need to restate background-color;
+   this rule's later source position (global.css loads after
+   foundation.css) is enough to win that one property at equal (0,1,1)
+   specificity. No blend modes (body backgrounds propagate to the
+   viewport canvas; blend behavior there isn't worth an implementation
+   cycle) and no background-attachment:fixed (judge's correction — on a
+   6000px+ page that reintroduces a per-scroll repaint of the
+   viewport-propagated background for a tile that reads near-identical
+   whether it scrolls with the page or not). Amplitude is baked into the
+   SVG's rect opacity, tuned to the two text-3-on-bg pairs that bind it:
+   light --ds-text-3 #736A59 on #F4EFE6 is 4.659:1 with only 3.5% AA
+   headroom (±3 sRGB -> 4.58:1, holds); dark --ds-text-3 #8B8270 on
+   #1B1814 is 4.652:1 and lifting bg is the adverse direction (±3 -> 4.51:1,
+   too tight; ±2 -> 4.56:1, safe) — hence asymmetric opacity, 0.030 light /
+   0.020 dark, same tile otherwise. Never applied to --ds-surface/.fy-plate/
+   .fy-well/.ds-card — grain on the substrate only is the point; it
+   reinforces SUR-2's elevation ladder (textured ground, smooth plate on
+   top) rather than competing with it. */
+body.ds-root {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.030'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+html[data-theme="dark"] body.ds-root {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.020'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) body.ds-root {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.020'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+  }
 }
 a {
   color: var(--ds-accent);
@@ -36,6 +128,23 @@ a:hover {
   outline: 2px solid var(--ds-accent);
   outline-offset: 3px;
 }
+/* #fy-anvil (Footer.astro:30) carries inline `all:unset`, which resolves
+   outline-style to `none` and, being an inline declaration, outranks the
+   :focus-visible rule above. Only !important can beat it.
+   Deliberately no outline-offset: the 44×44 hit area (margin:-20px -14px)
+   already ends 3px past #fy-footer-copy1's left edge at 390px, so the ring
+   overlaps the copyright line by 5px at offset 0 and 8px at offset 3. */
+#fy-anvil:focus-visible {
+  outline: 2px solid var(--ds-accent) !important;
+}
+/* #fy-dwg-close is only reachable while the drawings panel is open (Hero.astro
+   applyOpen toggles `inert` on the closed panel), so the ring is meaningful
+   once painted; !important on the offset for the same all:unset reason as
+   above — 3px + 2px stroke fits inside the panel's 10px padding. */
+#fy-dwg-close:focus-visible {
+  outline: 2px solid var(--ds-accent) !important;
+  outline-offset: 3px !important;
+}
 @keyframes fy-cue {
   0%, 100% { transform: scaleY(0.3); opacity: 0.35; }
   50% { transform: scaleY(1); opacity: 1; }
@@ -56,6 +165,17 @@ a:hover {
    hover/focus is moved out of the component's inline style into these
    classes (inline style specificity would otherwise block the override);
    every other inline value stays verbatim on the element. */
+/* .ds-chip's 11px --ds-text-3 on its --ds-surface-2 pill is 4.29:1 light /
+   4.87:1 dark — under AA for normal text. --ds-text-2 clears both (9.79 /
+   9.70). Site-side override rather than editing the vendored
+   components.css. :not(.ds-chip--accent) is required — global.css loads
+   after components.css (BaseLayout:14-15), so a bare .ds-chip would tie
+   .ds-chip--accent (components.css:94) on specificity and win on source
+   order, flattening the accent chips. Placed BEFORE .fy-link-t2 because
+   :not() raises this to (0,2,0), tying .fy-link-t2:hover (next rule);
+   source order must let the hover win for updates.astro:58's
+   `class="ds-chip fy-link-t2"`. Resting colour is --ds-text-2 either way. */
+.ds-chip:not(.ds-chip--accent) { color: var(--ds-text-2); }
 .fy-link-t2 { color: var(--ds-text-2); }
 .fy-link-t2:hover { color: var(--ds-accent); }
 .fy-link-t3 { color: var(--ds-text-3); }
@@ -67,14 +187,240 @@ a:hover {
 .fy-skip-link { top: -56px; }
 .fy-skip-link:focus-visible { top: 16px; }
 
-/* #fy-nav — acceptance-pass fix (Phase 10), superseded below 600px by the
+/* SUR-1 (folded into this change per the design judge): --ds-shadow-card/
+   --ds-shadow-pop retuned, site-side rather than editing the vendored
+   token file. Light is unconditional `html:root` (0,1,1) — this beats
+   foundation.css's bare `:root` (0,1,0) for the light-default case, but
+   still LOSES to foundation's own dark rules (`:root[data-theme="dark"]`
+   and its @media mirror, both b=2 in the specificity tuple) — so one
+   rule patches only the light value, no :not([data-theme="dark"]) guard
+   needed. 0.06→0.11 / 0.09→0.15 alpha, same warm rgba(22,20,15) tint:
+   black at alpha 1 on --ds-bg #F4EFE6 is 18.34:1 of downward range: the
+   old 0.06 composites to ~1.126:1 (spends ~0.7% of it), the new 0.11 to
+   ~1.251:1 — still flat, now perceptible. Dark pair is ALSO restated here
+   (rgba(11,9,7,0.55)/0.65, warm-tinted vs pure black) for token-contract
+   completeness, covering both of foundation.css's dark selectors per the
+   ancestor-aware trap brands.css:32-44 documents — but it is currently a
+   no-op: .fy-plate below replaces dark's box-shadow wholesale with an
+   inset rim (dark's downward range is capped at 1.19:1 total per SUR-1's
+   own math, so no drop shadow can express elevation there), and
+   --ds-shadow-card's only OTHER consumer, .ds-card--raised, is used 0×
+   in src/. */
+html:root {
+  --ds-shadow-card: 0 6px 24px rgba(22, 20, 15, 0.11);
+  --ds-shadow-pop: 0 10px 32px rgba(22, 20, 15, 0.15);
+}
+html:root[data-theme="dark"] {
+  --ds-shadow-card: 0 6px 24px rgba(11, 9, 7, 0.55);
+  --ds-shadow-pop: 0 14px 40px rgba(11, 9, 7, 0.65);
+}
+@media (prefers-color-scheme: dark) {
+  html:root:not([data-theme="light"]) {
+    --ds-shadow-card: 0 6px 24px rgba(11, 9, 7, 0.55);
+    --ds-shadow-pop: 0 14px 40px rgba(11, 9, 7, 0.65);
+  }
+}
+
+/* SUR-2: "lit plate" card language, replacing 8 duplicated inline card
+   recipes across 5 files. Theme-symmetric elevation: light occludes light
+   → shadow (SUR-1's retuned --ds-shadow-card); dark catches ambient light
+   → a rim highlight instead (dark's downward shadow range is capped at
+   1.19:1 total, so darkening can't express elevation there — Material's
+   dark-elevation-overlay principle). Border moves from --ds-line to the
+   stronger --ds-line-strong: card-edge-vs-bg goes 1.229→1.481:1 dark and
+   1.238→1.451:1 light — near-identical in both themes. The dark rim
+   rgba(240,234,214,0.08) (--ds-text at 8%) composites to ~1.234:1 against
+   the card's own surface, the same magnitude the border carries, read
+   along the top edge. All decorative non-text (WCAG 1.4.11 doesn't apply
+   to grouping borders). The JSON's posted snippet put an @media block
+   inside a selector list, which is invalid CSS — split into the three
+   rules below. Vendored .ds-card is untouched; this is a new, additive
+   site class. Never applied to #fy-yard-card — the night egg owns that
+   card's background/border with !important and pins what its transition
+   animates FROM (global.css's .fy-yard-night block). */
+.fy-plate {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-line-strong);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: var(--ds-shadow-card);
+  transition: border-color var(--ds-duration-base) var(--ds-ease-standard),
+              box-shadow var(--ds-duration-base) var(--ds-ease-standard);
+}
+html:root[data-theme="dark"] .fy-plate {
+  box-shadow: inset 0 1px 0 rgba(240, 234, 214, 0.08);
+}
+@media (prefers-color-scheme: dark) {
+  html:root:not([data-theme="light"]) .fy-plate {
+    box-shadow: inset 0 1px 0 rgba(240, 234, 214, 0.08);
+  }
+}
+/* Rebase of .fy-tilt's existing :hover behaviour (line 94) onto
+   line-strong — kept as a same-specificity rule declared AFTER .fy-tilt's,
+   so on the two ProjectCard.astro elements that now carry BOTH classes
+   (.fy-plate for the new recipe, .fy-tilt kept solely as lib/tilt.ts's
+   querySelector('.fy-tilt') JS hook for the existing pointer-tilt
+   interaction — untouched, undocumented by SUR-2/SUR-1, and not something
+   this change removes) this declaration correctly wins the border-color
+   cascade. */
+.fy-plate:hover {
+  border-color: color-mix(in srgb, var(--ds-accent) 45%, var(--ds-line-strong));
+}
+
+/* SUR-7: second card species for figures/data grids, beside .fy-plate for
+   prose. --ds-surface-2 is already the recessed step in both themes
+   (1.086:1 below bg light, 1.039:1 dark) — direction is right, the inset
+   supplies the missing magnitude. Dark's border also steps up to
+   --ds-line-strong (matching .fy-plate's dark treatment) plus a bottom
+   inner lip at 5% --ds-text — the mirror of .fy-plate's top rim, since
+   light falling into a recess catches the FAR wall, not the near one.
+   All decorative non-text. Same invalid-CSS-snippet issue as SUR-2's
+   posted form (an @media inside a selector list) — split into three
+   rules, same pattern as .fy-plate above. Never applied to #fy-yard-card
+   (the night egg pins that card's background/border with !important and
+   the well's --ds-surface-2 background would change what its transition
+   animates FROM — SUR-7's own conflict note). */
+.fy-well {
+  background: var(--ds-surface-2);
+  border: 1px solid var(--ds-line);
+  border-radius: var(--ds-radius-lg);
+  box-shadow: inset 0 1px 3px rgba(22, 20, 15, 0.07);
+}
+html:root[data-theme="dark"] .fy-well {
+  border-color: var(--ds-line-strong);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55),
+              inset 0 -1px 0 rgba(240, 234, 214, 0.05);
+}
+@media (prefers-color-scheme: dark) {
+  html:root:not([data-theme="light"]) .fy-well {
+    border-color: var(--ds-line-strong);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55),
+                inset 0 -1px 0 rgba(240, 234, 214, 0.05);
+  }
+}
+
+/* LAY-4: Telemetry's since-May-1/top-tools/model-mix row re-cut as a
+   12-col grid so each card's span matches its content's shape (wide-short
+   heatmap, narrow-tall bar list, full-measure stacked bar) instead of
+   `align-items:stretch` padding the shortest card with void it can't use.
+   Below the gate the wrapper's own auto-fit default (below) still governs
+   and everything stacks — this block only applies at/above the breakpoint
+   where a 3-card row has room to mean something. Lands together with
+   SUR-7 per the design judge: the three cards this reshapes are the same
+   three converting to .fy-well, and Model mix moves from a nested
+   flex-column wrapper to a direct grid child, so the class/DOM
+   restructuring has to happen in the same change or the spans and the
+   markup they target would mismatch.
+   REVIEW FIX (CRITICAL): the wrapper div's inline style used to set
+   grid-template-columns directly (same trap as .fy-bench/.fy-cards) — an
+   inline declaration always wins over an external class rule for the same
+   property regardless of media-query scoping, so this whole 12-col rule
+   had never actually rendered; cards spilled into implicit auto-fit
+   tracks and overflowed the viewport by 272px at 900, 155px at 1024, 3px
+   at 1180 (measured via documentElement.scrollWidth - clientWidth). Fixed
+   by moving the auto-fit default to the unconditional .fy-tele-grid rule
+   below (byte-identical value) and stripping it from the inline style, so
+   this override can finally cascade over it. Gate RAISED from 900 to
+   1100px on re-verification: with the 12-col grid actually live for the
+   first time, the 900-1100 band put the 7-col heat card's stats column
+   (min-width:150px) and heatmap side by side in too little room and they
+   wrapped ugly (measured heat-card content width ~360px at 1024, well
+   under stats(150)+gap(~27)+any visible heatmap). At 1100 the same card
+   has enough room for both without wrapping. Below 1100 the auto-fit
+   default (one column per card, min 380px) governs, matching the original
+   pre-12-col stacked reading exactly. */
+.fy-tele-grid { grid-template-columns: repeat(auto-fit, minmax(min(380px, 100%), 1fr)); }
+@media (min-width: 1100px) {
+  .fy-tele-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
+  .fy-tele-heat { grid-column: 1 / span 7; }
+  .fy-tele-tools { grid-column: 8 / span 5; }
+  .fy-tele-mix { grid-column: 1 / span 12; }
+}
+
+/* .ds-micro's text-transform:uppercase (foundation.css:169) is correct for
+   labels but destroys casing that carries meaning — camelCase framework
+   names, an email address, a domain (TYP-1). Keeps the mono family + micro
+   size so the spec-sheet idiom survives; tracking drops to 0.02em because
+   uppercase tracking (0.10em) is over-open for mixed-case text. 0.02em is
+   the author's own value at Telemetry.astro:175, applied there for exactly
+   this reason (a repo name that must read, not be scanned). Same (0,1,0)
+   specificity as .ds-micro — relies on source order (this rule loads
+   after foundation.css, and after .ds-micro's own selector within this
+   file) to win; every call site below adds this class alongside .ds-micro,
+   never in place of it. */
+.fy-mono-cased { text-transform: none; letter-spacing: 0.02em; }
+
+/* Current-page marker for the two whole-page nav destinations (Updates,
+   Harness). Colour is --ds-text, deliberately NOT --ds-accent: this
+   selector is (1,1,1) and outranks the light-theme link fix at line 26
+   (0,1,1), so --ds-accent here would paint #0E8FB0 on #F4EFE6 = 3.29:1
+   (3.55:1 on --ds-surface in the mobile dropdown) at 11px, reinstating
+   the exact AA failure that rule exists to prevent. --ds-text is 16.1:1
+   light / 14.7:1 dark, a legible step up from the resting --ds-text-2.
+   The accent tick below carries the brand cue and is decorative, so its
+   3.29:1 clears 1.4.11's 3:1 non-text bar — and being a shape, the
+   marker never relies on colour alone (1.4.1).
+   16x3 mirrors the logo bar at Nav.astro:28 in this same 64px row and
+   the .ds-rule blueprint tick (foundation.css:187). Fixed width, not
+   left:0;right:0 — a full-width bar reads as a list divider in the
+   <600px stacked dropdown, and a fixed tick needs no media override.
+   No :hover rule on purpose: (1,1,1) also outranks .fy-link-t2:hover
+   (0,2,0), so the current link is intentionally hover-inert. Do not
+   "restore" it with :hover{color:var(--ds-accent)} — that is the
+   3.29:1 failure again. */
+#fy-nav a[aria-current='page'] {
+  color: var(--ds-text);
+  position: relative;
+}
+#fy-nav a[aria-current='page']::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 16px;
+  height: 3px;
+  background: var(--ds-accent);
+}
+
+/* Hero scrim — only the `background` property changes (narrow layout swaps
+   it for a vertical band), so it is the one moved out of Hero.astro:60's
+   inline style per the convention above; position/inset/z-index/pointer-events
+   stay inline verbatim. Desktop value below is byte-identical to that inline
+   background — do not hand-retune it here, retune the source and copy back. */
+.fy-hero-scrim {
+  background: linear-gradient(102deg, color-mix(in srgb, var(--ds-bg) 90%, transparent) 8%, color-mix(in srgb, var(--ds-bg) 52%, transparent) 42%, transparent 66%), linear-gradient(180deg, color-mix(in srgb, var(--ds-bg) 62%, transparent), transparent 20%), linear-gradient(180deg, transparent 72%, var(--ds-bg) 98%);
+}
+/* Hero scrim. Layer 1's 102deg wash is tuned for the desktop layout, where
+   scene.ts:285 parks the 3D group at x:2.1, clear of the text column. Below
+   w/h = 1.05 the group snaps to x:0 — dead centre, behind the h1 and lead —
+   so layer 1 becomes a vertical band. Measured at 390x844 with a glyph-core
+   ink mask (WCAG 2.x): unpatched, the 19px lead runs to 1.39:1 light and
+   1.44:1 dark over the molten core (needs 4.5:1), and the 40px h1 to 1.47:1
+   light when an ingot orbits behind it (needs 3:1). The 90% plateau is the
+   legibility floor — 75% is the minimum that still clears AA in dark over a
+   lit ingot; do not weaken it without re-probing. */
+#top[data-scene-layout='narrow'] .fy-hero-scrim {
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--ds-bg) 62%, transparent) 0 10%,
+      color-mix(in srgb, var(--ds-bg) 90%, transparent) 18% 70%,
+      color-mix(in srgb, var(--ds-bg) 40%, transparent) 84%,
+      transparent 94%),
+    linear-gradient(180deg, color-mix(in srgb, var(--ds-bg) 62%, transparent), transparent 20%),
+    linear-gradient(180deg, transparent 72%, var(--ds-bg) 98%);
+}
+
+/* #fy-nav — acceptance-pass fix (Phase 10), superseded below 900px by the
    hamburger toggle (user-reported: horizontal scroll still required
    scrolling to reach every link). #fy-nav collapses into a fixed dropdown
-   panel toggled by #fy-nav-burger; visual design and copy are unchanged. */
+   panel toggled by #fy-nav-burger; visual design and copy are unchanged.
+   Breakpoint raised from 600px (measured first-clean width is 885/874;
+   900 is the safe band clearing both themes) — below 900px the 8-item row
+   cramps until labels wrap to 2-3 lines (e.g. "Theme · Light" at 768px),
+   which is worse than the always-visible-row goal this block exists for. */
 .fy-burger {
   display: none;
 }
-@media (max-width: 600px) {
+@media (max-width: 900px) {
   .fy-burger {
     display: flex;
   }
@@ -132,17 +478,213 @@ a:hover {
 }
 
 /* Light-theme .ds-btn legibility fix: brand-skills' light pairing is
-   --ds-on-accent #04141A on --ds-accent #0E8FB0 — ~4.4:1 on paper but the
-   dark-on-mid-teal combination reads muddy at 13px (user-reported: the
-   hero's "See the work" is hard to read). Darken the fill one step and
-   flip the label light: #FBF8F1 on #0B7894 ≈ 4.8:1, on the darker hover
-   fill ≈ 6.8:1. Dark theme (#04141A on #34D3EE, ~9:1) is untouched. */
+   --ds-on-accent #04141A on --ds-accent — even at PAL-2's desaturated
+   #236F86 that's only 3.29:1 (dark ink needs a much lighter or much
+   darker partner than a mid-lightness teal, not this one). Darken the
+   fill one step and flip the label light: #FBF8F1 on the new resting
+   --ds-accent-hover (#175260) = 8.21:1. Dark theme (#04141A on #62C4D8,
+   9.29:1) is untouched — PAL-2 keeps dark's accent light enough that the
+   default accent/on-accent pairing already works there. */
 html[data-theme="light"] .ds-btn {
   background: var(--ds-accent-hover);
   color: #FBF8F1;
 }
+/* PAL-2 judge-found fix: with resting fill now --ds-accent-hover (#175260,
+   relative luminance 0.0706), the old hover fill #085E74 (luminance
+   0.0932) is LIGHTER than resting — hover would brighten instead of
+   darken in light theme, inverting the documented rule below the focus-
+   ring block. #0F3A44 (hsl(191,64%,16%): one step further down the same
+   accent → accent-hover lightness ramp, 33%→23%→16%) is darker
+   (luminance 0.0355) and stays under PAL-2's 80%-saturation ceiling;
+   #FBF8F1 label on it = 11.59:1. */
 html[data-theme="light"] .ds-btn:hover {
-  background: #085E74;
+  background: #0F3A44;
+}
+
+/* Restore the site focus ring on buttons. components.css:33/55 set
+   `outline: none` and lean on a 10%-alpha `--ds-accent-soft` box-shadow,
+   which composites to ~1.12:1 light / ~1.21:1 dark against --ds-bg — far
+   under the 3:1 a focus indicator needs (WCAG 1.4.11), and these are the
+   first two tab stops on the homepage. Re-applies the same 2px accent ring
+   global.css:35 already gives every other focusable element. The `html `
+   prefix is load-bearing: it lifts these to (0,2,1) so they beat
+   components.css's (0,2,0) on specificity rather than on import order —
+   components.css is vendored and an injection-order change would otherwise
+   silently revert this. The soft glow is NOT re-declared: components.css
+   already sets it on these exact selectors; it fills the 3px offset. */
+html .ds-btn:focus-visible,
+html .ds-btn-quiet:focus-visible {
+  outline: 2px solid var(--ds-accent);
+  outline-offset: 3px;
+}
+
+/* MOT-7 — components.css:28-29 (vendored, unedited) transitions `background`
+   over --ds-duration-base (200ms) but `transform` over --ds-duration-fast
+   (120ms) on the same .ds-btn hover, so the 1px lift finishes and the fill
+   keeps shifting for another 80ms — two clocks on one gesture. Overridden
+   here via the same `html ` specificity-lift precedent as the
+   :focus-visible rule above: `html .ds-btn` is (0,1,1) — the bare type
+   selector plus the class — which already beats components.css's plain
+   `.ds-btn` at (0,1,0) on specificity alone, so this wins regardless of
+   import order (unlike the :focus-visible rule above, which needs the
+   `:focus-visible` pseudo-class to tie components.css's own :focus-visible
+   selector on that count before `html` can decide it; different tuple,
+   same prefix idiom). Unified at 120ms, not 200ms: a metal-surfaced button
+   should answer the pointer immediately. No color, geometry, or focus
+   behavior changes; components.css:146's reduced-motion kill on .ds-btn
+   still applies unchanged (this rule only restates timing, not a competing
+   transition property). */
+html .ds-btn {
+  transition:
+    background var(--ds-duration-fast) var(--ds-ease-standard),
+    transform var(--ds-duration-fast) var(--ds-ease-standard);
+}
+
+/* PAL-2: desaturate both accents from ~85% to ~60% saturation — the
+   redesign rulebook's ceiling is 80%, and the old resting accent was only
+   3.29:1 on its own (the root cause of six "use --ds-accent-hover, not
+   --ds-accent" workarounds across foundation.css/components.css/global.css
+   — left as harmless no-ops here per plan; retire separately). Restates
+   --ds-accent-soft too: brands.css hardcodes it as literal rgba channels
+   (:29/:49/:59), so overriding --ds-accent alone would silently desync
+   every callout background/chip fill/progress rail from the new hue.
+   Light #236F86 (hsl(194,59%,33%)) is 4.97:1 on --ds-bg / 5.37:1 on
+   --ds-surface — clears AA as *resting* text, which #0E8FB0's 3.29:1
+   never did. Hover #175260 (hsl(192,61%,23%)) is 7.60:1 / 8.21:1,
+   comfortably past AA on its own — this retires the former separate
+   #0A6E88 AA patch that used to live at this exact selector (it existed
+   only to darken #0B7894's 4.44:1 shortfall; the new hover doesn't need
+   a further one-step darken). */
+html[data-theme="light"] .brand-skills {
+  --ds-accent: #236F86;
+  --ds-accent-hover: #175260;
+  --ds-accent-soft: rgba(35, 111, 134, 0.10);
+}
+/* Dark twin — brands.css never had a global.css override for
+   .brand-skills dark before now (only body.ds-root did, added by PAL-3);
+   needed since the dark accent desaturates too. #62C4D8 (hsl(190,60%,62%))
+   is 8.76:1 on --ds-bg / 8.03:1 on --ds-surface; --ds-on-accent #04141A on
+   it is 9.29:1 (the .ds-btn combo). Hover #7FD0E0 (hsl(190,61%,69%)) is
+   10.11:1 / 9.26:1. `html` prefix matches the focus-ring idiom above:
+   raises these to (0,2,1) so they outrank brands.css's own
+   `[data-theme="dark"] .brand-skills` (0,2,0) and its
+   `@media(...) { html:not(...) .brand-skills }` mirror (0,2,1) — the
+   media mirror ties on specificity, so global.css loading after
+   brands.css in BaseLayout.astro is what decides it, same as every other
+   .brand-skills/body.ds-root override in this file. */
+html[data-theme="dark"] .brand-skills {
+  --ds-accent: #62C4D8;
+  --ds-accent-hover: #7FD0E0;
+  --ds-accent-soft: rgba(98, 196, 216, 0.10);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .brand-skills {
+    --ds-accent: #62C4D8;
+    --ds-accent-hover: #7FD0E0;
+    --ds-accent-soft: rgba(98, 196, 216, 0.10);
+  }
+}
+
+/* Kill the :root Paperix-red fallback (PAL-3). Right now every accent-
+   colored element must be a DOM descendant of one of seven hand-placed
+   .brand-* wrappers (Nav.astro:22, Footer.astro:21, SkipLink.astro:15, the
+   four page mains, harness.astro:55's fullscreen overlay) or it silently
+   inherits brands.css's default Paperix accent (:root, brands.css:10-23) —
+   a hazard already documented in-repo at harness.astro:50-53. body.ds-root
+   (BaseLayout.astro:70) is the anchor, not :root: it is an ancestor of
+   every rendered element including fixed/portal overlays, and it leaves
+   the vendored :root contract untouched so a future .brand-paperix wrapper
+   still works by cascade. This restates .brand-skills's accent family as
+   the document default — a safety net, not a replacement; the seven
+   existing wrappers still win inside their own scope (same-element rule
+   match beats an inherited value regardless of source order). */
+body.ds-root {
+  --ds-accent: #236F86;
+  --ds-accent-hover: #175260;
+  --ds-accent-soft: rgba(35, 111, 134, 0.10);
+  --ds-on-accent: #04141A;
+  --ds-secondary: #B07A18;
+  --ds-tertiary: #6D52C4;
+}
+/* PAL-2 retires the separate html[data-theme="light"] body.ds-root
+   accent-hover patch that used to live here: it existed only to darken
+   #0B7894 (4.44:1, short of AA) one further step to #0A6E88 (5.10:1). The
+   new resting --ds-accent-hover, #175260, already clears AA at 7.60:1 on
+   --ds-bg / 8.21:1 on --ds-surface without a further patch — see the
+   .brand-skills comment above for the full PAL-2 rationale/ratios. */
+html[data-theme="dark"] body.ds-root {
+  --ds-accent: #62C4D8;
+  --ds-accent-hover: #7FD0E0;
+  --ds-accent-soft: rgba(98, 196, 216, 0.10);
+  --ds-on-accent: #04141A;
+  --ds-secondary: #E8B94A;
+  --ds-tertiary: #A892F0;
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) body.ds-root {
+    --ds-accent: #62C4D8;
+    --ds-accent-hover: #7FD0E0;
+    --ds-accent-soft: rgba(98, 196, 216, 0.10);
+    --ds-on-accent: #04141A;
+    --ds-secondary: #E8B94A;
+    --ds-tertiary: #A892F0;
+  }
+}
+
+/* --fy-ember (BRA-1): the site's second brand color — fire, forge material,
+   and temperature (including a status whose status IS a temperature, e.g.
+   heat-ramp steps). Never used for a link, focus ring, or toggle
+   affordance — that's --ds-accent's job. Scoped at :root, NOT .brand-skills:
+   a brand-scoped token would silently unset inside any fixed/portal overlay
+   that isn't a .brand-* descendant (the AGENTS.md "SVG figures &
+   fullscreen/modal overlays" hazard, already bitten once). Additive --fy-*
+   custom property, same namespace as --fyw-*; the vendored --ds-* contract
+   in tokens/*.css is untouched. Dark hex is #E8663A, not the originally
+   proposed #FF8A4C — design-judge review: #FF8A4C is hsl(20,100%,65%),
+   over PAL-2's sub-80%-saturation ceiling, and sits ~5° of hue / 1.12:1
+   from --ds-danger #E08A6D. #E8663A separates further (1.255:1) and still
+   clears AA as text: 5.38:1 on --ds-bg #1B1814, 4.93:1 on --ds-surface
+   #24201A, 5.64:1 on --ds-surface-2 #16130F. Light #AE4318 clears AA at
+   every tier too: 5.07:1 / 5.48:1 / 4.67:1. */
+:root {
+  --fy-ember: #AE4318;
+  --fy-ember-soft: rgba(174, 67, 24, .10);
+}
+html[data-theme="dark"] {
+  --fy-ember: #E8663A;
+  --fy-ember-soft: rgba(232, 102, 58, .14);
+}
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) {
+    --fy-ember: #E8663A;
+    --fy-ember-soft: rgba(232, 102, 58, .14);
+  }
+}
+
+/* Accent-tint surface tiers (PAL-6): 50 color-mix calls exist outside the
+   vendored tokens, and the accent-into-surface ones cluster at seven
+   different ad-hoc percentages (7/10/14/28/55…) with no shared meaning —
+   --ds-accent-soft is an alpha wash correct for a barely-there callout but
+   composites to only 1.22:1/1.12:1 against --ds-surface, so it can't
+   express "a surface tinted accent" and every component hand-rolled its
+   own. --fy-tint-1/2/3 give that a real three-step tier; --fy-tint-warn-1
+   the equivalent one-step for the warning-tinted card. Additive --fy-*
+   names, vendored --ds-* contract untouched.
+   Deviation from the literal PAL-6 spec: defined at body.ds-root, not
+   .brand-skills. The JSON asks for .brand-skills scope, but that's the
+   exact hazard PAL-3 (above) exists to close — a .brand-skills-scoped
+   token silently unsets inside any fixed/portal overlay that isn't a
+   .brand-* descendant. #harness-fs-overlay happens to already carry
+   class="brand-skills" (harness.astro:55), so it would work there today,
+   but .fy-plate/.fy-well (SUR-2/SUR-7) are named as future consumers of
+   these same tiers and aren't guaranteed the same wrapper. body.ds-root
+   matches BRA-1/PAL-3's already-established precedent for exactly this
+   token category. */
+body.ds-root {
+  --fy-tint-1: color-mix(in srgb, var(--ds-accent) 6%, var(--ds-surface));
+  --fy-tint-2: color-mix(in srgb, var(--ds-accent) 14%, var(--ds-surface));
+  --fy-tint-3: color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface));
+  --fy-tint-warn-1: color-mix(in srgb, var(--ds-warning) 4%, var(--ds-surface));
 }
 
 /* ===== Easter eggs — design_handoff_eggs/PROMPT.md ===== */
@@ -229,6 +771,18 @@ html[data-theme="light"] .ds-btn:hover {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Yard-meta hints (Telemetry.astro, audit C12 part B). "hover a building" is
+   a lie on touch — FYW_STYLE (works-svg.ts) highlights via :hover only, no
+   touch handler — so it hides where hover doesn't exist. Both hint spans
+   hide in night mode: the egg rewrites #fy-yard-meta with nightMeta, which
+   carries its own whistle clause; leaving the tail visible would read
+   "…dawn comes at the whistle · the shift ends at the whistle". */
+@media (hover: none) {
+  .fy-hover-hint { display: none; }
+}
+.fy-yard-night .fy-hover-hint,
+.fy-yard-night .fy-yard-meta-tail { display: none; }
+
 /* Egg 3 — the yard card's night palette, keyed off a class rather than the
    site's data-theme so the night render stays reachable only via the
    whistle, independent of whatever theme the visitor is browsing in.
@@ -262,6 +816,26 @@ html[data-theme="light"] .ds-btn:hover {
   --fyw-hot-glow-op: 0.16 !important;
   --fyw-furnace-glow-op: 0.3 !important;
   --fyw-furnace-glow-r: 15px !important;
+}
+
+/* LAY-1 — updates.astro's weekly strip figure (works.ts buildStrip, 620-unit
+   viewBox) is emitted width:100%;height:auto with no cap. At the week
+   card's ~1024px inner width that's a 1.65x upscale past its authored size
+   (888px tall for five small buildings) — every stroke weight and the
+   8.5px labels were tuned at 620 units, so blowing it up reads as
+   low-craft even though it stays mathematically sharp. .fy-strip caps the
+   WorksCity wrapper (not the svg itself, which keeps its own
+   width:100%;height:auto and just resolves against the now-capped
+   parent) to 740px at >=820px viewports: 740/620 = 1.19x, 642px tall,
+   -246px per week card. Below 820px the strip keeps the uncapped
+   width:100% it already had — this is desktop-only excess, not a mobile
+   legibility problem. Index's yard figure (variant="yard") is untouched;
+   only the strip variant (updates.astro) gets the class, from
+   WorksCity.astro's class:list. */
+@media (min-width: 820px) {
+  [data-fy-view-panel='works'] .fy-strip {
+    max-width: 740px;
+  }
 }
 
 /* harness figures — fyh-* animation classes, see src/lib/harness-svg*.ts and
@@ -320,7 +894,7 @@ html[data-theme="light"] .ds-btn:hover {
   border-radius: var(--ds-radius-pill);
   border: 1px solid var(--ds-line-strong);
   background: color-mix(in srgb, var(--ds-surface) 88%, transparent);
-  color: var(--ds-text-3);
+  color: var(--ds-text-2);
   cursor: pointer;
   transition: border-color var(--ds-duration-base) var(--ds-ease-standard), color var(--ds-duration-base) var(--ds-ease-standard);
 }
@@ -343,6 +917,17 @@ html[data-theme="light"] .ds-btn:hover {
   background: var(--ds-surface);
 }
 #harness-fs-overlay[hidden] { display: none; }
+/* SUR-4 grain suppression, as specified. In practice this is a no-op as
+   written — body's grain shows through TRANSPARENT descendants, and
+   neither #harness-fs-overlay (background:var(--ds-surface) two lines up)
+   nor any [data-harness-figure] figure (each sets its own opaque
+   background:var(--ds-surface) inline in its component) is transparent,
+   so both are already protected before this rule exists. Added anyway
+   per spec, for the case a future harness surface DOES go transparent. */
+#harness-fs-overlay,
+[data-harness-figure] {
+  background-image: none;
+}
 .harness-fs-bar {
   flex: none;
   display: flex;
@@ -363,7 +948,7 @@ html[data-theme="light"] .ds-btn:hover {
   border-radius: var(--ds-radius-pill);
   border: 1px solid var(--ds-line-strong);
   background: transparent;
-  color: var(--ds-text-3);
+  color: var(--ds-text-2);
   cursor: pointer;
   font-family: var(--ds-font-mono);
   font-size: 11px;
@@ -373,7 +958,20 @@ html[data-theme="light"] .ds-btn:hover {
 .harness-fs-tab[aria-current="true"] {
   border-color: var(--ds-accent);
   color: var(--ds-accent);
-  background: color-mix(in srgb, var(--ds-accent) 14%, transparent);
+  /* PAL-6: was color-mix(in srgb, var(--ds-accent) 14%, transparent) — an
+     exact-percentage match for --fy-tint-2. Visually identical: this pill
+     sits directly on #harness-fs-overlay's opaque var(--ds-surface)
+     backdrop (.harness-fs-bar carries no background of its own), so an
+     accent-14%-into-transparent wash over a solid --ds-surface composites
+     to the same pixel color as accent-14%-into-surface. */
+  background: var(--fy-tint-2);
+}
+/* --ds-text, not --ds-text-2: resting color moved to text-2 for AA, so a
+   text-2 hover would be invisible. Ladder: resting text-2 → hover text →
+   selected accent. */
+.harness-fs-tab:not([aria-current='true']):hover,
+.harness-fs-tab:not([aria-current='true']):focus-visible {
+  color: var(--ds-text);
 }
 .harness-fs-close {
   padding: 7px 14px;
@@ -392,7 +990,15 @@ html[data-theme="light"] .ds-btn:hover {
   padding: 6px 12px;
   border-radius: var(--ds-radius-pill);
   border: 1px solid var(--ds-line-strong);
-  background: color-mix(in srgb, var(--ds-accent) 10%, transparent);
+  /* PAL-6: was color-mix(in srgb, var(--ds-accent) 10%, transparent) — no
+     defined tier is an exact 10% match (tiers are 6/14/28%), so this is a
+     real, intentional value change, not a like-for-like swap. Routed to
+     --fy-tint-1 (6%) rather than --fy-tint-2 (14%, the same value the
+     *selected* tab above uses): this chip is a passive hint, not a
+     selected state, and tint-2 would flatten that hierarchy. Same
+     opaque-over-opaque reasoning as the tab above applies — this chip
+     sits directly on #harness-fs-overlay's var(--ds-surface) backdrop. */
+  background: var(--fy-tint-1);
   color: var(--ds-text-2);
   font-family: var(--ds-font-mono);
   font-size: 11px;
@@ -440,7 +1046,7 @@ html[data-theme="light"] .ds-btn:hover {
   text-align: center;
   font-family: var(--ds-font-mono);
   font-size: 11px;
-  color: var(--ds-text-3);
+  color: var(--ds-text-2);
 }
 .harness-fs-stage {
   flex: 1;
@@ -498,3 +1104,373 @@ html[data-theme="light"] .ds-btn:hover {
   transition: transform 150ms var(--ds-ease-standard);
 }
 .harness-fs-active .harness-fs-trigger { display: none; }
+
+/* MOT-6 — three movers the existing reduce blocks above don't reach: the
+   mobile nav panel's translateY slide (:352-372, the single most-triggered
+   motion on the site below 900px), the burger's two 45deg rotations
+   (:389-402), and the harness fullscreen figure's scale zoom (:971-1007).
+   The JS side is already correct (reveal.ts:8, tilt.ts:6, three/init.ts:63
+   all bail on the same preference) — this is purely the CSS gap the
+   audit's critic flagged as unexamined. Opacity/visibility stay: they are
+   #fy-nav's show/hide mechanism, not a vestibular trigger, so only the
+   positional/rotational/scale channels are stripped. Deliberately excludes
+   the egg keyframes and .fy-yard-night (off-limits, egg 3's own behavior).
+   Selector/specificity note: each selector here is written to exactly
+   match the rule it overrides (#fy-nav, #fy-nav[data-open='true'],
+   .fy-burger span, .harness-fs-active) so the override wins on equal
+   specificity via this block's later position in the file — appended at
+   the true end for that reason, not merely "after the last existing
+   reduce block" (an earlier position would have lost the cascade to
+   .harness-fs-active's own transition declaration a few lines above,
+   which is defined after where an "insert right after the last reduce
+   block" placement would have landed). */
+@media (prefers-reduced-motion: reduce) {
+  #fy-nav,
+  #fy-nav[data-open='true'] { transform: none; }
+  #fy-nav {
+    transition:
+      opacity var(--ds-duration-base) var(--ds-ease-standard),
+      visibility var(--ds-duration-base);
+  }
+  .fy-burger span { transition: none; }
+  .harness-fs-active { transition: none; }
+}
+
+/* MOT-2 — strike the .ds-rule accent tab: one scroll-driven, spring-eased
+   draw on the site's most-repeated signature idiom (Expertise.astro:10,
+   WorkSection.astro:18, Telemetry.astro:114, updates.astro:57 — all four
+   now qualify: MOT-8 wraps updates' header in [data-reveal] too, so every
+   .ds-rule on the site sits as a direct child of either a [data-reveal] or
+   a bare `main > div`). The whole thing lives inside @supports — this is
+   the load-bearing detail: transform:scaleX(0) must never appear on the
+   base foundation.css:187-196 rule (read-only, untouched here), or a
+   non-supporting browser (Firefox, pre-26 Safari) ships every section tick
+   invisible instead of today's static 64px tab. Longhands, not the
+   `animation` shorthand: animation-duration:auto is required for a
+   view-timeline-driven animation and the shorthand's 0s default silently
+   breaks it. scaleX, not width, so the draw stays on the compositor.
+   Range: reveal.ts:40 releases a [data-reveal] block at entry ≈42% (a
+   ~170px header against a 900px viewport's 0.92·vh threshold) — starting
+   the strike at entry 100% guarantees it can only begin once the header
+   has fully cleared the viewport bottom, ~170px after the fade-in already
+   fired, so the tick can never animate while its own header is still at
+   opacity 0; cover 34% ends it with the header sitting in the reading
+   zone. The linear() stops sample a critically-underdamped spring
+   (m=1, k=260, c=19, ζ=0.589, 10.1% overshoot) — the deliberate opposite
+   of reveal.ts's own entrance curve (front-loaded, no ring-down), so this
+   is the one element on the page whose travel is long enough (64px) for
+   that overshoot to actually read. */
+@keyframes fy-rule-strike { to { transform: scaleX(1); } }
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    :is([data-reveal], main > div):has(> .ds-rule) {
+      view-timeline-name: --fy-rule;
+      view-timeline-axis: block;
+    }
+    .ds-rule::before {
+      transform: scaleX(0);
+      transform-origin: left center;
+      animation-name: fy-rule-strike;
+      animation-duration: auto;
+      animation-fill-mode: both;
+      animation-timeline: --fy-rule;
+      animation-range: entry 100% cover 34%;
+      animation-timing-function: linear(0, 0.102, 0.324, 0.573, 0.790, 0.949, 1.047, 1.092, 1.101, 1.087, 1.063, 1.038, 1.017, 1.002, 0.994, 0.990, 0.990, 0.992, 0.994, 0.997, 1);
+    }
+  }
+}
+
+/* TYP-2: Hero H1 only — raise the display ceiling 68px -> 76px and steepen
+   the clamp so it stops idling at the 40px floor across the 390-667px
+   band. Scoped to #fy-callout-a (Hero.astro:121), NOT .ds-display-xl —
+   that class is also HarnessHero.astro:19's H1, a different column
+   entirely, and must stay out of this change's blast radius. The hero
+   text column is a fixed 680px (Hero.astro:93), so a vw-scaled headline
+   inside it is scaling against a dimension that never grows: the correct
+   shape is "reach the ceiling early, then hold". Measured at 1440: the
+   longer balanced line, "apps and AI agent tooling.", is 581px at 68px —
+   85% of the 680px column; 76px puts it at 649px (95%), 31px of slack for
+   the balance algorithm and font-load variance. 80px would break the
+   2-line set (683px > 680). 8vw hits the 76px ceiling at 950px viewport
+   and is verified non-overflowing at every intermediate width: 500px ->
+   40px font / 342px line vs 450px container; 700px -> 56px / 479px vs
+   630px; 900px -> 72px / 616px vs 680px cap; >=950px -> 76px / 649px vs
+   680px. Floor stays 40px — at 390 the same line already measures ~342px
+   against a 350px column (98% fill), so raising the floor forces a 3rd
+   line. */
+#fy-callout-a { font-size: clamp(40px, 8vw, 76px); }
+
+/* TYP-8: Hero lead only, keyed to #fy-callout-c (Hero.astro:127) so
+   /harness's .ds-lead consumers are untouched. .ds-lead is a fixed 19px
+   (foundation.css:151) while #fy-callout-a above bottoms out at its 40px
+   floor below 667px viewport, so the display:lead ratio collapses from
+   3.58 at 1440 to 2.11 at 390 — the lead nearly matches the headline in
+   weight-on-page. Fixed from the lead side, not the headline side: at 390
+   the H1's longer line already measures ~342px against a 350px column
+   (98% fill), so raising the clamp floor forces a third line instead.
+   17px restores the ratio to 2.35 and shortens the 5-line paragraph by
+   one line. The existing max-width:52ch/text-wrap:pretty at Hero.astro:127
+   stay as-is — the 350px container binds long before 52ch does at this
+   width. No colour change: --ds-text-2 is unchanged (11.5:1 light / 8.5:1
+   dark), and 17px stays comfortably in normal-text territory so the same
+   4.5:1 bar applies and clears. */
+@media (max-width: 600px) {
+  #fy-callout-c { font-size: 17px; }
+}
+
+/* TYP-7: figures are not headlines. .ds-display-lg/.ds-display-md carry
+   the display tier's negative tracking (foundation.css:147-148) because
+   they were tuned for wrapped words — the same classes are reused
+   verbatim for comma-separated 6-digit figures (Telemetry.astro's stat
+   spans, updates.astro's per-week totals), where negative tracking
+   crowds the comma against the digit that follows it. Reset to 0, keep
+   everything else (family, size clamp, line-height) inherited. Applied
+   alongside ds-display-lg/-md, never in place of them — the same class
+   still sets real headline text elsewhere (Telemetry.astro's "The forge
+   runs hot.", updates.astro's week-range H2s), where the negative
+   tracking is correct and untouched. Also NOT applied to updates.astro's
+   busiest-repo slot, which renders a repo name, not a figure.
+   font-variant-numeric's tabular-nums is included per spec as an honest
+   best-effort: Instrument Serif's tnum support isn't verifiable from
+   here, and if the face lacks the feature this is a harmless no-op — the
+   letter-spacing:0 reset is the verifiable, load-bearing half. */
+.fy-stat { letter-spacing: 0; font-variant-numeric: lining-nums tabular-nums; }
+
+/* TYP-9 (bold): /updates' editorial anchor. The H1 ("What shipped, week by
+   week.") is evergreen chrome carrying no news, so the newest week's
+   `highlights.overall` becomes the page's real lead sentence — a serif
+   standfirst at display-md size, tighter measure than body, only on the
+   first (most recent) week card; weeks 2..n keep the plain .ds-body
+   58ch treatment (TYP-6). Contrast: --ds-text-2 on --ds-surface is
+   11.5:1 light / 8.5:1 dark; at 21-26px this is large text (3:1 bar)
+   but clears the stricter 4.5:1 anyway. */
+.fy-week-standfirst {
+  font-family: var(--ds-font-display);
+  font-weight: 400;
+  font-size: clamp(21px, 2.4vw, 26px);
+  line-height: 1.32;
+  letter-spacing: -0.005em;
+  max-width: 46ch;
+  text-wrap: pretty;
+  color: var(--ds-text-2);
+}
+
+/* LAY-9: section ordinals as sheet marginalia. Every section kicker
+   (Expertise.astro, WorkSection.astro, Telemetry.astro, About.astro) is
+   split into three spans — .fy-sheet-num ("01"), .fy-sheet-sep (" · "),
+   .fy-sheet-name ("Expertise") — instead of one text node, so the numeral
+   can be pulled into the left page gutter at >=1360px as drafting
+   marginalia, echoing how sheet numbers live in the margin of a technical
+   drawing rather than inline in the title. Gated at 1360 because
+   (1360-1200)/2 = 80px page margin clears an 84px pull without touching
+   the viewport edge; below it no override fires and the three spans render
+   inline exactly as the single original text node did. --ds-text-faint is
+   correct here, not a tier violation: the numeral is a decorative repeat
+   of information the section name (in flow, at its normal kicker color)
+   already carries, and it is never the sole carrier of anything.
+   JUDGE AMENDMENT: the source JSON's `.fy-sheet-name::before { content:
+   none }` targeted a pseudo-element that is never defined anywhere, so it
+   would have been a no-op — dropped. In its place, .fy-sheet-sep is a real
+   span (not generated content) hidden here once the numeral leaves flow,
+   which achieves the same intent honestly: a clean bare "01" alone in the
+   margin, and a clean "Expertise" alone at the true left edge, with no
+   dangling " · " left behind either from the interpunct or a phantom
+   pseudo-element. .fy-sheet-num needs position:relative on its ancestor
+   data-reveal header div (added at each call site) to anchor against —
+   every one of those divs has zero top padding/margin before the kicker,
+   so top:0.15em lines the numeral up with the kicker's own cap-height. */
+@media (min-width: 1360px) {
+  .fy-sheet-num {
+    position: absolute;
+    left: -84px;
+    top: 0.15em;
+    margin: 0;
+    color: var(--ds-text-faint);
+  }
+  .fy-sheet-sep { display: none; }
+}
+
+/* LAY-5: step the expertise bench. Expertise.astro's three articles were
+   an equal-thirds `repeat(auto-fit,minmax(min(270px,100%),1fr))` grid with
+   identical border-top hairlines on one flat baseline — the canonical
+   generic-AI three-column tell, and a false equivalence besides (iOS &
+   Apple platforms is the deepest discipline here, Full-stack product craft
+   the connective one). class + media query are load-bearing because the
+   current grid/article styles are inline and inline styles can't carry a
+   breakpoint; a bare unequal-fr row without the >=900px gate would break
+   the 390px stack. Below 900px the inline auto-fit rule on the grid div
+   and the plain border-top on each article stay in force, unchanged.
+   JUDGE AMENDMENT: shipped the milder 0/20/40px step, not the source
+   JSON's 0/30/60 — the flat border-top datum the three cards currently
+   share is itself a legitimate drafting idiom (one continuous line across
+   the page), so this trades one reading for another rather than strictly
+   improving on it; the smaller step encodes the same descending-stair
+   hierarchy without overrotating away from that datum.
+   IMPLEMENTATION FIX (not in the source JSON): the div's own inline style
+   used to set grid-template-columns directly; an inline declaration always
+   wins over an external class rule for the same property regardless of
+   whether that rule sits inside a media query, so the >=900px override
+   below would have been a silent no-op against it. Moved the auto-fit
+   default here as a real, unconditional stylesheet rule (byte-identical
+   value, so <900px is unaffected) and removed it from the inline style at
+   the call site, so the media-scoped override can actually cascade over
+   it. */
+.fy-bench { grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr)); }
+@media (min-width: 900px) {
+  .fy-bench {
+    display: grid;
+    grid-template-columns: 1.18fr 1fr 0.92fr;
+    gap: clamp(24px, 3.5vw, 48px);
+    align-items: start;
+  }
+  .fy-bench-2 { margin-top: 20px; }
+  .fy-bench-3 { margin-top: 40px; }
+}
+
+/* LAY-6: lead card for the Apps work group. WorkGroup.astro's card grid was
+   four visually identical rows of 534px boxes at 1088px content width, so
+   Cubby (8 storeys, 221,619 lines — the tallest building in the site's own
+   yard visualization) rendered indistinguishable from memekit (0 storeys).
+   `lead` is an opt-in prop (WorkSection.astro passes it for the Apps group
+   only) rather than "first child of every group": WorkGroup is shared by
+   three groups and first-in-data-order is not first-in-importance
+   (claude-skills outranks cartoon in the AI group), and Foundation already
+   renders its one project outside this grid via layout="foundation".
+   Below 1000px the base auto-fill rule governs and every group — lead or
+   not — stacks unchanged.
+   IMPLEMENTATION FIX (not in the source JSON, same issue as LAY-5 above):
+   the grid div's inline style used to set grid-template-columns directly,
+   which would have permanently beaten any external class override
+   regardless of media query. Moved the auto-fill default here as a real,
+   unconditional rule (byte-identical value, so <1000px and every non-lead
+   group are unaffected) and removed it from the inline style at the call
+   site, so .fy-cards--lead can actually cascade over it once both classes
+   are present on the same element. */
+.fy-cards { grid-template-columns: repeat(auto-fill, minmax(min(390px, 100%), 1fr)); }
+@media (min-width: 1000px) {
+  .fy-cards--lead { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+  .fy-cards--lead > :nth-child(1) { grid-column: span 6; }
+  .fy-cards--lead > :nth-child(n+2) { grid-column: span 2; }
+}
+
+/* LAY-3: forge-yard full-bleed moment. Every band on every page shares the
+   same max-width:1200px container, so nothing on the site is
+   compositionally more important than anything else — the forge yard
+   (#fy-yard-card, Telemetry.astro) is the brand metaphor made literal and
+   the page's densest information object, and is the one element that
+   earns a width tier above the reading column. Sequenced after LAY-2's
+   viewBox crop (already landed) — widening before cropping would have
+   just multiplied the empty quadrant in absolute px.
+   Bounded negative margin, deliberately NOT width:100vw (100vw overflows
+   the moment a vertical scrollbar exists, since 100vw doesn't subtract the
+   scrollbar's own width, causing body-level horizontal scroll) and NOT a
+   transform (a transform on #fy-yard-card would make it a new containing
+   block for the night-egg's absolutely-positioned #fy-yard-veil and
+   #fy-yard-hold-caption, which today correctly resolve against
+   #fy-yard-wrap one level down — verified in Telemetry.astro that both
+   are children of #fy-yard-wrap, not #fy-yard-card, so a plain
+   width/margin rule with no position/transform on the card itself leaves
+   that containing-block chain untouched). The clamp caps the pull below
+   the container's own offset, so it can never reach the viewport edge.
+   REVIEW FIX (HIGH): #fy-yard-card is content-box (its inline style never
+   sets box-sizing), so `width: calc(100% + 2*pull)` was being applied to
+   the CONTENT box only — the card's actual rendered (border) box came out
+   26px×2 padding + 1px×2 border = 54px wider than the calc() intended,
+   independent of the pull itself. The negative margins (correctly
+   symmetric) shift the box left by the intended amount, but the extra
+   54px then oversteps the right edge before the page's own growing outer
+   margin (past 1200px viewport) is wide enough to absorb it — measured
+   overflow of 52px at exactly the 1240px gate, shrinking to 0 by ~1356px
+   as the margin catches up. Fixed with box-sizing:border-box on this rule
+   so the calc() governs the actual rendered box directly, matching how
+   every other sized element on this site already behaves (foundation.css
+   sets a project-wide box-sizing reset for typical containers, but this
+   card's OWN inline style never opted into it, and .fy-yard-bleed only
+   ever touched width/margin, never box-sizing, until now).
+   Re-measured after the fix (iframe-isolated CSS viewports, exact widths):
+   900/1024/1100/1180/1240/1360/1440 all show zero horizontal overflow.
+   Gate stays at 1240 — no change needed: border-box removes the +54px
+   inflation entirely rather than just relocating it, so the bleed is
+   symmetric and bounded at every width above the gate, including right at
+   1240 itself (a small ~1.6px gutter both sides, +13.7% over the 1088px
+   unbled column). The moment doesn't die: at 1440 the card renders at
+   1260.8px content width with an 89.6px viewport gutter remaining,
+   exactly the original spec's own math — the content-box bug had been
+   masking that correct number under an inflated 1315px border-box
+   reading the whole time. */
+@media (min-width: 1240px) {
+  .fy-yard-bleed {
+    box-sizing: border-box;
+    width: calc(100% + 2 * clamp(0px, 6vw, 120px));
+    margin-inline: calc(-1 * clamp(0px, 6vw, 120px));
+  }
+}
+
+/* SUR-5 (gated by LAY-9's own verdict — approved once the gutter still
+   read empty next to the ordinals): blueprint sheet-edge ticks for the
+   flattest text-on-bg sections (Expertise, About, the updates.astro
+   intro). Reuses two idioms the repo already owns instead of inventing a
+   new one: the 24px pitch from Hero.astro:71's (locked, egg-only)
+   blueprint grid, and .ds-rule's drafting-tick reading. Purely decorative
+   — conveys no information, so it carries no text-alternative obligation
+   and needs no reduced-motion gate (nothing animates).
+   GATE: kept the JSON's own literal max-width:900px cutoff rather than
+   aligning it to LAY-9's 1360px gate. The two gates are independently
+   derived — 900 is where "the gutter collapses into the content edge"
+   (this rule's own reasoning), 1360 is where LAY-9's 84px pull clears the
+   viewport edge (an unrelated constraint) — so forcing them to match
+   would tie two unrelated thresholds together for no real reason. Net
+   effect: ticks alone from 900-1360px (no ordinal there to compete with),
+   ticks + ordinal together at >=1360px — checked visually at 1440 in both
+   themes per the composition guard, see below.
+   OPACITY: shipped at the JSON's own 0.45, not lowered. At 1440 the tick
+   column sits at x:[0,56] (flush against the viewport edge, since it's
+   applied to the full-bleed <section>, not the padded inner div) while
+   the LAY-9 ordinal sits at x:[92,110] — a 36px gap between them, plus the
+   ticks' own top/bottom mask-fade — so the two read as distinct marginalia
+   (an outer ruler, an inner ordinal) rather than a single busy cluster;
+   0.45 did not read as competing with the ordinal in either theme.
+   updates.astro has no full-bleed <section> wrapping just its intro — the
+   page is one <main>, and its outer max-width:1200px div also directly
+   parents <div id="weeks"> as a sibling of the intro content (not a
+   sibling after it closes). Two bugs found and fixed by looking at the
+   rendered page rather than trusting the cascade on paper:
+   (1) the first version put .fy-sheet-edge on that outer div and the tick
+   ran the full page height through the week list — fixed by moving it to
+   the intro's own inner data-reveal div instead (kicker/h1/lead/rule
+   only), which correctly stops before the jump-nav and the week list.
+   Narrower than "the intro block" literally (excludes the jump-nav pill
+   row) but that row is interactive chrome, not flat text, so it doesn't
+   need a text-margin gutter next to it anyway.
+   (2) that inner div is itself already inset past the outer div's own
+   left padding (its left edge sits at the same x as the text column, not
+   at the padding-box edge), so `left:0` there put the tick directly under
+   the text instead of beside it — the opposite of "no overlap with text
+   column." Fixed with a `.fy-sheet-edge--inset` modifier that shifts the
+   tick left by the same clamp() the outer div uses for its own padding,
+   landing it back in that padding gutter regardless of viewport width
+   instead of duplicating the whole rule for one call site. Expertise and
+   About don't need the modifier: their .fy-sheet-edge sits on the
+   full-bleed <section> itself, whose own left edge already is the
+   viewport edge, so plain left:0 already lands in the page's outer
+   margin, clear of the text column. */
+.fy-sheet-edge { position: relative; }
+.fy-sheet-edge::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: clamp(20px, 5vw, 56px);
+  pointer-events: none;
+  background-image: repeating-linear-gradient(180deg,
+    var(--ds-line-strong) 0 1px, transparent 1px 24px);
+  opacity: 0.45;
+  -webkit-mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+          mask-image: linear-gradient(180deg, transparent, #000 14%, #000 86%, transparent);
+}
+.fy-sheet-edge--inset::before { left: calc(-1 * clamp(20px, 5vw, 56px)); }
+@media (max-width: 900px) {
+  .fy-sheet-edge::before { display: none; }
+}

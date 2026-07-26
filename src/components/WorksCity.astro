@@ -16,27 +16,25 @@ import { buildStrip, buildYard } from '../lib/works';
 import type { WorksRepo } from '../lib/works.types';
 
 type Props =
-	| { variant: 'yard'; repos: WorksRepo[]; metaLine: string }
-	| { variant: 'strip'; repos: WorksRepo[]; stamp: string; instanceId: string };
+	| { variant: 'yard'; repos: WorksRepo[]; label?: string }
+	| { variant: 'strip'; repos: WorksRepo[]; stamp: string; instanceId: string; label?: string };
 
 const props = Astro.props as Props;
-const result =
-	props.variant === 'yard'
-		? buildYard(props.repos, { metaLine: props.metaLine })
-		: buildStrip(props.repos, { stamp: props.stamp, instanceId: props.instanceId });
+const result = props.variant === 'yard' ? buildYard(props.repos, {}) : buildStrip(props.repos, { stamp: props.stamp, instanceId: props.instanceId });
 
 const domId = props.variant === 'yard' ? 'yard' : props.instanceId;
 const dialogId = `fyw-dialog-${domId}`;
 ---
 
-<div class="fyw-frame">
-	<button type="button" class="fyw-expand-btn" aria-label="View fullscreen" aria-controls={dialogId} data-fyw-expand={dialogId}>
+<div class:list={['fyw-frame', props.variant === 'strip' && 'fy-strip']}>
+	<button type="button" class="fyw-expand-btn" aria-label={props.label ? `View ${props.label} fullscreen` : 'View fullscreen'} aria-controls={dialogId} data-fyw-expand={dialogId}>
 		<svg aria-hidden="true" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 			<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"></path>
 		</svg>
+		<span class="fyw-expand-label">Fullscreen — easier to read</span>
 	</button>
 	<Fragment set:html={result.svg} />
-	<dialog id={dialogId} class="fyw-dialog" aria-label={result.ariaLabel}>
+	<dialog id={dialogId} class="fyw-dialog" aria-label={props.label ? `${result.ariaLabel} — ${props.label}` : result.ariaLabel}>
 		<button type="button" class="fyw-close-btn" aria-label="Close fullscreen" data-fyw-close>✕</button>
 		<div class="fyw-dialog-inner" set:html={result.svg} />
 	</dialog>
@@ -70,6 +68,33 @@ const dialogId = `fyw-dialog-${domId}`;
 	.fyw-expand-btn:focus-visible {
 		color: var(--ds-accent);
 		border-color: var(--ds-accent);
+	}
+	.fyw-expand-label {
+		display: none;
+	}
+	/* ≤640px: the isometric drawing's baked-in typography (title block,
+	   district callouts, scale bar) scales down below legible size, so the
+	   fullscreen escape hatch needs a visible label, not just a 16px icon.
+	   position:static is load-bearing, not cosmetic — the absolute button
+	   at top:8px/right:8px collides with the yard's north arrow (works.ts)
+	   and each strip's stripStamp (works-svg.ts); floating it in-flow above
+	   the drawing (it already precedes the svg in the DOM) removes both
+	   collisions instead of deepening them by widening it in place. */
+	@media (max-width: 640px) {
+		.fyw-expand-btn {
+			position: static;
+			width: auto;
+			height: auto;
+			gap: 6px;
+			padding: 6px 10px;
+			margin: 0 0 10px auto;
+			border-radius: var(--ds-radius-pill);
+		}
+		.fyw-expand-label {
+			font: 500 11px/1 var(--ds-font-mono);
+			letter-spacing: 0.08em;
+			display: inline;
+		}
 	}
 	.fyw-dialog {
 		margin: auto;

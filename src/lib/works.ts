@@ -6,7 +6,7 @@
 // live in works-svg.ts, layout tables in works-layout.ts.
 
 import { layoutStripGrid, STRIP_GRID_CELL_D, stripGridFootprint, YARD, YARD_PLATES } from './works-layout';
-import type { LedgerEntry, WorksRepo, WorksResult } from './works.types';
+import type { LedgerEntry, WorksRepo, WorksResult, YardLayoutEntry } from './works.types';
 import { buildDefs, buildingEls, districtLabel, flatcar, FYW_STYLE, gantryCrane, ground, ingotStack, makeProj, northArrow, rail, scaleBar, stripBuildingLabel, stripStamp, titleBlock } from './works-svg';
 
 export { fmtK, pennantCount, seeded } from './works-svg';
@@ -14,7 +14,7 @@ export { fmtK, pennantCount, seeded } from './works-svg';
 const YARD_MAX_STOREYS = 8;
 const STRIP_MAX_STOREYS = 6;
 
-const YARD_CONF = { S: 30, ox: 268, oy: 236, vw: 1160, vh: 612 };
+const YARD_CONF = { S: 30, ox: 268, oy: 236, vw: 1010, vh: 612 };
 const STRIP_CONF = { S: 26, ox: 126, oy: 172, vw: 620, vh: 448 };
 
 const YARD_ARIA_LABEL = 'Isometric yard plan: one building per repository, height mapped to lines added.';
@@ -73,10 +73,8 @@ export function buildLedger(repos: WorksRepo[]): LedgerEntry[] {
 }
 
 /** All-time yard plan (index `#telemetry`). `repos` should cover every
- * repo in data/stats.json — throws via assertYardCoverage otherwise.
- * `metaLine` fills the title block's survey line (e.g. session count + date
- * range); it's upper-cased to match the engraved-plate style. */
-export function buildYard(repos: WorksRepo[], opts: { metaLine: string; instanceId?: string }): WorksResult {
+ * repo in data/stats.json — throws via assertYardCoverage otherwise. */
+export function buildYard(repos: WorksRepo[], opts: { instanceId?: string }): WorksResult {
 	assertYardCoverage(repos);
 	const { S, ox, oy, vw, vh } = YARD_CONF;
 	const P = makeProj(S, ox, oy);
@@ -106,12 +104,17 @@ export function buildYard(repos: WorksRepo[], opts: { metaLine: string; instance
 		ingotStack(P, 3.2, 5.6, [2, 1], false);
 
 	const furn =
-		titleBlock(vw - 316, vh - 96, {
+		titleBlock(vw - 194, vh - 76, {
 			sheetLabel: 'SHEET 03',
 			sheetNo: 'NO. 03-A',
-			l1: 'FORGE YARD PLAN — ONE BUILDING PER REPO',
-			l2: opts.metaLine.toUpperCase(),
-			l3: 'SCALE: 1 STOREY ≈ LINES ADDED · 8-STOREY MAX',
+			// Review fix: at titleBlock's current w:170 (LAY-2), textMaxWidth is
+			// w-24=146, but the old 44-char line estimates to 227px by the same
+			// heuristic text() uses for its own textLength clamp (t.length *
+			// size * (0.6+lsEm), size 7.6, default ls 0.08em) — the SVG was
+			// shipping with the glyphs squeezed ~36% via textLength, not
+			// actually fitting. This line is 27 chars, estimate 139.5px,
+			// leaving ~6.5px margin.
+			l3: '1 STY ≈ LINES ADDED · 8 MAX',
 		}) +
 		northArrow(vw - 46, 40) +
 		scaleBar(24, vh - 26, S);
@@ -168,4 +171,45 @@ export function buildStrip(repos: WorksRepo[], opts: { stamp: string; instanceId
 		`<g class="fyw-furn">${stamp}${labels}</g></svg>`;
 
 	return { svg, ariaLabel: STRIP_ARIA_LABEL };
+}
+
+const FORGE_CONF = { S: 40, ox: 70, oy: 98, vw: 182, vh: 212 };
+const FORGE_ARIA_LABEL = 'Isometric drawing of a cold forge building, the fire out, one ember still glowing at the furnace door.';
+
+/** BRA-6 — 404's decorative "cold forge": one hand-placed building from
+ * the same works-svg primitive vocabulary as the yard/strip, no data
+ * behind it. `active:false` on the placeholder repo means buildingEls()
+ * never emits smoke/vent puffs — no CSS suppression needed for that part.
+ * The cold palette itself (window-lit/clerestory/hot-fill/halo/furnace-glow
+ * overrides) is the caller's job via a scoped `.fyw-svg` custom-property
+ * override (see 404.astro) — this only emits the neutral drawing plus the
+ * one static ember coal those overrides can't produce (buildingEls has no
+ * "single warm pixel, no animation" primitive; the built-in furnaceMouth()
+ * is animated and fixed to --ds-secondary gold, not swappable to
+ * --fy-ember, so it's deliberately not used here). */
+export function buildColdForge(): WorksResult {
+	const { S, ox, oy, vw, vh } = FORGE_CONF;
+	const P = makeProj(S, ox, oy);
+	const hatchId = 'forge-h';
+	const glassId = 'forge-g';
+	const glowAcc: string[] = [];
+
+	const layout: YardLayoutEntry = { x: 0, y: 0, w: 2.6, d: 1.8, arch: 'monitor', plate: 0, np: [0, 0], stacks: [] };
+	const repo: WorksRepo = { repo: 'the-forge', lines: 0, sessions: 0, active: false };
+	const building = buildingEls(P, layout, repo, 3, 0.12, hatchId, glassId, glowAcc);
+
+	// The last coal: a plain static dot at the furnace door's approximate
+	// centre (same spot buildingEls' own furnaceMouth() would use for a
+	// non-annex hall — see works-svg.ts's furnaceMouth call site), fixed
+	// opacity, no keyframe.
+	const emberCoal = P(layout.x + layout.w, layout.y + layout.d * 0.32 + 0.25, 0.27);
+
+	const svg =
+		`<svg class="fyw-svg fy-forge-svg" viewBox="0 0 ${vw} ${vh}" role="img" aria-label="${FORGE_ARIA_LABEL}" style="width:100%;height:auto;display:block">` +
+		`<style>${FYW_STYLE}</style>${buildDefs(hatchId, glassId)}` +
+		`<g class="fyw-buildings">${building}</g><g class="fyw-glow">${glowAcc.join('')}</g>` +
+		`<circle class="fy-forge-ember" cx="${emberCoal[0].toFixed(2)}" cy="${emberCoal[1].toFixed(2)}" r="3" style="fill:var(--fy-ember);opacity:0.35"/>` +
+		`</svg>`;
+
+	return { svg, ariaLabel: FORGE_ARIA_LABEL };
 }

@@ -57,15 +57,16 @@ export const FYW_STYLE = `
 		.fyw-puff, .fyw-flick { animation: none !important; }
 		.fyw-puff { opacity: 0 !important; }
 		.fyw-puff-first { opacity: 0.55 !important; }
+		.fyw-building { transition: none; }
 	}
 	svg.fyw-svg {
-		--fyw-window-lit: var(--ds-accent);
-		--fyw-clerestory: color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2));
-		--fyw-hot-fill: var(--ds-surface);
-		--fyw-annex-glass: color-mix(in srgb, var(--ds-text) 20%, var(--ds-surface-2));
+		--fyw-window-lit: var(--fy-ember);
+		--fyw-clerestory: color-mix(in srgb, var(--fy-ember) 55%, var(--ds-surface-2));
+		--fyw-hot-fill: var(--fy-ember);
+		--fyw-annex-glass: color-mix(in srgb, var(--fy-ember) 28%, var(--ds-surface-2));
 		--fyw-halo-op: 0;
 		--fyw-hot-glow-op: 0;
-		--fyw-furnace-glow-op: 0.18;
+		--fyw-furnace-glow-op: 0.22;
 		--fyw-furnace-glow-r: 10px;
 	}
 	:root[data-theme="dark"] svg.fyw-svg,
@@ -81,17 +82,18 @@ export const FYW_STYLE = `
 	}
 	@media (prefers-color-scheme: light) {
 		:root:not([data-theme="dark"]) svg.fyw-svg {
-			--fyw-window-lit: var(--ds-accent);
-			--fyw-clerestory: color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2));
-			--fyw-hot-fill: var(--ds-surface);
-			--fyw-annex-glass: color-mix(in srgb, var(--ds-text) 20%, var(--ds-surface-2));
+			--fyw-window-lit: var(--fy-ember);
+			--fyw-clerestory: color-mix(in srgb, var(--fy-ember) 55%, var(--ds-surface-2));
+			--fyw-hot-fill: var(--fy-ember);
+			--fyw-annex-glass: color-mix(in srgb, var(--fy-ember) 28%, var(--ds-surface-2));
 			--fyw-halo-op: 0;
 			--fyw-hot-glow-op: 0;
-			--fyw-furnace-glow-op: 0.18;
+			--fyw-furnace-glow-op: 0.22;
 			--fyw-furnace-glow-r: 10px;
 		}
 	}
-	.fyw-buildings:hover .fyw-building { opacity: 0.38; transition: opacity 0.25s var(--ds-ease-standard); }
+	.fyw-building { transition: opacity 0.25s var(--ds-ease-standard); }
+	.fyw-buildings:hover .fyw-building { opacity: 0.38; }
 	.fyw-buildings .fyw-building:hover { opacity: 1; }
 	.fyw-building:hover .fyw-np-circle { fill: var(--ds-accent-soft); stroke: var(--ds-accent); }
 	.fyw-building:hover .fyw-np-text { fill: var(--ds-accent); }
@@ -558,9 +560,9 @@ export function districtLabel(P: Proj, plate: PlateSpec): string {
 	);
 }
 
-export function titleBlock(x: number, y: number, meta: { sheetLabel: string; sheetNo: string; l1: string; l2: string; l3: string }): string {
-	const w = 292;
-	const h = 76;
+export function titleBlock(x: number, y: number, meta: { sheetLabel: string; sheetNo: string; l3: string }): string {
+	const w = 170;
+	const h = 56;
 	const els: string[] = [];
 	els.push(`<rect x="${n(x)}" y="${n(y)}" width="${w}" height="${h}" style="fill:${C.paper};stroke:${C.hairS}" stroke-width="0.9"/>`);
 	els.push(`<rect x="${n(x + 3)}" y="${n(y + 3)}" width="${w - 6}" height="${h - 6}" style="fill:none;stroke:${C.hair}" stroke-width="0.6"/>`);
@@ -571,9 +573,7 @@ export function titleBlock(x: number, y: number, meta: { sheetLabel: string; she
 	els.push(text({ x: x + w - 66, y: y + 15, text: meta.sheetLabel, size: 7.5, fill: C.inkSoft }));
 	els.push(text({ x: x + w - 66, y: y + 25, text: meta.sheetNo, size: 7.5, fill: C.inkSoft }));
 	const textMaxWidth = w - 24;
-	els.push(text({ x: x + 12, y: y + 43, text: meta.l1, size: 7.6, fill: C.inkSoft, maxWidth: textMaxWidth }));
-	els.push(text({ x: x + 12, y: y + 55, text: meta.l2, size: 7.6, fill: C.inkFaint, maxWidth: textMaxWidth }));
-	els.push(text({ x: x + 12, y: y + 67, text: meta.l3, size: 7.6, fill: C.inkFaint, maxWidth: textMaxWidth }));
+	els.push(text({ x: x + 12, y: y + 45, text: meta.l3, size: 7.6, fill: C.inkFaint, maxWidth: textMaxWidth }));
 	return els.join('');
 }
 

@@ -16,8 +16,7 @@ export function formatCompact(n: number): string {
 	return n.toLocaleString('en-US');
 }
 
-// thresholds per README §03: >0, >=1.5M, >=4.5M, >=7.5M — 'peak' is gold
-// (--ds-secondary), 'high' is full accent.
+// thresholds per README §03: >0, >=1.5M, >=4.5M, >=7.5M.
 export function heatBucket(outTokens: number | undefined): HeatBucket {
 	if (outTokens === undefined || outTokens <= 0) return 'quiet';
 	if (outTokens < 1_500_000) return 'low';
@@ -26,18 +25,25 @@ export function heatBucket(outTokens: number | undefined): HeatBucket {
 	return 'peak';
 }
 
+/** Single-hue warm sequential ramp (PAL-8) — magnitude reads as lightness
+ * within one warm family (gold → ember → white-hot) instead of tinting
+ * --ds-accent, which elsewhere means "interactive" (nav tick, focus ring,
+ * links). Contrast measured against --ds-surface-2 in dark theme
+ * (#16130F): quiet 1.0 : low 1.72 : mid 3.84 : high 5.64 : peak 15.38 —
+ * strictly monotonic, fixing the old ramp's non-monotonic top step
+ * (accent 9.85:1 → secondary/gold 9.66:1, i.e. it got *darker* at peak). */
 export function heatBucketColor(bucket: HeatBucket): string {
 	switch (bucket) {
 		case 'quiet':
 			return 'var(--ds-surface-2)';
 		case 'low':
-			return 'color-mix(in srgb, var(--ds-accent) 28%, var(--ds-surface-2))';
+			return 'color-mix(in srgb, var(--ds-secondary) 25%, var(--ds-surface-2))';
 		case 'mid':
-			return 'color-mix(in srgb, var(--ds-accent) 55%, var(--ds-surface-2))';
+			return 'color-mix(in srgb, var(--ds-secondary) 55%, var(--ds-surface-2))';
 		case 'high':
-			return 'var(--ds-accent)';
+			return 'var(--fy-ember)';
 		case 'peak':
-			return 'var(--ds-secondary)';
+			return 'var(--ds-text)';
 	}
 }
 
@@ -93,15 +99,20 @@ export function last30DaysCells(dailyOutTokens: Record<string, number>, endDateI
 	return dateRangeCells(dailyOutTokens, start, endDateISO);
 }
 
-// Display order/colors mirror the 2A source's six model-mix segments
-// exactly: accent, secondary, tertiary, success, warning, text-faint.
+// Display order/colors mirror the 2A source's six model-mix segments except:
+// - slot 5, where the source's --ds-warning was 1.04:1 from slot 2's
+//   --ds-secondary gold (both rendered as "Opus" legend entries) and is
+//   promoted to --ds-danger for a distinguishable hue spread: 189° / 42° /
+//   254° / 147° / 15° / neutral.
+// - slot 6, where the source's --ds-text-faint is 2.07:1 on --ds-surface and
+//   is raised to --ds-text-3 (5.03/4.26) for legibility.
 const MODEL_MIX_COLORS = [
 	'var(--ds-accent)',
 	'var(--ds-secondary)',
 	'var(--ds-tertiary)',
 	'var(--ds-success)',
-	'var(--ds-warning)',
-	'var(--ds-text-faint)',
+	'var(--ds-danger)',
+	'var(--ds-text-3)',
 ];
 
 // Converts a raw model id (e.g. "claude-opus-4-8", "claude-haiku-4-5-20251001")

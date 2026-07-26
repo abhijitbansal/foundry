@@ -15,17 +15,28 @@ interface Props {
 const { cells, ariaLabel } = Astro.props;
 ---
 
+{/* 16px -> 20px cells (LAY-4): the card's total height is still governed
+    by the stats column beside it (175px), so this doesn't grow the card —
+    it just shrinks the gap between the heatmap's bottom row and the
+    footer rule from ~33px to ~5px, closing most of the void .fy-tele-heat
+    was built to eliminate. */}
 <div
 	role="img"
 	aria-label={ariaLabel}
-	style="display:grid;grid-template-rows:repeat(7,16px);grid-auto-columns:16px;grid-auto-flow:column;gap:5px"
+	style="display:grid;grid-template-rows:repeat(7,20px);grid-auto-columns:20px;grid-auto-flow:column;gap:5px"
 >
 	{
 		cells.map((cell) => {
 			const bucket = heatBucket(cell.tokens);
 			const title =
 				cell.tokens === undefined ? `${cell.label} — quiet` : `${cell.label} — ${formatCompact(cell.tokens)} tokens out`;
-			const border = bucket === 'quiet' ? ';border:1px solid var(--ds-line);box-sizing:border-box' : '';
+			// Review fix: this heatmap now lives inside a .fy-well card (SUR-7),
+			// whose own background is --ds-surface-2 — the same fill quiet
+			// cells use, so a --ds-line border (1.14-1.29:1 against the card)
+			// left 48/81 cells at ~1.00:1 against their own floor. --ds-line-
+			// strong (already the tier SUR-2/SUR-7 use for their own card
+			// borders against --ds-surface-2) clears a real outline.
+			const border = bucket === 'quiet' ? ';border:1px solid var(--ds-line-strong);box-sizing:border-box' : '';
 			return <span title={title} style={`border-radius:3px;background:${heatBucketColor(bucket)}${border}`} />;
 		})
 	}
