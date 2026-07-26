@@ -1334,3 +1334,29 @@ body.ds-root {
   .fy-cards--lead > :nth-child(1) { grid-column: span 6; }
   .fy-cards--lead > :nth-child(n+2) { grid-column: span 2; }
 }
+
+/* LAY-3: forge-yard full-bleed moment. Every band on every page shares the
+   same max-width:1200px container, so nothing on the site is
+   compositionally more important than anything else — the forge yard
+   (#fy-yard-card, Telemetry.astro) is the brand metaphor made literal and
+   the page's densest information object, and is the one element that
+   earns a width tier above the reading column. Sequenced after LAY-2's
+   viewBox crop (already landed) — widening before cropping would have
+   just multiplied the empty quadrant in absolute px.
+   Bounded negative margin, deliberately NOT width:100vw (100vw overflows
+   the moment a vertical scrollbar exists, since 100vw doesn't subtract the
+   scrollbar's own width, causing body-level horizontal scroll) and NOT a
+   transform (a transform on #fy-yard-card would make it a new containing
+   block for the night-egg's absolutely-positioned #fy-yard-veil and
+   #fy-yard-hold-caption, which today correctly resolve against
+   #fy-yard-wrap one level down — verified in Telemetry.astro that both
+   are children of #fy-yard-wrap, not #fy-yard-card, so a plain
+   width/margin rule with no position/transform on the card itself leaves
+   that containing-block chain untouched). The clamp caps the pull below
+   the container's own offset, so it can never reach the viewport edge. */
+@media (min-width: 1240px) {
+  .fy-yard-bleed {
+    width: calc(100% + 2 * clamp(0px, 6vw, 120px));
+    margin-inline: calc(-1 * clamp(0px, 6vw, 120px));
+  }
+}
