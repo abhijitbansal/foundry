@@ -4162,22 +4162,22 @@
     },
     "2026-08-02": {
       "sessions": 16,
-      "thinking_blocks": 191,
+      "thinking_blocks": 197,
       "web_search": 0,
       "web_fetch": 0,
-      "user_msgs": 25,
-      "assistant_msgs": 537,
+      "user_msgs": 29,
+      "assistant_msgs": 553,
       "lines_added": 214,
       "lines_removed": 3,
       "files_written": 2,
       "files_edited": 1,
-      "in_tokens": 1709,
-      "out_tokens": 427647,
-      "cache_read_tokens": 58702164,
-      "cache_creation_tokens": 5218558,
+      "in_tokens": 1739,
+      "out_tokens": 438818,
+      "cache_read_tokens": 61904877,
+      "cache_creation_tokens": 5687496,
       "tools": {
-        "Bash": 177,
-        "Read": 70,
+        "Bash": 182,
+        "Read": 71,
         "Workflow": 1,
         "Write": 2,
         "Edit": 1,
@@ -4190,7 +4190,7 @@
         "/goal": 1
       },
       "models": {
-        "claude-opus-5": 169,
+        "claude-opus-5": 185,
         "claude-haiku-4-5-20251001": 99,
         "claude-sonnet-5": 127,
         "claude-fable-5": 142
@@ -4223,6 +4223,153 @@
           "out": 93946,
           "cache_read": 12882376,
           "cache_creation": 2266044
+        }
+      }
+    },
+    "2026-08-03": {
+      "sessions": 3,
+      "thinking_blocks": 9,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 3,
+      "assistant_msgs": 27,
+      "lines_added": 9,
+      "lines_removed": 2,
+      "files_written": 0,
+      "files_edited": 1,
+      "in_tokens": 11244,
+      "out_tokens": 5203,
+      "cache_read_tokens": 1076371,
+      "cache_creation_tokens": 363196,
+      "tools": {
+        "Read": 7,
+        "Agent": 1,
+        "ToolSearch": 1,
+        "PushNotification": 1,
+        "Glob": 1,
+        "Edit": 1
+      },
+      "agents": {
+        "weekly-highlights": 1
+      },
+      "models": {
+        "claude-sonnet-5": 27
+      },
+      "model_tokens": {
+        "claude-sonnet-5": {
+          "messages": 27,
+          "in": 11244,
+          "out": 5203,
+          "cache_read": 1076371,
+          "cache_creation": 363196
+        }
+      }
+    },
+    "2026-08-05": {
+      "sessions": 6,
+      "thinking_blocks": 206,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 16,
+      "assistant_msgs": 526,
+      "lines_added": 1384,
+      "lines_removed": 302,
+      "files_written": 10,
+      "files_edited": 46,
+      "in_tokens": 6958,
+      "out_tokens": 372056,
+      "cache_read_tokens": 95376879,
+      "cache_creation_tokens": 3433948,
+      "tools": {
+        "Skill": 5,
+        "Bash": 154,
+        "Write": 10,
+        "Read": 42,
+        "Workflow": 1,
+        "ToolSearch": 1,
+        "TaskOutput": 1,
+        "Edit": 46,
+        "Agent": 2,
+        "StructuredOutput": 5,
+        "WebSearch": 7,
+        "WebFetch": 5
+      },
+      "agents": {
+        "ecc:swift-reviewer": 2
+      },
+      "skills": {
+        "superpowers:systematic-debugging": 1,
+        "ios-dev:siri-app-intents-ios26-reliability": 2,
+        "tracker": 1,
+        "swiftui-expert-skill": 1
+      },
+      "slash": {
+        "/model": 1
+      },
+      "models": {
+        "claude-fable-5": 342,
+        "claude-sonnet-5": 184
+      },
+      "model_tokens": {
+        "claude-opus-5": {
+          "messages": 16,
+          "in": 30,
+          "out": 11171,
+          "cache_read": 3202713,
+          "cache_creation": 468938
+        },
+        "claude-fable-5": {
+          "messages": 250,
+          "in": 473,
+          "out": 254431,
+          "cache_read": 46283893,
+          "cache_creation": 1229962
+        },
+        "claude-sonnet-5": {
+          "messages": 184,
+          "in": 6306,
+          "out": 10214,
+          "cache_read": 18442039,
+          "cache_creation": 1132550
+        }
+      }
+    },
+    "2026-08-06": {
+      "sessions": 1,
+      "thinking_blocks": 21,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 1,
+      "assistant_msgs": 51,
+      "lines_added": 0,
+      "lines_removed": 0,
+      "files_written": 0,
+      "files_edited": 0,
+      "in_tokens": 102,
+      "out_tokens": 546,
+      "cache_read_tokens": 5655583,
+      "cache_creation_tokens": 283751,
+      "tools": {
+        "Bash": 18,
+        "Read": 5
+      },
+      "models": {
+        "claude-sonnet-5": 51
+      },
+      "model_tokens": {
+        "claude-fable-5": {
+          "messages": 92,
+          "in": 179,
+          "out": 107411,
+          "cache_read": 30650947,
+          "cache_creation": 1071436
+        },
+        "claude-sonnet-5": {
+          "messages": 51,
+          "in": 102,
+          "out": 546,
+          "cache_read": 5655583,
+          "cache_creation": 283751
         }
       }
     }
