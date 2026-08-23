@@ -1,0 +1,17 @@
+---
+// CraftFigure.astro — the page's one figure: the room-is-the-harness org
+// chart, between Acts II and III. Same figure-card pattern as the harness
+// page (hairline border, surface, figcaption legend).
+import { buildRoom } from '../../lib/craft-svg';
+---
+
+<div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px) 72px;box-sizing:border-box">
+	<figure data-reveal style="margin:0;border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);background:var(--ds-surface);padding:clamp(10px,2vw,22px)">
+		<Fragment set:html={buildRoom()} />
+		<figcaption class="ds-caption" style="color:var(--ds-text-3);padding:12px 8px 2px;display:flex;gap:8px 22px;flex-wrap:wrap">
+			<span><span style="color:var(--ds-accent-hover)">you</span> direct, verify, own it</span>
+			<span><span style="color:var(--ds-accent-hover)">agents</span> plan, build, review</span>
+			<span><span style="color:var(--ds-accent-hover)">the room</span> tools, guardrails, evals, context — you tune it</span>
+		</figcaption>
+	</figure>
+</div>

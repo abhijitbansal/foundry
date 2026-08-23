@@ -1474,3 +1474,24 @@ body.ds-root {
 @media (max-width: 900px) {
   .fy-sheet-edge::before { display: none; }
 }
+
+/* /craft/ essay layout — see src/components/craft/CraftAct.astro and
+   CraftCoda.astro. Desktop: essay column + fixed 280px "manager's margin"
+   column (vignette above the italic note). Inline styles can't carry the
+   @media collapse, so the grid lives here. Below 900px (same breakpoint as
+   the nav burger) the margin column flows inline after the skill body,
+   capped at the vignette's natural width so the line art doesn't balloon. */
+.craft-skill {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 12px 72px;
+}
+@media (max-width: 900px) {
+  .craft-skill {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .craft-margin {
+    max-width: 300px;
+  }
+}

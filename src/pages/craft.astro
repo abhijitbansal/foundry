@@ -1,0 +1,46 @@
+---
+// craft.astro — "The New Craft": essay route on what the job is now that
+// code is the smallest part — run your agents like a team. Shell mirrors
+// harness.astro (BaseLayout + SkipLink + Nav + <main class="brand-skills">
+// + Footer + initReveals) minus the fullscreen/tilt machinery this quiet
+// page doesn't use. Copy and figures come from the approved design canvas
+// via craft-content.ts / craft-svg.ts; brand: the editorial cyan lane
+// (brand-skills), deliberately shared with /harness/.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CraftHero from '../components/craft/CraftHero.astro';
+import CraftAct from '../components/craft/CraftAct.astro';
+import CraftFigure from '../components/craft/CraftFigure.astro';
+import CraftCoda from '../components/craft/CraftCoda.astro';
+import CraftFooterCTA from '../components/craft/CraftFooterCTA.astro';
+import { buildCraftActs } from '../lib/craft-content';
+
+const acts = buildCraftActs(`${import.meta.env.BASE_URL}harness/`);
+---
+
+<BaseLayout
+	title="The New Craft — Abhijit Bansal — Foundry"
+	description="Code is the smallest part of the job now. The skills that matter next are a manager's: direct, delegate, verify — your team just happens to be made of agents."
+	canonicalPath="/craft/"
+>
+	<SkipLink href="#craft-top" label="Skip to the essay" />
+	<Nav />
+	<main class="brand-skills">
+		<CraftHero />
+		<CraftAct act={acts[0]} />
+		<CraftAct act={acts[1]} />
+		<CraftFigure />
+		<CraftAct act={acts[2]} />
+		<CraftCoda />
+		<CraftFooterCTA />
+	</main>
+	<Footer />
+</BaseLayout>
+
+<script>
+	import { initReveals } from '../lib/reveal';
+
+	initReveals();
+</script>

@@ -1,0 +1,45 @@
+---
+// CraftAct.astro — one act of the essay: kicker, ds-rule, serif title,
+// intro, then skill rows (essay column + manager's-margin column with a
+// vignette above each italic note). Layout classes .craft-* live in
+// global.css — inline styles can't carry the @media collapse.
+import type { CraftAct } from '../../lib/craft-content';
+
+interface Props {
+	act: CraftAct;
+}
+const { act } = Astro.props;
+---
+
+<section id={act.id} data-screen-label={act.kicker} style="max-width:1200px;margin:0 auto;padding:32px clamp(20px,5vw,56px) 72px;box-sizing:border-box;scroll-margin-top:72px">
+	<div data-reveal>
+		<p class="ds-kicker" style="margin:0 0 6px">{act.kicker}</p>
+		<hr class="ds-rule" />
+		<h2 class="ds-display-lg" style="margin:0;text-wrap:balance">{act.title}</h2>
+		<p style="margin:8px 0 40px;font-size:17px;line-height:1.5;color:var(--ds-text-2);max-width:58ch;text-wrap:pretty">{act.intro}</p>
+	</div>
+	{
+		act.skills.map((skill, i) => (
+			<div class="craft-skill" data-reveal style={i === act.skills.length - 1 ? '' : 'padding-bottom:44px'}>
+				<div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+					<h3 class="ds-display-md" style="margin:0">{skill.title}</h3>
+					{skill.bodyHtml.map((p) => (
+						<p style="margin:0;color:var(--ds-text-2);text-wrap:pretty" set:html={p} />
+					))}
+				</div>
+				<div class="craft-margin">
+					<Fragment set:html={skill.vignette} />
+					{skill.showMarginLabel && (
+						<p class="ds-micro" style="margin:16px 0 10px;color:var(--ds-text-faint)">
+							The manager’s margin
+						</p>
+					)}
+					<p style={`margin:${skill.showMarginLabel ? '0' : '16px 0 0'};border-left:2px solid var(--ds-line-strong);padding-left:14px;font-style:italic;color:var(--ds-text-3);font-size:14px;line-height:1.55`}>
+						{skill.margin}
+					</p>
+				</div>
+			</div>
+		))
+	}
+	<slot />
+</section>
