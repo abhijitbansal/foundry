@@ -40,7 +40,7 @@ export const CRAFT_ACTS: readonly CraftAct[] = [
 		id: 'craft-direct',
 		kicker: 'Act I · Direct',
 		title: 'Know what right looks like.',
-		intro: 'A manager who can’t tell good work from bad can only rubber-stamp. Direction comes before delegation.',
+		intro: 'If you can’t tell good work from bad, you can only rubber-stamp what your agents hand you. Direction comes before delegation.',
 		skills: [
 			{
 				title: 'First principles',
@@ -70,7 +70,7 @@ export const CRAFT_ACTS: readonly CraftAct[] = [
 			{
 				title: 'Design the org, not just the code',
 				bodyHtml: [
-					'System design now includes deciding what your team looks like: which components and agents exist, what each is responsible for, how work moves between them. Sharp interfaces and precise briefs — schemas, contracts, unambiguous specs — are job descriptions. Vague briefs get confident nonsense back.',
+					'System design now includes deciding what your team of agents looks like: which components and agents exist, what each is responsible for, how work moves between them. Sharp interfaces and precise briefs — schemas, contracts, unambiguous specs — are the job descriptions you write. Vague briefs get confident nonsense back.',
 				],
 				margin: 'Org design and role clarity. Most team failures are structure failures.',
 				vignette: buildVigOrgDesign(),
@@ -100,7 +100,7 @@ export const CRAFT_ACTS: readonly CraftAct[] = [
 		id: 'craft-verify',
 		kicker: 'Act III · Verify',
 		title: 'Trust is a process, not a feeling.',
-		intro: 'The failure mode of managing agents is the same as managing people: believing the confident report.',
+		intro: 'The failure mode of working with agents is one every manager knows: believing the confident report.',
 		skills: [
 			{
 				title: 'Curiosity to challenge',
