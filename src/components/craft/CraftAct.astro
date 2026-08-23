@@ -20,8 +20,8 @@ const { act } = Astro.props;
 	</div>
 	{
 		act.skills.map((skill, i) => (
-			<div class="craft-skill" data-reveal style={i === act.skills.length - 1 ? '' : 'padding-bottom:44px'}>
-				<div style="display:flex;flex-direction:column;gap:12px;min-width:0">
+			<div class="craft-skill" data-reveal>
+				<div class="craft-skill-body" style="display:flex;flex-direction:column;gap:12px;min-width:0">
 					<h3 class="ds-display-md" style="margin:0">{skill.title}</h3>
 					{skill.bodyHtml.map((p) => (
 						<p style="margin:0;color:var(--ds-text-2);text-wrap:pretty" set:html={p} />
@@ -34,9 +34,7 @@ const { act } = Astro.props;
 							The manager’s margin
 						</p>
 					)}
-					<p style={`margin:${i === 0 ? '0' : '16px 0 0'};border-left:2px solid var(--ds-line-strong);padding-left:14px;font-style:italic;color:var(--ds-text-3);font-size:14px;line-height:1.55`}>
-						{skill.margin}
-					</p>
+					<p class="craft-margin-note">{skill.margin}</p>
 				</div>
 			</div>
 		))

@@ -1486,11 +1486,30 @@ body.ds-root {
   grid-template-columns: minmax(0, 1fr) 280px;
   gap: 12px 72px;
 }
+.craft-skill:not(:last-child) {
+  padding-bottom: 44px;
+}
 /* Reading measure: the essay column otherwise resolves to ~776px ≈ 88ch at
    1440, past the comfortable-reading bound; cap the prose, not the grid, so
-   the margin rail keeps its 280px. 68ch ≈ 545px at 16px Inter. */
-.craft-skill > div:first-child {
+   the margin rail keeps its 280px. Class, not a positional selector — both
+   CraftAct and CraftCoda tag their essay column .craft-skill-body. */
+.craft-skill-body {
   max-width: 68ch;
+}
+/* The italic manager's-margin note, shared by CraftAct and CraftCoda. The
+   sibling rule collapses the top margin when the ds-micro label precedes it
+   (first skill of each act). */
+.craft-margin-note {
+  margin: 16px 0 0;
+  border-left: 2px solid var(--ds-line-strong);
+  padding-left: 14px;
+  font-style: italic;
+  color: var(--ds-text-3);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.ds-micro + .craft-margin-note {
+  margin-top: 0;
 }
 @media (max-width: 900px) {
   .craft-skill {

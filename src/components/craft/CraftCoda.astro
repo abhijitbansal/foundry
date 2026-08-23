@@ -6,7 +6,7 @@ import { buildVigCoda } from '../../lib/craft-svg';
 
 <section id="craft-coda" data-screen-label="Coda" style="background:var(--ds-surface-2);border-top:1px solid var(--ds-line);border-bottom:1px solid var(--ds-line)">
 	<div class="craft-skill" data-reveal style="max-width:1200px;margin:0 auto;padding:72px clamp(20px,5vw,56px);box-sizing:border-box">
-		<div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+		<div class="craft-skill-body" style="display:flex;flex-direction:column;gap:16px;min-width:0">
 			<p class="ds-kicker" style="margin:0">Coda</p>
 			<h2 class="ds-display-lg" style="margin:0;text-wrap:balance">Your team upgrades every quarter.</h2>
 			<p style="margin:0;color:var(--ds-text-2);max-width:58ch;text-wrap:pretty">
@@ -17,7 +17,7 @@ import { buildVigCoda } from '../../lib/craft-svg';
 		</div>
 		<div class="craft-margin" style="padding-top:44px">
 			<Fragment set:html={buildVigCoda()} />
-			<p style="margin:16px 0 0;border-left:2px solid var(--ds-line-strong);padding-left:14px;font-style:italic;color:var(--ds-text-3);font-size:14px;line-height:1.55">
+			<p class="craft-margin-note">
 				The best managers re-learn their people as they grow. Yours just happen to get dramatically better every few months.
 			</p>
 		</div>

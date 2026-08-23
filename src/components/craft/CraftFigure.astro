@@ -5,8 +5,13 @@
 import { buildRoom } from '../../lib/craft-svg';
 ---
 
-<div data-screen-label="Figure — the room is the harness" style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px) 72px;box-sizing:border-box">
-	<figure class="harness-figure" data-harness-figure="The room" data-reveal style="margin:0;border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);background:var(--ds-surface);padding:clamp(10px,2vw,22px);position:relative">
+{/* data-reveal lives on this wrapper, NOT on the figure: harness-fullscreen
+   reparents the figure node into the overlay, and reveal.ts's inline
+   opacity/transform on that same node would ride along — opening invisible
+   if triggered pre-reveal, and inline transform:none permanently beating
+   .harness-fs-active's class-rule scale() (zoom no-op). */}
+<div data-screen-label="Figure — the room is the harness" data-reveal style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px) 72px;box-sizing:border-box">
+	<figure class="harness-figure" data-harness-figure="Room" style="margin:0;border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);background:var(--ds-surface);padding:clamp(10px,2vw,22px);position:relative">
 		<Fragment set:html={buildRoom()} />
 		<figcaption class="ds-caption" style="color:var(--ds-text-3);padding:12px 8px 2px;display:flex;gap:8px 22px;flex-wrap:wrap">
 			<span><span style="color:var(--ds-accent-hover)">you</span> direct, verify, own it</span>

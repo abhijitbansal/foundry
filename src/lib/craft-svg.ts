@@ -184,6 +184,10 @@ export function buildVigSecurity(): string {
 export function buildVigCoda(): string {
 	return [
 		vignetteOpen('An upgrade loop circling steps that rise every quarter'),
+		// translate(0,-10): the loop arc bottoms out at y≈136.6 and the
+		// arrowhead vertex hits y=134 — both past the 130 viewBox and silently
+		// clipped without the shift.
+		`<g transform="translate(0,-10)">`,
 		`<path d="M92 96 a58 44 0 1 1 20 30" fill="none" style="stroke:${ACCENT_H}" stroke-width="1.5"/>`,
 		`<path d="M112 126 l-12 -4 l4 12 z" style="fill:${ACCENT_H}"/>`,
 		`<g style="stroke:${AMBER}" stroke-width="3">`,
@@ -192,7 +196,8 @@ export function buildVigCoda(): string {
 		`<line x1="150" y1="86" x2="150" y2="52"/>`,
 		`<line x1="166" y1="86" x2="166" y2="40"/>`,
 		`</g>`,
-		caption(142, 112, 'RE-BASELINE QUARTERLY'),
+		`</g>`,
+		caption(142, 104, 'RE-BASELINE QUARTERLY'),
 		`</svg>`,
 	].join('');
 }
@@ -200,46 +205,52 @@ export function buildVigCoda(): string {
 const ROOM_ARIA_LABEL =
 	'An engineer directing three agents inside a room whose walls are the harness: delegation lines run down to Planner, Builder, and Reviewer; reports flow back; tools, guardrails, an eval gauge, and a context shelf line the walls.';
 
-/** The room-is-the-harness org chart (figure between Acts II and III). */
-export function buildRoom(): string {
-	const agent = (x: number, name: string, sub: string): string =>
-		[
-			`<g>`,
-			`<rect x="${x}" y="208" width="138" height="58" rx="10" style="fill:${PAPER};stroke:${HAIR_S}" stroke-width="1.5"/>`,
-			`<text x="${x + 69}" y="233" text-anchor="middle" style="fill:${TEXT};font-family:${BODY};font-size:15px;font-weight:600">${name}</text>`,
-			`<text x="${x + 69}" y="252" text-anchor="middle" style="fill:${INK};font-family:${MONO};font-size:10px;letter-spacing:1px">${sub}</text>`,
-			`</g>`,
-		].join('');
-	const wallLabel = (x: number, y: number, text: string): string =>
-		`<text x="${x}" y="${y}" text-anchor="middle" style="fill:${INK};font-family:${MONO};font-size:10px;letter-spacing:1px">${text}</text>`;
-
+function roomAgent(x: number, name: string, sub: string): string {
 	return [
-		`<svg viewBox="0 0 1040 420" style="width:100%;height:auto;display:block" role="img" aria-label="${ROOM_ARIA_LABEL}">`,
-		// room shell
-		`<rect x="30" y="24" width="980" height="372" rx="14" fill="none" style="stroke:${HAIR_S}" stroke-width="1.5"/>`,
-		`<text x="66" y="56" style="fill:${INK};font-family:${MONO};font-size:10px;letter-spacing:1.5px">THE ROOM IS THE HARNESS</text>`,
-		// tools (left wall)
+		`<g>`,
+		`<rect x="${x}" y="208" width="138" height="58" rx="10" style="fill:${PAPER};stroke:${HAIR_S}" stroke-width="1.5"/>`,
+		`<text x="${x + 69}" y="233" text-anchor="middle" style="fill:${TEXT};font-family:${BODY};font-size:15px;font-weight:600">${name}</text>`,
+		`<text x="${x + 69}" y="252" text-anchor="middle" style="fill:${INK};font-family:${MONO};font-size:10px;letter-spacing:1px">${sub}</text>`,
+		`</g>`,
+	].join('');
+}
+
+function wallLabel(x: number, y: number, text: string): string {
+	return `<text x="${x}" y="${y}" text-anchor="middle" style="fill:${INK};font-family:${MONO};font-size:10px;letter-spacing:1px">${text}</text>`;
+}
+
+/** Wall furniture: tools, guardrails, the eval gauge, the context shelf. */
+function roomWalls(): string {
+	return [
 		`<g fill="none" style="stroke:${INK}" stroke-width="1.5">`,
 		`<rect x="58" y="150" width="34" height="24" rx="3"/><path d="M67 150 v-8 h16 v8"/>`,
 		`<rect x="58" y="196" width="34" height="24" rx="3"/><path d="M67 196 v-8 h16 v8"/>`,
 		`</g>`,
 		wallLabel(75, 248, 'TOOLS'),
-		// guardrails (right wall)
 		`<g style="stroke:${INK}" stroke-width="1.5">`,
 		`<line x1="952" y1="150" x2="952" y2="220"/><line x1="966" y1="150" x2="966" y2="220"/><line x1="980" y1="150" x2="980" y2="220"/>`,
 		`<line x1="945" y1="162" x2="987" y2="162"/><line x1="945" y1="206" x2="987" y2="206"/>`,
 		`</g>`,
 		wallLabel(966, 248, 'GUARDRAILS'),
-		// evals gauge (top right)
 		`<path d="M868 84 a34 34 0 0 1 68 0" fill="none" style="stroke:${INK}" stroke-width="1.5"/>`,
 		`<line x1="902" y1="84" x2="922" y2="62" style="stroke:${AMBER}" stroke-width="2"/>`,
 		`<circle cx="902" cy="84" r="3" style="fill:${AMBER}"/>`,
 		wallLabel(902, 106, 'EVALS'),
-		// context shelf (bottom)
 		`<g fill="none" style="stroke:${INK}" stroke-width="1.5">`,
 		`<rect x="470" y="352" width="30" height="12" rx="2"/><rect x="506" y="346" width="30" height="18" rx="2"/><rect x="542" y="356" width="30" height="8" rx="2"/>`,
 		`</g>`,
 		wallLabel(521, 382, 'CONTEXT'),
+	].join('');
+}
+
+/** The room-is-the-harness org chart (figure between Acts II and III). */
+export function buildRoom(): string {
+	return [
+		`<svg viewBox="0 0 1040 420" style="width:100%;height:auto;display:block" role="img" aria-label="${ROOM_ARIA_LABEL}">`,
+		// room shell
+		`<rect x="30" y="24" width="980" height="372" rx="14" fill="none" style="stroke:${HAIR_S}" stroke-width="1.5"/>`,
+		`<text x="66" y="56" style="fill:${INK};font-family:${MONO};font-size:10px;letter-spacing:1.5px">THE ROOM IS THE HARNESS</text>`,
+		roomWalls(),
 		// you
 		`<rect x="440" y="56" width="160" height="64" rx="10" style="fill:var(--ds-accent-soft);stroke:${ACCENT}" stroke-width="1.5"/>`,
 		`<text x="520" y="84" text-anchor="middle" style="fill:${TEXT};font-family:${SERIF};font-size:22px">You</text>`,
@@ -254,9 +265,9 @@ export function buildRoom(): string {
 		`<path d="M800 240 C 880 220, 880 130, 610 96" fill="none" style="stroke:${AMBER}" stroke-width="1.2" stroke-dasharray="2 4"/>`,
 		`<text x="852" y="150" style="fill:${AMBER};font-family:${MONO};font-size:9px;letter-spacing:1px">REPORTS</text>`,
 		// agents
-		agent(216, 'Planner', 'THINKS FIRST'),
-		agent(451, 'Builder', 'SHIPS SMALL'),
-		agent(686, 'Reviewer', 'TRUSTS NOTHING'),
+		roomAgent(216, 'Planner', 'THINKS FIRST'),
+		roomAgent(451, 'Builder', 'SHIPS SMALL'),
+		roomAgent(686, 'Reviewer', 'TRUSTS NOTHING'),
 		`</svg>`,
 	].join('');
 }
