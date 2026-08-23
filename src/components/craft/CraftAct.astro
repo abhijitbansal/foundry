@@ -16,7 +16,7 @@ const { act } = Astro.props;
 		<p class="ds-kicker" style="margin:0 0 6px">{act.kicker}</p>
 		<hr class="ds-rule" />
 		<h2 class="ds-display-lg" style="margin:0;text-wrap:balance">{act.title}</h2>
-		<p style="margin:8px 0 40px;font-size:17px;line-height:1.5;color:var(--ds-text-2);max-width:58ch;text-wrap:pretty">{act.intro}</p>
+		<p style="margin:8px 0 40px;font-size:17px;line-height:1.5;color:var(--ds-text-2);max-width:68ch;text-wrap:pretty">{act.intro}</p>
 	</div>
 	{
 		act.skills.map((skill, i) => (
@@ -29,17 +29,16 @@ const { act } = Astro.props;
 				</div>
 				<div class="craft-margin">
 					<Fragment set:html={skill.vignette} />
-					{skill.showMarginLabel && (
-						<p class="ds-micro" style="margin:16px 0 10px;color:var(--ds-text-faint)">
+					{i === 0 && (
+						<p class="ds-micro" style="margin:16px 0 10px">
 							The manager’s margin
 						</p>
 					)}
-					<p style={`margin:${skill.showMarginLabel ? '0' : '16px 0 0'};border-left:2px solid var(--ds-line-strong);padding-left:14px;font-style:italic;color:var(--ds-text-3);font-size:14px;line-height:1.55`}>
+					<p style={`margin:${i === 0 ? '0' : '16px 0 0'};border-left:2px solid var(--ds-line-strong);padding-left:14px;font-style:italic;color:var(--ds-text-3);font-size:14px;line-height:1.55`}>
 						{skill.margin}
 					</p>
 				</div>
 			</div>
 		))
 	}
-	<slot />
 </section>

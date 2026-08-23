@@ -21,8 +21,6 @@ export interface CraftSkill {
 	margin: string;
 	/** Pre-built vignette svg string. */
 	vignette: string;
-	/** Show the ds-micro "The manager's margin" label above the note. */
-	showMarginLabel?: boolean;
 }
 
 export interface CraftAct {
@@ -49,7 +47,6 @@ export function buildCraftActs(harnessHref: string): CraftAct[] {
 					margin:
 						'The leader who understands the business can direct specialists they couldn’t personally replace. The one who doesn’t gets snowed by every status report.',
 					vignette: buildVigFirstPrinciples(),
-					showMarginLabel: true,
 				},
 				{
 					title: 'Owning the outcome',
@@ -109,7 +106,6 @@ export function buildCraftActs(harnessHref: string): CraftAct[] {
 					],
 					margin: 'Good managers don’t take the status update at face value. Probing isn’t distrust; it’s the job.',
 					vignette: buildVigCuriosity(),
-					showMarginLabel: true,
 				},
 				{
 					title: 'The tester’s mindset',

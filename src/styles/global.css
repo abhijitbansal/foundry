@@ -1486,6 +1486,12 @@ body.ds-root {
   grid-template-columns: minmax(0, 1fr) 280px;
   gap: 12px 72px;
 }
+/* Reading measure: the essay column otherwise resolves to ~776px ≈ 88ch at
+   1440, past the comfortable-reading bound; cap the prose, not the grid, so
+   the margin rail keeps its 280px. 68ch ≈ 545px at 16px Inter. */
+.craft-skill > div:first-child {
+  max-width: 68ch;
+}
 @media (max-width: 900px) {
   .craft-skill {
     grid-template-columns: minmax(0, 1fr);

@@ -5,14 +5,16 @@
 // same pattern as harness-svg.ts. Pure, dependency-free, build-time only.
 
 const INK = 'var(--ds-text-3)';
-const INK_FAINT = 'var(--ds-text-faint)';
 const HAIR_S = 'var(--ds-line-strong)';
 const PAPER = 'var(--ds-bg)';
-const SURFACE = 'var(--ds-surface)';
 const TEXT = 'var(--ds-text)';
 const ACCENT = 'var(--ds-accent)';
 const ACCENT_H = 'var(--ds-accent-hover)';
-const AMBER = 'var(--ds-secondary)';
+// --ds-amber-ink: figure-weight amber (brands.css, .brand-skills). Dark's
+// UI --ds-secondary (#E8B94A) jumps to ~9.7:1 while the ink linework holds
+// ~4.7:1, flipping figure/ground between themes; this token pins amber just
+// ahead of the ink in both. Fallback keeps non-brand contexts sane.
+const AMBER = 'var(--ds-amber-ink, var(--ds-secondary))';
 const MONO = 'var(--ds-font-mono)';
 const SERIF = 'var(--ds-font-display)';
 const BODY = 'var(--ds-font-body)';
@@ -21,8 +23,8 @@ function vignetteOpen(label: string): string {
 	return `<svg viewBox="0 0 280 130" style="width:100%;height:auto;display:block" role="img" aria-label="${label}">`;
 }
 
-function caption(x: number, y: number, text: string, color: string = INK_FAINT): string {
-	return `<text x="${x}" y="${y}" text-anchor="middle" style="fill:${color};font-family:${MONO};font-size:9px;letter-spacing:1.5px">${text}</text>`;
+function caption(x: number, y: number, text: string, color: string = INK): string {
+	return `<text x="${x}" y="${y}" text-anchor="middle" style="fill:${color};font-family:${MONO};font-size:10px;letter-spacing:1.5px">${text}</text>`;
 }
 
 /** Act I — First principles: plumb line dropping to bedrock strata. */
@@ -142,16 +144,16 @@ export function buildVigTester(): string {
 	return [
 		vignetteOpen('A sieve passing few good tests and holding back the noisy ones'),
 		`<g fill="none" style="stroke:${INK}" stroke-width="1.5">`,
-		`<path d="M76 30 h128 l-36 46 v34 h-56 v-34 z"/>`,
-		`<line x1="112" y1="88" x2="168" y2="88" stroke-dasharray="3 4"/>`,
+		`<path d="M76 16 h128 l-36 46 v30 h-56 v-30 z"/>`,
+		`<line x1="112" y1="70" x2="168" y2="70" stroke-dasharray="3 4"/>`,
 		`</g>`,
 		`<g style="stroke:${AMBER}" stroke-width="1.5">`,
-		`<line x1="112" y1="48" x2="122" y2="58"/><line x1="122" y1="48" x2="112" y2="58"/>`,
-		`<line x1="152" y1="44" x2="162" y2="54"/><line x1="162" y1="44" x2="152" y2="54"/>`,
+		`<line x1="112" y1="34" x2="122" y2="44"/><line x1="122" y1="34" x2="112" y2="44"/>`,
+		`<line x1="152" y1="30" x2="162" y2="40"/><line x1="162" y1="30" x2="152" y2="40"/>`,
 		`</g>`,
-		`<path d="M132 100 l6 7 l12 -13" fill="none" style="stroke:${ACCENT_H}" stroke-width="2"/>`,
-		`<path d="M120 116 l5 6 l10 -11" fill="none" style="stroke:${ACCENT_H}" stroke-width="1.5"/>`,
-		caption(140, 20, 'EVERY BAD TEST IS A TAX'),
+		`<path d="M132 96 l6 7 l12 -13" fill="none" style="stroke:${ACCENT_H}" stroke-width="2"/>`,
+		`<path d="M160 100 l5 6 l10 -11" fill="none" style="stroke:${ACCENT_H}" stroke-width="1.5"/>`,
+		caption(140, 126, 'EVERY BAD TEST IS A TAX'),
 		`</svg>`,
 	].join('');
 }
@@ -161,19 +163,19 @@ export function buildVigSecurity(): string {
 	return [
 		vignetteOpen('A locked gate in the guardrail fence, key held aside'),
 		`<g style="stroke:${INK}" stroke-width="1.5">`,
-		`<line x1="48" y1="40" x2="48" y2="104"/><line x1="72" y1="40" x2="72" y2="104"/><line x1="96" y1="40" x2="96" y2="104"/>`,
-		`<line x1="184" y1="40" x2="184" y2="104"/><line x1="208" y1="40" x2="208" y2="104"/><line x1="232" y1="40" x2="232" y2="104"/>`,
-		`<line x1="40" y1="52" x2="240" y2="52"/><line x1="40" y1="94" x2="240" y2="94"/>`,
+		`<line x1="48" y1="24" x2="48" y2="88"/><line x1="72" y1="24" x2="72" y2="88"/><line x1="96" y1="24" x2="96" y2="88"/>`,
+		`<line x1="184" y1="24" x2="184" y2="88"/><line x1="208" y1="24" x2="208" y2="88"/><line x1="232" y1="24" x2="232" y2="88"/>`,
+		`<line x1="40" y1="36" x2="240" y2="36"/><line x1="40" y1="78" x2="240" y2="78"/>`,
 		`</g>`,
 		`<g fill="none" style="stroke:${ACCENT_H}" stroke-width="1.5">`,
-		`<rect x="126" y="64" width="28" height="22" rx="4"/>`,
-		`<path d="M132 64 v-8 a8 8 0 0 1 16 0 v8"/>`,
+		`<rect x="126" y="48" width="28" height="22" rx="4"/>`,
+		`<path d="M132 48 v-8 a8 8 0 0 1 16 0 v8"/>`,
 		`</g>`,
 		`<g fill="none" style="stroke:${AMBER}" stroke-width="1.5">`,
-		`<circle cx="140" cy="114" r="6"/>`,
-		`<path d="M146 114 h18 v5 h-6 v-5"/>`,
+		`<circle cx="140" cy="100" r="6"/>`,
+		`<path d="M146 100 h18 v5 h-6 v-5"/>`,
 		`</g>`,
-		caption(140, 30, 'LEAST PRIVILEGE'),
+		caption(140, 126, 'LEAST PRIVILEGE'),
 		`</svg>`,
 	].join('');
 }
@@ -203,9 +205,9 @@ export function buildRoom(): string {
 	const agent = (x: number, name: string, sub: string): string =>
 		[
 			`<g>`,
-			`<rect x="${x}" y="208" width="138" height="58" rx="10" style="fill:${SURFACE};stroke:${HAIR_S}" stroke-width="1.5"/>`,
+			`<rect x="${x}" y="208" width="138" height="58" rx="10" style="fill:${PAPER};stroke:${HAIR_S}" stroke-width="1.5"/>`,
 			`<text x="${x + 69}" y="233" text-anchor="middle" style="fill:${TEXT};font-family:${BODY};font-size:15px;font-weight:600">${name}</text>`,
-			`<text x="${x + 69}" y="252" text-anchor="middle" style="fill:${INK};font-family:${MONO};font-size:9px;letter-spacing:1px">${sub}</text>`,
+			`<text x="${x + 69}" y="252" text-anchor="middle" style="fill:${INK};font-family:${MONO};font-size:10px;letter-spacing:1px">${sub}</text>`,
 			`</g>`,
 		].join('');
 	const wallLabel = (x: number, y: number, text: string): string =>
@@ -215,7 +217,7 @@ export function buildRoom(): string {
 		`<svg viewBox="0 0 1040 420" style="width:100%;height:auto;display:block" role="img" aria-label="${ROOM_ARIA_LABEL}">`,
 		// room shell
 		`<rect x="30" y="24" width="980" height="372" rx="14" fill="none" style="stroke:${HAIR_S}" stroke-width="1.5"/>`,
-		`<text x="66" y="56" style="fill:${INK_FAINT};font-family:${MONO};font-size:10px;letter-spacing:1.5px">THE ROOM IS THE HARNESS</text>`,
+		`<text x="66" y="56" style="fill:${INK};font-family:${MONO};font-size:10px;letter-spacing:1.5px">THE ROOM IS THE HARNESS</text>`,
 		// tools (left wall)
 		`<g fill="none" style="stroke:${INK}" stroke-width="1.5">`,
 		`<rect x="58" y="150" width="34" height="24" rx="3"/><path d="M67 150 v-8 h16 v8"/>`,
@@ -239,9 +241,9 @@ export function buildRoom(): string {
 		`</g>`,
 		wallLabel(521, 382, 'CONTEXT'),
 		// you
-		`<rect x="440" y="56" width="160" height="64" rx="10" style="fill:${PAPER};stroke:${ACCENT}" stroke-width="1.5"/>`,
+		`<rect x="440" y="56" width="160" height="64" rx="10" style="fill:var(--ds-accent-soft);stroke:${ACCENT}" stroke-width="1.5"/>`,
 		`<text x="520" y="84" text-anchor="middle" style="fill:${TEXT};font-family:${SERIF};font-size:22px">You</text>`,
-		`<text x="520" y="104" text-anchor="middle" style="fill:${INK};font-family:${MONO};font-size:9px;letter-spacing:1px">DIRECT &#183; VERIFY &#183; OWN IT</text>`,
+		`<text x="520" y="104" text-anchor="middle" style="fill:${INK};font-family:${MONO};font-size:10px;letter-spacing:1px">DIRECT &#183; VERIFY &#183; OWN IT</text>`,
 		// delegation lines
 		`<g fill="none" style="stroke:${ACCENT_H}" stroke-width="1.2" stroke-dasharray="5 4">`,
 		`<path d="M470 120 C 420 160, 330 180, 285 208"/>`,
