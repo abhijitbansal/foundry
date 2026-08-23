@@ -262,7 +262,7 @@ export function buildRoom(): string {
 		`<path d="M570 120 C 620 160, 710 180, 755 208"/>`,
 		`</g>`,
 		// report-back line
-		`<path d="M800 240 C 880 220, 880 130, 610 96" fill="none" style="stroke:${AMBER}" stroke-width="1.2" stroke-dasharray="2 4"/>`,
+		`<path d="M800 240 C 880 220, 880 130, 600 96" fill="none" style="stroke:${AMBER}" stroke-width="1.2" stroke-dasharray="2 4"/>`,
 		`<text x="852" y="150" style="fill:${AMBER};font-family:${MONO};font-size:9px;letter-spacing:1px">REPORTS</text>`,
 		// agents
 		roomAgent(216, 'Planner', 'THINKS FIRST'),
