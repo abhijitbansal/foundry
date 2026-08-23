@@ -25,6 +25,7 @@ import HarnessPaper from '../components/harness/HarnessPaper.astro';
 import HarnessArsenal from '../components/harness/HarnessArsenal.astro';
 import HarnessScore from '../components/harness/HarnessScore.astro';
 import HarnessFooterCTA from '../components/harness/HarnessFooterCTA.astro';
+import FullscreenOverlay from '../components/harness/FullscreenOverlay.astro';
 import { HARNESS_HELLO_AGENT_COMMENT } from '../lib/harness-hatch';
 ---
 
@@ -47,30 +48,7 @@ import { HARNESS_HELLO_AGENT_COMMENT } from '../lib/harness-hatch';
 		<HarnessFooterCTA />
 	</main>
 	<Footer />
-	{/* class="brand-skills": --ds-accent is scoped per-brand (brands.css), set
-	   on <main> above, not at :root. This overlay is a sibling of <main>, not
-	   a descendant, so without its own brand-skills class it fell through to
-	   :root's default brand (Paperix red) instead of the cyan the rest of the
-	   page uses. */}
-	<div id="harness-fs-overlay" class="brand-skills" hidden role="dialog" aria-modal="true" aria-label="Harness figure, fullscreen">
-		<div class="harness-fs-bar">
-			<div class="harness-fs-tabs" id="harness-fs-tabs"></div>
-			<div class="harness-fs-rotate-hint" id="harness-fs-rotate-hint" role="status" aria-live="polite" hidden>
-				<span class="harness-fs-rotate-hint-icon" aria-hidden="true">⟳</span>
-				<span>Rotate for a better view</span>
-				<button type="button" id="harness-fs-rotate-hint-dismiss" aria-label="Dismiss rotate hint">✕</button>
-			</div>
-			<div style="display:flex;align-items:center;gap:12px">
-				<div class="harness-fs-zoom">
-					<button type="button" id="harness-fs-zoom-out" aria-label="Zoom out">−</button>
-					<span id="harness-fs-zoom-level">100%</span>
-					<button type="button" id="harness-fs-zoom-in" aria-label="Zoom in">+</button>
-				</div>
-				<button type="button" class="harness-fs-close" id="harness-fs-close">Close ✕</button>
-			</div>
-		</div>
-		<div class="harness-fs-stage" id="harness-fs-stage"></div>
-	</div>
+	<FullscreenOverlay label="Harness figure, fullscreen" />
 </BaseLayout>
 
 <script>
