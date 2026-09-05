@@ -14,3 +14,4 @@ One markdown file per AI coding session that makes commits. Rules: [AGENTS.md â†
 | 0008 | 2026-07-26 | Design-routing verification review: probe-9 mechanism settled, 14-agent claim verify, fixes | [0008-2026-07-26-design-routing-review.md](./0008-2026-07-26-design-routing-review.md) |
 | 0009 | 2026-07-26 | Site design pass + palette & design program: 22 + 42 adversarially-verified changes, PR #25 | [0009-2026-07-26-site-design-pass.md](./0009-2026-07-26-site-design-pass.md) |
 | 0010 | 2026-08-22 | The New Craft: /craft/ essay page â€” brainstorm, design canvas, build, critique + review waves | [0010-2026-08-22-the-new-craft-essay.md](./0010-2026-08-22-the-new-craft-essay.md) |
+| 0011 | 2026-09-04 | Weekly digest recovery: 2026-W32 wedged PR #30 (gh pr create network reset), merged main in, kept W32 json | [0011-2026-09-04-w32-digest-recovery.md](./0011-2026-09-04-w32-digest-recovery.md) |
