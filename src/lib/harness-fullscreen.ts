@@ -129,12 +129,17 @@ export function initHarnessFullscreen(): void {
 		fig.appendChild(trigger);
 		triggers.set(fig, trigger);
 
-		const tab = document.createElement('button');
-		tab.type = 'button';
-		tab.className = 'harness-fs-tab';
-		tab.textContent = fig.dataset.harnessFigure ?? `Figure ${i + 1}`;
-		tab.addEventListener('click', () => open(i));
-		tabsEl!.appendChild(tab);
+		// Tabs exist to switch BETWEEN figures — on a one-figure page (craft's
+		// room diagram) a lone, permanently-current tab is a control that does
+		// nothing, so skip the strip entirely.
+		if (figures.length > 1) {
+			const tab = document.createElement('button');
+			tab.type = 'button';
+			tab.className = 'harness-fs-tab';
+			tab.textContent = fig.dataset.harnessFigure ?? `Figure ${i + 1}`;
+			tab.addEventListener('click', () => open(i));
+			tabsEl!.appendChild(tab);
+		}
 	});
 	const tabs = Array.from(tabsEl.children) as HTMLButtonElement[];
 

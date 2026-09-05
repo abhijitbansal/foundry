@@ -1474,3 +1474,49 @@ body.ds-root {
 @media (max-width: 900px) {
   .fy-sheet-edge::before { display: none; }
 }
+
+/* /craft/ essay layout — see src/components/craft/CraftAct.astro and
+   CraftCoda.astro. Desktop: essay column + fixed 280px "manager's margin"
+   column (vignette above the italic note). Inline styles can't carry the
+   @media collapse, so the grid lives here. Below 900px (same breakpoint as
+   the nav burger) the margin column flows inline after the skill body,
+   capped at the vignette's natural width so the line art doesn't balloon. */
+.craft-skill {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 12px 72px;
+}
+.craft-skill:not(:last-child) {
+  padding-bottom: 44px;
+}
+/* Reading measure: the essay column otherwise resolves to ~776px ≈ 88ch at
+   1440, past the comfortable-reading bound; cap the prose, not the grid, so
+   the margin rail keeps its 280px. Class, not a positional selector — both
+   CraftAct and CraftCoda tag their essay column .craft-skill-body. */
+.craft-skill-body {
+  max-width: 68ch;
+}
+/* The italic manager's-margin note, shared by CraftAct and CraftCoda. The
+   sibling rule collapses the top margin when the ds-micro label precedes it
+   (first skill of each act). */
+.craft-margin-note {
+  margin: 16px 0 0;
+  border-left: 2px solid var(--ds-line-strong);
+  padding-left: 14px;
+  font-style: italic;
+  color: var(--ds-text-3);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.ds-micro + .craft-margin-note {
+  margin-top: 0;
+}
+@media (max-width: 900px) {
+  .craft-skill {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+  }
+  .craft-margin {
+    max-width: 300px;
+  }
+}
