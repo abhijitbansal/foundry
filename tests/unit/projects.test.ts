@@ -4,8 +4,8 @@ import { appsProjects, aiToolingProjects, foundationProjects } from '../../src/d
 const allProjects = [...appsProjects, ...aiToolingProjects, ...foundationProjects];
 
 describe('projects.ts data integrity', () => {
-	it('has exactly nine projects across the three groups', () => {
-		expect(allProjects).toHaveLength(9);
+	it('has exactly ten projects across the three groups', () => {
+		expect(allProjects).toHaveLength(10);
 	});
 
 	it('every public (private:false) project has at least one of repoUrl/siteUrl set', () => {
