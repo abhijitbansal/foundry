@@ -172,6 +172,11 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-2)">ingots = 1 ≈ 10k lines</span>
 				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-2)">crane = work in progress</span>
 				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-2)">pennants = PRs merged (weekly)</span>
+				<!-- Local transcripts rotate after ~30 days, so a per-repo figure is
+				     the largest window ever archived, not an exact lifetime count.
+				     The site-wide totals above accrete per day and are exact. Saying
+				     so here is cheaper than being caught rounding in our own favour. -->
+				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-faint)">per-repo totals are floors — transcripts rotate</span>
 			</div>
 			<p id="fy-yard-legend-night" class="ds-caption" style="display:none;margin:0;color:var(--ds-text-2);border-top:1px solid var(--ds-line);padding-top:14px">
 				The fire kept in: every gold window was paid for in tokens. A distant two-tone whistle called the shift; hold again and a single toot brings the dawn.

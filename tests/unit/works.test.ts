@@ -114,8 +114,6 @@ describe('yardFootprints', () => {
 			for (let j = i + 1; j < rects.length; j++) {
 				const a = rects[i];
 				const b = rects[j];
-				// A building and its own annex share an edge by construction.
-				if (b.key === `${a.key} (annex)`) continue;
 				const dx = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
 				const dy = Math.min(a.y + a.d, b.y + b.d) - Math.max(a.y, b.y);
 				if (dx > 0 && dy > 0) overlaps.push(`${a.key} x ${b.key} (${(dx * dy).toFixed(2)} sq units)`);
