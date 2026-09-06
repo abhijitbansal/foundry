@@ -23,8 +23,8 @@ Privacy-first personal wealth-tracking dashboard for macOS. Pulls portfolio data
 Tech: Swift, SwiftUI, GRDB, Plaid API, MCP server · [repo](https://github.com/abhijitbansal/folix)
 
 ### purix — `active` · private
-Browser extension that strips tracking parameters from links entirely on-device — zero network calls. Blocklist-only (curated strip list + `utm_` prefix) with a hard keep-list so it never breaks a page; cleans on navigation, link click, copy, and a right-click "Copy clean link" menu item. One shared rule set across Chrome, Firefox, and Safari (macOS + iOS). Not yet published to any store.
-Tech: TypeScript, Chrome MV3 DNR, Firefox WebExtensions, Safari Web Extension (Xcode) · [repo](https://github.com/abhijitbansal/purix)
+Browser extension that strips tracking parameters from links entirely on-device, with no network calls. Blocklist-only with a hard keep-list, so it never guesses and never breaks a page; cleans links on navigation, on click, on copy, and from a context-menu item. One shared rule set across Chrome, Firefox, and Safari (macOS + iOS). Pre-launch — no store listings yet.
+Tech: TypeScript, cross-browser WebExtension · [repo](https://github.com/abhijitbansal/purix)
 
 ## AI / agent tooling
 
@@ -46,7 +46,7 @@ Tech: Python, uv, Claude API, SQLite · [repo](https://github.com/abhijitbansal/
 
 ## Web / sites
 
-### foundry — `active` · private
+### foundry — `active` · public
 This repo — the portfolio website itself.
 
 ### design-system — `active` · private

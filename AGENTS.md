@@ -81,6 +81,15 @@ Learned the hard way (session 6, harness page) — three CSS traps that will bit
 - **A `viewBox`-only `<svg>` (no `width`/`height` attributes) has no intrinsic size.** Giving it `width:auto` inside a shrink-to-fit parent (or capping it with a *percentage* `max-width`/`max-height` relative to that same parent) is a circular size dependency — verified in-browser that Chrome resolves it by collapsing both to 0×0, not by falling back to any default. Fix: give the wrapper a definite width (viewport units or px, not `%`, not `auto`), then leave the svg's own `width:100%;height:auto` alone — it resolves against that definite width the same way it already does in every non-modal embed on this site.
 - **`transform:scale()` on an svg doesn't push down HTML that follows it in document flow.** Zooming only the `<svg>` inside a card that also has trailing caption/paragraph content visibly overlaps that text. Scale the whole card (wrapper), not the svg alone.
 
+## Telemetry data: the yard is a ratchet, not a snapshot
+
+`scripts/stats/parse_sessions.py` can only ever see the ~30 days of Claude Code transcripts still on disk, so **every number it computes is a sliding window, and `data/stats-archive.json` is what makes the site's "everything since May 1st 2026" claim true.** The archive accretes both per-day aggregates and (since 2026-09-06) per-repo rollups, merged per-field with `max` — a past value never shrinks, because a smaller one only ever means transcripts were purged.
+
+- **A repo never leaves the yard once it has earned a building.** Before the per-repo archive existed, `claude-skills`, `floorprint`, `memekit` and `design-system` silently vanished from `data/stats.json` (and so from the homepage yard) as their transcripts aged out — the yard went from ten buildings in July to seven by September before anyone noticed. Rows predating 2026-09-06 were recovered from this repo's own committed `stats.json` history.
+- **Per-repo numbers are a floor, not a total.** `max` over sliding windows means a repo's `sessions`/`lines_added` is "the largest window ever observed". The site-wide totals and daily series *are* genuinely all-time (they accrete per day). Don't describe a per-repo figure as an exact all-time count.
+- **Consequence for new repos:** once a repo is in the archive it is permanent, so an allowlisted repo with no `YARD` slot in `src/lib/works-layout.ts` fails the build until someone adds one. That's the intended loud failure, just no longer self-healing after a purge.
+- **Nameplates need a browser, not arithmetic.** The yard paints back-to-front; a badge parked where a nearer building's roof lands is painted over, and a single `elementFromPoint` at its centre still passes over a 0.5px hairline through the digits. Sample the whole badge disc in a real browser after moving one. `yardFootprints()` (`src/lib/works.ts`) plus its unit test covers the *ground* collisions, including cubby's derived annex rect — it does not cover screen-space occlusion.
+
 ## Higgsfield / generative design assets
 
 - Higgsfield is a **design-exploration tool, not a runtime dependency** — the shipped site never calls generative APIs at runtime.

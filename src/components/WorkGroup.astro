@@ -29,6 +29,12 @@ interface Props {
 }
 
 const { label, count, headerMargin, projects, startIndex, layout = 'grid', lead = false } = Astro.props;
+
+// A lead card plus four followers: the default follower span leaves the
+// fourth alone on its row, so this shape gets the 2x2 modifier.
+const LEAD_PLUS_FOUR = 5;
+const isLeadWithFour = lead && projects.length === LEAD_PLUS_FOUR;
+const cardsClass = lead ? (isLeadWithFour ? 'fy-cards fy-cards--lead fy-cards--lead4' : 'fy-cards fy-cards--lead') : 'fy-cards';
 ---
 
 <div data-reveal style={`display:flex;align-items:center;gap:16px;margin:${headerMargin} 0 20px`}>
@@ -40,7 +46,7 @@ const { label, count, headerMargin, projects, startIndex, layout = 'grid', lead 
 	layout === 'foundation' ? (
 		<ProjectCard project={projects[0]} index={startIndex} layout="foundation" />
 	) : (
-		<div class={lead ? (projects.length === 5 ? 'fy-cards fy-cards--lead fy-cards--lead4' : 'fy-cards fy-cards--lead') : 'fy-cards'} style="display:grid;gap:20px">
+		<div class={cardsClass} style="display:grid;gap:20px">
 			{projects.map((project, i) => <ProjectCard project={project} index={startIndex + i} />)}
 		</div>
 	)
