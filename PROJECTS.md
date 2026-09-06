@@ -2,9 +2,9 @@
 
 Source material for Foundry's project pages. One entry per repo under `github.com/abhijitbansal`. Regenerate when repos change (sweep via `gh repo list` + per-repo README summarization).
 
-**Last updated:** 2026-07-11
+**Last updated:** 2026-09-06
 
-## Apps (iOS / macOS)
+## Apps (iOS / macOS / browser)
 
 ### cubby — `active` · private
 iOS app for inventorying items stored in bins with NFC tags and QR codes. On-device Vision ML identifies items, append-only scan audit log, optional iCloud sync, Siri shortcuts, widgets, 3D rack view — privacy-first, zero server backend, zero third-party dependencies.
@@ -21,6 +21,10 @@ Tech: Swift, SwiftUI, RoomPlan, SceneKit · [repo](https://github.com/abhijitban
 ### folix — `active` · private
 Privacy-first personal wealth-tracking dashboard for macOS. Pulls portfolio data locally from Wealthfront via Plaid (bring-your-own-keys), stores everything on-device, AI-augmented insights. Seed of the "own financial adviser" project.
 Tech: Swift, SwiftUI, GRDB, Plaid API, MCP server · [repo](https://github.com/abhijitbansal/folix)
+
+### purix — `active` · private
+Browser extension that strips tracking parameters from links entirely on-device, with no network calls. Blocklist-only with a hard keep-list, so it never guesses and never breaks a page; cleans links on navigation, on click, on copy, and from a context-menu item. One shared rule set across Chrome, Firefox, and Safari (macOS + iOS). Pre-launch — no store listings yet.
+Tech: TypeScript, cross-browser WebExtension · [repo](https://github.com/abhijitbansal/purix)
 
 ## AI / agent tooling
 
@@ -42,7 +46,7 @@ Tech: Python, uv, Claude API, SQLite · [repo](https://github.com/abhijitbansal/
 
 ## Web / sites
 
-### foundry — `active` · private
+### foundry — `active` · public
 This repo — the portfolio website itself.
 
 ### design-system — `active` · private

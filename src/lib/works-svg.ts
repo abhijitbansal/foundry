@@ -8,7 +8,7 @@
 // page's existing var(--ds-*) cascade. Motion (prefers-reduced-motion) is
 // resolved the same way: every animation is emitted unconditionally and
 // FYW_STYLE's reduced-motion block freezes it to a static frame.
-import type { PlateSpec, StripLayoutEntry, WorksRepo, YardLayoutEntry } from './works.types';
+import type { Archetype, PlateSpec, StripLayoutEntry, WorksRepo, YardLayoutEntry } from './works.types';
 
 export type Proj = (x: number, y: number, z?: number) => [number, number];
 
@@ -396,6 +396,15 @@ function pennants(P: Proj, x0: number, y0: number, x1: number, y1: number, z: nu
 	return els.join('');
 }
 
+/** The annex block a `annex: true` building grows off its east wall. Its
+ * footprint is derived, not declared in YARD, so anything that reasons
+ * about which ground a repo occupies has to ask for it here — a repo
+ * placed by eye on top of these coordinates interpenetrates the hall it
+ * belongs to (caught in review the first time a repo landed there). */
+export function annexRect(x: number, y: number, w: number): { ax: number; ay: number; aw: number; ad: number } {
+	return { ax: x + w + 0.001, ay: y + 0.35, aw: 2.7, ad: 3.0 };
+}
+
 export function ingotStack(P: Proj, x: number, y: number, rows: number[], glowTop: boolean): string {
 	const els: string[] = [];
 	const iw = 0.46;
@@ -641,13 +650,25 @@ export function buildingEls(
 	glowAcc: string[],
 	rank?: number,
 ): string {
-	if (b.arch === 'lot') {
-		return `<g class="fyw-building"><title>${esc(buildingTitle(r, storeys))}</title>${vacantLot(P, b.x, b.y, b.w, b.d)}</g>`;
+	// A vacant lot is a DATA state, not a layout property: the encoding is
+	// "no lines yet, nothing built" (docs/design/handoff/the-works/README.md).
+	// Keying it off the declared archetype alone made the plan lie in both
+	// directions — folix kept the `lot` it was given when it had 0 lines and
+	// drew bare dirt at rank 03 while its own tooltip announced 62,418 lines,
+	// and a repo at 0 lines with any other archetype drew a full building.
+	// The lot still carries its rank badge; without it the plan skips a
+	// number and the ledger row beside it points at nothing.
+	if (storeys <= 0) {
+		const lotPlate = rank !== undefined && 'np' in b ? numberPlate(P, b.np[0], b.np[1], rank) : '';
+		return `<g class="fyw-building"><title>${esc(buildingTitle(r, storeys))}</title>${vacantLot(P, b.x, b.y, b.w, b.d)}${lotPlate}</g>`;
 	}
+	// A repo that has since earned storeys gets a real silhouette; `shed` is
+	// the smallest one, so a plot laid out for an empty lot still fits.
+	const arch: Exclude<Archetype, 'lot'> = b.arch === 'lot' ? 'shed' : b.arch;
 
 	const base = 0.36;
 	const h = storeys <= 0 ? 0 : base + storeys * 0.6 + 0.1;
-	const isHall = b.arch === 'hall';
+	const isHall = arch === 'hall';
 	const hasAnnex = 'annex' in b && b.annex === true;
 	const hasFurnace = 'furnace' in b && b.furnace === true;
 	const hasVent = 'vent' in b && b.vent === true;
@@ -671,12 +692,12 @@ export function buildingEls(
 	// drawn against instead of a generic width-based estimate; gableX uses
 	// a depth-based rise (see the gableRoof call below), everything else
 	// already renders at rr.
-	const roofRidge = b.arch === 'gableX' ? Math.min(0.5, b.d * 0.3) : rr;
-	if (b.arch === 'hall' || b.arch === 'gableY') {
+	const roofRidge = arch === 'gableX' ? Math.min(0.5, b.d * 0.3) : rr;
+	if (arch === 'hall' || arch === 'gableY') {
 		els.push(gableRoof(P, b.x, b.y, b.w, b.d, h, rr, 'y', hatchId));
-	} else if (b.arch === 'gableX') {
+	} else if (arch === 'gableX') {
 		els.push(gableRoof(P, b.x, b.y, b.w, b.d, h, roofRidge, 'x', hatchId));
-	} else if (b.arch === 'monitor') {
+	} else if (arch === 'monitor') {
 		els.push(monitorRoof(P, b.x, b.y, b.w, b.d, h, hatchId));
 	} else {
 		els.push(flatTop(P, b.x, b.y, b.w, b.d, h));
@@ -688,10 +709,7 @@ export function buildingEls(
 	}
 
 	if (hasAnnex) {
-		const ax = b.x + b.w + 0.001;
-		const ay = b.y + 0.35;
-		const aw = 2.7;
-		const ad = 3.0;
+		const { ax, ay, aw, ad } = annexRect(b.x, b.y, b.w);
 		const ah = base + 1.9;
 		els.push(shadowOf(P, ax, ay, aw, ad, ah));
 		els.push(boxWalls(P, ax, ay, aw, ad, ah, 0, hatchId));

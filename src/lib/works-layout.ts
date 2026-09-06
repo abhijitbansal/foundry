@@ -14,17 +14,27 @@
 
 import type { PlateSpec, StripArchetype, StripLayoutEntry, YardLayoutEntry } from './works.types';
 
+// Nameplate note: `np` is the badge's ground position, and the yard paints
+// buildings back-to-front, so a badge parked where a later (nearer)
+// building's roof lands is silently painted over. cubby, claude-skills and
+// memekit all sat in exactly that spot — invisible for as long as the
+// repos whose roofs cover them were missing from data/stats.json, visible
+// again the moment the per-repo archive brought those buildings back. Each
+// `np` below is verified clear by sampling the badge disc in a real
+// browser; a point test at the centre alone passes over a 0.5px hairline
+// that visibly strikes through the digits.
 export const YARD: Record<string, YardLayoutEntry> = {
-	cubby: { x: 0.9, y: 0.7, w: 2.9, d: 4.6, arch: 'hall', plate: 0, np: [4.4, 5.8], stacks: [[0.35, 1.7], [0.35, 3.2]], furnace: true, annex: true },
-	'claude-skills': { x: 15.3, y: 1.0, w: 2.3, d: 1.9, arch: 'monitor', plate: 1, np: [18.2, 3.4], stacks: [[14.9, 1.35]] },
+	cubby: { x: 0.9, y: 0.7, w: 2.9, d: 4.6, arch: 'hall', plate: 0, np: [6.7, 2.0], stacks: [[0.35, 1.7], [0.35, 3.2]], furnace: true, annex: true },
+	'claude-skills': { x: 15.3, y: 1.0, w: 2.3, d: 1.9, arch: 'monitor', plate: 1, np: [17.8, 2.3], stacks: [[14.9, 1.35]] },
 	floorprint: { x: 5.2, y: 4.9, w: 3.1, d: 1.7, arch: 'monitor', plate: 0, np: [8.8, 7.0], stacks: [] },
 	sift: { x: 18.7, y: 1.1, w: 2.0, d: 1.5, arch: 'gableY', plate: 1, np: [21.2, 3.0], stacks: [] },
 	cartoon: { x: 15.5, y: 3.9, w: 1.7, d: 1.3, arch: 'gableY', plate: 1, np: [17.6, 5.6], stacks: [[15.2, 4.15]] },
 	'doc-scan': { x: 8.9, y: 5.0, w: 1.9, d: 1.4, arch: 'gableY', plate: 0, np: [11.2, 6.8], stacks: [] },
 	foundry: { x: 5.9, y: 9.1, w: 2.0, d: 1.5, arch: 'gableX', plate: 2, np: [8.3, 11.0], stacks: [], flag: true },
-	memekit: { x: 18.5, y: 3.8, w: 1.4, d: 1.1, arch: 'shed', plate: 1, np: [20.3, 5.3], stacks: [] },
+	memekit: { x: 18.5, y: 3.8, w: 1.4, d: 1.1, arch: 'shed', plate: 1, np: [20.1, 4.1], stacks: [] },
 	'design-system': { x: 9.0, y: 9.2, w: 1.5, d: 1.2, arch: 'shed', plate: 2, np: [10.9, 10.8], stacks: [] },
 	folix: { x: 11.3, y: 4.9, w: 2.1, d: 1.6, arch: 'lot', plate: 0, np: [13.8, 6.9], stacks: [] },
+	purix: { x: 11.5, y: 1.2, w: 2.1, d: 1.6, arch: 'monitor', plate: 0, np: [13.4, 3.0], stacks: [] },
 };
 
 export const YARD_PLATES: PlateSpec[] = [
@@ -43,6 +53,7 @@ export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {
 	foundry: { w: 1.6, d: 1.3, arch: 'gableX', stacksRel: [], vent: true },
 	memekit: { w: 1.4, d: 1.1, arch: 'shed', stacksRel: [] },
 	'design-system': { w: 1.5, d: 1.2, arch: 'shed', stacksRel: [] },
+	purix: { w: 1.7, d: 1.35, arch: 'monitor', stacksRel: [], vent: true },
 };
 
 const DEFAULT_STRIP_ARCHETYPE: StripArchetype = { w: 1.6, d: 1.3, arch: 'shed', stacksRel: [], vent: true };

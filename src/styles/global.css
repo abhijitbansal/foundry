@@ -1352,6 +1352,11 @@ body.ds-root {
   .fy-cards--lead { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .fy-cards--lead > :nth-child(1) { grid-column: span 6; }
   .fy-cards--lead > :nth-child(n+2) { grid-column: span 2; }
+  /* A lead card with four followers (Apps, since Purix) would otherwise put
+     three in row one and strand the fourth at a third of the width. Same
+     specificity as the rule above, declared after it, so it wins for the
+     one group that carries both classes. */
+  .fy-cards--lead4 > :nth-child(n+2) { grid-column: span 3; }
 }
 
 /* LAY-3: forge-yard full-bleed moment. Every band on every page shares the
