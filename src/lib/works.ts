@@ -7,7 +7,7 @@
 
 import { layoutStripGrid, STRIP_GRID_CELL_D, stripGridFootprint, YARD, YARD_PLATES } from './works-layout';
 import type { LedgerEntry, WorksRepo, WorksResult, YardLayoutEntry } from './works.types';
-import { buildDefs, buildingEls, districtLabel, flatcar, FYW_STYLE, gantryCrane, ground, ingotStack, makeProj, northArrow, rail, scaleBar, stripBuildingLabel, stripStamp, titleBlock } from './works-svg';
+import { annexRect, buildDefs, buildingEls, districtLabel, flatcar, FYW_STYLE, gantryCrane, ground, ingotStack, makeProj, northArrow, rail, scaleBar, stripBuildingLabel, stripStamp, titleBlock } from './works-svg';
 
 export { fmtK, pennantCount, seeded } from './works-svg';
 
@@ -19,6 +19,24 @@ const STRIP_CONF = { S: 26, ox: 126, oy: 172, vw: 620, vh: 448 };
 
 const YARD_ARIA_LABEL = 'Isometric yard plan: one building per repository, height mapped to lines added.';
 const STRIP_ARIA_LABEL = 'Isometric weekly strip: one building per active repository, height mapped to lines added this week.';
+
+/** Every patch of ground the yard plan claims: one rect per YARD slot,
+ * plus the derived annex rect for any building that grows one. The annex
+ * is the reason this exists — its footprint is computed at paint time
+ * from its parent's box, so reading YARD alone under-reports the occupied
+ * ground by 8.1 units² and a new repo can be placed straight through a
+ * hall's side wing. */
+export function yardFootprints(): { key: string; x: number; y: number; w: number; d: number }[] {
+	const out: { key: string; x: number; y: number; w: number; d: number }[] = [];
+	for (const [key, b] of Object.entries(YARD)) {
+		out.push({ key, x: b.x, y: b.y, w: b.w, d: b.d });
+		if ('annex' in b && b.annex === true) {
+			const { ax, ay, aw, ad } = annexRect(b.x, b.y, b.w);
+			out.push({ key: `${key} (annex)`, x: ax, y: ay, w: aw, d: ad });
+		}
+	}
+	return out;
+}
 
 /** Every repo in `repos` must have a YARD layout slot (src/lib/works-layout.ts)
  * — throws instead of silently skipping so a new repo in data/stats.json

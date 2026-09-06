@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { assertYardCoverage, buildColdForge, buildLedger, buildStrip, buildYard, computeLitFracs, computeStoreys, fmtK, pennantCount, seeded } from '../../src/lib/works';
+import { assertYardCoverage, buildColdForge, buildLedger, buildStrip, buildYard, computeLitFracs, computeStoreys, fmtK, pennantCount, seeded, yardFootprints } from '../../src/lib/works';
 import { layoutStripGrid, stripGridFootprint } from '../../src/lib/works-layout';
 import type { WorksRepo } from '../../src/lib/works.types';
 
@@ -103,6 +103,30 @@ describe('assertYardCoverage', () => {
 	it('throws loudly when a repo has no YARD slot', () => {
 		const repos: WorksRepo[] = [...YARD_REPOS, { repo: 'brand-new-repo', lines: 500, sessions: 5, active: true }];
 		expect(() => assertYardCoverage(repos)).toThrow(/brand-new-repo/);
+	});
+});
+
+describe('yardFootprints', () => {
+	it('never lets two buildings claim the same ground', () => {
+		const rects = yardFootprints();
+		const overlaps: string[] = [];
+		for (let i = 0; i < rects.length; i++) {
+			for (let j = i + 1; j < rects.length; j++) {
+				const a = rects[i];
+				const b = rects[j];
+				// A building and its own annex share an edge by construction.
+				if (b.key === `${a.key} (annex)`) continue;
+				const dx = Math.min(a.x + a.w, b.x + b.w) - Math.max(a.x, b.x);
+				const dy = Math.min(a.y + a.d, b.y + b.d) - Math.max(a.y, b.y);
+				if (dx > 0 && dy > 0) overlaps.push(`${a.key} x ${b.key} (${(dx * dy).toFixed(2)} sq units)`);
+			}
+		}
+		expect(overlaps, `overlapping yard footprints: ${overlaps.join(', ')}`).toEqual([]);
+	});
+
+	it('includes the derived annex rect, not just the declared boxes', () => {
+		const keys = yardFootprints().map((r) => r.key);
+		expect(keys).toContain('cubby (annex)');
 	});
 });
 

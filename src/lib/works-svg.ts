@@ -396,6 +396,15 @@ function pennants(P: Proj, x0: number, y0: number, x1: number, y1: number, z: nu
 	return els.join('');
 }
 
+/** The annex block a `annex: true` building grows off its east wall. Its
+ * footprint is derived, not declared in YARD, so anything that reasons
+ * about which ground a repo occupies has to ask for it here — a repo
+ * placed by eye on top of these coordinates interpenetrates the hall it
+ * belongs to (caught in review the first time a repo landed there). */
+export function annexRect(x: number, y: number, w: number): { ax: number; ay: number; aw: number; ad: number } {
+	return { ax: x + w + 0.001, ay: y + 0.35, aw: 2.7, ad: 3.0 };
+}
+
 export function ingotStack(P: Proj, x: number, y: number, rows: number[], glowTop: boolean): string {
 	const els: string[] = [];
 	const iw = 0.46;
@@ -642,7 +651,11 @@ export function buildingEls(
 	rank?: number,
 ): string {
 	if (b.arch === 'lot') {
-		return `<g class="fyw-building"><title>${esc(buildingTitle(r, storeys))}</title>${vacantLot(P, b.x, b.y, b.w, b.d)}</g>`;
+		// A lot still carries its rank badge. Without it the yard skips a
+		// number (folix is rank 03 on the live data and drew no plate), and
+		// the ledger row beside it has nothing on the plan to point at.
+		const lotPlate = rank !== undefined && 'np' in b ? numberPlate(P, b.np[0], b.np[1], rank) : '';
+		return `<g class="fyw-building"><title>${esc(buildingTitle(r, storeys))}</title>${vacantLot(P, b.x, b.y, b.w, b.d)}${lotPlate}</g>`;
 	}
 
 	const base = 0.36;
@@ -688,10 +701,7 @@ export function buildingEls(
 	}
 
 	if (hasAnnex) {
-		const ax = b.x + b.w + 0.001;
-		const ay = b.y + 0.35;
-		const aw = 2.7;
-		const ad = 3.0;
+		const { ax, ay, aw, ad } = annexRect(b.x, b.y, b.w);
 		const ah = base + 1.9;
 		els.push(shadowOf(P, ax, ay, aw, ad, ah));
 		els.push(boxWalls(P, ax, ay, aw, ad, ah, 0, hatchId));
