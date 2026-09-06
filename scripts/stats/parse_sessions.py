@@ -558,8 +558,13 @@ def main():
     )
     REPO_NESTED = ("tools", "agents", "skills", "models")
     for r in set(archive_repos) | set(live_repos):
-        # A repo can only leave via the allowlist, never via a purge.
+        # A repo can only leave via the allowlist, never via a purge — and
+        # "leave" has to mean DROPPED, not skipped. `continue` alone would
+        # leave a de-allowlisted row sitting in the archive to be
+        # re-serialized and re-published on every subsequent run, which is
+        # the exact opposite of what removing it from PROJECTS.md means.
         if r not in PROJECTS_ALLOWLIST:
+            archive_repos.pop(r, None)
             continue
         old = archive_repos.get(r) or {}
         live = live_repos.get(r) or {}
@@ -578,12 +583,18 @@ def main():
         # Percentiles can't be merged across windows — keep this run's when
         # it saw any of the repo's sessions, otherwise carry the last set
         # that was computed from real transcripts.
-        if live.get("sessions"):
-            merged["prompts"] = live.get("prompts")
-        elif old.get("prompts") is not None:
-            merged["prompts"] = old["prompts"]
+        # Percentiles can't be summed across windows, so keep whichever
+        # distribution was computed from more prompts. Preferring the live
+        # one unconditionally would let a single stray session in a dormant
+        # repo overwrite a 636-prompt distribution with a 1-prompt one —
+        # the one field that would break this file's never-shrinks rule.
+        def prompt_count(rec):
+            return ((rec or {}).get("prompts") or {}).get("count", 0)
+        merged["prompts"] = (live if prompt_count(live) >= prompt_count(old) else old).get("prompts")
         archive_repos[r] = merged
 
+    # Allowlist again at the point of writing, not only at the merge: the
+    # public file's guarantee should not depend on the archive being clean.
     repo_out = [{
         "repo": r,
         **{k: R.get(k, 0) for k in REPO_SCALARS},
@@ -594,7 +605,7 @@ def main():
         "prompts": R.get("prompts"),
         "first_ts": R.get("first_ts"),
         "last_ts": R.get("last_ts"),
-    } for r, R in archive_repos.items()]
+    } for r, R in archive_repos.items() if r in PROJECTS_ALLOWLIST]
     repo_out.sort(key=lambda x: x["lines_added"], reverse=True)
 
     with open(ARCHIVE, "w") as fh:
@@ -607,10 +618,14 @@ def main():
                      "2026-06-10 were recovered from an earlier stats.json "
                      "snapshot and only carry sessions/out_tokens/lines_added. "
                      "Per-repo rollups accrete under 'repos' on the same "
-                     "max rule, so a repo keeps its building on the yard "
-                     "once earned; rows there predating 2026-09-06 were "
-                     "recovered from this repo's own committed stats.json "
-                     "history. Live-window-only by design: versions."),
+                     "max rule for scalars and breakdowns, so a repo keeps "
+                     "its building on the yard once earned; first_ts/last_ts "
+                     "bracket rather than max, and 'prompts' keeps whichever "
+                     "distribution was computed from more prompts. Rows there "
+                     "predating 2026-09-06 were recovered from this repo's "
+                     "own committed stats.json history by "
+                     "scripts/stats/seed_repo_archive.py. Live-window-only by "
+                     "design: versions."),
             "days": {d: archive_days[d] for d in sorted(archive_days)},
             "repos": {r: archive_repos[r] for r in sorted(archive_repos)},
         }, fh, indent=2)
