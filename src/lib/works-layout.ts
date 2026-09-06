@@ -25,6 +25,7 @@ export const YARD: Record<string, YardLayoutEntry> = {
 	memekit: { x: 18.5, y: 3.8, w: 1.4, d: 1.1, arch: 'shed', plate: 1, np: [20.3, 5.3], stacks: [] },
 	'design-system': { x: 9.0, y: 9.2, w: 1.5, d: 1.2, arch: 'shed', plate: 2, np: [10.9, 10.8], stacks: [] },
 	folix: { x: 11.3, y: 4.9, w: 2.1, d: 1.6, arch: 'lot', plate: 0, np: [13.8, 6.9], stacks: [] },
+	purix: { x: 4.9, y: 1.3, w: 2.1, d: 1.6, arch: 'monitor', plate: 0, np: [9.0, 2.6], stacks: [] },
 };
 
 export const YARD_PLATES: PlateSpec[] = [
@@ -43,6 +44,7 @@ export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {
 	foundry: { w: 1.6, d: 1.3, arch: 'gableX', stacksRel: [], vent: true },
 	memekit: { w: 1.4, d: 1.1, arch: 'shed', stacksRel: [] },
 	'design-system': { w: 1.5, d: 1.2, arch: 'shed', stacksRel: [] },
+	purix: { w: 1.7, d: 1.35, arch: 'monitor', stacksRel: [], vent: true },
 };
 
 const DEFAULT_STRIP_ARCHETYPE: StripArchetype = { w: 1.6, d: 1.3, arch: 'shed', stacksRel: [], vent: true };

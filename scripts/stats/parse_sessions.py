@@ -66,7 +66,7 @@ CHARS_PER_TOKEN = 4  # rough approximation for display only
 # doesn't silently leak anything since this is an allowlist, not a denylist).
 PROJECTS_ALLOWLIST = {
     "cubby", "doc-scan", "floorprint", "folix",
-    "claude-skills", "cartoon", "memekit", "sift",
+    "claude-skills", "cartoon", "memekit", "sift", "purix",
     "foundry", "design-system", "cubby-site", "paperix-site",
     "floorprint-site", "mr_lender", "second-wind",
 }
