@@ -49,6 +49,21 @@ OUT = os.path.join(REPO_ROOT, "data", "stats.json")
 # repo like data/stats.json; per-field max is the merge rule (a past day's
 # true counts never shrink — a lower value only ever means transcripts for
 # that day were purged mid-window).
+#
+# It accretes the PER-REPO rollups on the same rule, for the same reason.
+# Without that, a repo whose transcripts have all aged out simply vanishes
+# from `repos` and its building disappears from the homepage yard — which
+# is billed as an all-time plan. The yard lost claude-skills, floorprint,
+# memekit and design-system that way between July and September 2026
+# before anyone noticed. Two consequences worth knowing:
+#   - A per-repo number is now "the largest window ever observed", not a
+#     true all-time sum: each run only ever sees a sliding transcript
+#     window, so max() is a floor, not a total. The site-wide totals and
+#     the daily series ARE all-time (they accrete per day).
+#   - Once a repo enters this archive it never leaves, so a repo that is
+#     allowlisted but has no YARD slot in src/lib/works-layout.ts breaks
+#     the build permanently rather than for one transcript window. That is
+#     the intended "fail loudly, add a slot" behaviour, just less patient.
 ARCHIVE = os.path.join(REPO_ROOT, "data", "stats-archive.json")
 
 # per-day archived fields (besides "sessions" and "thinking_blocks")
@@ -448,7 +463,11 @@ def main():
             "hist": list(zip(labels, hist)),
         }
 
-    repo_out = []
+    # Per-repo rollups for THIS run's transcript window, in archive shape
+    # (nested breakdowns stay full maps here; they are trimmed to
+    # most_common only when data/stats.json is finally written, so the
+    # archive keeps the long tail across runs).
+    live_repos = {}
     for r, R in repos.items():
         # Privacy allowlist: only PROJECTS.md-listed repos get a per-repo
         # breakdown in the committed, public data/stats.json. Every OTHER
@@ -457,8 +476,7 @@ def main():
         # per-repo row is dropped. See module docstring.
         if r not in PROJECTS_ALLOWLIST:
             continue
-        repo_out.append({
-            "repo": r,
+        live_repos[r] = {
             "sessions": R["sessions"],
             "user_msgs": R["user_msgs"],
             "assistant_msgs": R["assistant_msgs"],
@@ -470,16 +488,15 @@ def main():
             "out_tokens": R["out_tokens"],
             "cache_read_tokens": R["cache_read_tokens"],
             "cache_creation_tokens": R["cache_creation_tokens"],
-            "top_tools": R["tools"].most_common(6),
-            "top_agents": R["agents"].most_common(5),
-            "top_skills": R["skills"].most_common(5),
-            "models": R["models"].most_common(),
+            "tools": dict(R["tools"]),
+            "agents": dict(R["agents"]),
+            "skills": dict(R["skills"]),
+            "models": dict(R["models"]),
             "prompts": summarize_prompts(R["prompt_chars"]),
             "first_ts": R["first_ts"],
             "last_ts": R["last_ts"],
             "image_count": len(R["image_paths"]),
-        })
-    repo_out.sort(key=lambda x: x["lines_added"], reverse=True)
+        }
 
     all_ts = [S["first_ts"] for S in sessions if S["first_ts"]] + \
              [S["last_ts"] for S in sessions if S["last_ts"]]
@@ -489,6 +506,7 @@ def main():
     # ---- merge this run's per-day aggregates into the persistent archive ----
     NESTED_FIELDS = ("tools", "agents", "skills", "slash", "mcp", "models")
     archive_days = {}
+    archive_repos = {}
     if os.path.exists(ARCHIVE):
         try:
             with open(ARCHIVE) as fh:
@@ -496,6 +514,9 @@ def main():
             if not (isinstance(loaded, dict) and isinstance(loaded.get("days"), dict)):
                 raise ValueError("expected top-level {'days': {...}}")
             archive_days = loaded["days"]
+            archive_repos = loaded.get("repos") or {}
+            if not isinstance(archive_repos, dict):
+                raise ValueError("expected 'repos' to be a mapping")
         except Exception as e:
             raise SystemExit(
                 f"ERROR: {ARCHIVE} exists but is unreadable ({e}) — refusing to "
@@ -527,6 +548,55 @@ def main():
                     tm[f] = max(tm.get(f, 0), int(cnt))
             merged["model_tokens"] = mt_out
         archive_days[day] = merged
+
+    # ---- merge this run's per-repo rollups into the persistent archive ----
+    REPO_SCALARS = (
+        "sessions", "user_msgs", "assistant_msgs", "lines_added",
+        "lines_removed", "files_written", "files_edited", "in_tokens",
+        "out_tokens", "cache_read_tokens", "cache_creation_tokens",
+        "image_count",
+    )
+    REPO_NESTED = ("tools", "agents", "skills", "models")
+    for r in set(archive_repos) | set(live_repos):
+        # A repo can only leave via the allowlist, never via a purge.
+        if r not in PROJECTS_ALLOWLIST:
+            continue
+        old = archive_repos.get(r) or {}
+        live = live_repos.get(r) or {}
+        merged = dict(old)
+        for k in REPO_SCALARS:
+            merged[k] = max(int(old.get(k, 0) or 0), int(live.get(k, 0) or 0))
+        for k in REPO_NESTED:
+            if live.get(k) or old.get(k):
+                merged[k] = merged_counter(old.get(k), live.get(k))
+        # Timestamps bracket rather than max: first_ts is the earliest
+        # session ever seen, last_ts the most recent.
+        stamps = [t for t in (old.get("first_ts"), live.get("first_ts")) if t]
+        merged["first_ts"] = min(stamps) if stamps else None
+        stamps = [t for t in (old.get("last_ts"), live.get("last_ts")) if t]
+        merged["last_ts"] = max(stamps) if stamps else None
+        # Percentiles can't be merged across windows — keep this run's when
+        # it saw any of the repo's sessions, otherwise carry the last set
+        # that was computed from real transcripts.
+        if live.get("sessions"):
+            merged["prompts"] = live.get("prompts")
+        elif old.get("prompts") is not None:
+            merged["prompts"] = old["prompts"]
+        archive_repos[r] = merged
+
+    repo_out = [{
+        "repo": r,
+        **{k: R.get(k, 0) for k in REPO_SCALARS},
+        "top_tools": collections.Counter(R.get("tools") or {}).most_common(6),
+        "top_agents": collections.Counter(R.get("agents") or {}).most_common(5),
+        "top_skills": collections.Counter(R.get("skills") or {}).most_common(5),
+        "models": collections.Counter(R.get("models") or {}).most_common(),
+        "prompts": R.get("prompts"),
+        "first_ts": R.get("first_ts"),
+        "last_ts": R.get("last_ts"),
+    } for r, R in archive_repos.items()]
+    repo_out.sort(key=lambda x: x["lines_added"], reverse=True)
+
     with open(ARCHIVE, "w") as fh:
         json.dump({
             "note": ("Per-day aggregates accreted across parse_sessions.py runs; "
@@ -536,10 +606,13 @@ def main():
                      "past day's true counts never shrink). Days before "
                      "2026-06-10 were recovered from an earlier stats.json "
                      "snapshot and only carry sessions/out_tokens/lines_added. "
-                     "Live-window-only by design (not per-day archivable): "
-                     "prompt-size percentiles, per-repo cards, versions, "
-                     "image counts."),
+                     "Per-repo rollups accrete under 'repos' on the same "
+                     "max rule, so a repo keeps its building on the yard "
+                     "once earned; rows there predating 2026-09-06 were "
+                     "recovered from this repo's own committed stats.json "
+                     "history. Live-window-only by design: versions."),
             "days": {d: archive_days[d] for d in sorted(archive_days)},
+            "repos": {r: archive_repos[r] for r in sorted(archive_repos)},
         }, fh, indent=2)
         fh.write("\n")
 
