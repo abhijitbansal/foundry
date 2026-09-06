@@ -22,9 +22,9 @@ Tech: Swift, SwiftUI, RoomPlan, SceneKit · [repo](https://github.com/abhijitban
 Privacy-first personal wealth-tracking dashboard for macOS. Pulls portfolio data locally from Wealthfront via Plaid (bring-your-own-keys), stores everything on-device, AI-augmented insights. Seed of the "own financial adviser" project.
 Tech: Swift, SwiftUI, GRDB, Plaid API, MCP server · [repo](https://github.com/abhijitbansal/folix)
 
-### purix — `active` · private
+### purix — `active` · private repo · public site
 Browser extension that strips tracking parameters from links entirely on-device, with no network calls. Blocklist-only with a hard keep-list, so it never guesses and never breaks a page; cleans links on navigation, on click, on copy, and from a context-menu item. One shared rule set across Chrome, Firefox, and Safari (macOS + iOS). Pre-launch — no store listings yet.
-Tech: TypeScript, cross-browser WebExtension · [repo](https://github.com/abhijitbansal/purix)
+Tech: TypeScript, cross-browser WebExtension · [repo](https://github.com/abhijitbansal/purix) · site: abhijitbansal.github.io/purix
 
 ## AI / agent tooling
 

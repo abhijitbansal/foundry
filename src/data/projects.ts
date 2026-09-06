@@ -50,7 +50,10 @@ export const appsProjects: Project[] = [
 		blurb:
 			'Browser extension that strips tracking parameters from links on-device, with no network calls. Blocklist-only, so it never guesses: a curated strip list plus a hard keep-list for the params pages actually need. Chrome, Firefox, and Safari on macOS and iOS.',
 		tech: 'Chrome · Firefox · Safari · TypeScript',
-		private: true,
+		siteUrl: 'https://abhijitbansal.github.io/purix/index.html',
+		siteLabel: 'purix-site ↗',
+		extraLink: { url: 'https://github.com/abhijitbansal/purix', label: 'GitHub ↗' },
+		private: false,
 	},
 	{
 		name: 'Folix',
