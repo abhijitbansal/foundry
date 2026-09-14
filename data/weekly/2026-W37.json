@@ -1,0 +1,775 @@
+{
+  "week_id": "2026-W37",
+  "week_start": "2026-09-07",
+  "week_end": "2026-09-13",
+  "generated_at": "2026-09-14T13:11:04.520143+00:00",
+  "repos": [
+    {
+      "repo": "folix",
+      "sessions": 100,
+      "lines_added": 39374,
+      "lines_removed": 9976,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5"
+    },
+    {
+      "repo": "doc-scan",
+      "sessions": 13,
+      "lines_added": 3796,
+      "lines_removed": 0,
+      "top_tool": "Bash",
+      "top_model": "claude-fable-5-1"
+    },
+    {
+      "repo": "cubby",
+      "sessions": 7,
+      "lines_added": 1678,
+      "lines_removed": 23,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5"
+    },
+    {
+      "repo": "purix",
+      "sessions": 5,
+      "lines_added": 0,
+      "lines_removed": 0,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5"
+    }
+  ],
+  "heatmap": {
+    "timezone": "EDT",
+    "weekday_labels": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ],
+    "cells": [
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 19,
+          "out_tokens": 7957
+        },
+        {
+          "count": 2,
+          "out_tokens": 169
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 784,
+          "out_tokens": 1108464
+        },
+        {
+          "count": 702,
+          "out_tokens": 542979
+        },
+        {
+          "count": 584,
+          "out_tokens": 424081
+        },
+        {
+          "count": 522,
+          "out_tokens": 442075
+        },
+        {
+          "count": 588,
+          "out_tokens": 507803
+        },
+        {
+          "count": 729,
+          "out_tokens": 483212
+        },
+        {
+          "count": 352,
+          "out_tokens": 327008
+        },
+        {
+          "count": 422,
+          "out_tokens": 378707
+        },
+        {
+          "count": 502,
+          "out_tokens": 379387
+        },
+        {
+          "count": 415,
+          "out_tokens": 411638
+        },
+        {
+          "count": 416,
+          "out_tokens": 385414
+        },
+        {
+          "count": 285,
+          "out_tokens": 239640
+        }
+      ],
+      [
+        {
+          "count": 602,
+          "out_tokens": 407973
+        },
+        {
+          "count": 697,
+          "out_tokens": 487167
+        },
+        {
+          "count": 767,
+          "out_tokens": 540460
+        },
+        {
+          "count": 519,
+          "out_tokens": 259591
+        },
+        {
+          "count": 563,
+          "out_tokens": 166675
+        },
+        {
+          "count": 457,
+          "out_tokens": 138419
+        },
+        {
+          "count": 432,
+          "out_tokens": 138357
+        },
+        {
+          "count": 408,
+          "out_tokens": 100689
+        },
+        {
+          "count": 403,
+          "out_tokens": 88589
+        },
+        {
+          "count": 356,
+          "out_tokens": 105832
+        },
+        {
+          "count": 391,
+          "out_tokens": 112358
+        },
+        {
+          "count": 364,
+          "out_tokens": 122692
+        },
+        {
+          "count": 333,
+          "out_tokens": 99288
+        },
+        {
+          "count": 306,
+          "out_tokens": 115689
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 289,
+          "out_tokens": 253375
+        },
+        {
+          "count": 638,
+          "out_tokens": 1384918
+        },
+        {
+          "count": 205,
+          "out_tokens": 559509
+        },
+        {
+          "count": 200,
+          "out_tokens": 278713
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 27,
+          "out_tokens": 19947
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ]
+    ]
+  },
+  "releases": {
+    "folix": {
+      "pr_merge_count": 1,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "doc-scan": {
+      "pr_merge_count": 0,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "cubby": {
+      "pr_merge_count": 2,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "purix": {
+      "pr_merge_count": 3,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    }
+  },
+  "highlights": {
+    "overall": "125 sessions across four repos this week, 44,848 lines added in total. Folix logged the most sessions (100) and added the most code (39,374 lines); purix's activity was all on the release side, merging 3 PRs despite 0 lines added or removed.",
+    "repos": {
+      "folix": "100 sessions added 39,374 lines (9,976 removed) via Bash on claude-sonnet-5, with 1 PR merged.",
+      "doc-scan": "13 sessions added 3,796 lines via Bash on claude-fable-5-1, with no PRs merged.",
+      "cubby": "7 sessions added 1,678 lines (23 removed) via Bash on claude-sonnet-5, with 2 PRs merged.",
+      "purix": "5 sessions via Bash on claude-opus-5 added no lines this week, but 3 PRs merged — the most of any repo."
+    }
+  }
+}
