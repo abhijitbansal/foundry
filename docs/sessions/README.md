@@ -16,4 +16,4 @@ One markdown file per AI coding session that makes commits. Rules: [AGENTS.md â†
 | 0010 | 2026-08-22 | The New Craft: /craft/ essay page â€” brainstorm, design canvas, build, critique + review waves | [0010-2026-08-22-the-new-craft-essay.md](./0010-2026-08-22-the-new-craft-essay.md) |
 | 0011 | 2026-09-04 | Weekly digest recovery: 2026-W32 wedged PR #30 (gh pr create network reset), merged main in, kept W32 json | [0011-2026-09-04-w32-digest-recovery.md](./0011-2026-09-04-w32-digest-recovery.md) |
 | 0012 | 2026-09-06 | Add Purix: project card, Apps group to five, stats allowlist + yard slot, 2x2 lead grid | [0012-2026-09-06-add-purix.md](./0012-2026-09-06-add-purix.md) |
-| 0013 | 2026-10-05 | Weekly digest: W40 PR #42 auto-merge lost to a connection reset; merge call now retries and reports truthfully | [0013-2026-10-05-weekly-merge-retry.md](./0013-2026-10-05-weekly-merge-retry.md) |
+| 0013 | 2026-10-05 | Weekly digest: W40 PR #42 auto-merge lost to a connection reset; push, PR create and merge now retry and report truthfully | [0013-2026-10-05-weekly-merge-retry.md](./0013-2026-10-05-weekly-merge-retry.md) |
