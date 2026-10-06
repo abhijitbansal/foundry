@@ -5813,50 +5813,60 @@
     },
     "2026-09-27": {
       "sessions": 32,
-      "thinking_blocks": 737,
+      "thinking_blocks": 1036,
       "web_search": 0,
       "web_fetch": 0,
-      "user_msgs": 98,
-      "assistant_msgs": 2294,
-      "lines_added": 1446,
-      "lines_removed": 61,
-      "files_written": 24,
-      "files_edited": 23,
-      "in_tokens": 17376,
-      "out_tokens": 922154,
-      "cache_read_tokens": 367391560,
-      "cache_creation_tokens": 19037513,
+      "user_msgs": 176,
+      "assistant_msgs": 3296,
+      "lines_added": 3988,
+      "lines_removed": 439,
+      "files_written": 47,
+      "files_edited": 105,
+      "in_tokens": 19464,
+      "out_tokens": 1961434,
+      "cache_read_tokens": 793776882,
+      "cache_creation_tokens": 26689291,
       "tools": {
-        "Bash": 797,
-        "Edit": 23,
-        "Workflow": 5,
-        "Skill": 3,
-        "Read": 399,
+        "Bash": 1122,
+        "Edit": 105,
+        "Workflow": 22,
+        "Skill": 8,
+        "Read": 427,
         "StructuredOutput": 27,
-        "AskUserQuestion": 1,
-        "Write": 24,
-        "ToolSearch": 6,
-        "TaskStop": 4,
+        "AskUserQuestion": 3,
+        "Write": 47,
+        "ToolSearch": 9,
+        "TaskStop": 6,
         "WebFetch": 59,
-        "WebSearch": 28
+        "WebSearch": 28,
+        "Glob": 1,
+        "SendUserFile": 1,
+        "Agent": 11,
+        "Artifact": 5,
+        "SendMessage": 4,
+        "ReadNotifications": 4
       },
       "skills": {
-        "session-log": 1,
+        "session-log": 2,
         "superpowers:brainstorming": 1,
-        "workflow-authoring": 1
+        "workflow-authoring": 2,
+        "superpowers:test-driven-development": 1,
+        "tracker": 1,
+        "ios-dev:parallel-ios-agent-fixes-single-sim": 1
       },
       "slash": {
         "/model": 3,
         "/effort": 3,
-        "/compact": 1,
+        "/compact": 2,
         "/plugin": 4,
-        "/goal": 1
+        "/goal": 2
       },
       "models": {
-        "claude-opus-5-5": 444,
+        "claude-opus-5-5": 1445,
         "claude-haiku-4-5-20251001": 2,
         "claude-sonnet-5": 1366,
-        "claude-fable-5-1": 482
+        "claude-fable-5-1": 482,
+        "<synthetic>": 1
       },
       "model_tokens": {
         "claude-opus-5-5": {
@@ -5886,6 +5896,275 @@
           "out": 91075,
           "cache_read": 52978078,
           "cache_creation": 8590525
+        }
+      },
+      "agents": {
+        "general-purpose": 9,
+        "code-reviewer": 1,
+        "swift-reviewer": 1
+      }
+    },
+    "2026-09-28": {
+      "sessions": 3,
+      "thinking_blocks": 9,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 7,
+      "assistant_msgs": 32,
+      "lines_added": 8,
+      "lines_removed": 2,
+      "files_written": 0,
+      "files_edited": 1,
+      "in_tokens": 62,
+      "out_tokens": 7044,
+      "cache_read_tokens": 1132792,
+      "cache_creation_tokens": 327828,
+      "tools": {
+        "Agent": 1,
+        "Bash": 1,
+        "ToolSearch": 1,
+        "PushNotification": 1,
+        "Read": 6,
+        "Glob": 1,
+        "Edit": 1,
+        "SubagentHandback": 1
+      },
+      "agents": {
+        "weekly-highlights": 1
+      },
+      "models": {
+        "claude-opus-5-5": 10,
+        "<synthetic>": 1,
+        "claude-sonnet-5": 21
+      },
+      "model_tokens": {
+        "claude-opus-5-5": {
+          "messages": 10,
+          "in": 20,
+          "out": 3179,
+          "cache_read": 491661,
+          "cache_creation": 169086
+        },
+        "<synthetic>": {
+          "messages": 1,
+          "in": 0,
+          "out": 0,
+          "cache_read": 0,
+          "cache_creation": 0
+        },
+        "claude-sonnet-5": {
+          "messages": 21,
+          "in": 42,
+          "out": 3865,
+          "cache_read": 641131,
+          "cache_creation": 158742
+        }
+      }
+    },
+    "2026-10-01": {
+      "sessions": 65,
+      "thinking_blocks": 1771,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 168,
+      "assistant_msgs": 4848,
+      "lines_added": 2934,
+      "lines_removed": 90,
+      "files_written": 19,
+      "files_edited": 40,
+      "in_tokens": 39026,
+      "out_tokens": 955506,
+      "cache_read_tokens": 948306437,
+      "cache_creation_tokens": 27031401,
+      "tools": {
+        "Skill": 2,
+        "Bash": 2435,
+        "Workflow": 15,
+        "AskUserQuestion": 3,
+        "Write": 19,
+        "ScheduleWakeup": 27,
+        "Edit": 40,
+        "ToolSearch": 3,
+        "SendUserFile": 1,
+        "TaskStop": 1,
+        "Read": 80,
+        "StructuredOutput": 66,
+        "Monitor": 6,
+        "SubagentHandback": 2,
+        "mcp__ios-simulator__screenshot": 2,
+        "mcp__ios-simulator__ui_describe_all": 2,
+        "mcp__ios-simulator__ui_tap": 29,
+        "mcp__ios-simulator__ui_type": 1,
+        "mcp__ios-simulator__ui_swipe": 5,
+        "mcp__ios-simulator__ui_find_element": 2
+      },
+      "skills": {
+        "superpowers:brainstorming": 1,
+        "superpowers:writing-plans": 1
+      },
+      "slash": {
+        "/advisor": 1,
+        "/effort": 1,
+        "/goal": 1
+      },
+      "mcp": {
+        "mcp__ios-simulator__screenshot": 2,
+        "mcp__ios-simulator__ui_describe_all": 2,
+        "mcp__ios-simulator__ui_tap": 29,
+        "mcp__ios-simulator__ui_type": 1,
+        "mcp__ios-simulator__ui_swipe": 5,
+        "mcp__ios-simulator__ui_find_element": 2
+      },
+      "models": {
+        "claude-opus-5-5": 1442,
+        "<synthetic>": 2,
+        "claude-fable-5-1": 991,
+        "claude-sonnet-5-5": 2300,
+        "claude-sonnet-5": 113
+      },
+      "model_tokens": {
+        "claude-opus-5-5": {
+          "messages": 1562,
+          "in": 3176,
+          "out": 944029,
+          "cache_read": 360155826,
+          "cache_creation": 7273784
+        },
+        "<synthetic>": {
+          "messages": 2,
+          "in": 0,
+          "out": 0,
+          "cache_read": 0,
+          "cache_creation": 0
+        },
+        "claude-fable-5-1": {
+          "messages": 991,
+          "in": 31262,
+          "out": 237251,
+          "cache_read": 298830378,
+          "cache_creation": 10179986
+        },
+        "claude-sonnet-5-5": {
+          "messages": 2297,
+          "in": 4596,
+          "out": 150883,
+          "cache_read": 325958621,
+          "cache_creation": 8077156
+        },
+        "claude-sonnet-5": {
+          "messages": 113,
+          "in": 228,
+          "out": 38884,
+          "cache_read": 5899383,
+          "cache_creation": 559824
+        }
+      }
+    },
+    "2026-10-02": {
+      "sessions": 261,
+      "thinking_blocks": 7979,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 440,
+      "assistant_msgs": 22299,
+      "lines_added": 20306,
+      "lines_removed": 1437,
+      "files_written": 203,
+      "files_edited": 267,
+      "in_tokens": 133958,
+      "out_tokens": 3320565,
+      "cache_read_tokens": 5015695002,
+      "cache_creation_tokens": 181411225,
+      "tools": {
+        "Read": 1653,
+        "Bash": 10324,
+        "StructuredOutput": 175,
+        "Monitor": 53,
+        "bash": 5,
+        "ToolSearch": 13,
+        "Edit": 267,
+        "TaskStop": 6,
+        "Write": 203,
+        "SendMessage": 10,
+        "ReportFindings": 1,
+        "Skill": 6,
+        "Workflow": 2,
+        "Agent": 76,
+        "SendUserFile": 1,
+        "AskUserQuestion": 1,
+        "SubagentHandback": 51,
+        "WebFetch": 2,
+        "mcp__ios-simulator__ui_swipe": 5,
+        "mcp__ios-simulator__screenshot": 13,
+        "mcp__ios-simulator__ui_tap": 51,
+        "mcp__ios-simulator__ui_describe_all": 7,
+        "mcp__ios-simulator__ui_type": 3,
+        "mcp__ios-simulator__ui_find_element": 5,
+        "Grep": 3
+      },
+      "agents": {
+        "general-purpose": 45,
+        "(unnamed dispatch)": 30,
+        "swift-reviewer": 1
+      },
+      "skills": {
+        "ios-dev:parallel-ios-agent-fixes-single-sim": 1,
+        "workflow-authoring": 1,
+        "session-log": 1,
+        "ios-dev:release": 1,
+        "superpowers:writing-plans": 1,
+        "ios-dev:swiftdata-rollback-attribute-restore": 1
+      },
+      "mcp": {
+        "mcp__ios-simulator__ui_swipe": 5,
+        "mcp__ios-simulator__screenshot": 13,
+        "mcp__ios-simulator__ui_tap": 51,
+        "mcp__ios-simulator__ui_describe_all": 7,
+        "mcp__ios-simulator__ui_type": 3,
+        "mcp__ios-simulator__ui_find_element": 5
+      },
+      "models": {
+        "claude-haiku-4-5-20251001": 2,
+        "claude-sonnet-5-5": 10664,
+        "claude-opus-5-5": 8328,
+        "claude-fable-5-1": 3299,
+        "<synthetic>": 6
+      },
+      "model_tokens": {
+        "claude-opus-5-5": {
+          "messages": 9209,
+          "in": 18664,
+          "out": 2149287,
+          "cache_read": 2404295885,
+          "cache_creation": 54959162
+        },
+        "<synthetic>": {
+          "messages": 7,
+          "in": 0,
+          "out": 0,
+          "cache_read": 0,
+          "cache_creation": 0
+        },
+        "claude-haiku-4-5-20251001": {
+          "messages": 2,
+          "in": 20,
+          "out": 2718,
+          "cache_read": 0,
+          "cache_creation": 113812
+        },
+        "claude-sonnet-5-5": {
+          "messages": 10667,
+          "in": 21344,
+          "out": 806879,
+          "cache_read": 2290518925,
+          "cache_creation": 73438069
+        },
+        "claude-fable-5-1": {
+          "messages": 3299,
+          "in": 95782,
+          "out": 985420,
+          "cache_read": 704727743,
+          "cache_creation": 61492611
         }
       }
     }
@@ -6113,7 +6392,7 @@
         "WebFetch": 390,
         "ListAgents": 28,
         "ToolSearch": 74,
-        "TaskStop": 8,
+        "TaskStop": 9,
         "TaskOutput": 29,
         "Monitor": 15,
         "ScheduleWakeup": 10,
@@ -6121,21 +6400,24 @@
         "mcp__ios-simulator__get_booted_sim_id": 1,
         "mcp__ios-simulator__install_app": 1,
         "mcp__ios-simulator__launch_app": 3,
-        "mcp__ios-simulator__screenshot": 33,
-        "mcp__ios-simulator__ui_tap": 45,
-        "mcp__ios-simulator__ui_find_element": 23,
-        "Workflow": 9,
+        "mcp__ios-simulator__screenshot": 48,
+        "mcp__ios-simulator__ui_tap": 125,
+        "mcp__ios-simulator__ui_find_element": 30,
+        "Workflow": 23,
         "AskUserQuestion": 8,
-        "Skill": 25,
-        "Artifact": 14,
+        "Skill": 27,
+        "Artifact": 18,
         "SendUserFile": 2,
         "SendFeedback": 1,
         "ExitPlanMode": 1,
-        "mcp__ios-simulator__ui_describe_all": 1,
-        "mcp__ios-simulator__ui_swipe": 3,
-        "mcp__ios-simulator__ui_type": 2,
+        "mcp__ios-simulator__ui_describe_all": 10,
+        "mcp__ios-simulator__ui_swipe": 13,
+        "mcp__ios-simulator__ui_type": 6,
         "PushNotification": 3,
-        "WebSearch": 9
+        "WebSearch": 9,
+        "ReadNotifications": 4,
+        "SubagentHandback": 52,
+        "bash": 2
       },
       "agents": {
         "general-purpose": 521,
@@ -6144,9 +6426,10 @@
         "codebase-explorer": 43,
         "Explore": 19,
         "fork": 2,
-        "code-reviewer": 2,
+        "code-reviewer": 3,
         "core-workflow:web-researcher": 9,
-        "caveman:cavecrew-reviewer": 1
+        "caveman:cavecrew-reviewer": 1,
+        "swift-reviewer": 2
       },
       "skills": {
         "superpowers:writing-plans": 24,
@@ -6155,7 +6438,7 @@
         "ios-dev:release": 11,
         "superpowers:finishing-a-development-branch": 11,
         "ios-dev:siri-app-intents-ios26-reliability": 2,
-        "workflow-authoring": 3,
+        "workflow-authoring": 4,
         "session-end": 5,
         "tracker": 2,
         "superpowers:systematic-debugging": 3,
@@ -6169,7 +6452,9 @@
         "claude-md-management:claude-md-improver": 1,
         "claude-md-management:revise-claude-md": 1,
         "claude-api": 1,
-        "core-workflow:dev-tracker-portable": 1
+        "core-workflow:dev-tracker-portable": 1,
+        "ios-dev:parallel-ios-agent-fixes-single-sim": 1,
+        "ios-dev:swiftdata-rollback-attribute-restore": 1
       },
       "models": {
         "claude-sonnet-5": 60391,
@@ -6178,44 +6463,45 @@
         "claude-opus-5": 4930,
         "claude-opus-4-7": 4420,
         "claude-haiku-4-5-20251001": 2799,
-        "claude-fable-5-1": 2795,
+        "claude-fable-5-1": 5281,
         "claude-sonnet-4-6": 237,
         "<synthetic>": 100,
-        "claude-opus-5-5": 103
+        "claude-opus-5-5": 6869,
+        "claude-sonnet-5-5": 3983
       },
       "first_ts": "2026-06-28T19:27:09.544Z",
-      "last_ts": "2026-09-27T04:43:04.648Z",
+      "last_ts": "2026-10-02T21:54:04.178Z",
       "prompts": {
-        "count": 669,
-        "avg": 4211.4,
-        "median": 966,
-        "p90": 7403,
+        "count": 948,
+        "avg": 4341.0,
+        "median": 781,
+        "p90": 10423,
         "max": 165593,
-        "avg_tokens": 1052.8,
+        "avg_tokens": 1085.2,
         "hist": [
           [
             "<50",
-            25
+            24
           ],
           [
             "50-150",
-            73
+            202
           ],
           [
             "150-400",
-            45
+            97
           ],
           [
             "400-1k",
-            210
+            205
           ],
           [
             "1k-3k",
-            122
+            101
           ],
           [
             "3k+",
-            194
+            319
           ]
         ]
       }
@@ -6310,17 +6596,21 @@
         "TaskUpdate": 35,
         "TodoWrite": 46,
         "ToolSearch": 21,
-        "Skill": 7,
-        "Workflow": 2,
+        "Skill": 13,
+        "Workflow": 7,
         "AskUserQuestion": 5,
-        "Agent": 13,
+        "Agent": 40,
         "ListAgents": 7,
         "mcp__claude_ai_Gmail__search_threads": 1,
         "mcp__claude_ai_Gmail__get_thread": 2,
         "TaskOutput": 13,
-        "SendUserFile": 2,
-        "TaskStop": 11,
-        "Monitor": 2
+        "SendUserFile": 4,
+        "TaskStop": 12,
+        "Monitor": 6,
+        "Glob": 1,
+        "bash": 1,
+        "ReportFindings": 1,
+        "SubagentHandback": 1
       },
       "agents": {
         "general-purpose": 56,
@@ -6330,7 +6620,8 @@
         "web-researcher": 3,
         "Explore": 3,
         "ecc:security-reviewer": 1,
-        "ecc:architect": 1
+        "ecc:architect": 1,
+        "(unnamed dispatch)": 30
       },
       "skills": {
         "superpowers:writing-plans": 8,
@@ -6344,7 +6635,9 @@
         "release": 1,
         "app-preview": 1,
         "superpowers:systematic-debugging": 1,
-        "preview": 1
+        "preview": 1,
+        "superpowers:test-driven-development": 1,
+        "workflow-authoring": 1
       },
       "models": {
         "claude-sonnet-5": 8136,
@@ -6356,41 +6649,42 @@
         "claude-haiku-4-5-20251001": 238,
         "<synthetic>": 34,
         "claude-fable-5-1": 867,
-        "claude-opus-5-5": 341
+        "claude-opus-5-5": 1261,
+        "claude-sonnet-5-5": 1394
       },
       "first_ts": "2026-06-02T02:58:03.543Z",
-      "last_ts": "2026-09-27T05:30:46.336Z",
+      "last_ts": "2026-10-02T17:31:21.616Z",
       "prompts": {
-        "count": 137,
-        "avg": 4436.5,
-        "median": 564,
-        "p90": 5454,
-        "max": 165025,
-        "avg_tokens": 1109.1,
+        "count": 188,
+        "avg": 3331.4,
+        "median": 627,
+        "p90": 8431,
+        "max": 106212,
+        "avg_tokens": 832.8,
         "hist": [
           [
             "<50",
-            26
-          ],
-          [
-            "50-150",
-            17
-          ],
-          [
-            "150-400",
-            14
-          ],
-          [
-            "400-1k",
-            37
-          ],
-          [
-            "1k-3k",
             19
           ],
           [
+            "50-150",
+            31
+          ],
+          [
+            "150-400",
+            26
+          ],
+          [
+            "400-1k",
+            29
+          ],
+          [
+            "1k-3k",
+            37
+          ],
+          [
             "3k+",
-            24
+            46
           ]
         ]
       }
