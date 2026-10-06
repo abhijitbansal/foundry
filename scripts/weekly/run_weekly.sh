@@ -130,6 +130,60 @@ npm ci
 npm run build
 npm test
 
+# Network steps of the digest publish (push, PR create, auto-merge queue)
+# retry transient failures instead of trusting one call. Two real runs were
+# lost to a single "connection reset by peer": 2026-W32's `gh pr create`
+# (PR #30 existed server-side, `set -e` killed the run, never merged) and
+# 2026-W40's `gh pr merge --auto` (PR #42 left open while the run reported
+# "auto-merge queued"). A reset can drop the response AFTER the request
+# landed, so the GitHub steps re-check state before each attempt and once
+# after the last instead of blindly re-sending. A step that still fails no
+# longer aborts the run: it sets DIGEST_STATUS and falls through, so Stage 2
+# and the Stage 3 notification still happen and say what went wrong.
+RETRY_ATTEMPTS=3
+RETRY_BASE_SECONDS=30
+
+# retry <label> <command...> — up to RETRY_ATTEMPTS tries with linear
+# backoff. Logs go to stderr so callers can capture the command's stdout.
+retry() {
+	local label="$1" attempt
+	shift
+	for (( attempt = 1; attempt <= RETRY_ATTEMPTS; attempt++ )); do
+		if "$@"; then
+			return 0
+		fi
+		echo "$LOG_PREFIX ${label} attempt ${attempt}/${RETRY_ATTEMPTS} failed" >&2
+		if (( attempt < RETRY_ATTEMPTS )); then
+			sleep $(( attempt * RETRY_BASE_SECONDS ))
+		fi
+	done
+	return 1
+}
+
+# Prints the URL of the open PR for branch $1; fails if there is none.
+# --state open: a same-week rerun must not pick up an older closed PR.
+find_open_pr() {
+	local url
+	url=$(gh pr list --head "$1" --state open --json url --jq '.[0].url // empty') || return 1
+	[[ -n "$url" ]] || return 1
+	echo "$url"
+}
+open_or_find_pr() {
+	find_open_pr "$BRANCH" \
+		|| gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Auto-merges once the required \`build-and-test\` check passes (branch protection on main gates this — not a bare bypass)."
+}
+
+# Takes the PR URL, not the branch name — same closed-PR reason as above.
+merge_landed() {
+	local landed
+	landed=$(gh pr view "$1" --json state,autoMergeRequest \
+		--jq 'if .state == "MERGED" or .autoMergeRequest != null then "yes" else "no" end' || true)
+	[[ "$landed" == "yes" ]]
+}
+queue_or_find_merge() {
+	merge_landed "$1" || gh pr merge "$1" --auto --merge
+}
+
 DIGEST_STATUS="no changes"
 git add data/stats.json data/stats-archive.json data/weekly/
 if ! git diff --cached --quiet; then
@@ -144,16 +198,19 @@ if ! git diff --cached --quiet; then
 		# die on "branch already exists" in this persistent clone.
 		git checkout -B "$BRANCH"
 		git commit -m "chore(weekly): digest for ${WEEK_ID}"
-		git push -u origin "$BRANCH"
-
-		PR_URL=$(gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Auto-merges once the required \`build-and-test\` check passes (branch protection on main gates this — not a bare bypass).")
-		gh pr merge "$BRANCH" --auto --merge \
-			|| echo "$LOG_PREFIX gh pr merge --auto failed to queue — PR is still open, needs a manual merge"
+		if ! retry "git push" git push -u origin "$BRANCH"; then
+			DIGEST_STATUS="FAILED — ${BRANCH} not pushed after ${RETRY_ATTEMPTS} attempts, no PR opened. If origin already has ${BRANCH} from an earlier run, a rerun hits the same non-fast-forward rejection until that branch is deleted"
+		elif ! PR_URL=$(retry "gh pr create" open_or_find_pr || find_open_pr "$BRANCH"); then
+			DIGEST_STATUS="FAILED — ${BRANCH} pushed but no PR opened after ${RETRY_ATTEMPTS} attempts; open it by hand"
+		elif retry "gh pr merge --auto" queue_or_find_merge "$PR_URL" || merge_landed "$PR_URL"; then
+			DIGEST_STATUS="PR opened (auto-merge queued): ${PR_URL}"
+		else
+			DIGEST_STATUS="PR opened but auto-merge NOT queued — needs a manual merge: ${PR_URL}"
+		fi
+		echo "$LOG_PREFIX ${WEEK_ID}: ${DIGEST_STATUS}"
 
 		git checkout main
 		git branch -D "$BRANCH"
-		DIGEST_STATUS="PR opened (auto-merge queued): ${PR_URL}"
-		echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, auto-merge queued pending build-and-test"
 	fi
 else
 	echo "$LOG_PREFIX no changes to commit for ${WEEK_ID}"
@@ -237,3 +294,10 @@ osascript -e "display notification \"${DIGEST_STATUS} · abhijitbansal: ${AB_STA
 
 rm -f "$STATS_SNAPSHOT"
 echo "$LOG_PREFIX done — digest: ${DIGEST_STATUS} — abhijitbansal: ${AB_STATUS}"
+
+# A failed publish no longer aborts mid-run (so Stage 2 and the notifications
+# above still happen), but launchd's last exit status must still say it
+# failed — both notification channels are best-effort.
+if [[ "$DIGEST_STATUS" == FAILED* || "$DIGEST_STATUS" == *"NOT queued"* ]]; then
+	exit 1
+fi
