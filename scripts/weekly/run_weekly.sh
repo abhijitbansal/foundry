@@ -130,6 +130,37 @@ npm ci
 npm run build
 npm test
 
+# Queue auto-merge, retrying transient GitHub API failures — 2026-W40's
+# single call died on "connection reset by peer" and left PR #42 open while
+# the run still reported "auto-merge queued". Each attempt first asks GitHub
+# whether an earlier attempt already landed (a reset can drop the response
+# after the request succeeded), so a retry never trips over a PR that is
+# already queued or already merged — and one last check after the final
+# attempt keeps a lost response there from being reported as a failure.
+# Takes the PR URL, not the branch name: a branch lookup can resolve to an
+# older closed PR from a same-week rerun.
+MERGE_ATTEMPTS=3
+MERGE_RETRY_BASE_SECONDS=30
+merge_landed() {
+	local landed
+	landed=$(gh pr view "$1" --json state,autoMergeRequest \
+		--jq 'if .state == "MERGED" or .autoMergeRequest != null then "yes" else "no" end' || true)
+	[[ "$landed" == "yes" ]]
+}
+queue_auto_merge() {
+	local pr="$1" attempt
+	for (( attempt = 1; attempt <= MERGE_ATTEMPTS; attempt++ )); do
+		if merge_landed "$pr" || gh pr merge "$pr" --auto --merge; then
+			return 0
+		fi
+		echo "$LOG_PREFIX gh pr merge --auto attempt ${attempt}/${MERGE_ATTEMPTS} failed"
+		if (( attempt < MERGE_ATTEMPTS )); then
+			sleep $(( attempt * MERGE_RETRY_BASE_SECONDS ))
+		fi
+	done
+	merge_landed "$pr"
+}
+
 DIGEST_STATUS="no changes"
 git add data/stats.json data/stats-archive.json data/weekly/
 if ! git diff --cached --quiet; then
@@ -147,13 +178,16 @@ if ! git diff --cached --quiet; then
 		git push -u origin "$BRANCH"
 
 		PR_URL=$(gh pr create --title "Weekly digest: ${WEEK_ID}" --base main --head "$BRANCH" --body "Automated weekly stats refresh, generated $(date -u +%Y-%m-%d) by run_weekly.sh. Auto-merges once the required \`build-and-test\` check passes (branch protection on main gates this — not a bare bypass).")
-		gh pr merge "$BRANCH" --auto --merge \
-			|| echo "$LOG_PREFIX gh pr merge --auto failed to queue — PR is still open, needs a manual merge"
+		if queue_auto_merge "$PR_URL"; then
+			DIGEST_STATUS="PR opened (auto-merge queued): ${PR_URL}"
+			echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, auto-merge queued pending build-and-test"
+		else
+			DIGEST_STATUS="PR opened but auto-merge NOT queued — needs a manual merge: ${PR_URL}"
+			echo "$LOG_PREFIX gh pr merge --auto failed after ${MERGE_ATTEMPTS} attempts — PR is still open, needs a manual merge"
+		fi
 
 		git checkout main
 		git branch -D "$BRANCH"
-		DIGEST_STATUS="PR opened (auto-merge queued): ${PR_URL}"
-		echo "$LOG_PREFIX done — PR opened for ${WEEK_ID}, auto-merge queued pending build-and-test"
 	fi
 else
 	echo "$LOG_PREFIX no changes to commit for ${WEEK_ID}"
