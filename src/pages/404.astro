@@ -21,10 +21,10 @@ const forge = buildColdForge();
 <BaseLayout title="Page not found — Abhijit Bansal — Foundry">
 	<SkipLink href="#not-found" label="Skip to the message" />
 	<Nav />
-	<main id="not-found" class="brand-skills" style="min-height:calc(100dvh - 58px);box-sizing:border-box">
+	<main id="not-found" class="brand-skills" style="min-height:calc(100vh - 58px);min-height:calc(100dvh - 58px);box-sizing:border-box">
 		<div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
 			<div class="fy-404-forge" style="width:240px;max-width:100%;margin:32px 0 0" aria-hidden="true" set:html={forge.svg} />
-			<SheetHead code="A-01" title="No sheet at this address." lead="The drawing you asked for isn't in the set.">
+			<SheetHead code="A-01" title="No sheet at this address." kicker="Sheet missing — not in the set" lead="The drawing you asked for isn't in the set.">
 				<a slot="actions" class="ds-btn" href={import.meta.env.BASE_URL}>Back to the yard</a>
 			</SheetHead>
 		</div>

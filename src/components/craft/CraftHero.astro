@@ -1,14 +1,14 @@
 ---
-// CraftHero.astro — id craft-top. Kicker/h1/lead/CTAs, mirroring
-// HarnessHero's rhythm (SheetHead, container)
-// but deliberately quieter: no score card, no hero figure. Copy verbatim
-// from the approved canvas (.scratch/craft-canvas/Main.dc.html).
+// CraftHero.astro — id craft-top. SheetHead (C-02) with the act-jump links
+// in its actions slot and the "Field notes by" card in its aside; quieter than
+// HarnessHero (no score card, no hero figure). Lead copy verbatim from the
+// approved canvas (.scratch/craft-canvas/Main.dc.html).
 import SheetHead from '../SheetHead.astro';
 const base = import.meta.env.BASE_URL;
 ---
 
-<section id="craft-top" data-screen-label="Hero — the job after code" style="position:relative;padding:0 0 clamp(56px,8vw,96px);scroll-margin-top:64px;overflow:hidden">
-	<div style="position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px);box-sizing:border-box">
+<section id="craft-top" data-screen-label="Hero — the job after code" style="padding:0 0 clamp(56px,8vw,96px);scroll-margin-top:64px">
+	<div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px);box-sizing:border-box">
 		<SheetHead code="C-02" title="Code is the smallest part now." lead="The engineers who thrive next won’t be the fastest typists with the best autocomplete. They’ll be the ones who can run a team — theirs just happens to be made of agents. What firms have always looked for in people leaders is now an engineering skill.">
 			<Fragment slot="actions">
 				<a class="ds-btn-quiet" href="#craft-direct">I · Direct ↓</a>

@@ -9,17 +9,17 @@ interface Props {
 	title: string;
 	lead?: string;
 	headingLevel?: 1 | 2;
-	id?: string;
+	kicker?: string;
 }
 
-const { code, title, lead, headingLevel = 1, id } = Astro.props;
+const { code, title, lead, headingLevel = 1, kicker } = Astro.props;
 const s = sheet(code);
 const Heading = headingLevel === 1 ? 'h1' : 'h2';
 ---
 
-<div class="fy-sheet-head" id={id}>
+<div class="fy-sheet-head">
 	<div class="fy-sheet-head__main">
-		<p class="ds-kicker" style="margin:0">Sheet {s.code} — {s.label.toLowerCase()}</p>
+		<p class="ds-kicker" style="margin:0">{kicker ?? `Sheet ${s.code} — ${s.label.toLowerCase()}`}</p>
 		<Heading class={headingLevel === 1 ? 'ds-display-xl' : 'ds-display-lg'} style="margin:0;text-wrap:balance;max-width:15em">{title}</Heading>
 		{lead && <p class="ds-lead" style="margin:0;max-width:34em;text-wrap:pretty">{lead}</p>}
 		{Astro.slots.has('actions') && <div class="fy-sheet-head__actions"><slot name="actions" /></div>}
