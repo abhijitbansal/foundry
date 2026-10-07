@@ -43,10 +43,33 @@ describe.each(['day', 'night'] as const)('drawing-set %s palette', (name) => {
 
 	it('interaction is ink: accent equals text, and on-accent reads on it', () => {
 		expect(p['--ds-accent']).toBe(p['--ds-text']);
+		expect(p['--ds-accent-hover']).toBe(p['--ds-text']);
 		expect(contrast(p['--ds-on-accent'], p['--ds-accent'])).toBeGreaterThanOrEqual(4.5);
 	});
 
 	it('redline is the one hue: ember equals secondary', () => {
 		expect(p['--fy-ember']).toBe(p['--ds-secondary']);
+	});
+});
+
+describe('no-JS dark mirror', () => {
+	const start = css.indexOf('@media (prefers-color-scheme: dark)');
+	const block = css.slice(start, css.indexOf('\n}\n', start));
+
+	it('declares the same hex values as the night palette', () => {
+		expect(start).toBeGreaterThan(-1);
+		const night = palette('night');
+		const mirrored = [...block.matchAll(/(--[a-z0-9-]+):\s*(#[0-9A-Fa-f]{6})\s*;/g)];
+		expect(mirrored.length).toBeGreaterThan(0);
+		for (const m of mirrored) expect(m[2].toUpperCase(), m[1]).toBe(night[m[1]]);
+	});
+
+	it('restates ember-soft and amber-ink so the day values do not leak', () => {
+		expect(block).toContain('--fy-ember-soft: rgba(240, 100, 63, 0.14);');
+		expect(block).toContain('--ds-amber-ink: var(--ds-secondary);');
+	});
+
+	it('also targets the .brand-* wrappers, which brands.css sets directly', () => {
+		for (const b of ['skills', 'paperix', 'floorprint', 'cartoon']) expect(block).toContain(`:root:not([data-theme]) .brand-${b}`);
 	});
 });

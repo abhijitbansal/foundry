@@ -35,7 +35,11 @@ html:root[data-theme="light"] body.ds-root,
 html:root[data-theme="light"] .brand-skills,
 html:root[data-theme="light"] .brand-paperix,
 html:root[data-theme="light"] .brand-floorprint,
-html:root[data-theme="light"] .brand-cartoon {
+html:root[data-theme="light"] .brand-cartoon,
+:root:not([data-theme]) .brand-skills,
+:root:not([data-theme]) .brand-paperix,
+:root:not([data-theme]) .brand-floorprint,
+:root:not([data-theme]) .brand-cartoon {
   /* @palette day */
   --ds-bg: #EDECE6;
   --ds-surface: #F4F3EE;
@@ -54,6 +58,7 @@ html:root[data-theme="light"] .brand-cartoon {
   /* @end */
   --ds-accent-soft: rgba(23, 25, 26, 0.08);
   --ds-tertiary: var(--ds-text-3);
+  --ds-amber-ink: var(--ds-secondary);
   --fy-ember-soft: rgba(181, 52, 26, 0.10);
   --ds-shadow-card: none;
   --ds-shadow-pop: none;
@@ -85,6 +90,7 @@ html:root[data-theme="dark"] .brand-cartoon {
   /* @end */
   --ds-accent-soft: rgba(232, 231, 224, 0.10);
   --ds-tertiary: var(--ds-text-3);
+  --ds-amber-ink: var(--ds-secondary);
   --fy-ember-soft: rgba(240, 100, 63, 0.14);
   --ds-shadow-card: none;
   --ds-shadow-pop: none;
@@ -93,7 +99,11 @@ html:root[data-theme="dark"] .brand-cartoon {
 
 /* no-JS + OS dark: mirror the night sheet onto the bare :root fallback */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]) {
+  :root:not([data-theme]),
+  :root:not([data-theme]) .brand-skills,
+  :root:not([data-theme]) .brand-paperix,
+  :root:not([data-theme]) .brand-floorprint,
+  :root:not([data-theme]) .brand-cartoon {
     --ds-bg: #121415;
     --ds-surface: #161819;
     --ds-surface-2: #1C1F20;
@@ -109,6 +119,9 @@ html:root[data-theme="dark"] .brand-cartoon {
     --ds-on-accent: #121415;
     --ds-secondary: #F0643F;
     --fy-ember: #F0643F;
+    --fy-ember-soft: rgba(240, 100, 63, 0.14);
+    --ds-tertiary: var(--ds-text-3);
+    --ds-amber-ink: var(--ds-secondary);
     color-scheme: dark;
   }
 }
