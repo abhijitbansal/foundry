@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Drawing Set home page</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EDECE6}
+a{color:#17191A;text-decoration-thickness:1px;text-underline-offset:3px}a:hover{color:#17191A;text-decoration-thickness:2.5px}
+.yard-a{--ds-surface:#EDECE6;--ds-surface-2:#E3E2DA;--ds-text:#17191A;--ds-text-2:#3F4446;--ds-text-3:#5F6466;--ds-text-faint:#9A9D9B;--ds-line:#CFCEC5;--ds-line-strong:#8E908C;--ds-accent:#17191A;--ds-accent-soft:#D9D8CF;--ds-secondary:#C23B1E;--fy-ember:#C23B1E;--ds-font-mono:'IBM Plex Mono',monospace;--ds-font-display:'Archivo',sans-serif;--ds-ease-standard:cubic-bezier(.2,0,0,1);--fyw-window-lit:#C23B1E;--fyw-clerestory:color-mix(in srgb,#C23B1E 55%,#E3E2DA);--fyw-hot-fill:#C23B1E;--fyw-annex-glass:color-mix(in srgb,#C23B1E 28%,#E3E2DA);--fyw-halo-op:0;--fyw-hot-glow-op:0;--fyw-furnace-glow-op:.22;--fyw-furnace-glow-r:10px}
+@keyframes fywPuff{0%{transform:translate(0,0) scale(.55);opacity:0}12%{opacity:.55}70%{opacity:.3}100%{transform:translate(-13px,-34px) scale(1.65);opacity:0}}
+@keyframes fywFlick{0%,100%{opacity:var(--fyw-furnace-glow-op,.18)}50%{opacity:calc(var(--fyw-furnace-glow-op,.18) + .12)}}
+.fyw-flick{animation:fywFlick 4.2s ease infinite}
+.fyw-building{transition:opacity .25s cubic-bezier(.2,0,0,1)}
+.fyw-buildings:hover .fyw-building{opacity:.38}
+.fyw-buildings .fyw-building:hover{opacity:1}
+.fyw-building:hover .fyw-np-circle{fill:var(--ds-accent-soft);stroke:var(--ds-accent)}
+.fyw-building:hover .fyw-np-text{fill:var(--ds-accent)}
+@media (prefers-reduced-motion:reduce){.fyw-puff,.fyw-flick{animation:none!important}}
+</style>
+</helmet>
+<div style="background: #EDECE6; color: #17191A; font-family: 'Archivo', sans-serif; font-size: 17px; line-height: 1.5">
+
+  <header style="border-bottom: 2px solid #17191A">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 14px clamp(16px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 12px 32px; align-items: center; justify-content: space-between">
+      <a href="#top" style="font-weight: 800; font-stretch: 125%; font-size: 17px; letter-spacing: 0.02em; text-decoration: none">ABHIJIT BANSAL</a>
+      <nav aria-label="Sheets" style="display: flex; flex-wrap: wrap; gap: 6px 22px; font-family: 'IBM Plex Mono', monospace; font-size: 13.5px">
+        <a href="#schedule" style="text-decoration: none"><span style="color: #5F6466">A2</span> Works</a>
+        <a href="https://abhijitbansal.com/updates/" style="text-decoration: none"><span style="color: #5F6466">A3</span> Revisions</a>
+        <a href="#meters" style="text-decoration: none"><span style="color: #5F6466">B1</span> Telemetry</a>
+        <a href="https://abhijitbansal.com/harness/" style="text-decoration: none"><span style="color: #5F6466">C1</span> Harness</a>
+        <a href="https://abhijitbansal.com/craft/" style="text-decoration: none"><span style="color: #5F6466">C2</span> Craft</a>
+      </nav>
+      <div style="display: flex; gap: 18px; align-items: center; font-family: 'IBM Plex Mono', monospace; font-size: 13px">
+        <span style="color: #5F6466">Rev W40 · 06.10.2026</span>
+        <button type="button" style="font: inherit; color: #17191A; background: transparent; border: 1px solid #17191A; padding: 8px 12px; min-height: 36px; cursor: pointer">Night sheet</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top" style="max-width: 1360px; margin: 0 auto; padding: 40px clamp(16px, 3vw, 40px) 0">
+
+    <section aria-labelledby="hero-h" style="border: 2px solid #17191A">
+      <div aria-hidden="true" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5F6466; border-bottom: 1px solid #8E908C">
+        <div style="padding: 3px 8px; border-right: 1px solid #CFCEC5">A</div>
+        <div style="padding: 3px 8px; border-right: 1px solid #CFCEC5">B</div>
+        <div style="padding: 3px 8px; border-right: 1px solid #CFCEC5">C</div>
+        <div style="padding: 3px 8px; border-right: 1px solid #CFCEC5">D</div>
+        <div style="padding: 3px 8px; border-right: 1px solid #CFCEC5">E</div>
+        <div style="padding: 3px 8px">F</div>
+      </div>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 40px 56px; padding: clamp(24px, 4vw, 56px)">
+        <div style="flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 22px">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; color: #5F6466">Sheet A-01 — the yard</div>
+          <h1 id="hero-h" style="margin: 0; font-size: clamp(40px, 5.2vw, 74px); line-height: 1.0; font-weight: 750; font-stretch: 118%; letter-spacing: -0.018em; text-wrap: balance; max-width: 15em">I build privacy-first apps, and the agent tooling I build them with.</h1>
+          <p style="margin: 0; max-width: 34em; font-size: 19px; line-height: 1.5; color: #3F4446; text-wrap: pretty">Designed, engineered and shipped solo. Apps on the App Store, tools in the open, and the infrastructure underneath. Every building below is one of the repos, drawn from its own history.</p>
+          <div style="display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: 6px">
+            <a href="#schedule" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; background: #17191A; color: #EDECE6; text-decoration: none; font-weight: 600; font-size: 16px">See the schedule ↓</a>
+            <a href="https://github.com/abhijitbansal" style="font-size: 16px; font-weight: 500">GitHub</a>
+            <a href="mailto:contact@abhijitbansal.com" style="font-size: 16px; font-weight: 500">contact@abhijitbansal.com</a>
+          </div>
+        </div>
+
+        <aside aria-labelledby="rev-h" style="flex: 1 1 340px; min-width: 0; align-self: end">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1.5px solid #17191A; padding-bottom: 6px">
+            <h2 id="rev-h" style="margin: 0; font-size: 15px; font-weight: 700; font-stretch: 112%">Revisions</h2>
+            <a href="https://abhijitbansal.com/updates/" style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px">All weeks →</a>
+          </div>
+          <div role="list" style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; font-variant-numeric: tabular-nums">
+            <div aria-hidden="true" style="display: grid; grid-template-columns: 60px minmax(0, 1fr) 64px 48px 72px; gap: 8px; padding: 7px 0; color: #5F6466"><span>Rev</span><span>Week</span><span style="text-align: right">Lines</span><span style="text-align: right">Sess.</span><span>Lead</span></div>
+            <sc-for list="{{revisions}}" as="r" hint-placeholder-count="4">
+              <div role="listitem" aria-label="{{r.label}}" style="display: grid; grid-template-columns: 60px minmax(0, 1fr) 64px 48px 72px; gap: 8px; padding: 7px 0; border-top: 1px solid #CFCEC5">
+                <span style="display: inline-flex; align-items: center; gap: 6px; color: {{r.mark}}"><svg aria-hidden="true" width="13" height="12" viewBox="0 0 13 12"><path d="M6.5 1 L12 11 H1 Z" fill="none" stroke="currentColor" stroke-width="1.4"></path></svg>{{r.rev}}</span>
+                <span>{{r.week}}</span>
+                <span style="text-align: right">{{r.lines}}</span>
+                <span style="text-align: right">{{r.sessions}}</span>
+                <span>{{r.lead}}</span>
+              </div>
+            </sc-for>
+          </div>
+        </aside>
+      </div>
+
+      <figure class="yard-a" style="margin: 0; border-top: 1px solid #8E908C; background: #EDECE6; padding: clamp(8px, 2vw, 24px)">
+<!-- YARD: rendered by WorksCity (buildYard) — not copied -->
+      </figure>
+
+      <div style="display: flex; flex-wrap: wrap; border-top: 2px solid #17191A">
+        <div style="flex: 999 1 520px; min-width: 0; padding: 20px clamp(16px, 3vw, 32px); display: flex; flex-direction: column; gap: 10px">
+          <h2 style="margin: 0; font-size: 15px; font-weight: 700; font-stretch: 112%">Notes</h2>
+          <ol style="margin: 0; padding-left: 20px; columns: 2 220px; column-gap: 32px; font-size: 14.5px; line-height: 1.55; color: #3F4446">
+            <li>Height is lines added. Eight storeys max.</li>
+            <li>Lit windows are output tokens.</li>
+            <li>Smoke means the repo was worked on this week.</li>
+            <li>A crane means work in progress.</li>
+            <li>Pennants are pull requests merged this week.</li>
+            <li>Per-repo figures are floors; old transcripts rotate out.</li>
+          </ol>
+        </div>
+        <div style="flex: 1 1 420px; min-width: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-left: 2px solid #17191A; font-size: 13px">
+          <div style="grid-column: span 2; padding: 10px 14px; border-bottom: 1px solid #8E908C; border-right: 1px solid #8E908C"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5F6466">Project</div><div style="font-weight: 800; font-stretch: 125%; font-size: 17px">The Foundry</div></div>
+          <div style="padding: 10px 14px; border-bottom: 1px solid #8E908C"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5F6466">Sheet</div><div style="font-weight: 700; font-size: 17px">A-01</div></div>
+          <div style="padding: 10px 14px; border-right: 1px solid #8E908C"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5F6466">Drawn</div>A. Bansal</div>
+          <div style="padding: 10px 14px; border-right: 1px solid #8E908C"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5F6466">Period</div>22.05 – 02.10.2026</div>
+          <div style="padding: 10px 14px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5F6466">Rev</div><span style="color: #C23B1E; font-weight: 600">W40</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="schedule" aria-labelledby="sched-h" style="padding: clamp(64px, 8vw, 112px) 0 0">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px 40px; border-bottom: 2px solid #17191A; padding-bottom: 14px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; color: #5F6466">Sheet A-02</div>
+          <h2 id="sched-h" style="margin: 0; font-size: clamp(32px, 3.6vw, 52px); line-height: 1; font-weight: 800; font-stretch: 125%; letter-spacing: -0.012em">Schedule of buildings</h2>
+        </div>
+        <p style="margin: 0; max-width: 30em; color: #3F4446; font-size: 16px">Eleven buildings, numbered as on the yard. Private builds are described here; public ones link to source.</p>
+      </div>
+      <div style="overflow-x: auto">
+        <div style="min-width: 980px">
+          <div aria-hidden="true" style="display: grid; grid-template-columns: 56px 170px minmax(0, 1fr) 210px 120px 150px; gap: 24px; padding: 12px 0; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5F6466"><span>Bldg</span><span>Name</span><span>Use</span><span>Built with</span><span>Storeys</span><span>Drawings</span></div>
+          <sc-for list="{{groups}}" as="g" hint-placeholder-count="3">
+            <div style="padding-top: 22px">
+              <h3 style="margin: 0; padding-bottom: 8px; font-size: 14px; font-weight: 700; font-stretch: 112%; border-bottom: 1px solid #17191A">{{g.title}}</h3>
+              <ul style="margin: 0; padding: 0; list-style: none">
+                <sc-for list="{{g.rows}}" as="p" hint-placeholder-count="4">
+                  <li style="display: grid; grid-template-columns: 56px 170px minmax(0, 1fr) 210px 120px 150px; gap: 24px; padding: 16px 0; border-bottom: 1px solid #CFCEC5; align-items: start">
+                    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; color: #5F6466; padding-top: 3px">{{p.no}}</span>
+                    <div><div style="font-weight: 750; font-stretch: 118%; font-size: 19px; line-height: 1.2">{{p.name}}</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: {{p.statusColor}}; margin-top: 4px">■ {{p.status}}</div></div>
+                    <span style="color: #3F4446; font-size: 15px; line-height: 1.45">{{p.use}}</span>
+                    <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #3F4446; padding-top: 3px">{{p.stack}}</span>
+                    <div role="img" aria-label="{{p.storeysLabel}}" style="display: flex; gap: 3px; align-items: flex-end; padding-top: 3px"><sc-for list="{{p.bars}}" as="b" hint-placeholder-count="2"><span style="display: block; width: 7px; height: 14px; background: #17191A"></span></sc-for><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; margin-left: 8px">{{p.storeys}}</span></div>
+                    <div style="display: flex; flex-direction: column; gap: 4px; font-size: 14.5px"><sc-for list="{{p.links}}" as="l" hint-placeholder-count="1"><a href="{{l.href}}">{{l.label}}</a></sc-for><sc-if value="{{p.isPrivate}}" hint-placeholder-val="{{ false }}"><span style="color: #5F6466">Private build</span></sc-if></div>
+                  </li>
+                </sc-for>
+              </ul>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="notes-h" style="padding: clamp(64px, 8vw, 112px) 0 0; display: flex; flex-wrap: wrap; gap: 32px 64px">
+      <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; color: #5F6466">Sheet A-04</div>
+        <h2 id="notes-h" style="margin: 0; font-size: clamp(32px, 3.6vw, 52px); line-height: 1; font-weight: 800; font-stretch: 125%">General notes</h2>
+      </div>
+      <ol style="flex: 999 1 640px; min-width: 0; margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; border-top: 2px solid #17191A">
+        <li style="display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; padding: 20px 0; border-bottom: 1px solid #CFCEC5"><span style="font-family: 'IBM Plex Mono', monospace; color: #5F6466">1.</span><div><strong style="font-weight: 700">iOS and Apple platforms.</strong> <span style="color: #3F4446">Swift 6, SwiftUI, SwiftData, Vision, RoomPlan, on-device ML. Zero-backend architecture — apps that never phone home.</span></div></li>
+        <li style="display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; padding: 20px 0; border-bottom: 1px solid #CFCEC5"><span style="font-family: 'IBM Plex Mono', monospace; color: #5F6466">2.</span><div><strong style="font-weight: 700">Agent tooling.</strong> <span style="color: #3F4446">Claude Code skills and plugins, MCP servers, token optimization, multi-agent orchestration. Tools that make agents cheaper and more exact.</span></div></li>
+        <li style="display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; padding: 20px 0; border-bottom: 1px solid #CFCEC5"><span style="font-family: 'IBM Plex Mono', monospace; color: #5F6466">3.</span><div><strong style="font-weight: 700">The whole product.</strong> <span style="color: #3F4446">Rust CLIs, design systems, App Store releases. Shipped solo — the same hands sketch the interface, write the Swift, cut the release and answer the support mail.</span></div></li>
+        <li style="display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; padding: 20px 0; border-bottom: 1px solid #CFCEC5"><span style="font-family: 'IBM Plex Mono', monospace; color: #5F6466">4.</span><div><strong style="font-weight: 700">Privacy is the default, not a setting.</strong> <span style="color: #3F4446">Apps run on-device with zero telemetry. This site has no trackers either.</span></div></li>
+      </ol>
+    </section>
+
+    <section id="meters" aria-labelledby="meters-h" style="padding: clamp(64px, 8vw, 112px) 0 clamp(64px, 8vw, 112px)">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px 40px; border-bottom: 2px solid #17191A; padding-bottom: 14px">
+        <div style="display: flex; flex-direction: column; gap: 8px">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13.5px; color: #5F6466">Sheet B-01</div>
+          <h2 id="meters-h" style="margin: 0; font-size: clamp(32px, 3.6vw, 52px); line-height: 1; font-weight: 800; font-stretch: 125%">Meter readings</h2>
+        </div>
+        <p style="margin: 0; max-width: 30em; color: #3F4446; font-size: 16px">Everything above is built with Claude Code. Parsed locally from 1,023 session logs, 22 May – 2 Oct 2026.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); font-variant-numeric: tabular-nums">
+        <div style="padding: 24px 24px 24px 0; border-right: 1px solid #CFCEC5"><div style="font-family: 'IBM Plex Mono', monospace; font-size: clamp(34px, 3.4vw, 46px); font-weight: 500; letter-spacing: -0.02em">739,545</div><div style="color: #3F4446; font-size: 15px">lines added, every repo</div></div>
+        <div style="padding: 24px; border-right: 1px solid #CFCEC5"><div style="font-family: 'IBM Plex Mono', monospace; font-size: clamp(34px, 3.4vw, 46px); font-weight: 500; letter-spacing: -0.02em">6,579</div><div style="color: #3F4446; font-size: 15px">sessions · 14,620 prompts</div></div>
+        <div style="padding: 24px; border-right: 1px solid #CFCEC5"><div style="font-family: 'IBM Plex Mono', monospace; font-size: clamp(34px, 3.4vw, 46px); font-weight: 500; letter-spacing: -0.02em">240.3M</div><div style="color: #3F4446; font-size: 15px">tokens written</div></div>
+        <div style="padding: 24px 0 24px 24px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: clamp(34px, 3.4vw, 46px); font-weight: 500; letter-spacing: -0.02em">53.0B</div><div style="color: #3F4446; font-size: 15px">tokens read from cache</div></div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px; padding-top: 18px; border-top: 1px solid #CFCEC5; font-size: 14.5px; color: #3F4446">
+        <div aria-hidden="true" style="display: flex; gap: 3px">
+          <span style="display: block; width: 18px; height: 18px; background: #E3E2DA; border: 1px solid #CFCEC5"></span>
+          <span style="display: block; width: 18px; height: 18px; background: #B9B8AF"></span>
+          <span style="display: block; width: 18px; height: 18px; background: #7E807C"></span>
+          <span style="display: block; width: 18px; height: 18px; background: #3F4446"></span>
+          <span style="display: block; width: 18px; height: 18px; background: #17191A"></span>
+          <span style="display: block; width: 18px; height: 18px; background: #C23B1E"></span>
+        </div>
+        <span>Heatmaps re-ramp to graphite density. Redline marks the peak only — 12 Jul, 576 sessions in one day.</span>
+        <a href="https://abhijitbansal.com/#telemetry" style="margin-left: auto">Full telemetry sheet →</a>
+      </div>
+    </section>
+  </main>
+
+  <footer style="border-top: 2px solid #17191A">
+    <div style="max-width: 1360px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); font-size: 14px">
+      <div style="padding: 18px 16px 18px 0; border-right: 1px solid #8E908C"><div style="font-weight: 800; font-stretch: 125%">ABHIJIT BANSAL</div><a href="mailto:contact@abhijitbansal.com">contact@abhijitbansal.com</a></div>
+      <div style="padding: 18px 16px; border-right: 1px solid #8E908C; display: flex; gap: 18px; align-items: center"><a href="https://github.com/abhijitbansal">GitHub</a><a href="https://www.linkedin.com/in/abhijit-bansal">LinkedIn</a></div>
+      <div style="padding: 18px 16px; border-right: 1px solid #8E908C; color: #3F4446">No trackers. Static pages, drawn at build time.</div>
+      <div style="padding: 18px 0 18px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #3F4446">© 2026 · Sheet A-01 of 6</div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":4400}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const row = (no, name, use, stack, storeys, status, links) => ({
+      no, name, use, stack, storeys, status, links,
+      bars: Array.from({ length: storeys }, (_, i) => i),
+      storeysLabel: storeys + (storeys === 1 ? ' storey' : ' storeys'),
+      statusColor: status === 'Active' ? '#17191A' : '#5F6466',
+      isPrivate: links.length === 0,
+    });
+    return {
+      revisions: [
+        { rev: 'W40', week: '28 Sep – 4 Oct', lines: '17,008', sessions: '179', lead: 'cubby', mark: '#C23B1E', label: 'Revision W40, 28 Sep to 4 Oct: 17,008 lines, 179 sessions, led by cubby' },
+        { rev: 'W39', week: '21 – 27 Sep', lines: '1,446', sessions: '32', lead: 'doc-scan', mark: '#5F6466', label: 'Revision W39: 1,446 lines, 32 sessions, led by doc-scan' },
+        { rev: 'W38', week: '14 – 20 Sep', lines: '307', sessions: '7', lead: 'purix', mark: '#5F6466', label: 'Revision W38: 307 lines, 7 sessions, led by purix' },
+        { rev: 'W37', week: '7 – 13 Sep', lines: '44,848', sessions: '125', lead: 'folix', mark: '#5F6466', label: 'Revision W37: 44,848 lines, 125 sessions, led by folix' },
+      ],
+      groups: [
+        { title: 'Apps — iOS, macOS and browser', rows: [
+          row('01', 'Cubby', 'Inventory for garage and basement storage. NFC and QR labels on racks and bins; on-device Vision suggests item names. Zero backend.', 'iOS · Swift 6 · SwiftUI · SwiftData', 8, 'Active', [{ label: 'gotcubby.com', href: 'https://gotcubby.com' }]),
+          row('04', 'Paperix', 'Document scanner that makes searchable PDFs with on-device OCR. No cloud, no accounts, no subscription.', 'iOS · Swift · Vision OCR', 3, 'Active', [{ label: 'Site', href: 'https://abhijitbansal.github.io/paperix-site/' }]),
+          row('06', 'Floorprint', 'Scan rooms with LiDAR and RoomPlan into editable 2D floor plans; a macOS mini-CAD editor for the rest.', 'iOS + macOS · RoomPlan · SceneKit', 2, 'Active', [{ label: 'Site', href: 'https://abhijitbansal.github.io/floorprint-site/' }]),
+          row('05', 'Purix', 'Browser extension that strips tracking parameters on-device. Blocklist-only, so it never guesses.', 'Chrome · Firefox · Safari · TS', 2, 'Active', [{ label: 'Site', href: 'https://abhijitbansal.github.io/purix/index.html' }, { label: 'Source', href: 'https://github.com/abhijitbansal/purix' }]),
+          row('02', 'Folix', 'Privacy-first wealth dashboard: local Plaid pulls, on-device storage, AI-assisted insights.', 'macOS · Swift · GRDB · Plaid', 5, 'Active', []),
+        ] },
+        { title: 'Agent tooling', rows: [
+          row('07', 'cartoon', 'Token-optimized CLI output for AI agents — read 12 lines instead of 800, raw logs archived. About 70% fewer tokens.', 'Rust · open source', 2, 'Active', [{ label: 'Source', href: 'https://github.com/abhijitbansal/cartoon' }, { label: 'Site', href: 'https://abhijitbansal.github.io/cartoon/' }]),
+          row('03', 'claude-skills', 'Skills, plugins and agent tooling for Claude Code: iOS build loops, PM automation, prompt refinement.', 'Python · Shell · open source', 4, 'Active', [{ label: 'Source', href: 'https://github.com/abhijitbansal/claude-skills' }, { label: 'Site', href: 'https://abhijitbansal.github.io/claude-skills/' }]),
+          row('09', 'sift', 'Weekly AI-news pipeline: RSS in, local dedup, one Claude call to curate an HTML digest.', 'Python · Claude API', 2, 'Active', [{ label: 'Source', href: 'https://github.com/abhijitbansal/sift' }, { label: 'Digest', href: 'https://abhijitbansal.github.io/sift/' }]),
+          row('10', 'memekit', 'Deterministic ASCII meme reactions for CLIs, bots and agents. 45 formats, zero dependencies.', 'TypeScript · MCP', 1, 'Recently active', []),
+        ] },
+        { title: 'Foundation', rows: [
+          row('08', 'Foundry', 'This site. Static Astro pages; the yard, the schedule and the meter readings are drawn at build time from the repos themselves.', 'Astro · TypeScript · SVG', 2, 'Active', [{ label: 'You are here', href: 'https://abhijitbansal.com/' }]),
+          row('11', 'design-system', 'Cross-product design tokens: one source emitting CSS, SwiftUI and Tailwind for every app and site, this one included.', 'JSON · CSS · Swift', 1, 'Active', []),
+        ] },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

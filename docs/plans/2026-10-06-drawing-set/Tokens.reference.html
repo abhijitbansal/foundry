@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Token sets for both directions</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=Big+Shoulders+Display:wght@600;800&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#17191A}a:hover{color:#C23B1E}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1240px; box-sizing: border-box; background: #EDECE6; color: #17191A; font-family: 'Archivo', sans-serif; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr))">
+
+  <section style="padding: 56px 56px 56px 72px; display: flex; flex-direction: column; gap: 28px; border-right: 2px solid #17191A">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #5F6466">Direction A · recommended</div>
+      <h2 style="margin: 0; font-size: 40px; font-weight: 800; font-stretch: 125%; line-height: 1">Drawing Set</h2>
+      <p style="margin: 6px 0 0; font-size: 16px; line-height: 1.5; color: #3F4446; max-width: 560px">Every page is a sheet in one set of construction drawings. Ink on drafting film; one red pencil for revisions and heat. Interaction is ink — underlines and filled ink, never a hue.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 20px 0; border-top: 1px solid #8E908C; border-bottom: 1px solid #8E908C">
+      <div style="font-size: 52px; font-weight: 800; font-stretch: 125%; line-height: 1; letter-spacing: -0.01em">Schedule of buildings</div>
+      <div style="font-size: 17px; line-height: 1.5; color: #3F4446; max-width: 560px">Archivo, variable width. Expanded 700–800 for nameplates and headings, normal width 400–500 for prose — one family doing both jobs, the way a drawing set uses one lettering standard.</div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #17191A">IBM Plex Mono 400/500 · 251,797 lines · 2,613 sessions · tabular</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 15px; font-weight: 700">Day sheet (light, default)</div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #3F4446">
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; background: #EDECE6; border: 1px solid #8E908C"></div>--ds-surface<br>#EDECE6 film</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; background: #E3E2DA; border: 1px solid #8E908C"></div>--ds-surface-2<br>#E3E2DA</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; background: #17191A"></div>--ds-text · accent<br>#17191A ink</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; background: #C23B1E"></div>--ds-secondary<br>#C23B1E redline</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 28px; background: #3F4446"></div>--ds-text-2 #3F4446</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 28px; background: #5F6466"></div>--ds-text-3 #5F6466</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 28px; background: #CFCEC5"></div>--ds-line #CFCEC5</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 28px; background: #8E908C"></div>--ds-line-strong #8E908C</div>
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 15px; font-weight: 700">Night sheet (dark)</div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #3F4446">
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 40px; background: #121415"></div>surface #121415</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 40px; background: #1A1D1E"></div>surface-2 #1A1D1E</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 40px; background: #E8E7E0; border: 1px solid #8E908C"></div>text · accent #E8E7E0</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 40px; background: #F0643F"></div>redline #F0643F</div>
+      </div>
+    </div>
+
+    <div style="font-size: 14px; line-height: 1.5; color: #3F4446; padding-top: 16px; border-top: 1px solid #8E908C">
+      <strong style="color: #17191A">Yard mapping.</strong> <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">--fyw-window-lit</span>, <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">--fyw-hot-fill</span> → redline. Hulls take film, lines take ink. Day sheet: no halos. Night sheet: halos on, windows glow.
+    </div>
+  </section>
+
+  <section style="padding: 56px 72px 56px 56px; display: flex; flex-direction: column; gap: 28px; background: #0D1013; color: #ECE8DF">
+    <div style="display: flex; flex-direction: column; gap: 6px">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #8A8F93">Direction B</div>
+      <h2 style="margin: 0; font-size: 56px; font-weight: 800; font-family: 'Big Shoulders Display', sans-serif; text-transform: uppercase; line-height: 0.95; letter-spacing: 0.01em">Night Shift</h2>
+      <p style="margin: 6px 0 0; font-size: 16px; line-height: 1.5; color: #B4B6B4; max-width: 560px; font-family: 'IBM Plex Sans', sans-serif">The yard at two in the morning, still working. One colour: sodium-vapour amber. Anything lit is live work — windows, links, the current week. Dark only; the light toggle goes.</p>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; padding: 20px 0; border-top: 1px solid #3A434C; border-bottom: 1px solid #3A434C">
+      <div style="font-size: 76px; font-weight: 800; font-family: 'Big Shoulders Display', sans-serif; text-transform: uppercase; line-height: 0.9">Gate 01 · Cubby</div>
+      <div style="font-size: 17px; line-height: 1.5; color: #B4B6B4; max-width: 560px; font-family: 'IBM Plex Sans', sans-serif">Big Shoulders Display for signage only — condensed industrial lettering drawn from Chicago street signs. IBM Plex Sans for prose, Plex Mono for every number.</div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #F2A541">17,008 lines · 179 sessions · week 40</div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="font-size: 15px; font-weight: 600; font-family: 'IBM Plex Sans', sans-serif">One palette, dark only</div>
+      <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #B4B6B4">
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; background: #0D1013; border: 1px solid #3A434C"></div>--ds-surface<br>#0D1013</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; background: #151A1F; border: 1px solid #3A434C"></div>--ds-surface-2<br>#151A1F</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; background: #ECE8DF"></div>--ds-text<br>#ECE8DF</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 56px; background: #F2A541"></div>accent = secondary<br>#F2A541 sodium</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 28px; background: #B4B6B4"></div>--ds-text-2 #B4B6B4</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 28px; background: #8A8F93"></div>--ds-text-3 #8A8F93</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 28px; background: #232A31"></div>--ds-line #232A31</div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="height: 28px; background: #3A434C"></div>--ds-line-strong #3A434C</div>
+      </div>
+    </div>
+
+    <div style="font-size: 14px; line-height: 1.5; color: #B4B6B4; padding-top: 16px; border-top: 1px solid #3A434C; font-family: 'IBM Plex Sans', sans-serif">
+      <strong style="color: #ECE8DF">Yard mapping.</strong> Every <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px">--fyw-*</span> glow → sodium, halos and furnace glow at full night values. Hulls sit one step above the ground so the buildings read as silhouettes.
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>
