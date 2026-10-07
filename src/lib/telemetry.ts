@@ -27,8 +27,9 @@ export function heatBucket(outTokens: number | undefined): HeatBucket {
 
 /** Graphite density ramp — magnitude reads as ink density over the sheet's
  * surface-2 (quiet to high), with the redline reserved for the peak day
- * (drawing-set rule: redline means heat). Steps are strictly monotonic in
- * contrast against --ds-surface-2 in both sheets. */
+ * (drawing-set rule: redline means heat). Contrast against --ds-surface-2 is
+ * monotonic from quiet to high; peak breaks to the redline hue rather than
+ * continuing the density scale. */
 export function heatBucketColor(bucket: HeatBucket): string {
 	switch (bucket) {
 		case 'quiet':

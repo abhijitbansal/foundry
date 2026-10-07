@@ -54,6 +54,17 @@ describe('theme.ts', () => {
     }
   });
 
+  it('noFlashInlineScript resolves to light when matchMedia is absent and nothing is stored', () => {
+    const originalMatchMedia = window.matchMedia;
+    try {
+      (window as unknown as { matchMedia: unknown }).matchMedia = undefined;
+      new Function(noFlashInlineScript())();
+      expect(document.documentElement.getAttribute('data-theme')).toBe('light');
+    } finally {
+      window.matchMedia = originalMatchMedia;
+    }
+  });
+
   it('setTheme swallows a localStorage throw (private-browsing Safari) without crashing', () => {
     const originalSetItem = Storage.prototype.setItem;
     Storage.prototype.setItem = () => {

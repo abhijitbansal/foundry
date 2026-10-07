@@ -33,7 +33,7 @@ import { getAllWeeksDesc } from '../lib/weekly';
 const stats = statsJson as unknown as StatsJson;
 
 // Legend swatches, quiet -> peak — reads straight off heatBucketColor()
-// (PAL-8) instead of hand-duplicating the ramp's color-mix expressions a
+// instead of hand-duplicating the ramp's color-mix expressions a
 // second time in markup; this legend used to hardcode its own copy of the
 // same 5 literal color-mix strings, which would have silently gone stale
 // against the actual cells the moment the ramp changed underneath it.
@@ -139,7 +139,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 
 		<!-- Egg 3 — the night whistle (design_handoff_eggs/PROMPT.md): press-and-
 		     hold the yard 0.9s to flip it to the night shift. The only way to
-		     reach the night render — see fy-yard-night in global.css. -->
+		     reach the night render — see fy-yard-night in drawing-set.css. -->
 		<article id="fy-yard-card" class="fy-yard-bleed" data-reveal style="display:flex;flex-direction:column;gap:18px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px;margin-top:clamp(26px,4vw,40px)">
 			<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
 				<span id="fy-yard-title" class="ds-micro" style="color:var(--ds-accent-hover)">The works — one building per repo</span>
@@ -372,7 +372,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 				if (flipTimer) clearTimeout(flipTimer);
 				if (hideTimer) clearTimeout(hideTimer);
 				veil.style.display = 'block';
-				veil.style.background = 'linear-gradient(180deg,var(--ds-bg),var(--fy-night-bg) 70%)';
+				veil.style.background = 'linear-gradient(180deg,color-mix(in srgb, var(--fy-night-bg) 80%, black),var(--fy-night-bg) 70%)';
 				// Reset before reassigning — an in-flight veil re-triggered by a
 				// quick second hold would otherwise get the identical animation
 				// string twice in a row, which the browser doesn't restart.
