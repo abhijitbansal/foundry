@@ -17,7 +17,7 @@ A visually distinctive site — a set of architectural drawing sheets — that:
 
 Pages:
 
-- `/` — yard hero, schedule of buildings (from [PROJECTS.md](./PROJECTS.md)), general notes, meter readings, title-block footer.
+- `/` — yard hero, schedule of buildings (from [PROJECTS.md](./PROJECTS.md)), general notes, meter readings, harness promo row, title-block footer.
 - `/telemetry/` — full forge telemetry (parsed from local Claude Code session logs) and the yard ledger.
 - `/craft/` — the craft essay.
 - `/updates/` — weekly digest archive, newest-first, generated every Monday by `scripts/weekly/run_weekly.sh` (see `docs/automation/weekly-pipeline.md`).
