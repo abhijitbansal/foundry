@@ -1,0 +1,42 @@
+---
+// SheetHead.astro — every page's opening: sheet code, heading, lead,
+// optional actions/aside. Replaces the old eyebrow → tinted-word headline
+// → filled+ghost button formula (audit, docs/plans/2026-10-06-drawing-set.md).
+import { sheet } from '../lib/sheet';
+
+interface Props {
+	code: string;
+	title: string;
+	lead?: string;
+	headingLevel?: 1 | 2;
+	id?: string;
+}
+
+const { code, title, lead, headingLevel = 1, id } = Astro.props;
+const s = sheet(code);
+const Heading = headingLevel === 1 ? 'h1' : 'h2';
+---
+
+<div class="fy-sheet-head" id={id}>
+	<div class="fy-sheet-head__main">
+		<p class="ds-kicker" style="margin:0">Sheet {s.code} — {s.label.toLowerCase()}</p>
+		<Heading class={headingLevel === 1 ? 'ds-display-xl' : 'ds-display-lg'} style="margin:0;text-wrap:balance;max-width:15em">{title}</Heading>
+		{lead && <p class="ds-lead" style="margin:0;max-width:34em;text-wrap:pretty">{lead}</p>}
+		{Astro.slots.has('actions') && <div class="fy-sheet-head__actions"><slot name="actions" /></div>}
+	</div>
+	{Astro.slots.has('aside') && <aside class="fy-sheet-head__aside"><slot name="aside" /></aside>}
+</div>
+
+<style>
+	.fy-sheet-head {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 32px 56px;
+		align-items: flex-end;
+		padding: clamp(40px, 6vw, 88px) 0 18px;
+		border-bottom: var(--fy-sheet-rule) solid var(--ds-text);
+	}
+	.fy-sheet-head__main { flex: 999 1 600px; min-width: 0; display: flex; flex-direction: column; gap: 20px; }
+	.fy-sheet-head__aside { flex: 1 1 300px; min-width: 0; }
+	.fy-sheet-head__actions { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; margin-top: 4px; }
+</style>

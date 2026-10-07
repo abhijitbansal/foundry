@@ -8,6 +8,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SkipLink from '../components/SkipLink.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import SheetHead from '../components/SheetHead.astro';
 import { buildColdForge } from '../lib/works';
 
 // BRA-6 — the cold forge: works-svg's primitive vocabulary, no data
@@ -20,35 +21,16 @@ const forge = buildColdForge();
 <BaseLayout title="Page not found — Abhijit Bansal — Foundry">
 	<SkipLink href="#not-found" label="Skip to the message" />
 	<Nav />
-	<main id="not-found" class="brand-skills" style="min-height:calc(100vh - 64px);box-sizing:border-box">
-		<div style="max-width:1200px;margin:0 auto;padding:clamp(120px,12vw,160px) clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
-			<div class="fy-404-forge" style="width:240px;max-width:100%;margin:0 0 24px" aria-hidden="true" set:html={forge.svg} />
-			<p class="ds-kicker fy-404-kicker" style="margin:0 0 12px">404</p>
-			<h1 class="ds-display-lg" style="margin:0">Page not found</h1>
-			<p class="ds-lead fy-404-lead" style="margin:14px 0 0">Nothing was forged at this address.</p>
-			<p class="ds-lead fy-404-lead" style="margin:10px 0 0"><a href={import.meta.env.BASE_URL}>Go to the homepage &rarr;</a></p>
+	<main id="not-found" class="brand-skills" style="min-height:calc(100dvh - 58px);box-sizing:border-box">
+		<div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
+			<div class="fy-404-forge" style="width:240px;max-width:100%;margin:32px 0 0" aria-hidden="true" set:html={forge.svg} />
+			<SheetHead code="A-01" title="No sheet at this address." lead="The drawing you asked for isn't in the set.">
+				<a slot="actions" class="ds-btn" href={import.meta.env.BASE_URL}>Back to the yard</a>
+			</SheetHead>
 		</div>
 	</main>
 	<Footer />
 </BaseLayout>
-
-<style>
-	.fy-404-kicker {
-		/* Redundant with .ds-kicker's own --ds-accent-hover default
-		   (foundation.css:167, the same 12px normal-text AA contrast fix) —
-		   kept explicit rather than dropped so this doesn't silently regress
-		   back to --ds-text-3 if .ds-kicker's default ever changes. */
-		color: var(--ds-accent-hover);
-	}
-
-	.fy-404-lead {
-		color: var(--ds-text-3);
-	}
-
-	.fy-404-lead a {
-		color: var(--ds-accent-hover);
-	}
-</style>
 
 <style is:global>
 	/* BRA-6 cold-forge palette override — deliberately global, not scoped.
