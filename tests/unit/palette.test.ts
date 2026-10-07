@@ -15,8 +15,7 @@ function walk(dir: string): string[] {
 	});
 }
 
-// Skipped until Task 10's sweep clears the last retired literals — un-skip in Task 10.
-describe.skip('retired palette', () => {
+describe('retired palette', () => {
 	const files = walk(resolve(__dirname, '../../src'));
 
 	it.each(RETIRED)('%s appears nowhere in src/ outside the vendored tokens', (hex) => {

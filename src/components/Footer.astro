@@ -1,20 +1,14 @@
 ---
-// Footer.astro — 2A source lines 489-501, verbatim. Email link uses plain
-// mailto: (same Cloudflare-obfuscation deviation as Hero.astro/About.astro).
+// Footer.astro — the sheet's title block (name, copyright, links, "no
+// trackers" line), laid out by the .fy-title-block* rules in this file's
+// style block. The "no trackers" line uses --ds-text-3, not --ds-text-faint:
+// faint on --ds-bg fails AA (4.5:1) for non-decorative text.
 //
-// "No trackers..." uses --ds-text-3, not the 2A source's --ds-text-faint
-// (acceptance-pass fix, Phase 10): --ds-text-faint on --ds-bg is 1.92:1,
-// which Lighthouse flags (WCAG AA needs 4.5:1 for this non-decorative text);
-// --ds-text-3 is 4.66:1 and is the token already used one line up for the
-// copyright line, so the two stay visually matched. --ds-text-faint is used
-// elsewhere in the same non-decorative way (Telemetry captions, "Private
-// build" labels) — flagged as a design-token-level follow-up rather than
-// patched everywhere here, since that's a broader call than one component.
-//
-// Egg 1 (design_handoff_eggs/PROMPT.md) — the accent tab is also the
-// anvil: a 44×44 unstyled button (negative margins keep layout unchanged)
-// that idle-crossfades between the tab and a tiny anvil icon (fy-anvil-*
-// keyframes, global.css) and takes three strikes to stamp the footer's
+// Egg 1 (design_handoff_eggs/PROMPT.md) — the small ink tab beside the name
+// is also the anvil: a 44×44 unstyled button (negative margins keep layout
+// unchanged) that idle-crossfades between the tab and a tiny anvil icon
+// (fy-anvil-* keyframes, global.css; the icon and spark flick in redline,
+// since they are heat) and takes three strikes to stamp the title block's
 // touchmark. Logic ported from the reference dc.html's strike()/burst().
 ---
 
