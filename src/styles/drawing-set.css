@@ -299,6 +299,7 @@ a:hover {
 
 /* Egg 1 seal: its strokes are --ds-accent-hover (near-white on the night
    sheet), which multiply would erase into the background — screen instead. */
+#fy-seal { mix-blend-mode: multiply; }
 html:root[data-theme="dark"] #fy-seal { mix-blend-mode: screen; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) #fy-seal { mix-blend-mode: screen; }
