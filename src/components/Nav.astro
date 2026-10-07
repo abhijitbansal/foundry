@@ -5,7 +5,7 @@
 import { SHEETS } from '../lib/sheet';
 
 const base = import.meta.env.BASE_URL;
-const here = Astro.url.pathname;
+const here = Astro.url.pathname.replace(/\/?$/, '/');
 const links = SHEETS.filter((s) => s.path !== '').map((s) => ({
 	...s,
 	href: `${base}${s.path}`,
@@ -16,6 +16,7 @@ const links = SHEETS.filter((s) => s.path !== '').map((s) => ({
 <header data-screen-label="Nav" class="brand-skills fy-sheet-header">
 	<div class="fy-sheet-header__row">
 		<a class="fy-sheet-header__name" href={`${base}#top`}>Abhijit Bansal</a>
+		<button id="fy-nav-burger" type="button" aria-expanded="false" aria-controls="fy-nav" class="fy-burger">Sheets</button>
 		<nav id="fy-nav" aria-label="Sheets">
 			{links.map((l) => (
 				<a href={l.href} aria-current={l.current ? 'page' : undefined}><span class="fy-sheet-code">{l.code.replace('-0', '')}</span> {l.label}</a>
@@ -23,7 +24,6 @@ const links = SHEETS.filter((s) => s.path !== '').map((s) => ({
 			<a href="https://github.com/abhijitbansal" target="_blank" rel="noopener">GitHub ↗</a>
 			<button id="fy-theme-btn" type="button">Night sheet</button>
 		</nav>
-		<button id="fy-nav-burger" type="button" aria-label="Sheet index" aria-expanded="false" aria-controls="fy-nav" class="fy-burger">Sheets</button>
 	</div>
 </header>
 
@@ -46,6 +46,7 @@ const links = SHEETS.filter((s) => s.path !== '').map((s) => ({
 		gap: 12px 32px;
 		box-sizing: border-box;
 	}
+	.fy-sheet-header__name:hover { text-decoration: underline; text-decoration-thickness: 2.5px; text-underline-offset: 5px; }
 	.fy-sheet-header__name {
 		font-weight: 800;
 		font-stretch: 125%;
@@ -85,10 +86,10 @@ const links = SHEETS.filter((s) => s.path !== '').map((s) => ({
 		cursor: pointer;
 	}
 	@media (max-width: 900px) {
-		.fy-burger { display: inline-flex; align-items: center; }
+		.fy-burger { display: inline-flex; align-items: center; order: 2; }
 		#fy-nav {
 			position: absolute;
-			top: 100%;
+			top: calc(100% + var(--fy-sheet-rule));
 			left: 0;
 			right: 0;
 			flex-direction: column;
@@ -98,6 +99,8 @@ const links = SHEETS.filter((s) => s.path !== '').map((s) => ({
 			border-bottom: var(--fy-sheet-rule) solid var(--ds-text);
 			padding: 8px clamp(16px, 3vw, 40px) 16px;
 			display: none;
+			max-height: calc(100dvh - 60px);
+			overflow-y: auto;
 		}
 		#fy-nav[data-open='true'] { display: flex; }
 		#fy-nav a,
@@ -128,6 +131,12 @@ const links = SHEETS.filter((s) => s.path !== '').map((s) => ({
 			navEl.setAttribute('data-open', String(open));
 			burger.setAttribute('aria-expanded', String(open));
 		};
+		document.addEventListener('keydown', (e) => {
+			if (e.key === 'Escape' && navEl.getAttribute('data-open') === 'true') {
+				setOpen(false);
+				burger.focus();
+			}
+		});
 		burger.addEventListener('click', () => setOpen(navEl.getAttribute('data-open') !== 'true'));
 		navEl.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
 	}

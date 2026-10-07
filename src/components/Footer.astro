@@ -57,12 +57,12 @@
 			</span>
 			<span class="ds-micro" id="fy-footer-copy1" style="color:var(--ds-text-3)">© 2026 Abhijit Bansal</span>
 		</div>
-		<div class="fy-title-block__cell" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+		<div class="fy-title-block__cell fy-title-block__cell--links">
 			<a href="https://github.com/abhijitbansal" target="_blank" rel="noopener">GitHub</a>
 			<a href="https://www.linkedin.com/in/abhijit-bansal/" target="_blank" rel="noopener">LinkedIn</a>
 			<a href="mailto:contact@abhijitbansal.com">contact@abhijitbansal.com</a>
 		</div>
-		<div class="fy-title-block__cell">
+		<div class="fy-title-block__cell fy-title-block__cell--last">
 			<span class="ds-micro" id="fy-footer-copy2" style="color:var(--ds-text-2)">No trackers · No analytics · Nothing to consent to</span>
 		</div>
 		<div aria-hidden="true" id="fy-seal" style="position:absolute;right:clamp(18px,7vw,110px);top:-30px;width:96px;height:96px;pointer-events:none;mix-blend-mode:multiply;z-index:4;display:none">
@@ -97,7 +97,8 @@
 	}
 	.fy-title-block__cell { padding: 18px 16px; border-right: 1px solid var(--ds-line-strong); display: flex; flex-direction: column; gap: 4px; justify-content: center; font-size: 14.5px; }
 	.fy-title-block__cell:first-child { padding-left: 0; }
-	.fy-title-block__cell:last-of-type { border-right: 0; }
+	.fy-title-block__cell--links { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: 6px 18px; }
+	.fy-title-block__cell--last { border-right: 0; }
 	.fy-title-block__name { font-weight: 800; font-stretch: 125%; text-transform: uppercase; letter-spacing: 0.02em; }
 	@media (max-width: 640px) {
 		.fy-title-block__cell { border-right: 0; border-bottom: 1px solid var(--ds-line-strong); padding-left: 0; }
