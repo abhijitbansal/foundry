@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Drawing Set on a phone</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#17191A;text-decoration-thickness:1px;text-underline-offset:3px}a:hover{color:#17191A;text-decoration-thickness:2.5px}
+.yard-a{--ds-surface:#EDECE6;--ds-surface-2:#E3E2DA;--ds-text:#17191A;--ds-text-2:#3F4446;--ds-text-3:#5F6466;--ds-text-faint:#9A9D9B;--ds-line:#CFCEC5;--ds-line-strong:#8E908C;--ds-accent:#17191A;--ds-accent-soft:#D9D8CF;--ds-secondary:#C23B1E;--fy-ember:#C23B1E;--ds-font-mono:'IBM Plex Mono',monospace;--ds-font-display:'Archivo',sans-serif;--ds-ease-standard:cubic-bezier(.2,0,0,1);--fyw-window-lit:#C23B1E;--fyw-clerestory:color-mix(in srgb,#C23B1E 55%,#E3E2DA);--fyw-hot-fill:#C23B1E;--fyw-annex-glass:color-mix(in srgb,#C23B1E 28%,#E3E2DA);--fyw-halo-op:0;--fyw-hot-glow-op:0;--fyw-furnace-glow-op:.22;--fyw-furnace-glow-r:10px}
+@keyframes fywPuff{0%{transform:translate(0,0) scale(.55);opacity:0}12%{opacity:.55}70%{opacity:.3}100%{transform:translate(-13px,-34px) scale(1.65);opacity:0}}
+@keyframes fywFlick{0%,100%{opacity:var(--fyw-furnace-glow-op,.18)}50%{opacity:calc(var(--fyw-furnace-glow-op,.18) + .12)}}
+.fyw-flick{animation:fywFlick 4.2s ease infinite}
+@media (prefers-reduced-motion:reduce){.fyw-puff,.fyw-flick{animation:none!important}}
+</style>
+</helmet>
+<div style="width: 390px; height: 2300px; box-sizing: border-box; background: #EDECE6; color: #17191A; font-family: 'Archivo', sans-serif; font-size: 16px; line-height: 1.5; overflow: hidden">
+  <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 16px; border-bottom: 2px solid #17191A">
+    <span style="font-weight: 800; font-stretch: 125%; font-size: 15px; letter-spacing: 0.02em">ABHIJIT BANSAL</span>
+    <button type="button" aria-label="Open the sheet index" style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #17191A; background: transparent; border: 1px solid #17191A; padding: 0 12px; min-height: 44px">Sheets · 6</button>
+  </header>
+
+  <section style="padding: 28px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #5F6466">Sheet A-01 — the yard · Rev W40</div>
+    <h1 style="margin: 0; font-size: 36px; line-height: 1.02; font-weight: 750; font-stretch: 112%; letter-spacing: -0.015em">I build privacy-first apps, and the agent tooling I build them with.</h1>
+    <p style="margin: 0; color: #3F4446">Designed, engineered and shipped solo. Every building below is one of the repos.</p>
+    <a href="https://abhijitbansal.com/#work" style="display: flex; align-items: center; justify-content: center; min-height: 48px; background: #17191A; color: #EDECE6; text-decoration: none; font-weight: 600">See the schedule ↓</a>
+  </section>
+
+  <figure style="margin: 0; border-top: 2px solid #17191A; border-bottom: 1px solid #8E908C">
+    <div class="yard-a" style="overflow-x: auto; background: #EDECE6">
+      <div style="width: 760px; padding: 12px">
+<!-- YARD: rendered by WorksCity (buildYard) — not copied -->
+      </div>
+    </div>
+    <figcaption style="display: flex; justify-content: space-between; padding: 8px 16px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5F6466; border-top: 1px solid #CFCEC5"><span>Drag to pan the yard</span><span>11 buildings</span></figcaption>
+  </figure>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-bottom: 2px solid #17191A; font-size: 13px">
+    <div style="padding: 10px 12px 10px 16px; border-right: 1px solid #8E908C"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5F6466">Rev</div><span style="color: #C23B1E; font-weight: 600">W40</span></div>
+    <div style="padding: 10px 12px; border-right: 1px solid #8E908C"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5F6466">Lines</div>17,008</div>
+    <div style="padding: 10px 12px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #5F6466">Lead</div>cubby</div>
+  </div>
+
+  <section style="padding: 44px 16px 0">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #5F6466">Sheet A-02</div>
+    <h2 style="margin: 6px 0 0; padding-bottom: 12px; font-size: 30px; line-height: 1; font-weight: 800; font-stretch: 125%; border-bottom: 2px solid #17191A">Schedule of buildings</h2>
+    <h3 style="margin: 0; padding: 18px 0 8px; font-size: 13.5px; font-weight: 700; font-stretch: 112%; border-bottom: 1px solid #17191A">Apps — iOS, macOS and browser</h3>
+    <ul style="margin: 0; padding: 0; list-style: none">
+      <sc-for list="{{rows}}" as="p" hint-placeholder-count="4">
+        <li style="display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 4px 10px; padding: 16px 0; border-bottom: 1px solid #CFCEC5">
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #5F6466; padding-top: 3px">{{p.no}}</span>
+          <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 8px"><span style="font-weight: 750; font-stretch: 118%; font-size: 19px">{{p.name}}</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px">{{p.storeys}} sty</span></div>
+          <span></span>
+          <span style="color: #3F4446; font-size: 15px">{{p.use}}</span>
+          <span></span>
+          <span style="font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: #5F6466">{{p.stack}}</span>
+        </li>
+      </sc-for>
+    </ul>
+    <a href="https://abhijitbansal.com/#work" style="display: flex; align-items: center; min-height: 48px; font-weight: 500">All ten buildings →</a>
+  </section>
+
+  <section style="padding: 32px 16px 0">
+    <div style="font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: #5F6466">Sheet B-01</div>
+    <h2 style="margin: 6px 0 0; padding-bottom: 12px; font-size: 30px; line-height: 1; font-weight: 800; font-stretch: 125%; border-bottom: 2px solid #17191A">Meter readings</h2>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); font-variant-numeric: tabular-nums">
+      <div style="padding: 16px 12px 16px 0; border-right: 1px solid #CFCEC5; border-bottom: 1px solid #CFCEC5"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 500">739,545</div><div style="font-size: 13.5px; color: #3F4446">lines added</div></div>
+      <div style="padding: 16px 0 16px 12px; border-bottom: 1px solid #CFCEC5"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 500">6,579</div><div style="font-size: 13.5px; color: #3F4446">sessions</div></div>
+      <div style="padding: 16px 12px 16px 0; border-right: 1px solid #CFCEC5"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 500">240.3M</div><div style="font-size: 13.5px; color: #3F4446">tokens written</div></div>
+      <div style="padding: 16px 0 16px 12px"><div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; font-weight: 500">53.0B</div><div style="font-size: 13.5px; color: #3F4446">cache reads</div></div>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":2300}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      rows: [
+        { no: '01', name: 'Cubby', storeys: 8, use: 'Inventory for garage and basement storage. NFC and QR labels on racks and bins; zero backend.', stack: 'iOS · Swift 6 · SwiftUI' },
+        { no: '04', name: 'Paperix', storeys: 3, use: 'Searchable PDFs with on-device OCR. No cloud, no accounts, no subscription.', stack: 'iOS · Swift · Vision OCR' },
+        { no: '06', name: 'Floorprint', storeys: 2, use: 'LiDAR room scans into editable 2D floor plans, plus a macOS mini-CAD.', stack: 'iOS + macOS · RoomPlan' },
+        { no: '05', name: 'Purix', storeys: 2, use: 'Strips tracking parameters from links on-device. Blocklist-only.', stack: 'Chrome · Firefox · Safari' },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>

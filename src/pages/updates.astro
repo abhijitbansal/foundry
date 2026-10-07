@@ -7,6 +7,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SkipLink from '../components/SkipLink.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import SheetHead from '../components/SheetHead.astro';
 import WeeklyHeatmap from '../components/WeeklyHeatmap.astro';
 import WorksCity from '../components/WorksCity.astro';
 import { formatCompact } from '../lib/telemetry';
@@ -46,16 +47,8 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 		} catch (e) {}
 	</script>
 	<main class="brand-skills">
-		<div style="max-width:1200px;margin:0 auto;padding:clamp(120px,12vw,160px) clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
-			<div data-reveal class="fy-sheet-edge fy-sheet-edge--inset" style="position:relative">
-				<p class="ds-kicker" style="margin:0 0 12px">Weekly updates</p>
-				<h1 class="ds-display-lg" style="margin:0">What shipped, week by week.</h1>
-				<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">
-					A rolling log, separate from the all-time telemetry above — lines of code, activity by hour and day, model mix,
-					and PR/release activity for one completed week at a time. Generated locally every Monday morning.
-				</p>
-				<hr class="ds-rule" style="margin-top:18px" />
-			</div>
+		<div style="max-width:1200px;margin:0 auto;padding:0 clamp(20px,5vw,56px) clamp(64px,9vw,110px);box-sizing:border-box">
+			<SheetHead code="A-03" title="Revisions, week by week." lead="One completed week per revision: lines of code, activity by hour and day, model mix, and PR and release activity. Generated locally every Monday morning." />
 
 			{weeks.length > 0 && (
 				<nav aria-label="Jump to week" style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px">
@@ -71,7 +64,7 @@ function worksRepoRows(week: WeeklyDigest): WorksRepo[] {
 				</nav>
 			)}
 
-			<div id="weeks">
+			<div id="weeks" tabindex="-1" style="scroll-margin-top:64px">
 			{
 				weeks.length === 0 ? (
 					<p class="ds-body" style="margin-top:32px;color:var(--ds-text-3)">No weekly digests yet — check back after the next Monday run.</p>

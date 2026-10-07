@@ -197,10 +197,10 @@ export function printConsoleHint(): void {
 	hintPrinted = true;
 	// eslint-disable-next-line no-console
 	console.log(
-		'%c⚒ THE FOUNDRY %c— three marks are hidden in these works.%c\n\n   I.   the smith strikes thrice, where the metal is teal\n   II.  the working drawings are filed under P·L·A·N·S\n   III. hold the yard until the whistle blows\n',
-		'font-family:monospace;font-weight:700;color:#0E8FB0',
-		'font-family:monospace;color:#736A59',
-		'font-family:monospace;color:#B07A18',
+		'%c⚒ THE FOUNDRY %c— three marks are hidden on these sheets.%c\n\n   I.   the smith strikes thrice, at the foot of the sheet\n   II.  the working drawings are filed under P·L·A·N·S\n   III. hold the yard until the whistle blows\n',
+		'font-family:monospace;font-weight:700;color:#B5341A',
+		'font-family:monospace;color:#5F6466',
+		'font-family:monospace;color:#F2A541',
 	);
 }
 
@@ -230,7 +230,9 @@ export function writeFlag(key: string, value: boolean): void {
  * pointerdown on a nested interactive control (e.g. WorksCity's fullscreen
  * button inside the yard's hold target) so this never swallows its click,
  * and tracks the pointerId that started the hold so a second concurrent
- * pointer on the same target can't double-fire onComplete. */
+ * pointer on the same target can't double-fire onComplete. Also ignores
+ * pointerdown inside a nested <dialog> (the fullscreen yard lives inside the
+ * yard's hold target). */
 const HOLD_INTERACTIVE_SELECTOR = 'button, a, [role="button"], input, select, textarea';
 
 export function wireHold(el: HTMLElement, ms: number, onComplete: () => void, onHoldChange?: HoldChange): () => void {
@@ -247,6 +249,8 @@ export function wireHold(el: HTMLElement, ms: number, onComplete: () => void, on
 	const start = (e: PointerEvent) => {
 		if (timer !== null) return;
 		if ((e.target as HTMLElement | null)?.closest(HOLD_INTERACTIVE_SELECTOR)) return;
+		// The fullscreen yard <dialog> lives inside the hold target; a press there is not the hold.
+		if ((e.target as Element | null)?.closest('dialog')) return;
 		e.preventDefault();
 		activePointerId = e.pointerId;
 		onHoldChange?.(true);
@@ -302,8 +306,8 @@ export function wireGlobalHotkeys(onPlans: () => void, onEscape: () => void): ()
 	return () => window.removeEventListener('keydown', handler);
 }
 
-/** Egg 2 shared state — the pill (Hero.astro) and the site-wide keydown
- * buffer (BaseLayout) both need to flip the same overlay, so the toggle and
+/** Egg 2 shared state — the title block's date stamp (#fy-pill) and the
+ * site-wide keydown buffer (BaseLayout) both need to flip the same overlay, so the toggle and
  * its "is it open" state live here instead of in either component. Modules
  * are singletons per page load, so every importer sees the same state. */
 let drawingsOpen = false;

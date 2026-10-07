@@ -10,10 +10,10 @@ const PAPER = 'var(--ds-bg)';
 const TEXT = 'var(--ds-text)';
 const ACCENT = 'var(--ds-accent)';
 const ACCENT_H = 'var(--ds-accent-hover)';
-// --ds-amber-ink: figure-weight amber (brands.css, .brand-skills). Dark's
-// UI --ds-secondary (#E8B94A) jumps to ~9.7:1 while the ink linework holds
-// ~4.7:1, flipping figure/ground between themes; this token pins amber just
-// ahead of the ink in both. Fallback keeps non-brand contexts sane.
+// --ds-amber-ink: figure-weight redline (drawing-set.css aliases it to
+// --ds-secondary on every sheet). Kept as its own token so a figure can be
+// re-weighted against the ink linework without touching UI redline.
+// Fallback keeps non-brand contexts sane.
 const AMBER = 'var(--ds-amber-ink, var(--ds-secondary))';
 const MONO = 'var(--ds-font-mono)';
 const SERIF = 'var(--ds-font-display)';

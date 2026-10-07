@@ -13,6 +13,7 @@ import '../styles/tokens/foundation.css';
 import '../styles/tokens/brands.css';
 import '../styles/tokens/components.css';
 import '../styles/global.css';
+import '../styles/drawing-set.css';
 
 interface Props {
 	title?: string;
@@ -66,17 +67,36 @@ const canonicalUrl = `https://abhijitbansal.com${canonicalPath}`;
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
 			rel="stylesheet"
-			href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600;700&display=swap"
+			href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
 		/>
 	</head>
 	<body class="ds-root">
 		<slot />
 	</body>
 	<script>
+		// Legacy deep links (pre-Drawing-Set anchors) -> their new homes, home
+		// page only and only when the old id no longer exists.
+		document.addEventListener('DOMContentLoaded', () => {
+			const base = import.meta.env.BASE_URL;
+			if (location.pathname !== base) return;
+			const hash = location.hash.slice(1);
+			if (!hash || document.getElementById(hash)) return;
+			const inPage = new Map([['work', 'schedule'], ['expertise', 'notes'], ['about', 'notes']]);
+			if (hash === 'telemetry') {
+				location.replace(`${base}telemetry/`);
+			} else if (inPage.has(hash)) {
+				const target = inPage.get(hash)!;
+				history.replaceState(null, '', `#${target}`);
+				// replaceState never scrolls; jump instantly (no smooth behaviour).
+				document.getElementById(target)?.scrollIntoView({ behavior: 'instant' });
+			}
+		});
+	</script>
+	<script>
 		// Site-wide easter-egg init: the console riddle, egg 2's sessionStorage
 		// restore, and the "plans" keydown buffer + Esc (design_handoff_eggs).
-		// Hero.astro's own script owns the drawings overlay's visuals; this
-		// only owns the trigger, so egg 2 still arms itself on pages without a
+		// The drawings overlay's visuals are wired by its own component
+		// scripts; this only owns the trigger, so egg 2 still arms itself on pages without a
 		// hero (e.g. updates.astro) — it just has nothing to show there yet.
 		import { closeDrawings, printConsoleHint, restoreDrawings, toggleDrawings, wireGlobalHotkeys } from '../lib/eggs';
 

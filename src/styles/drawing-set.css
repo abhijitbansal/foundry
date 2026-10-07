@@ -1,0 +1,306 @@
+/* drawing-set.css — Direction A "Drawing Set" theme layer.
+   docs/plans/2026-10-06-drawing-set.md. Loaded LAST (BaseLayout.astro), so
+   it outranks foundation.css / brands.css / components.css (vendored,
+   never edited) and global.css. Selectors are html:root[data-theme=…]
+   (0,2,1) so they tie-or-beat every surviving brands.css/global.css rule
+   and win on source order. theme.ts always sets data-theme before first
+   paint; the bare :root block is the no-JS fallback.
+
+   Colour-family rule: interaction is INK (--ds-accent = --ds-text, hover
+   thickens the underline, never changes hue). REDLINE (--ds-secondary =
+   --fy-ember) is revisions, heat and lit windows only — never a link,
+   focus ring or toggle. */
+
+/* ---- theme-independent: type, radii, motion ---- */
+:root {
+  --ds-font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --ds-font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --ds-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --ds-radius-xs: 0;
+  --ds-radius-sm: 0;
+  --ds-radius-md: 0;
+  --ds-radius-lg: 0;
+  --ds-radius-xl: 0;
+  --ds-radius-icon: 0;
+  --ds-radius-pill: 0;
+  --ds-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --fy-sheet-rule: 2px;
+  --fy-night-bg: #0D1013; /* egg 3 veil target — Night Shift ground */
+}
+
+/* ---- Day sheet (light) ---- */
+:root,
+html:root[data-theme="light"],
+html:root[data-theme="light"] body.ds-root,
+html:root[data-theme="light"] .brand-skills,
+html:root[data-theme="light"] .brand-paperix,
+html:root[data-theme="light"] .brand-floorprint,
+html:root[data-theme="light"] .brand-cartoon,
+:root:not([data-theme]) .brand-skills,
+:root:not([data-theme]) .brand-paperix,
+:root:not([data-theme]) .brand-floorprint,
+:root:not([data-theme]) .brand-cartoon {
+  /* @palette day */
+  --ds-bg: #EDECE6;
+  --ds-surface: #F4F3EE;
+  --ds-surface-2: #E3E2DA;
+  --ds-line: #CFCEC5;
+  --ds-line-strong: #8E908C;
+  --ds-text: #17191A;
+  --ds-text-2: #3F4446;
+  --ds-text-3: #5F6466;
+  --ds-text-faint: #9A9D9B;
+  --ds-accent: #17191A;
+  --ds-accent-hover: #17191A;
+  --ds-on-accent: #EDECE6;
+  --ds-secondary: #B5341A;
+  --fy-ember: #B5341A;
+  /* @end */
+  --ds-accent-soft: rgba(23, 25, 26, 0.08);
+  --ds-tertiary: var(--ds-text-3);
+  --ds-amber-ink: var(--ds-secondary);
+  --fy-ember-soft: rgba(181, 52, 26, 0.10);
+  --ds-shadow-card: none;
+  --ds-shadow-pop: none;
+  color-scheme: light;
+}
+
+/* ---- Night sheet (dark) ---- */
+html:root[data-theme="dark"],
+html:root[data-theme="dark"] body.ds-root,
+html:root[data-theme="dark"] .brand-skills,
+html:root[data-theme="dark"] .brand-paperix,
+html:root[data-theme="dark"] .brand-floorprint,
+html:root[data-theme="dark"] .brand-cartoon {
+  /* @palette night */
+  --ds-bg: #121415;
+  --ds-surface: #161819;
+  --ds-surface-2: #1C1F20;
+  --ds-line: #2A2D2E;
+  --ds-line-strong: #4A4E4F;
+  --ds-text: #E8E7E0;
+  --ds-text-2: #B9BBB6;
+  --ds-text-3: #8D908C;
+  --ds-text-faint: #5A5D5B;
+  --ds-accent: #E8E7E0;
+  --ds-accent-hover: #E8E7E0;
+  --ds-on-accent: #121415;
+  --ds-secondary: #F0643F;
+  --fy-ember: #F0643F;
+  /* @end */
+  --ds-accent-soft: rgba(232, 231, 224, 0.10);
+  --ds-tertiary: var(--ds-text-3);
+  --ds-amber-ink: var(--ds-secondary);
+  --fy-ember-soft: rgba(240, 100, 63, 0.14);
+  --ds-shadow-card: none;
+  --ds-shadow-pop: none;
+  color-scheme: dark;
+}
+
+/* no-JS + OS dark: mirror the night sheet onto the bare :root fallback */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]),
+  :root:not([data-theme]) .brand-skills,
+  :root:not([data-theme]) .brand-paperix,
+  :root:not([data-theme]) .brand-floorprint,
+  :root:not([data-theme]) .brand-cartoon {
+    --ds-bg: #121415;
+    --ds-surface: #161819;
+    --ds-surface-2: #1C1F20;
+    --ds-line: #2A2D2E;
+    --ds-line-strong: #4A4E4F;
+    --ds-text: #E8E7E0;
+    --ds-text-2: #B9BBB6;
+    --ds-text-3: #8D908C;
+    --ds-text-faint: #5A5D5B;
+    --ds-accent: #E8E7E0;
+    --ds-accent-hover: #E8E7E0;
+    --ds-accent-soft: rgba(232, 231, 224, 0.10);
+    --ds-on-accent: #121415;
+    --ds-secondary: #F0643F;
+    --fy-ember: #F0643F;
+    --fy-ember-soft: rgba(240, 100, 63, 0.14);
+    --ds-tertiary: var(--ds-text-3);
+    --ds-amber-ink: var(--ds-secondary);
+    color-scheme: dark;
+  }
+}
+
+/* ---- base ---- */
+body.ds-root {
+  background: var(--ds-bg);
+  color: var(--ds-text);
+  font-family: var(--ds-font-body);
+  font-size: 17px;
+  line-height: 1.5;
+}
+a {
+  color: var(--ds-text);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--ds-text);
+  text-decoration-thickness: 2.5px;
+}
+::selection {
+  background: color-mix(in srgb, var(--ds-secondary) 24%, transparent);
+}
+:focus-visible {
+  outline: 2px solid var(--ds-text);
+  outline-offset: 3px;
+}
+
+/* ===== DS class restyle — kills the eyebrow / ghost-button / rounded-card idioms site-wide (.ds-pill/.ds-card/.ds-link have no consumer in src/, so no overrides) ===== */
+.ds-display-xl { font-family: var(--ds-font-display); font-weight: 750; font-stretch: 118%; font-size: clamp(40px, 5.2vw, 74px); line-height: 1; letter-spacing: -0.018em; }
+.ds-display-lg { font-family: var(--ds-font-display); font-weight: 800; font-stretch: 125%; font-size: clamp(32px, 3.6vw, 52px); line-height: 1; letter-spacing: -0.012em; }
+.ds-display-md { font-family: var(--ds-font-display); font-weight: 750; font-stretch: 118%; font-size: clamp(20px, 2vw, 24px); line-height: 1.15; letter-spacing: -0.005em; }
+.ds-title { font-weight: 700; font-stretch: 112%; }
+.ds-heading { font-weight: 700; font-stretch: 112%; }
+.ds-display-lg.fy-stat,
+.ds-display-md.fy-stat { letter-spacing: 0; font-variant-numeric: lining-nums tabular-nums; }
+.ds-lead { font-size: 19px; line-height: 1.5; color: var(--ds-text-2); }
+
+.ds-kicker {
+  font-family: var(--ds-font-mono);
+  font-weight: 400;
+  font-size: 13.5px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ds-text-3);
+}
+.ds-micro {
+  font-family: var(--ds-font-mono);
+  font-weight: 400;
+  font-size: 12.5px;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.ds-rule { height: var(--fy-sheet-rule); background: var(--ds-text); margin: 14px 0 0; }
+.ds-rule::before { display: none; }
+
+.ds-btn {
+  font-family: var(--ds-font-body);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 0;
+  background: var(--ds-text);
+  color: var(--ds-bg);
+}
+.ds-btn:hover { background: color-mix(in srgb, var(--ds-text) 84%, var(--ds-bg)); color: var(--ds-bg); transform: none; }
+.ds-btn:active { transform: translateY(1px); }
+.ds-btn:focus-visible { box-shadow: none; outline: 2px solid var(--ds-text); outline-offset: 3px; }
+
+.ds-btn-quiet {
+  font-family: var(--ds-font-body);
+  font-weight: 500;
+  font-size: 16px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ds-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.ds-btn-quiet:hover { color: var(--ds-text); text-decoration-thickness: 2.5px; }
+.ds-btn-quiet:focus-visible { box-shadow: none; outline: 2px solid var(--ds-text); outline-offset: 3px; }
+
+.ds-chip {
+  font-weight: 400;
+  font-size: 12.5px;
+  letter-spacing: 0;
+  text-transform: none;
+  border-radius: 0;
+  border-color: var(--ds-line-strong);
+  background: transparent;
+  color: var(--ds-text-2);
+}
+.ds-chip.ds-chip--accent { border-color: var(--ds-text); color: var(--ds-text); background: transparent; }
+
+.fy-plate,
+.fy-well {
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  border: 1px solid var(--ds-line-strong);
+}
+.fy-plate { transition: border-color var(--ds-duration-base) var(--ds-ease-standard); }
+.fy-plate:hover { border-color: var(--ds-text); box-shadow: none; transform: none; }
+
+.ds-callout {
+  border-left: 0;
+  border-top: var(--fy-sheet-rule) solid var(--ds-text);
+  border-radius: 0;
+  background: transparent;
+  padding: 14px 0 0;
+}
+
+.fy-link-underline { color: var(--ds-text); border-bottom: 0; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.fy-link-underline:hover { text-decoration-thickness: 2.5px; }
+
+.fy-link-t2:hover { color: var(--ds-text); }
+
+/* Programmatic skip-link targets (#telemetry-body, updates' #weeks) take
+   focus via tabindex="-1". Keyboard users still get the ring through the
+   global :focus-visible rule; mouse/programmatic focus (which would paint
+   a ring round a whole section) does not. */
+[tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
+
+/* One meter-reading numeral, shared by MeterReadings and Telemetry. */
+.fy-meter-num {
+  font: 500 clamp(34px, 3.4vw, 46px) var(--ds-font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Egg 3 — the night whistle flips the yard card to the Night Shift palette
+   (sodium on blue-black), independent of the visitor's sheet. !important
+   beats works-svg.ts's own data-theme-conditional --fyw-* block. */
+.fy-yard-night {
+  background: var(--fy-night-bg) !important;
+  border-color: #232A31 !important;
+  --ds-surface: var(--fy-night-bg);
+  --ds-surface-2: #151A1F;
+  --ds-line: #232A31;
+  --ds-line-strong: #3A434C;
+  --ds-text: #ECE8DF;
+  --ds-text-2: #B4B6B4;
+  --ds-text-3: #8A8F93;
+  --ds-text-faint: #4C5258;
+  --ds-accent: #F2A541;
+  --ds-accent-hover: #F2A541;
+  --ds-accent-soft: rgba(242, 165, 65, 0.14);
+  --ds-secondary: #F2A541;
+  transition: background 0.9s var(--ds-ease-standard), border-color 0.9s var(--ds-ease-standard);
+}
+@media (prefers-reduced-motion: reduce) {
+  .fy-yard-night { transition: none; }
+}
+.fy-yard-night svg.fyw-svg {
+  --fyw-window-lit: #F2A541 !important;
+  --fyw-clerestory: #F2A541 !important;
+  --fyw-hot-fill: #F2A541 !important;
+  --fyw-annex-glass: color-mix(in srgb, #F2A541 32%, #151A1F) !important;
+  --fyw-halo-op: 0.16 !important;
+  --fyw-hot-glow-op: 0.2 !important;
+  --fyw-furnace-glow-op: 0.34 !important;
+  --fyw-furnace-glow-r: 16px !important;
+}
+
+/* Egg 1 seal: its strokes are --ds-accent-hover (near-white on the night
+   sheet), which multiply would erase into the background — screen instead. */
+#fy-seal { mix-blend-mode: multiply; }
+html:root[data-theme="dark"] #fy-seal { mix-blend-mode: screen; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) #fy-seal { mix-blend-mode: screen; }
+}

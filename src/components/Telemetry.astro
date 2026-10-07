@@ -1,13 +1,12 @@
 ---
-// Telemetry.astro — plan Task 5.3. Structure + copy verbatim from 2A
-// source lines 283-457; every number below is now derived at build time
-// from data/stats.json via src/lib/telemetry.ts (Phase 3's hardcoded
-// snapshot values are gone). Heatmap cell generation lives in
-// Heatmap.astro. The activity card is anchored at TELEMETRY_START_ISO
-// (May 1, 2026) through the latest data day — "always everything from
-// May 1st onwards", not a trailing 30-day window.
+// Telemetry.astro — body of the /telemetry/ page (Sheet B-01): headline
+// meter readings, the yard ledger, the since-May-1 heatmap, top tools, model
+// mix, chips and the memekit terminal. Every number is derived at build time
+// from data/stats.json via src/lib/telemetry.ts; heatmap cells live in
+// Heatmap.astro. The activity card runs from TELEMETRY_START_ISO (May 1, 2026)
+// through the latest data day, not a trailing 30-day window.
 import Heatmap from './Heatmap.astro';
-import WorksCity from './WorksCity.astro';
+import SheetHead from './SheetHead.astro';
 import statsJson from '../../data/stats.json';
 import type { StatsJson } from '../lib/telemetry.types';
 import {
@@ -27,47 +26,26 @@ import {
 } from '../lib/telemetry';
 import type { HeatBucket } from '../lib/telemetry.types';
 import { buildLedger } from '../lib/works';
-import type { WorksRepo } from '../lib/works.types';
-import { getAllWeeksDesc } from '../lib/weekly';
+import { loadWorksRepos } from '../lib/yard-data';
 
 const stats = statsJson as unknown as StatsJson;
 
 // Legend swatches, quiet -> peak — reads straight off heatBucketColor()
-// (PAL-8) instead of hand-duplicating the ramp's color-mix expressions a
+// instead of hand-duplicating the ramp's color-mix expressions a
 // second time in markup; this legend used to hardcode its own copy of the
 // same 5 literal color-mix strings, which would have silently gone stale
 // against the actual cells the moment the ramp changed underneath it.
 const HEAT_LEGEND_BUCKETS: HeatBucket[] = ['quiet', 'low', 'mid', 'high', 'peak'];
 const { meta, totals } = stats;
 
-// The Works card — data/stats.json's repos[] carries more fields than the
-// RepoSummary type above models (that type deliberately only covers what
-// the rest of this page consumes); cast separately for the fields
-// works.ts needs.
-interface StatsRepoRow {
-	repo: string;
-	sessions: number;
-	lines_added: number;
-	out_tokens: number;
-}
-const statsRepos = statsJson.repos as unknown as StatsRepoRow[];
-
-const latestWeek = getAllWeeksDesc()[0];
-const activeThisWeek = new Set(latestWeek ? latestWeek.repos.map((r) => r.repo) : []);
-
-const worksRepos: WorksRepo[] = statsRepos.map((r) => ({
-	repo: r.repo,
-	lines: r.lines_added,
-	sessions: r.sessions,
-	tokens: r.out_tokens,
-	active: activeThisWeek.has(r.repo),
-}));
+// Yard ledger rows — shared with the home schedule via lib/yard-data.
+const worksRepos = loadWorksRepos();
 
 const worksLedger = buildLedger(worksRepos);
 const worksTallest = worksLedger[0];
 const worksVacant = worksLedger.filter((e) => e.storeys === 0);
 const worksCaption = worksTallest
-	? `Yard ledger: ${worksTallest.repo} — tallest hall on the yard, ${formatCompact(worksTallest.lines)} lines and counting.` +
+	? `${worksTallest.repo} — tallest hall on the yard, ${formatCompact(worksTallest.lines)} lines and counting.` +
 		(worksVacant.length > 0 ? ` ${worksVacant.map((v) => v.repo).join(', ')} — site cleared, groundbreaking soon.` : '')
 	: '';
 
@@ -99,94 +77,42 @@ const compactCount = lookupCount(stats.top_slash, '/compact');
 const longestPrompt = formatCompact(stats.global_prompts.max);
 const cubbyScreenshots = stats.repos.find((r) => r.repo === 'cubby')?.image_count ?? 0;
 
+const statCells = [
+	{ value: formatCompact(totals.lines_added), label: 'lines added', note: `across every repo, ${daysSpan} days` },
+	{ value: formatCompact(totals.sessions), label: 'sessions', note: `${formatCompact(totals.user_msgs)} prompts · ${formatCompact(totals.assistant_msgs)} replies` },
+	{ value: formatCompact(totals.out_tokens), label: 'tokens written', note: 'model output' },
+	{ value: formatCompact(totals.cache_read_tokens), label: 'tokens read from cache', note: 'context served from the prompt cache' },
+];
+
 const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals.cache_read_tokens);
 ---
 
-<section id="telemetry" data-screen-label="Telemetry" style="position:relative;scroll-margin-top:72px">
-	<div style="max-width:1200px;margin:0 auto;padding:clamp(72px,10vw,150px) clamp(20px,5vw,56px) 0;box-sizing:border-box">
-		<div data-reveal style="position:relative">
-			<p class="ds-kicker" style="margin:0 0 12px"><span class="fy-sheet-num">03</span><span class="fy-sheet-sep"> · </span><span class="fy-sheet-name">Forge telemetry</span></p>
-			<h2 class="ds-display-lg" style="margin:0">The forge runs hot.</h2>
-			<p class="ds-lead" style="margin:14px 0 0;max-width:60ch;text-wrap:pretty">
-				Everything above is built with Claude Code — and the workshop keeps its own books. Parsed locally from {filesFound}{' '}
-				session logs, {dateRange}.
-			</p>
-			<hr class="ds-rule" style="margin-top:18px" />
+<section id="telemetry" data-screen-label="Telemetry" style="position:relative">
+	<div style="max-width:1360px;margin:0 auto;padding:0 clamp(16px,3vw,40px) clamp(64px,9vw,110px);box-sizing:border-box">
+		<div data-reveal>
+			<SheetHead code="B-01" title="Meter readings, in full." lead={`Everything on this site is built with Claude Code. Parsed locally from ${filesFound} session logs, ${dateRange}.`} />
 		</div>
 
-		<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:clamp(16px,2vw,26px);margin-top:clamp(26px,4vw,42px)">
-			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg fy-stat">{formatCompact(totals.lines_added)}</span>
-				<span class="ds-micro" style="color:var(--ds-accent-hover)">Lines added</span>
-				<span class="ds-caption">across every repo, {daysSpan} days</span>
-			</div>
-			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg fy-stat">{formatCompact(totals.sessions)}</span>
-				<span class="ds-micro" style="color:var(--ds-accent-hover)">Sessions</span>
-				<span class="ds-caption">{formatCompact(totals.user_msgs)} prompts · {formatCompact(totals.assistant_msgs)} replies</span>
-			</div>
-			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg fy-stat">{formatCompact(totals.out_tokens)}</span>
-				<span class="ds-micro" style="color:var(--ds-accent-hover)">Tokens written</span>
-				<span class="ds-caption">output, straight into the melt</span>
-			</div>
-			<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
-				<span class="ds-display-lg fy-stat">{formatCompact(totals.cache_read_tokens)}</span>
-				<span class="ds-micro" style="color:var(--ds-accent-hover)">Tokens cache-read</span>
-				<span class="ds-caption">the crucible remembers</span>
-			</div>
+		<div id="telemetry-body" tabindex="-1" style="scroll-margin-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:clamp(16px,2vw,26px);margin-top:clamp(26px,4vw,42px)">
+			{
+				statCells.map((c) => (
+					<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
+						<span class="fy-meter-num">{c.value}</span>
+						<span class="ds-micro" style="color:var(--ds-text);font-weight:500">{c.label}</span>
+						<span class="ds-caption">{c.note}</span>
+					</div>
+				))
+			}
 		</div>
 
-		<!-- Egg 3 — the night whistle (design_handoff_eggs/PROMPT.md): press-and-
-		     hold the yard 0.9s to flip it to the night shift. The only way to
-		     reach the night render — see fy-yard-night in global.css. -->
-		<article id="fy-yard-card" class="fy-yard-bleed" data-reveal style="display:flex;flex-direction:column;gap:18px;background:var(--ds-surface);border:1px solid var(--ds-line);border-radius:var(--ds-radius-lg);padding:24px 26px;margin-top:clamp(26px,4vw,40px)">
-			<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-				<span id="fy-yard-title" class="ds-micro" style="color:var(--ds-accent-hover)">The works — one building per repo</span>
-				<!-- The hover/whistle hints are SIBLINGS of #fy-yard-meta, not children:
-				     the night egg does meta.textContent = … (applyState below), which
-				     would destroy child elements. The wrapper keeps the header flex row
-				     seeing one item. .fy-hover-hint hides on touch (no :hover highlight
-				     exists in works-svg.ts) and both hint spans hide in night mode —
-				     nightMeta carries its own whistle clause (rules in global.css). -->
-				<span class="ds-micro" style="color:var(--ds-text-2);line-height:1.8"
-					><span id="fy-yard-meta">All-time · {dateRange} · {statsRepos.length} repos</span
-					><span class="fy-hover-hint"> · hover a building</span
-					><span class="fy-yard-meta-tail"> · the shift ends at the whistle</span
-				></span>
-			</div>
-			<div id="fy-yard-wrap" class="fy-hold-target" style="position:relative;touch-action:manipulation">
-				<WorksCity variant="yard" repos={worksRepos} />
-				<div id="fy-yard-hold-caption" aria-hidden="true" style="position:absolute;left:50%;bottom:12px;transform:translateX(-50%);width:min(300px,64%);display:none;flex-direction:column;gap:6px;align-items:center;pointer-events:none;z-index:3">
-					<span id="fy-yard-hold-text" style="font:500 9px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-text-2);white-space:nowrap">HOLDING — THE SHIFT ENDS AT THE WHISTLE</span>
-					<span style="display:block;width:100%;height:2px;background:var(--ds-accent-soft);border-radius:2px;overflow:hidden;position:relative"
-						><span id="fy-yard-hold-bar" style="position:absolute;inset:0;background:var(--ds-accent);transform-origin:left center"></span></span
-					>
-				</div>
-				<div id="fy-yard-veil" aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;border-radius:inherit;display:none"></div>
-			</div>
-			<div id="fy-yard-legend-day" style="display:flex;flex-wrap:wrap;gap:10px 22px;border-top:1px solid var(--ds-line);padding-top:14px">
-				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-2)">height = lines added</span>
-				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-2)">lit windows = tokens out</span>
-				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-2)">smoke = active this week</span>
-				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-2)">ingots = 1 ≈ 10k lines</span>
-				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-2)">crane = work in progress</span>
-				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-2)">pennants = PRs merged (weekly)</span>
-				<!-- Local transcripts rotate after ~30 days, so a per-repo figure is
-				     the largest window ever archived, not an exact lifetime count.
-				     The site-wide totals above accrete per day and are exact. Saying
-				     so here is cheaper than being caught rounding in our own favour. -->
-				<span class="ds-micro fy-mono-cased" style="color:var(--ds-text-faint)">per-repo totals are floors — transcripts rotate</span>
-			</div>
-			<p id="fy-yard-legend-night" class="ds-caption" style="display:none;margin:0;color:var(--ds-text-2);border-top:1px solid var(--ds-line);padding-top:14px">
-				The fire kept in: every gold window was paid for in tokens. A distant two-tone whistle called the shift; hold again and a single toot brings the dawn.
-			</p>
+		<div data-reveal style="margin-top:clamp(36px,5vw,56px);display:flex;flex-direction:column;gap:16px">
+			<h2 class="ds-display-md" style="margin:0">Yard ledger</h2>
 			<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px">
 				{worksLedger.map((entry) => (
 					<div style="border-top:1px solid var(--ds-line);padding-top:10px;display:flex;flex-direction:column;gap:4px">
 						<span style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
-							<span class="ds-micro" style="color:var(--ds-accent-hover)">{String(entry.rank).padStart(2, '0')}</span>
-							<span class="ds-micro" style="color:var(--ds-text);font-weight:600;letter-spacing:0.02em">{entry.repo}</span>
+							<span class="ds-micro" style="color:var(--ds-text-3)">{String(entry.rank).padStart(2, '0')}</span>
+							<span class="ds-micro" style="color:var(--ds-text);font-weight:600">{entry.repo}</span>
 							<span class="ds-caption" style="color:var(--ds-text-2)">{entry.storeys} {entry.storeys === 1 ? 'storey' : 'storeys'}</span>
 						</span>
 						<span class="ds-caption" style="color:var(--ds-text-2)">
@@ -196,12 +122,13 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 				))}
 			</div>
 			<p class="ds-caption" style="margin:0;color:var(--ds-text-2);max-width:72ch;text-wrap:pretty">{worksCaption}</p>
-		</article>
+			<p class="ds-caption" style="margin:0;color:var(--ds-text-3)">Per-repo figures are floors; old transcripts rotate out.</p>
+		</div>
 
 		<div class="fy-tele-grid" style="display:grid;gap:20px;margin-top:clamp(26px,4vw,40px);align-items:stretch">
 			<article class="fy-well fy-tele-heat" data-reveal style="display:flex;flex-direction:column;gap:18px;padding:24px 26px">
 				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-					<span class="ds-micro" style="color:var(--ds-accent-hover)">Since May 1</span>
+					<h2 class="ds-micro" style="color:var(--ds-text);font-weight:500;margin:0">Since May 1</h2>
 					<span class="ds-micro" style="color:var(--ds-text-2)">{windowStartLabel} – {windowEndLabel} · out-tokens per day</span>
 				</div>
 				<div style="display:flex;gap:clamp(18px,3vw,32px);align-items:flex-start;flex-wrap:wrap">
@@ -212,15 +139,15 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 					</div>
 					<div style="display:flex;flex-direction:column;gap:14px;flex:1;min-width:150px">
 						<div style="display:flex;flex-direction:column;gap:3px">
-							<span class="ds-display-md fy-stat">{formatCompact(windowSessions)}</span>
+							<span class="fy-meter-num fy-meter-num--sm">{formatCompact(windowSessions)}</span>
 							<span class="ds-micro" style="color:var(--ds-text-2)">Sessions</span>
 						</div>
 						<div style="display:flex;flex-direction:column;gap:3px">
-							<span class="ds-display-md fy-stat">{formatCompact(windowLines)}</span>
+							<span class="fy-meter-num fy-meter-num--sm">{formatCompact(windowLines)}</span>
 							<span class="ds-micro" style="color:var(--ds-text-2)">Lines added</span>
 						</div>
 						<div style="display:flex;flex-direction:column;gap:3px">
-							<span class="ds-display-md fy-stat">{formatCompact(windowTokensOut)}</span>
+							<span class="fy-meter-num fy-meter-num--sm">{formatCompact(windowTokensOut)}</span>
 							<span class="ds-micro" style="color:var(--ds-text-2)">Tokens out</span>
 						</div>
 					</div>
@@ -238,7 +165,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 						{
 							HEAT_LEGEND_BUCKETS.map((bucket) => (
 								<span
-									style={`width:12px;height:12px;border-radius:3px;background:${heatBucketColor(bucket)}${bucket === 'quiet' ? ';border:1px solid var(--ds-line);box-sizing:border-box' : ''}`}
+									style={`width:12px;height:12px;border-radius:0;background:${heatBucketColor(bucket)}${bucket === 'quiet' ? ';border:1px solid var(--ds-line);box-sizing:border-box' : ''}`}
 								/>
 							))
 						}
@@ -248,15 +175,15 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 			</article>
 
 			<article class="fy-well fy-tele-tools" data-reveal style="display:flex;flex-direction:column;gap:14px;padding:24px 26px">
-				<span class="ds-micro" style="color:var(--ds-accent-hover)">Top tools</span>
+				<h2 class="ds-micro" style="color:var(--ds-text);font-weight:500;margin:0">Top tools</h2>
 				{toolBars.map((bar) => (
 					<div style="display:flex;flex-direction:column;gap:5px">
 						<div style="display:flex;justify-content:space-between;gap:12px">
 							<span class="ds-micro" style="color:var(--ds-text-2)">{bar.label}</span>
 							<span class="ds-micro" style="color:var(--ds-text-2)">{formatCompact(bar.count)}</span>
 						</div>
-						<div aria-hidden="true" style="height:3px;background:var(--ds-line);border-radius:2px">
-							<div style={`width:${bar.percent}%;height:3px;background:var(--ds-accent);border-radius:2px`}></div>
+						<div aria-hidden="true" style="height:3px;background:var(--ds-line);border-radius:0">
+							<div style={`width:${bar.percent}%;height:3px;background:var(--ds-text);border-radius:0`}></div>
 						</div>
 					</div>
 				))}
@@ -264,16 +191,16 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 
 			<article class="fy-well fy-tele-mix" data-reveal style="display:flex;flex-direction:column;gap:16px;padding:24px 26px">
 				<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap">
-					<span class="ds-micro" style="color:var(--ds-accent-hover)">Model mix</span>
+					<h2 class="ds-micro" style="color:var(--ds-text);font-weight:500;margin:0">Model mix</h2>
 					<span class="ds-micro" style="color:var(--ds-text-2)">{formatCompact(totals.assistant_msgs)} assistant messages</span>
 				</div>
-				<div aria-hidden="true" style="display:flex;height:8px;border-radius:var(--ds-radius-pill);overflow:hidden">
+				<div aria-hidden="true" style="display:flex;height:8px;border-radius:0;overflow:hidden">
 					{modelSegments.map((seg) => <span style={`width:${seg.percent}%;background:${seg.colorVar}`} />)}
 				</div>
 				<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px 18px">
 					{modelSegments.map((seg) => (
 						<span style="display:inline-flex;align-items:center;gap:8px">
-							<span style={`width:7px;height:7px;border-radius:50%;background:${seg.colorVar};flex:none`}></span>
+							<span style={`width:7px;height:7px;border-radius:0;background:${seg.colorVar};flex:none`}></span>
 							<span class="ds-micro" style="color:var(--ds-text-2)">
 								{seg.label} · {seg.percent}%
 							</span>
@@ -304,7 +231,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 (ノ°□°)ノ ︵ ┻━┻      the ledger, first read
 ┬─┬ ノ( ゜-゜ノ)      the ledger, accepted
 
-<span style="color:var(--ds-accent-hover)">0 regrets · {formatCompact(totals.lines_added)} lines shipped</span></pre>
+<span style="color:var(--ds-secondary)">0 regrets · {formatCompact(totals.lines_added)} lines shipped</span></pre>
 		</aside>
 
 		<p class="ds-caption" data-reveal style="margin:18px 0 0;max-width:72ch;text-wrap:pretty">
@@ -314,86 +241,16 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 				target="_blank"
 				rel="noopener"
 				class="fy-link-underline"
-				style="color:var(--ds-accent-hover);text-decoration:none;transition:border-color var(--ds-duration-base) var(--ds-ease-standard)"
+				style="color:var(--ds-text)"
 				>claude-skills</a
 			>{' '}script — on-device, like everything else here. Regenerated at each deploy.
 		</p>
 	</div>
 </section>
 
-<script>
-	import { readFlag, reducedMotion, whistle, wireHold, writeFlag } from '../lib/eggs';
-
-	const card = document.getElementById('fy-yard-card');
-	const wrap = document.getElementById('fy-yard-wrap');
-	const veil = document.getElementById('fy-yard-veil');
-	const holdCaption = document.getElementById('fy-yard-hold-caption');
-	const holdText = document.getElementById('fy-yard-hold-text');
-	const holdBar = document.getElementById('fy-yard-hold-bar');
-	const title = document.getElementById('fy-yard-title');
-	const meta = document.getElementById('fy-yard-meta');
-	const legendDay = document.getElementById('fy-yard-legend-day');
-	const legendNight = document.getElementById('fy-yard-legend-night');
-
-	if (card && wrap && veil && holdCaption && holdText && holdBar && title && meta && legendDay && legendNight) {
-		const dayTitle = title.textContent ?? '';
-		const dayMeta = meta.textContent ?? '';
-		const nightTitle = 'The works — the night shift';
-		const nightMeta = 'lit windows = tokens out · hold the yard — dawn comes at the whistle';
-
-		let night = readFlag('fy-shift');
-
-		function applyState() {
-			title!.textContent = night ? nightTitle : dayTitle;
-			meta!.textContent = night ? nightMeta : dayMeta;
-			legendDay!.style.display = night ? 'none' : 'flex';
-			legendNight!.style.display = night ? 'block' : 'none';
-			holdText!.textContent = night ? 'HOLDING — THE DAY SHIFT CLOCKS IN' : 'HOLDING — THE SHIFT ENDS AT THE WHISTLE';
-			card!.classList.toggle('fy-yard-night', night);
-		}
-
-		applyState();
-
-		let flipTimer: ReturnType<typeof setTimeout> | null = null;
-		let hideTimer: ReturnType<typeof setTimeout> | null = null;
-
-		wireHold(
-			wrap,
-			900,
-			() => {
-				const toNight = !night;
-				whistle(toNight);
-				writeFlag('fy-shift', toNight);
-				if (reducedMotion) {
-					night = toNight;
-					applyState();
-					return;
-				}
-				if (flipTimer) clearTimeout(flipTimer);
-				if (hideTimer) clearTimeout(hideTimer);
-				veil.style.display = 'block';
-				veil.style.background = 'linear-gradient(180deg,#111722,#16130F 70%)';
-				// Reset before reassigning — an in-flight veil re-triggered by a
-				// quick second hold would otherwise get the identical animation
-				// string twice in a row, which the browser doesn't restart.
-				veil.style.animation = 'none';
-				void veil.offsetWidth;
-				veil.style.animation = 'fy-veil 1.7s var(--ds-ease-standard) forwards';
-				flipTimer = setTimeout(() => {
-					flipTimer = null;
-					night = toNight;
-					applyState();
-				}, 650);
-				hideTimer = setTimeout(() => {
-					hideTimer = null;
-					veil.style.display = 'none';
-					veil.style.animation = 'none';
-				}, 1750);
-			},
-			(holding) => {
-				holdCaption.style.display = holding ? 'flex' : 'none';
-				holdBar.style.animation = holding && !reducedMotion ? 'fy-hold 0.9s linear forwards' : 'none';
-			},
-		);
+<style>
+	.fy-meter-num--sm {
+		font-size: 26px;
+		line-height: 1.1;
 	}
-</script>
+</style>

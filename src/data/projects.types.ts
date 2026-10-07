@@ -10,6 +10,7 @@ export interface ProjectExtraLink {
 
 export interface Project {
 	name: string;
+	repo: string; // slug in data/stats.json — joins the project to its yard building
 	status: ProjectStatus;
 	blurb: string;
 	tech: string;

@@ -17,3 +17,4 @@ One markdown file per AI coding session that makes commits. Rules: [AGENTS.md â†
 | 0011 | 2026-09-04 | Weekly digest recovery: 2026-W32 wedged PR #30 (gh pr create network reset), merged main in, kept W32 json | [0011-2026-09-04-w32-digest-recovery.md](./0011-2026-09-04-w32-digest-recovery.md) |
 | 0012 | 2026-09-06 | Add Purix: project card, Apps group to five, stats allowlist + yard slot, 2x2 lead grid | [0012-2026-09-06-add-purix.md](./0012-2026-09-06-add-purix.md) |
 | 0013 | 2026-10-05 | Weekly digest: W40 PR #42 auto-merge lost to a connection reset; push, PR create and merge now retry and report truthfully | [0013-2026-10-05-weekly-merge-retry.md](./0013-2026-10-05-weekly-merge-retry.md) |
+| 0014 | 2026-10-06 | Drawing Set redesign: proposal canvas, plan, 10 tasks subagent-driven â€” film/ink/redline theme, yard hero, sheet chrome, /telemetry/, Three.js retired | [0014-2026-10-06-drawing-set-redesign.md](./0014-2026-10-06-drawing-set-redesign.md) |

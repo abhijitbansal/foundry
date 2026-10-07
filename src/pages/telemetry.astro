@@ -1,0 +1,27 @@
+---
+// telemetry.astro — Sheet B-01, the full telemetry page (the home sheet
+// carries only the four meter readings).
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SkipLink from '../components/SkipLink.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Telemetry from '../components/Telemetry.astro';
+---
+
+<BaseLayout
+	title="Telemetry — Abhijit Bansal — Foundry"
+	description="How this site and its siblings get built: sessions, lines, tokens, models and tools, parsed locally from Claude Code transcripts."
+	canonicalPath="/telemetry/"
+>
+	<SkipLink href="#telemetry-body" label="Skip to the readings" />
+	<Nav />
+	<main class="brand-skills">
+		<Telemetry />
+	</main>
+	<Footer />
+</BaseLayout>
+
+<script>
+	import { initReveals } from '../lib/reveal';
+	initReveals();
+</script>

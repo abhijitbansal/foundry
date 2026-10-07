@@ -90,7 +90,7 @@ export function buildLedger(repos: WorksRepo[]): LedgerEntry[] {
 		}));
 }
 
-/** All-time yard plan (index `#telemetry`). `repos` should cover every
+/** All-time yard plan (home hero and the schedule's numbering). `repos` should cover every
  * repo in data/stats.json — throws via assertYardCoverage otherwise. */
 export function buildYard(repos: WorksRepo[], opts: { instanceId?: string }): WorksResult {
 	assertYardCoverage(repos);
