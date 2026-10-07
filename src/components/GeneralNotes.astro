@@ -1,0 +1,33 @@
+---
+// GeneralNotes.astro — Sheet A-04 (rendered on A-01's page). Replaces the
+// three equal Expertise columns and the About block with one numbered list.
+const NOTES = [
+	['iOS and Apple platforms.', 'Swift 6, SwiftUI, SwiftData, Vision, RoomPlan, on-device ML. Zero-backend architecture — apps that never phone home.'],
+	['Agent tooling.', 'Claude Code skills and plugins, MCP servers, token optimization, multi-agent orchestration. Tools that make agents cheaper and more exact.'],
+	['The whole product.', 'Rust CLIs, design systems, App Store releases. Shipped solo — the same hands sketch the interface, write the Swift, cut the release and answer the support mail.'],
+	['Privacy is the default, not a setting.', 'Apps run on-device with zero telemetry. This site has no trackers either.'],
+];
+---
+
+<section id="notes" data-screen-label="General notes" class="fy-notes">
+	<div class="fy-notes__head">
+		<p class="ds-kicker" style="margin:0">Sheet A-04</p>
+		<h2 class="ds-display-lg" style="margin:0">General notes</h2>
+	</div>
+	<ol class="fy-notes__list">
+		{NOTES.map(([lead, body], i) => (
+			<li><span class="fy-notes__n">{i + 1}.</span><p><strong>{lead}</strong> <span>{body}</span></p></li>
+		))}
+	</ol>
+</section>
+
+<style>
+	.fy-notes { max-width: 1360px; margin: 0 auto; padding: clamp(64px, 8vw, 112px) clamp(16px, 3vw, 40px) 0; box-sizing: border-box; display: flex; flex-wrap: wrap; gap: 32px 64px; }
+	.fy-notes__head { flex: 1 1 280px; display: flex; flex-direction: column; gap: 8px; }
+	.fy-notes__list { flex: 999 1 640px; min-width: 0; margin: 0; padding: 0; list-style: none; border-top: var(--fy-sheet-rule) solid var(--ds-text); }
+	.fy-notes__list li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--ds-line); }
+	.fy-notes__n { font-family: var(--ds-font-mono); color: var(--ds-text-3); }
+	.fy-notes__list p { margin: 0; max-width: 40em; }
+	.fy-notes__list strong { font-weight: 700; }
+	.fy-notes__list span { color: var(--ds-text-2); }
+</style>

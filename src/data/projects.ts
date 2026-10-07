@@ -56,7 +56,7 @@ export const appsProjects: Project[] = [
 		tech: 'Chrome · Firefox · Safari · TypeScript',
 		siteUrl: 'https://abhijitbansal.github.io/purix/index.html',
 		siteLabel: 'purix-site ↗',
-		extraLink: { url: 'https://github.com/abhijitbansal/purix', label: 'GitHub ↗' },
+		repoUrl: 'https://github.com/abhijitbansal/purix',
 		private: false,
 	},
 	{

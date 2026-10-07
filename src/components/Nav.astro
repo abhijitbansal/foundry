@@ -6,7 +6,7 @@ import { SHEETS } from '../lib/sheet';
 
 const base = import.meta.env.BASE_URL;
 const here = Astro.url.pathname.replace(/\/?$/, '/');
-const links = SHEETS.filter((s) => s.path !== '').map((s) => ({
+const links = SHEETS.filter((s) => s.path !== '' && s.code !== 'A-04').map((s) => ({
 	...s,
 	href: `${base}${s.path}`,
 	current: !s.path.startsWith('#') && here.startsWith(`${base}${s.path}`),

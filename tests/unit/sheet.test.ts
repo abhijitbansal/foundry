@@ -10,6 +10,6 @@ describe('sheet.ts', () => {
 	it('numbers every sheet uniquely, in index order', () => {
 		const codes = SHEETS.map((s) => s.code);
 		expect(new Set(codes).size).toBe(codes.length);
-		expect(codes).toEqual(['A-01', 'A-02', 'A-03', 'B-01', 'C-01', 'C-02']);
+		expect(codes).toEqual(['A-01', 'A-02', 'A-03', 'A-04', 'B-01', 'C-01', 'C-02']);
 	});
 });

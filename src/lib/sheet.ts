@@ -11,6 +11,7 @@ export const SHEETS: Sheet[] = [
 	{ code: 'A-01', label: 'Yard', path: '' },
 	{ code: 'A-02', label: 'Works', path: '#schedule' },
 	{ code: 'A-03', label: 'Revisions', path: 'updates/' },
+	{ code: 'A-04', label: 'Notes', path: '#notes' },
 	{ code: 'B-01', label: 'Telemetry', path: 'telemetry/' },
 	{ code: 'C-01', label: 'Harness', path: 'harness/' },
 	{ code: 'C-02', label: 'Craft', path: 'craft/' },
