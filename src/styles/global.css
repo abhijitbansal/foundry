@@ -80,9 +80,10 @@ body {
    --ds-text-2 clears it. Site-side override rather than editing the vendored
    components.css. :not(.ds-chip--accent) is required — global.css loads
    after components.css, so a bare .ds-chip would tie .ds-chip--accent on
-   specificity and win on source order, flattening the accent chips. Placed
-   BEFORE .fy-link-t2 so updates.astro's `class="ds-chip fy-link-t2"` keeps
-   the same resting colour either way; hover is owned by drawing-set.css. */
+   specificity and win on source order, flattening the accent chips. Both
+   .ds-chip and .fy-link-t2 resolve to --ds-text-2, so updates.astro's
+   `class="ds-chip fy-link-t2"` is the same colour whichever wins; hover is
+   owned by drawing-set.css. */
 .ds-chip:not(.ds-chip--accent) { color: var(--ds-text-2); }
 .fy-link-t2 { color: var(--ds-text-2); }
 .fy-skip-link { top: -56px; }
@@ -537,8 +538,8 @@ html .ds-btn {
 /* /craft/ essay layout — see src/components/craft/CraftAct.astro and
    CraftCoda.astro. Desktop: essay column + fixed 280px "manager's margin"
    column (vignette above the italic note). Inline styles can't carry the
-   @media collapse, so the grid lives here. Below 900px (same breakpoint as
-   the nav burger) the margin column flows inline after the skill body,
+   @media collapse, so the grid lives here. Below 900px (this is its own
+   900px breakpoint; the nav burger collapses at 1080px) the margin column flows inline after the skill body,
    capped at the vignette's natural width so the line art doesn't balloon. */
 .craft-skill {
   display: grid;

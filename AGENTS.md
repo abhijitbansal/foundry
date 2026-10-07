@@ -78,7 +78,9 @@ Every AI coding session that makes commits logs to **`docs/sessions/`** (one mar
 The site is a set of architectural drawing sheets (plan: `docs/plans/2026-10-06-drawing-set.md`).
 
 - **Colour-family rule:** ink = interaction, at rest and on hover (`--ds-accent` is `--ds-text`; hover thickens the underline, never changes hue). Redline (`--ds-secondary`) = revisions, heat and lit windows only — never a link, focus ring or toggle.
-- **All colour lives in `src/styles/drawing-set.css`**, enforced by `tests/unit/palette.test.ts` (no retired cyan/ember hex anywhere in `src/`) and `tests/unit/drawing-set-tokens.test.ts`. The Night Shift palette appears only for the yard egg.
+- **All colour lives in `src/styles/drawing-set.css`**, enforced by `tests/unit/palette.test.ts` (no retired cyan/ember hex anywhere in `src/` (outside the vendored `src/styles/tokens/`) or `public/*.svg`) and `tests/unit/drawing-set-tokens.test.ts`. The Night Shift palette appears only for the yard egg.
+- Status tokens (`--ds-success/--ds-warning/--ds-danger/--ds-info`) keep the vendored hues — they carry good/bad meaning on /harness/ and are the one sanctioned exception to "redline is the only hue".
+- `/404` reuses sheet code A-01 with a "Sheet missing" kicker (the home yard hero owns A-01 otherwise).
 - The vendored `src/styles/tokens/*.css` stay unedited; `drawing-set.css` loads last and overrides them.
 - Type is Archivo + IBM Plex Mono, square corners, no uppercase tracked eyebrows.
 - Every page opens with `SheetHead` and a code from `src/lib/sheet.ts` — except the home page, whose yard hero carries sheet A-01 in its own title block.
