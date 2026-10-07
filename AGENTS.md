@@ -2,7 +2,7 @@
 
 Engineering guide for **Foundry** (Abhijit Bansal's portfolio website), for human contributors and AI coding agents. [`CLAUDE.md`](./CLAUDE.md) imports this file so Claude Code always loads it. User-facing overview: [`README.md`](./README.md).
 
-Foundry is a 3D-heavy personal portfolio site: every project (public + private) with status, story, and links; expertise areas; shared via LinkedIn. Process and model-routing rules below are ported from the Cubby repo's battle-tested AGENTS.md (Part 2 — portable engineering process) and adapted for a website project.
+Foundry is a personal portfolio site (drawing-set theme, isometric yard hero): every project (public + private) with status, story, and links; expertise areas; shared via LinkedIn. Process and model-routing rules below are ported from the Cubby repo's battle-tested AGENTS.md (Part 2 — portable engineering process) and adapted for a website project.
 
 ---
 
@@ -10,7 +10,7 @@ Foundry is a 3D-heavy personal portfolio site: every project (public + private) 
 
 | Decision | Value | Notes |
 |---|---|---|
-| Stack | **Locked: Astro (static output) + TypeScript.** 3D via Three.js (`src/lib/three`). Default for all new UI: dependency-free build-time SVG/TS string builders (see `works.ts`/`works-svg.ts`, `harness-svg*.ts`) — no client framework unless a component is genuinely stateful and interactive. | **Scoped exception (2026-07-14):** React + `@astrojs/react` are a real dependency for the harness page's one interactive figure (`src/components/harness/RoutingCard.tsx`, `client:visible`) — every other component on the site, including that page's other four figures, stays dependency-free. Don't reach for React elsewhere without the same bar: hand-rolled vanilla JS would cost more than the dependency. |
+| Stack | **Locked: Astro (static output) + TypeScript.** No 3D runtime: the Three.js hero scene was retired in the Drawing Set redesign (2026-10-06); the isometric yard SVG is the hero. Default for all new UI: dependency-free build-time SVG/TS string builders (see `works.ts`/`works-svg.ts`, `harness-svg*.ts`) — no client framework unless a component is genuinely stateful and interactive. | **Scoped exception (2026-07-14):** React + `@astrojs/react` are a real dependency for the harness page's one interactive figure (`src/components/harness/RoutingCard.tsx`, `client:visible`) — every other component on the site, including that page's other four figures, stays dependency-free. Don't reach for React elsewhere without the same bar: hand-rolled vanilla JS would cost more than the dependency. |
 | Content source | `PROJECTS.md` is the inventory of record for project pages | Regenerate via `gh repo list` sweep when repos change |
 | Private repos on the site | Curated descriptions + status only — **never code, secrets, or repo internals** | Reviewed before publish. **Scoped exception (2026-07-14):** the `/harness/` page's Paper section + easter egg quote verbatim internals of the private `cubby` repo (size, doc structure, policy text) as its deliberate subject — a public case study of Cubby's own engineering harness, not an incidental leak. User-approved; the "reviewed before publish" checkpoint for this page specifically. |
 | Design assets | Generative exploration via **Higgsfield MCP** (see below); curated finals committed under `assets/` | Raw generations stay in gitignored `.assets-inbox/` |
@@ -73,11 +73,22 @@ Solo developer, no human co-reviewers. Simpler than Cubby's wave workflow (no de
 
 Every AI coding session that makes commits logs to **`docs/sessions/`** (one markdown file per session, `docs/sessions/README.md` is index + counter) — same template and rules as Cubby: checkpoint at phase boundaries and session end with **Achieved / Decisions / Follow-ups / Resume pointer / Models**. Read the latest log before resuming stale work. Log commits are separate `docs:` commits after the work they describe. A decision that constrains future sessions gets folded into this file — a decision living only in a session log is session-local by definition.
 
+## Drawing Set theme (2026-10-06)
+
+The site is a set of architectural drawing sheets (plan: `docs/plans/2026-10-06-drawing-set.md`).
+
+- **Colour-family rule:** ink = interaction, at rest and on hover (`--ds-accent` is `--ds-text`; hover thickens the underline, never changes hue). Redline (`--ds-secondary`) = revisions, heat and lit windows only — never a link, focus ring or toggle.
+- **All colour lives in `src/styles/drawing-set.css`**, enforced by `tests/unit/palette.test.ts` (no retired cyan/ember hex anywhere in `src/`) and `tests/unit/drawing-set-tokens.test.ts`. The Night Shift palette appears only for the yard egg.
+- The vendored `src/styles/tokens/*.css` stay unedited; `drawing-set.css` loads last and overrides them.
+- Type is Archivo + IBM Plex Mono, square corners, no uppercase tracked eyebrows.
+- Every page opens with `SheetHead` and a code from `src/lib/sheet.ts`.
+- The yard re-themes through tokens only — never edit `works-svg.ts` for colour.
+
 ## SVG figures & fullscreen/modal overlays
 
 Learned the hard way (session 6, harness page) — three CSS traps that will bite again the moment a new figure or overlay is added:
 
-- **`--ds-accent`/`--ds-secondary`/etc. are brand-scoped** (`.brand-skills` and friends in `tokens/brands.css`), not set at `:root` — `:root`'s own default is Paperix red. Any fixed/portal-style overlay that isn't a DOM descendant of the page's `.brand-*` wrapper needs that class added explicitly, or every accent-colored element inside it silently renders the wrong brand's color.
+- **Tokens are set everywhere.** `drawing-set.css` sets every token at `html:root[data-theme]` and on each `.brand-*` class, so overlays outside a `.brand-*` wrapper no longer inherit the Paperix fallback.
 - **A `viewBox`-only `<svg>` (no `width`/`height` attributes) has no intrinsic size.** Giving it `width:auto` inside a shrink-to-fit parent (or capping it with a *percentage* `max-width`/`max-height` relative to that same parent) is a circular size dependency — verified in-browser that Chrome resolves it by collapsing both to 0×0, not by falling back to any default. Fix: give the wrapper a definite width (viewport units or px, not `%`, not `auto`), then leave the svg's own `width:100%;height:auto` alone — it resolves against that definite width the same way it already does in every non-modal embed on this site.
 - **`transform:scale()` on an svg doesn't push down HTML that follows it in document flow.** Zooming only the `<svg>` inside a card that also has trailing caption/paragraph content visibly overlaps that text. Scale the whole card (wrapper), not the svg alone.
 

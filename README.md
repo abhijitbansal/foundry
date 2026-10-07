@@ -4,20 +4,22 @@ Personal portfolio website for **Abhijit Bansal** — the place where all my pro
 
 ## Vision
 
-A 3D-heavy, visually striking site that:
+A visually distinctive site — a set of architectural drawing sheets — that:
 
 - **Showcases every project** — public and private — with current status, a short story of what it is, and links (repo, live site, App Store where applicable). Private projects show curated information, not their code.
 - **Shows expertise** — the domains I build in: iOS apps (Swift 6 / SwiftUI), AI agent tooling, CLI tools, web.
 - **Is the link I share** — on LinkedIn and elsewhere, one URL that tells the whole story.
-- **Leans into 3D rendering** — WebGL/Three.js-class visuals, not a template portfolio. Generative design assets via Higgsfield where they raise the bar.
+- **Is not a template portfolio** — the "Drawing Set" theme: ink-on-paper sheets, a redline for revisions and heat, and an isometric yard of buildings as the hero. Generative design assets via Higgsfield where they raise the bar.
 
 ## Current state
 
-**Live.** Astro (static output) + TypeScript, deployed to GitHub Pages on a custom domain. Three.js drives the 3D work-yard visualization; everything else is dependency-free build-time SVG/TS — the one exception is a single React island (`@astrojs/react`, scoped to the harness page's interactive routing diagram, see [AGENTS.md](./AGENTS.md)'s Stack row).
+**Live.** Astro (static output) + TypeScript, deployed to GitHub Pages on a custom domain. The isometric work-yard is a build-time SVG (no 3D runtime); everything else is likewise dependency-free build-time SVG/TS — the one exception is a single React island (`@astrojs/react`, scoped to the harness page's interactive routing diagram, see [AGENTS.md](./AGENTS.md)'s Stack row).
 
 Pages:
 
-- `/` — hero, expertise, work (project cards from [PROJECTS.md](./PROJECTS.md)), forge telemetry (parsed from local Claude Code session logs), about, footer.
+- `/` — yard hero, schedule of buildings (from [PROJECTS.md](./PROJECTS.md)), general notes, meter readings, title-block footer.
+- `/telemetry/` — full forge telemetry (parsed from local Claude Code session logs) and the yard ledger.
+- `/craft/` — the craft essay.
 - `/updates/` — weekly digest archive, newest-first, generated every Monday by `scripts/weekly/run_weekly.sh` (see `docs/automation/weekly-pipeline.md`).
 - `/harness/` — a showcase of the Claude Code harness that runs this repo (and, as a case study, the private `cubby` repo): routing, hook lifecycle, dev-tracker, the CLAUDE.md/AGENTS.md story, the enabled arsenal, and a self-audit score. Has its own three-layer easter egg for anyone (human or agent) who reads the page source.
 
