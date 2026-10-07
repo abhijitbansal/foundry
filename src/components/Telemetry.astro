@@ -27,8 +27,7 @@ import {
 } from '../lib/telemetry';
 import type { HeatBucket } from '../lib/telemetry.types';
 import { buildLedger } from '../lib/works';
-import type { WorksRepo } from '../lib/works.types';
-import { getAllWeeksDesc } from '../lib/weekly';
+import { loadWorksRepos } from '../lib/yard-data';
 
 const stats = statsJson as unknown as StatsJson;
 
@@ -40,28 +39,8 @@ const stats = statsJson as unknown as StatsJson;
 const HEAT_LEGEND_BUCKETS: HeatBucket[] = ['quiet', 'low', 'mid', 'high', 'peak'];
 const { meta, totals } = stats;
 
-// The Works card — data/stats.json's repos[] carries more fields than the
-// RepoSummary type above models (that type deliberately only covers what
-// the rest of this page consumes); cast separately for the fields
-// works.ts needs.
-interface StatsRepoRow {
-	repo: string;
-	sessions: number;
-	lines_added: number;
-	out_tokens: number;
-}
-const statsRepos = statsJson.repos as unknown as StatsRepoRow[];
-
-const latestWeek = getAllWeeksDesc()[0];
-const activeThisWeek = new Set(latestWeek ? latestWeek.repos.map((r) => r.repo) : []);
-
-const worksRepos: WorksRepo[] = statsRepos.map((r) => ({
-	repo: r.repo,
-	lines: r.lines_added,
-	sessions: r.sessions,
-	tokens: r.out_tokens,
-	active: activeThisWeek.has(r.repo),
-}));
+// The Works card — shared with the schedule via lib/yard-data.
+const worksRepos = loadWorksRepos();
 
 const worksLedger = buildLedger(worksRepos);
 const worksTallest = worksLedger[0];
@@ -150,7 +129,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 				     exists in works-svg.ts) and both hint spans hide in night mode —
 				     nightMeta carries its own whistle clause (rules in global.css). -->
 				<span class="ds-micro" style="color:var(--ds-text-2);line-height:1.8"
-					><span id="fy-yard-meta">All-time · {dateRange} · {statsRepos.length} repos</span
+					><span id="fy-yard-meta">All-time · {dateRange} · {worksRepos.length} repos</span
 					><span class="fy-hover-hint"> · hover a building</span
 					><span class="fy-yard-meta-tail"> · the shift ends at the whistle</span
 				></span>

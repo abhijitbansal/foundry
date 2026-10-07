@@ -16,6 +16,7 @@ import type { Project } from './projects.types';
 export const appsProjects: Project[] = [
 	{
 		name: 'Cubby',
+		repo: 'cubby',
 		status: 'active',
 		blurb:
 			"Inventory for garage and basement storage. NFC tags and QR labels on racks and bins — scan to see what's inside. On-device Vision suggests item names; 3D rack view, widgets, Siri. Zero backend, zero third-party dependencies.",
@@ -26,6 +27,7 @@ export const appsProjects: Project[] = [
 	},
 	{
 		name: 'Paperix',
+		repo: 'doc-scan',
 		status: 'active',
 		blurb:
 			'Document scanner that makes searchable PDFs with on-device OCR. No cloud, no accounts, no subscription — built because PDF-scanner apps shouldn\'t be rent.',
@@ -36,6 +38,7 @@ export const appsProjects: Project[] = [
 	},
 	{
 		name: 'Floorprint',
+		repo: 'floorprint',
 		status: 'active',
 		blurb:
 			'Scan rooms with LiDAR and RoomPlan into editable 2D floor plans. Export PDF, DXF, USDZ, GLB, STEP; a macOS mini-CAD editor for the rest. Organize the whole home in 3D.',
@@ -46,6 +49,7 @@ export const appsProjects: Project[] = [
 	},
 	{
 		name: 'Purix',
+		repo: 'purix',
 		status: 'active',
 		blurb:
 			'Browser extension that strips tracking parameters from links on-device, with no network calls. Blocklist-only, so it never guesses: a curated strip list plus a hard keep-list for the params pages actually need. Chrome, Firefox, and Safari on macOS and iOS.',
@@ -57,6 +61,7 @@ export const appsProjects: Project[] = [
 	},
 	{
 		name: 'Folix',
+		repo: 'folix',
 		status: 'active',
 		blurb:
 			'Privacy-first wealth dashboard: local Plaid pulls, on-device storage, AI-augmented insights. The seed of a personal financial adviser.',
@@ -68,6 +73,7 @@ export const appsProjects: Project[] = [
 export const aiToolingProjects: Project[] = [
 	{
 		name: 'cartoon',
+		repo: 'cartoon',
 		status: 'active',
 		blurb:
 			'Token-optimized CLI output for AI agents — read 12 lines instead of 800, raw logs archived. Adapters for pytest, jest, eslint, tsc; ~70% token reduction.',
@@ -78,6 +84,7 @@ export const aiToolingProjects: Project[] = [
 	},
 	{
 		name: 'claude-skills',
+		repo: 'claude-skills',
 		status: 'active',
 		blurb:
 			'Skills, plugins, and agent tooling for Claude Code: iOS build loops, PM automation, prompt refinement. Installable via marketplace or standalone CLI.',
@@ -88,6 +95,7 @@ export const aiToolingProjects: Project[] = [
 	},
 	{
 		name: 'sift',
+		repo: 'sift',
 		status: 'active',
 		blurb:
 			'Weekly AI-news pipeline: RSS ingestion, local dedup, one Claude call to curate everything into an HTML digest and a Pages archive.',
@@ -98,6 +106,7 @@ export const aiToolingProjects: Project[] = [
 	},
 	{
 		name: 'memekit',
+		repo: 'memekit',
 		status: 'recently-active',
 		blurb:
 			'Deterministic ASCII meme reactions for CLIs, bots, and agents. 45 original formats, zero dependencies — library, CLI, and MCP server.',
@@ -109,10 +118,23 @@ export const aiToolingProjects: Project[] = [
 export const foundationProjects: Project[] = [
 	{
 		name: 'design-system',
+		repo: 'design-system',
 		status: 'active',
 		blurb:
 			'Cross-product design tokens: one source emitting CSS custom properties, SwiftUI tokens, and Tailwind presets for every app and site in the fleet — including this one.',
 		tech: 'JSON tokens · CSS · Swift · Tailwind',
 		private: true,
+	},
+	{
+		name: 'Foundry',
+		repo: 'foundry',
+		status: 'active',
+		blurb:
+			'This site. Static Astro pages; the yard, the schedule and the meter readings are drawn at build time from the repos themselves.',
+		tech: 'Astro · TypeScript · SVG',
+		siteUrl: 'https://abhijitbansal.com/',
+		siteLabel: 'abhijitbansal.com',
+		repoUrl: 'https://github.com/abhijitbansal/foundry',
+		private: false,
 	},
 ];
