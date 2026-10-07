@@ -15,10 +15,15 @@ function walk(dir: string): string[] {
 	});
 }
 
-describe('retired palette', () => {
-	const files = walk(resolve(__dirname, '../../src'));
+const publicDir = resolve(__dirname, '../../public');
+const svgs = readdirSync(publicDir)
+	.filter((f) => f.endsWith('.svg'))
+	.map((f) => join(publicDir, f));
 
-	it.each(RETIRED)('%s appears nowhere in src/ outside the vendored tokens', (hex) => {
+describe('retired palette', () => {
+	const files = [...walk(resolve(__dirname, '../../src')), ...svgs];
+
+	it.each(RETIRED)('%s appears nowhere in src/ (outside the vendored tokens) or public/*.svg', (hex) => {
 		const hits = files.filter((f) => readFileSync(f, 'utf8').toUpperCase().includes(hex));
 		expect(hits).toEqual([]);
 	});
