@@ -18,9 +18,10 @@
 // touchmark. Logic ported from the reference dc.html's strike()/burst().
 ---
 
-<footer data-screen-label="Footer" class="brand-skills" style="border-top:1px solid var(--ds-line);margin-top:clamp(48px,7vw,80px)">
-	<div style="max-width:1200px;margin:0 auto;padding:34px clamp(20px,5vw,56px) 42px;display:flex;justify-content:space-between;align-items:center;gap:18px 32px;flex-wrap:wrap;box-sizing:border-box;position:relative">
-		<div style="display:inline-flex;align-items:center;gap:11px">
+<footer data-screen-label="Footer" class="brand-skills fy-title-block">
+	<div class="fy-title-block__grid">
+		<div class="fy-title-block__cell fy-title-block__cell--name">
+			<span style="display:inline-flex;align-items:center;gap:11px">
 			<button
 				type="button"
 				id="fy-anvil"
@@ -32,7 +33,7 @@
 				<span
 					aria-hidden="true"
 					class="fy-anvil-row"
-					style="width:16px;height:3px;display:inline-block;background:linear-gradient(105deg, var(--ds-accent) 42%, color-mix(in srgb, var(--ds-accent) 40%, white) 50%, var(--ds-accent) 58%);background-size:320% 100%"
+					style="width:16px;height:3px;display:inline-block;background:linear-gradient(105deg, var(--ds-text) 42%, color-mix(in srgb, var(--ds-text) 40%, white) 50%, var(--ds-text) 58%);background-size:320% 100%"
 				></span>
 				<svg
 					aria-hidden="true"
@@ -46,40 +47,24 @@
 					<rect x="9.5" y="7.4" width="3.6" height="3.6" fill="currentColor"></rect>
 					<rect x="10.4" y="3.2" width="1.8" height="4" fill="currentColor"></rect>
 				</svg>
-				<span aria-hidden="true" class="fy-anvil-flick" style="position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:50%;background:#D9A93F;transform:translate(-50%, -50%);pointer-events:none"
+				<span aria-hidden="true" class="fy-anvil-flick" style="position:absolute;left:50%;top:50%;width:5px;height:5px;border-radius:50%;background:var(--ds-secondary);transform:translate(-50%, -50%);pointer-events:none"
 				></span>
 				<span aria-hidden="true" id="fy-anvil-mark" style="position:absolute;left:50%;top:-18px;transform:translateX(-50%);font:600 10px var(--ds-font-mono);letter-spacing:0.12em;color:var(--ds-accent);white-space:nowrap;display:none"
 				></span>
 				<span aria-hidden="true" id="fy-anvil-sparks" style="position:absolute;left:50%;top:50%;width:0;height:0;overflow:visible;pointer-events:none"></span>
 			</button>
-			<span class="ds-micro" id="fy-footer-copy1" style="color:var(--ds-text-3)">Forged in the Foundry — © 2026 Abhijit Bansal</span>
+				<span class="fy-title-block__name">Abhijit Bansal</span>
+			</span>
+			<span class="ds-micro" id="fy-footer-copy1" style="color:var(--ds-text-3)">© 2026 Abhijit Bansal</span>
 		</div>
-		<div style="display:flex;gap:22px;align-items:center;flex-wrap:wrap">
-			<a
-				class="ds-micro fy-link-t2"
-				href="https://github.com/abhijitbansal"
-				target="_blank"
-				rel="noopener"
-				style="text-decoration:none;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
-				>GitHub ↗</a
-			>
-			<a
-				class="ds-micro fy-link-t2"
-				href="https://www.linkedin.com/in/abhijit-bansal/"
-				target="_blank"
-				rel="noopener"
-				style="text-decoration:none;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
-				>LinkedIn ↗</a
-			>
-			<a
-				class="ds-micro fy-link-t2"
-				href="mailto:contact@abhijitbansal.com"
-				style="text-decoration:none;transition:color var(--ds-duration-base) var(--ds-ease-standard)"
-				>Email</a
-			>
+		<div class="fy-title-block__cell" style="display:flex;gap:18px;align-items:center;flex-wrap:wrap">
+			<a href="https://github.com/abhijitbansal" target="_blank" rel="noopener">GitHub</a>
+			<a href="https://www.linkedin.com/in/abhijit-bansal/" target="_blank" rel="noopener">LinkedIn</a>
+			<a href="mailto:contact@abhijitbansal.com">contact@abhijitbansal.com</a>
 		</div>
-		<span class="ds-micro" id="fy-footer-copy2" style="color:var(--ds-text-3)">No trackers · No analytics · Nothing to consent to</span>
-
+		<div class="fy-title-block__cell">
+			<span class="ds-micro" id="fy-footer-copy2" style="color:var(--ds-text-2)">No trackers · No analytics · Nothing to consent to</span>
+		</div>
 		<div aria-hidden="true" id="fy-seal" style="position:absolute;right:clamp(18px,7vw,110px);top:-30px;width:96px;height:96px;pointer-events:none;mix-blend-mode:multiply;z-index:4;display:none">
 			<svg width="96" height="96" viewBox="0 0 92 92">
 				<defs>
@@ -99,6 +84,26 @@
 	</div>
 </footer>
 
+<style>
+	.fy-title-block { border-top: var(--fy-sheet-rule) solid var(--ds-text); margin-top: clamp(64px, 8vw, 112px); }
+	.fy-title-block__grid {
+		position: relative;
+		max-width: 1360px;
+		margin: 0 auto;
+		padding: 0 clamp(16px, 3vw, 40px);
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+		box-sizing: border-box;
+	}
+	.fy-title-block__cell { padding: 18px 16px; border-right: 1px solid var(--ds-line-strong); display: flex; flex-direction: column; gap: 4px; justify-content: center; font-size: 14.5px; }
+	.fy-title-block__cell:first-child { padding-left: 0; }
+	.fy-title-block__cell:last-of-type { border-right: 0; }
+	.fy-title-block__name { font-weight: 800; font-stretch: 125%; text-transform: uppercase; letter-spacing: 0.02em; }
+	@media (max-width: 640px) {
+		.fy-title-block__cell { border-right: 0; border-bottom: 1px solid var(--ds-line-strong); padding-left: 0; }
+	}
+</style>
+
 <script>
 	import { readFlag, reducedMotion, stampThud, tink, writeFlag } from '../lib/eggs';
 
@@ -115,7 +120,7 @@
 		let clearSparksTimer: ReturnType<typeof setTimeout> | null = null;
 
 		function applyCopy() {
-			copy1!.textContent = stamped ? 'Touchmark № 001 · struck by hand — © 2026 Abhijit Bansal' : 'Forged in the Foundry — © 2026 Abhijit Bansal';
+			copy1!.textContent = stamped ? 'Touchmark № 001 · struck by hand — © 2026 Abhijit Bansal' : '© 2026 Abhijit Bansal';
 			copy2!.textContent = stamped ? "You found the smith's mark · it holds till the fire goes cold" : 'No trackers · No analytics · Nothing to consent to';
 		}
 
@@ -129,7 +134,7 @@
 				const dx = Math.round(Math.cos(a) * dist);
 				const dy = Math.round(Math.sin(a) * dist);
 				const size = (2 + Math.random() * 1.6).toFixed(1);
-				const color = Math.random() < (gold ? 0.85 : 0.6) ? '#D9A93F' : 'var(--ds-accent)';
+				const color = Math.random() < (gold ? 0.85 : 0.6) ? 'var(--ds-secondary)' : 'var(--ds-accent)';
 				const delay = Math.floor(Math.random() * 70) + 'ms';
 				const span = document.createElement('span');
 				span.style.cssText = `position:absolute;left:0;top:0;width:${size}px;height:${size}px;border-radius:50%;background:${color};--dx:${dx}px;--dy:${dy}px;animation:fy-spark 0.7s cubic-bezier(0.16,1,0.3,1) ${delay} forwards`;

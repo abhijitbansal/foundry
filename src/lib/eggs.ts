@@ -197,10 +197,10 @@ export function printConsoleHint(): void {
 	hintPrinted = true;
 	// eslint-disable-next-line no-console
 	console.log(
-		'%c⚒ THE FOUNDRY %c— three marks are hidden in these works.%c\n\n   I.   the smith strikes thrice, where the metal is teal\n   II.  the working drawings are filed under P·L·A·N·S\n   III. hold the yard until the whistle blows\n',
-		'font-family:monospace;font-weight:700;color:#0E8FB0',
-		'font-family:monospace;color:#736A59',
-		'font-family:monospace;color:#B07A18',
+		'%c⚒ THE FOUNDRY %c— three marks are hidden on these sheets.%c\n\n   I.   the smith strikes thrice, where the sheet is signed\n   II.  the working drawings are filed under P·L·A·N·S\n   III. hold the yard until the whistle blows\n',
+		'font-family:monospace;font-weight:700;color:#B5341A',
+		'font-family:monospace;color:#5F6466',
+		'font-family:monospace;color:#F2A541',
 	);
 }
 
