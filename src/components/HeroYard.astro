@@ -333,6 +333,22 @@ const DWG_CORNERS = [
 		align-items: center;
 		gap: 4px;
 	}
+	/* Phones: the five-column row needs ~363px but the aside is 236px at a
+	   320 viewport. Drop the Sess. cell (each li's aria-label still carries
+	   sessions) and move Lead onto a second grid line under Week, so header
+	   and rows stay aligned and single-line: 40 + week + 56 + 2 gaps ≈ 221px. */
+	@media (max-width: 480px) {
+		.fy-rev-row {
+			grid-template-columns: 40px minmax(min-content, 1fr) 56px;
+			row-gap: 2px;
+		}
+		.fy-rev-row > :nth-child(4) {
+			display: none;
+		}
+		.fy-rev-row > :nth-child(5) {
+			grid-column: 2 / -1;
+		}
+	}
 	.fy-yard-fig {
 		margin: 0;
 		border-top: 1px solid var(--ds-line-strong);
