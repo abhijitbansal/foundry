@@ -1,0 +1,139 @@
+/* drawing-set.css — Direction A "Drawing Set" theme layer.
+   docs/plans/2026-10-06-drawing-set.md. Loaded LAST (BaseLayout.astro), so
+   it outranks foundation.css / brands.css / components.css (vendored,
+   never edited) and global.css. Selectors are html:root[data-theme=…]
+   (0,2,1) so they tie-or-beat every surviving brands.css/global.css rule
+   and win on source order. theme.ts always sets data-theme before first
+   paint; the bare :root block is the no-JS fallback.
+
+   Colour-family rule: interaction is INK (--ds-accent = --ds-text, hover
+   thickens the underline, never changes hue). REDLINE (--ds-secondary =
+   --fy-ember) is revisions, heat and lit windows only — never a link,
+   focus ring or toggle. */
+
+/* ---- theme-independent: type, radii, motion ---- */
+:root {
+  --ds-font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --ds-font-body: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --ds-font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --ds-radius-xs: 0;
+  --ds-radius-sm: 0;
+  --ds-radius-md: 0;
+  --ds-radius-lg: 0;
+  --ds-radius-xl: 0;
+  --ds-radius-icon: 0;
+  --ds-radius-pill: 0;
+  --ds-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --fy-sheet-rule: 2px;
+  --fy-night-bg: #0D1013; /* egg 3 veil target — Night Shift ground */
+}
+
+/* ---- Day sheet (light) ---- */
+:root,
+html:root[data-theme="light"],
+html:root[data-theme="light"] body.ds-root,
+html:root[data-theme="light"] .brand-skills,
+html:root[data-theme="light"] .brand-paperix,
+html:root[data-theme="light"] .brand-floorprint,
+html:root[data-theme="light"] .brand-cartoon {
+  /* @palette day */
+  --ds-bg: #EDECE6;
+  --ds-surface: #F4F3EE;
+  --ds-surface-2: #E3E2DA;
+  --ds-line: #CFCEC5;
+  --ds-line-strong: #8E908C;
+  --ds-text: #17191A;
+  --ds-text-2: #3F4446;
+  --ds-text-3: #5F6466;
+  --ds-text-faint: #9A9D9B;
+  --ds-accent: #17191A;
+  --ds-accent-hover: #17191A;
+  --ds-on-accent: #EDECE6;
+  --ds-secondary: #B5341A;
+  --fy-ember: #B5341A;
+  /* @end */
+  --ds-accent-soft: rgba(23, 25, 26, 0.08);
+  --ds-tertiary: var(--ds-text-3);
+  --fy-ember-soft: rgba(181, 52, 26, 0.10);
+  --ds-shadow-card: none;
+  --ds-shadow-pop: none;
+  color-scheme: light;
+}
+
+/* ---- Night sheet (dark) ---- */
+html:root[data-theme="dark"],
+html:root[data-theme="dark"] body.ds-root,
+html:root[data-theme="dark"] .brand-skills,
+html:root[data-theme="dark"] .brand-paperix,
+html:root[data-theme="dark"] .brand-floorprint,
+html:root[data-theme="dark"] .brand-cartoon {
+  /* @palette night */
+  --ds-bg: #121415;
+  --ds-surface: #161819;
+  --ds-surface-2: #1C1F20;
+  --ds-line: #2A2D2E;
+  --ds-line-strong: #4A4E4F;
+  --ds-text: #E8E7E0;
+  --ds-text-2: #B9BBB6;
+  --ds-text-3: #8D908C;
+  --ds-text-faint: #5A5D5B;
+  --ds-accent: #E8E7E0;
+  --ds-accent-hover: #E8E7E0;
+  --ds-on-accent: #121415;
+  --ds-secondary: #F0643F;
+  --fy-ember: #F0643F;
+  /* @end */
+  --ds-accent-soft: rgba(232, 231, 224, 0.10);
+  --ds-tertiary: var(--ds-text-3);
+  --fy-ember-soft: rgba(240, 100, 63, 0.14);
+  --ds-shadow-card: none;
+  --ds-shadow-pop: none;
+  color-scheme: dark;
+}
+
+/* no-JS + OS dark: mirror the night sheet onto the bare :root fallback */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --ds-bg: #121415;
+    --ds-surface: #161819;
+    --ds-surface-2: #1C1F20;
+    --ds-line: #2A2D2E;
+    --ds-line-strong: #4A4E4F;
+    --ds-text: #E8E7E0;
+    --ds-text-2: #B9BBB6;
+    --ds-text-3: #8D908C;
+    --ds-text-faint: #5A5D5B;
+    --ds-accent: #E8E7E0;
+    --ds-accent-hover: #E8E7E0;
+    --ds-accent-soft: rgba(232, 231, 224, 0.10);
+    --ds-on-accent: #121415;
+    --ds-secondary: #F0643F;
+    --fy-ember: #F0643F;
+    color-scheme: dark;
+  }
+}
+
+/* ---- base ---- */
+body.ds-root {
+  background: var(--ds-bg);
+  color: var(--ds-text);
+  font-family: var(--ds-font-body);
+  font-size: 17px;
+  line-height: 1.5;
+}
+a {
+  color: var(--ds-text);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--ds-text);
+  text-decoration-thickness: 2.5px;
+}
+::selection {
+  background: color-mix(in srgb, var(--ds-secondary) 24%, transparent);
+}
+:focus-visible {
+  outline: 2px solid var(--ds-text);
+  outline-offset: 3px;
+}
