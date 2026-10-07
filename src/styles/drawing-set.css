@@ -150,3 +150,117 @@ a:hover {
   outline: 2px solid var(--ds-text);
   outline-offset: 3px;
 }
+
+/* ===== DS class restyle — kills the eyebrow / pill / ghost-button / rounded-card idioms site-wide ===== */
+.ds-display-xl { font-family: var(--ds-font-display); font-weight: 750; font-stretch: 118%; font-size: clamp(40px, 5.2vw, 74px); line-height: 1; letter-spacing: -0.018em; }
+.ds-display-lg { font-family: var(--ds-font-display); font-weight: 800; font-stretch: 125%; font-size: clamp(32px, 3.6vw, 52px); line-height: 1; letter-spacing: -0.012em; }
+.ds-display-md { font-family: var(--ds-font-display); font-weight: 750; font-stretch: 118%; font-size: clamp(20px, 2vw, 24px); line-height: 1.15; letter-spacing: -0.005em; }
+.ds-title { font-weight: 700; font-stretch: 112%; }
+.ds-heading { font-weight: 700; font-stretch: 112%; }
+.ds-lead { font-size: 19px; line-height: 1.5; color: var(--ds-text-2); }
+
+.ds-kicker {
+  font-family: var(--ds-font-mono);
+  font-weight: 400;
+  font-size: 13.5px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ds-text-3);
+}
+.ds-micro {
+  font-family: var(--ds-font-mono);
+  font-weight: 400;
+  font-size: 12.5px;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.ds-rule { height: var(--fy-sheet-rule); background: var(--ds-text); margin: 14px 0 0; }
+.ds-rule::before { display: none; }
+
+.ds-btn {
+  font-family: var(--ds-font-body);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 0;
+  border-radius: 0;
+  background: var(--ds-text);
+  color: var(--ds-bg);
+}
+.ds-btn:hover { background: color-mix(in srgb, var(--ds-text) 84%, var(--ds-bg)); color: var(--ds-bg); transform: none; }
+.ds-btn:active { transform: translateY(1px); }
+.ds-btn:focus-visible { box-shadow: none; outline: 2px solid var(--ds-text); outline-offset: 3px; }
+
+.ds-btn-quiet {
+  font-family: var(--ds-font-body);
+  font-weight: 500;
+  font-size: 16px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--ds-text);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.ds-btn-quiet:hover { color: var(--ds-text); text-decoration-thickness: 2.5px; }
+.ds-btn-quiet:focus-visible { box-shadow: none; outline: 2px solid var(--ds-text); outline-offset: 3px; }
+
+.ds-pill {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-family: var(--ds-font-mono);
+  font-weight: 400;
+  font-size: 12.5px;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ds-text-2);
+}
+.ds-pill::before { width: 8px; height: 8px; border-radius: 0; background: currentColor; }
+
+.ds-chip {
+  font-weight: 400;
+  font-size: 12.5px;
+  letter-spacing: 0;
+  text-transform: none;
+  border-radius: 0;
+  border-color: var(--ds-line-strong);
+  background: transparent;
+  color: var(--ds-text-2);
+}
+
+.ds-card,
+.fy-plate,
+.fy-well {
+  border-radius: 0;
+  box-shadow: none;
+  background: transparent;
+  border: 1px solid var(--ds-line-strong);
+}
+.fy-plate:hover,
+.fy-tilt:hover { border-color: var(--ds-text); box-shadow: none; transform: none; }
+
+.ds-callout {
+  border-left: 0;
+  border-top: var(--fy-sheet-rule) solid var(--ds-text);
+  border-radius: 0;
+  background: transparent;
+  padding: 14px 0 0;
+}
+
+.ds-link,
+.fy-link-underline { color: var(--ds-text); border-bottom: 0; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.ds-link:hover,
+.fy-link-underline:hover { text-decoration-thickness: 2.5px; }
+
+.fy-link-t2:hover,
+.fy-link-t3:hover { color: var(--ds-text); }

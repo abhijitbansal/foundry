@@ -135,9 +135,8 @@ body {
    rgba(240,234,214,0.08) (--ds-text at 8%) composites to ~1.234:1 against
    the card's own surface, the same magnitude the border carries, read
    along the top edge. All decorative non-text (WCAG 1.4.11 doesn't apply
-   to grouping borders). The JSON's posted snippet put an @media block
-   inside a selector list, which is invalid CSS — split into the three
-   rules below. Vendored .ds-card is untouched; this is a new, additive
+   to grouping borders). Drawing Set: the dark rim rules were removed —
+   drawing-set.css flattens plates (no shadow, square, hairline). Vendored .ds-card is untouched; this is a new, additive
    site class. Never applied to #fy-yard-card — the night egg owns that
    card's background/border with !important and pins what its transition
    animates FROM (global.css's .fy-yard-night block). */
@@ -148,14 +147,6 @@ body {
   box-shadow: var(--ds-shadow-card);
   transition: border-color var(--ds-duration-base) var(--ds-ease-standard),
               box-shadow var(--ds-duration-base) var(--ds-ease-standard);
-}
-html:root[data-theme="dark"] .fy-plate {
-  box-shadow: inset 0 1px 0 rgba(240, 234, 214, 0.08);
-}
-@media (prefers-color-scheme: dark) {
-  html:root:not([data-theme="light"]) .fy-plate {
-    box-shadow: inset 0 1px 0 rgba(240, 234, 214, 0.08);
-  }
 }
 /* Rebase of .fy-tilt's existing :hover behaviour (line 94) onto
    line-strong — kept as a same-specificity rule declared AFTER .fy-tilt's,
@@ -176,9 +167,8 @@ html:root[data-theme="dark"] .fy-plate {
    --ds-line-strong (matching .fy-plate's dark treatment) plus a bottom
    inner lip at 5% --ds-text — the mirror of .fy-plate's top rim, since
    light falling into a recess catches the FAR wall, not the near one.
-   All decorative non-text. Same invalid-CSS-snippet issue as SUR-2's
-   posted form (an @media inside a selector list) — split into three
-   rules, same pattern as .fy-plate above. Never applied to #fy-yard-card
+   All decorative non-text. Drawing Set: the dark-theme override rules
+   were removed — drawing-set.css flattens wells. Never applied to #fy-yard-card
    (the night egg pins that card's background/border with !important and
    the well's --ds-surface-2 background would change what its transition
    animates FROM — SUR-7's own conflict note). */
@@ -187,18 +177,6 @@ html:root[data-theme="dark"] .fy-plate {
   border: 1px solid var(--ds-line);
   border-radius: var(--ds-radius-lg);
   box-shadow: inset 0 1px 3px rgba(22, 20, 15, 0.07);
-}
-html:root[data-theme="dark"] .fy-well {
-  border-color: var(--ds-line-strong);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55),
-              inset 0 -1px 0 rgba(240, 234, 214, 0.05);
-}
-@media (prefers-color-scheme: dark) {
-  html:root:not([data-theme="light"]) .fy-well {
-    border-color: var(--ds-line-strong);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.55),
-                inset 0 -1px 0 rgba(240, 234, 214, 0.05);
-  }
 }
 
 /* LAY-4: Telemetry's since-May-1/top-tools/model-mix row re-cut as a
