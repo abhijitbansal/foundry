@@ -197,7 +197,7 @@ export function printConsoleHint(): void {
 	hintPrinted = true;
 	// eslint-disable-next-line no-console
 	console.log(
-		'%c⚒ THE FOUNDRY %c— three marks are hidden on these sheets.%c\n\n   I.   the smith strikes thrice, where the sheet is signed\n   II.  the working drawings are filed under P·L·A·N·S\n   III. hold the yard until the whistle blows\n',
+		'%c⚒ THE FOUNDRY %c— three marks are hidden on these sheets.%c\n\n   I.   the smith strikes thrice, at the foot of the sheet\n   II.  the working drawings are filed under P·L·A·N·S\n   III. hold the yard until the whistle blows\n',
 		'font-family:monospace;font-weight:700;color:#B5341A',
 		'font-family:monospace;color:#5F6466',
 		'font-family:monospace;color:#F2A541',
@@ -247,6 +247,8 @@ export function wireHold(el: HTMLElement, ms: number, onComplete: () => void, on
 	const start = (e: PointerEvent) => {
 		if (timer !== null) return;
 		if ((e.target as HTMLElement | null)?.closest(HOLD_INTERACTIVE_SELECTOR)) return;
+		// The fullscreen yard <dialog> lives inside the hold target; a press there is not the hold.
+		if ((e.target as Element | null)?.closest('dialog')) return;
 		e.preventDefault();
 		activePointerId = e.pointerId;
 		onHoldChange?.(true);
@@ -302,7 +304,7 @@ export function wireGlobalHotkeys(onPlans: () => void, onEscape: () => void): ()
 	return () => window.removeEventListener('keydown', handler);
 }
 
-/** Egg 2 shared state — the pill (Hero.astro) and the site-wide keydown
+/** Egg 2 shared state — the toolbar toggle and the site-wide keydown
  * buffer (BaseLayout) both need to flip the same overlay, so the toggle and
  * its "is it open" state live here instead of in either component. Modules
  * are singletons per page load, so every importer sees the same state. */

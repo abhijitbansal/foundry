@@ -151,7 +151,7 @@ a:hover {
   outline-offset: 3px;
 }
 
-/* ===== DS class restyle — kills the eyebrow / pill / ghost-button / rounded-card idioms site-wide ===== */
+/* ===== DS class restyle — kills the eyebrow / ghost-button / rounded-card idioms site-wide (.ds-pill/.ds-card/.ds-link have no consumer in src/, so no overrides) ===== */
 .ds-display-xl { font-family: var(--ds-font-display); font-weight: 750; font-stretch: 118%; font-size: clamp(40px, 5.2vw, 74px); line-height: 1; letter-spacing: -0.018em; }
 .ds-display-lg { font-family: var(--ds-font-display); font-weight: 800; font-stretch: 125%; font-size: clamp(32px, 3.6vw, 52px); line-height: 1; letter-spacing: -0.012em; }
 .ds-display-md { font-family: var(--ds-font-display); font-weight: 750; font-stretch: 118%; font-size: clamp(20px, 2vw, 24px); line-height: 1.15; letter-spacing: -0.005em; }
@@ -215,20 +215,6 @@ a:hover {
 .ds-btn-quiet:hover { color: var(--ds-text); text-decoration-thickness: 2.5px; }
 .ds-btn-quiet:focus-visible { box-shadow: none; outline: 2px solid var(--ds-text); outline-offset: 3px; }
 
-.ds-pill {
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: none;
-  font-family: var(--ds-font-mono);
-  font-weight: 400;
-  font-size: 12.5px;
-  letter-spacing: 0;
-  text-transform: none;
-  color: var(--ds-text-2);
-}
-.ds-pill::before { width: 8px; height: 8px; border-radius: 0; background: currentColor; }
-
 .ds-chip {
   font-weight: 400;
   font-size: 12.5px;
@@ -241,7 +227,6 @@ a:hover {
 }
 .ds-chip.ds-chip--accent { border-color: var(--ds-text); color: var(--ds-text); background: transparent; }
 
-.ds-card,
 .fy-plate,
 .fy-well {
   border-radius: 0;
@@ -260,16 +245,15 @@ a:hover {
   padding: 14px 0 0;
 }
 
-.ds-link,
 .fy-link-underline { color: var(--ds-text); border-bottom: 0; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-.ds-link:hover,
 .fy-link-underline:hover { text-decoration-thickness: 2.5px; }
 
 .fy-link-t2:hover { color: var(--ds-text); }
 
 /* Programmatic skip-link targets (#telemetry-body, updates' #weeks) take
-   focus via tabindex="-1" only so the page scrolls/announces there; a
-   ring on a whole section is noise. */
+   focus via tabindex="-1". Keyboard users still get the ring through the
+   global :focus-visible rule; mouse/programmatic focus (which would paint
+   a ring round a whole section) does not. */
 [tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
 
 /* One meter-reading numeral, shared by MeterReadings and Telemetry. */
@@ -299,6 +283,9 @@ a:hover {
   --ds-secondary: #F2A541;
   transition: background 0.9s var(--ds-ease-standard), border-color 0.9s var(--ds-ease-standard);
 }
+@media (prefers-reduced-motion: reduce) {
+  .fy-yard-night { transition: none; }
+}
 .fy-yard-night svg.fyw-svg {
   --fyw-window-lit: #F2A541 !important;
   --fyw-clerestory: #F2A541 !important;
@@ -308,4 +295,11 @@ a:hover {
   --fyw-hot-glow-op: 0.2 !important;
   --fyw-furnace-glow-op: 0.34 !important;
   --fyw-furnace-glow-r: 16px !important;
+}
+
+/* Egg 1 seal: its strokes are --ds-accent-hover (near-white on the night
+   sheet), which multiply would erase into the background — screen instead. */
+html:root[data-theme="dark"] #fy-seal { mix-blend-mode: screen; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) #fy-seal { mix-blend-mode: screen; }
 }
