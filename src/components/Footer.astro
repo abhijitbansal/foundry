@@ -1,7 +1,7 @@
 ---
 // Footer.astro — the sheet's title block (name, copyright, links, "no
 // trackers" line), laid out by the .fy-title-block* rules in this file's
-// style block. The "no trackers" line uses --ds-text-3, not --ds-text-faint:
+// style block. The "no trackers" line uses --ds-text-2, not --ds-text-faint:
 // faint on --ds-bg fails AA (4.5:1) for non-decorative text.
 //
 // Egg 1 (design_handoff_eggs/PROMPT.md) — the small ink tab beside the name
@@ -96,6 +96,7 @@
 	.fy-title-block__name { font-weight: 800; font-stretch: 125%; text-transform: uppercase; letter-spacing: 0.02em; }
 	@media (max-width: 640px) {
 		.fy-title-block__cell { border-right: 0; border-bottom: 1px solid var(--ds-line-strong); padding-left: 0; }
+		.fy-title-block__cell--last { border-bottom: 0; }
 	}
 </style>
 

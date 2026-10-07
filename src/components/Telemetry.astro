@@ -93,7 +93,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 			<SheetHead code="B-01" title="Meter readings, in full." lead={`Everything on this site is built with Claude Code. Parsed locally from ${filesFound} session logs, ${dateRange}.`} />
 		</div>
 
-		<div id="telemetry-body" tabindex="-1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:clamp(16px,2vw,26px);margin-top:clamp(26px,4vw,42px)">
+		<div id="telemetry-body" tabindex="-1" style="scroll-margin-top:64px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:clamp(16px,2vw,26px);margin-top:clamp(26px,4vw,42px)">
 			{
 				statCells.map((c) => (
 					<div data-reveal style="border-top:1px solid var(--ds-line);padding-top:18px;display:flex;flex-direction:column;gap:7px">
