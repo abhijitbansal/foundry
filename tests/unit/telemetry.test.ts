@@ -51,11 +51,11 @@ describe('heatBucket', () => {
 describe('heatBucketColor', () => {
 	it.each([
 		['quiet', 'var(--ds-surface-2)'],
-		['low', 'color-mix(in srgb, var(--ds-secondary) 25%, var(--ds-surface-2))'],
-		['mid', 'color-mix(in srgb, var(--ds-secondary) 55%, var(--ds-surface-2))'],
-		['high', 'var(--fy-ember)'],
-		['peak', 'var(--ds-text)'],
-	] as const)('renders %s as the single-hue warm ramp step %s', (bucket, expected) => {
+		['low', 'color-mix(in srgb, var(--ds-text) 22%, var(--ds-surface-2))'],
+		['mid', 'color-mix(in srgb, var(--ds-text) 50%, var(--ds-surface-2))'],
+		['high', 'var(--ds-text)'],
+		['peak', 'var(--ds-secondary)'],
+	] as const)('renders %s as the graphite ramp step %s', (bucket, expected) => {
 		expect(heatBucketColor(bucket)).toBe(expected);
 	});
 
@@ -172,15 +172,15 @@ describe('modelMixSegments', () => {
 		expect(segments.every((s) => s.label !== '<synthetic>')).toBe(true);
 	});
 
-	it('assigns the six design colors in accent/secondary/tertiary/success/danger/text-3 order', () => {
+	it('assigns the six design colors: graphite steps plus one redline', () => {
 		const segments = modelMixSegments(models, 92044);
 		expect(segments.map((s) => s.colorVar)).toEqual([
-			'var(--ds-accent)',
+			'var(--ds-text)',
 			'var(--ds-secondary)',
-			'var(--ds-tertiary)',
-			'var(--ds-success)',
-			'var(--ds-danger)',
+			'var(--ds-text-2)',
 			'var(--ds-text-3)',
+			'var(--ds-line-strong)',
+			'var(--ds-text-faint)',
 		]);
 	});
 

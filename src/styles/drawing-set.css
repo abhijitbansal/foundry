@@ -267,3 +267,34 @@ a:hover {
 
 .fy-link-t2:hover,
 .fy-link-t3:hover { color: var(--ds-text); }
+
+/* Egg 3 — the night whistle flips the yard card to the Night Shift palette
+   (sodium on blue-black), independent of the visitor's sheet. !important
+   beats works-svg.ts's own data-theme-conditional --fyw-* block. */
+.fy-yard-night {
+  background: var(--fy-night-bg) !important;
+  border-color: #232A31 !important;
+  --ds-surface: var(--fy-night-bg);
+  --ds-surface-2: #151A1F;
+  --ds-line: #232A31;
+  --ds-line-strong: #3A434C;
+  --ds-text: #ECE8DF;
+  --ds-text-2: #B4B6B4;
+  --ds-text-3: #8A8F93;
+  --ds-text-faint: #4C5258;
+  --ds-accent: #F2A541;
+  --ds-accent-hover: #F2A541;
+  --ds-accent-soft: rgba(242, 165, 65, 0.14);
+  --ds-secondary: #F2A541;
+  transition: background 0.9s var(--ds-ease-standard), border-color 0.9s var(--ds-ease-standard);
+}
+.fy-yard-night svg.fyw-svg {
+  --fyw-window-lit: #F2A541 !important;
+  --fyw-clerestory: #F2A541 !important;
+  --fyw-hot-fill: #F2A541 !important;
+  --fyw-annex-glass: color-mix(in srgb, #F2A541 32%, #151A1F) !important;
+  --fyw-halo-op: 0.16 !important;
+  --fyw-hot-glow-op: 0.2 !important;
+  --fyw-furnace-glow-op: 0.34 !important;
+  --fyw-furnace-glow-r: 16px !important;
+}

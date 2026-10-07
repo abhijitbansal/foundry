@@ -23,18 +23,35 @@ describe('theme.ts', () => {
     expect(localStorage.getItem(THEME_KEY)).toBe('light');
   });
 
-  it('readTheme defaults to dark when data-theme is absent or unrecognized (dark is the site default)', () => {
-    expect(readTheme()).toBe('dark');
+  it('readTheme defaults to light when data-theme is absent or unrecognized', () => {
+    expect(readTheme()).toBe('light');
 
     document.documentElement.setAttribute('data-theme', 'something-else');
-    expect(readTheme()).toBe('dark');
-
-    document.documentElement.setAttribute('data-theme', 'light');
     expect(readTheme()).toBe('light');
+
+    document.documentElement.setAttribute('data-theme', 'dark');
+    expect(readTheme()).toBe('dark');
   });
 
-  it('noFlashInlineScript resolves to dark unless an explicit stored light preference exists', () => {
-    expect(noFlashInlineScript()).toContain("t === 'light' ? 'light' : 'dark'");
+  it('noFlashInlineScript: a stored choice wins, otherwise the OS preference decides', () => {
+    const originalMatchMedia = window.matchMedia;
+    const run = (stored: string | null, osDark: boolean) => {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.clear();
+      if (stored) localStorage.setItem(THEME_KEY, stored);
+      window.matchMedia = ((q: string) => ({ matches: osDark && q.includes('dark') })) as unknown as typeof window.matchMedia;
+      new Function(noFlashInlineScript())();
+      return document.documentElement.getAttribute('data-theme');
+    };
+    try {
+      expect(run(null, true)).toBe('dark');
+      expect(run(null, false)).toBe('light');
+      expect(run('light', true)).toBe('light');
+      expect(run('dark', false)).toBe('dark');
+      expect(run('garbage', true)).toBe('dark');
+    } finally {
+      window.matchMedia = originalMatchMedia;
+    }
   });
 
   it('setTheme swallows a localStorage throw (private-browsing Safari) without crashing', () => {

@@ -1,17 +1,20 @@
 export const THEME_KEY = 'fy-theme';
 export type Theme = 'light' | 'dark';
 
-// Dark is the site default: only an explicit stored 'light' opts out.
+// A stored choice wins; otherwise the OS preference decides.
 export function noFlashInlineScript(): string {
   return `
     var t = null;
     try { t = localStorage.getItem('${THEME_KEY}'); } catch (e) {}
-    document.documentElement.setAttribute('data-theme', t === 'light' ? 'light' : 'dark');
+    if (t !== 'light' && t !== 'dark') {
+      t = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', t);
   `;
 }
 
 export function readTheme(): Theme {
-  return document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
 }
 
 export function setTheme(theme: Theme): void {

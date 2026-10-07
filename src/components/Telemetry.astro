@@ -372,7 +372,7 @@ const memekitLines = memekitTerminal(totals.in_tokens, totals.out_tokens, totals
 				if (flipTimer) clearTimeout(flipTimer);
 				if (hideTimer) clearTimeout(hideTimer);
 				veil.style.display = 'block';
-				veil.style.background = 'linear-gradient(180deg,#111722,#16130F 70%)';
+				veil.style.background = 'linear-gradient(180deg,var(--ds-bg),var(--fy-night-bg) 70%)';
 				// Reset before reassigning — an in-flight veil re-triggered by a
 				// quick second hold would otherwise get the identical animation
 				// string twice in a row, which the browser doesn't restart.

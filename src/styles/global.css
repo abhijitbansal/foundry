@@ -493,41 +493,6 @@ html .ds-btn {
 .fy-yard-night .fy-hover-hint,
 .fy-yard-night .fy-yard-meta-tail { display: none; }
 
-/* Egg 3 — the yard card's night palette, keyed off a class rather than the
-   site's data-theme so the night render stays reachable only via the
-   whistle, independent of whatever theme the visitor is browsing in.
-   !important beats works-svg.ts's own data-theme-conditional --fyw-*
-   block on specificity grounds alone. Hex values are the reference's `N`
-   palette verbatim. */
-.fy-yard-night {
-  background: #24201A !important;
-  border-color: #2F2920 !important;
-  --ds-surface: #24201A;
-  --ds-surface-2: #16130F;
-  --ds-line: #2F2920;
-  --ds-line-strong: #3D362B;
-  --ds-text: #F0EAD6;
-  --ds-text-2: #C5BBA1;
-  --ds-text-3: #8B8270;
-  --ds-text-faint: #5A5142;
-  --ds-accent: #34D3EE;
-  --ds-accent-hover: #5ADCF1;
-  --ds-secondary: #E8B94A;
-  transition:
-    background 0.9s var(--ds-ease-standard),
-    border-color 0.9s var(--ds-ease-standard);
-}
-.fy-yard-night svg.fyw-svg {
-  --fyw-window-lit: #E8B94A !important;
-  --fyw-clerestory: #E8B94A !important;
-  --fyw-hot-fill: #E8B94A !important;
-  --fyw-annex-glass: color-mix(in srgb, #E8B94A 32%, #16130F) !important;
-  --fyw-halo-op: 0.13 !important;
-  --fyw-hot-glow-op: 0.16 !important;
-  --fyw-furnace-glow-op: 0.3 !important;
-  --fyw-furnace-glow-r: 15px !important;
-}
-
 /* LAY-1 — updates.astro's weekly strip figure (works.ts buildStrip, 620-unit
    viewBox) is emitted width:100%;height:auto with no cap. At the week
    card's ~1024px inner width that's a 1.65x upscale past its authored size
