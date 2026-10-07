@@ -84,7 +84,7 @@ The site is a set of architectural drawing sheets (plan: `docs/plans/2026-10-06-
 - The vendored `src/styles/tokens/*.css` stay unedited; `drawing-set.css` loads last and overrides them.
 - Type is Archivo + IBM Plex Mono, square corners, no uppercase tracked eyebrows.
 - Every page opens with `SheetHead` and a code from `src/lib/sheet.ts` — except the home page, whose yard hero carries sheet A-01 in its own title block.
-- One hex exception to the no-literal-colour rule: console `%c` styles in `src/lib/eggs.ts` and `src/lib/harness-hatch.ts` can't read CSS vars.
+- One hex exception to the no-literal-colour rule: console `%c` styles in `src/lib/eggs.ts` and `src/lib/harness-hatch.ts` can't read CSS vars. `public/favicon.svg` also carries literal day-palette hex (an SVG favicon can't read CSS vars).
 - The yard re-themes through tokens only — never edit `works-svg.ts` for colour.
 
 ## SVG figures & fullscreen/modal overlays
