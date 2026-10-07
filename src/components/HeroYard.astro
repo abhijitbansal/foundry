@@ -67,6 +67,7 @@ const DWG_CORNERS = [
 					<a href="mailto:contact@abhijitbansal.com">contact@abhijitbansal.com</a>
 					<span class="fy-dwg-piece fy-dwg-badge" aria-hidden="true" style="top:-9px;left:-14px">D</span>
 				</div>
+				<span class="fy-tell">drawings on file — ask for the plans</span>
 			</div>
 
 			{
@@ -93,10 +94,10 @@ const DWG_CORNERS = [
 											</svg>
 											{r.rev}
 										</span>
-										<span>{r.week}</span>
+										<span>{r.week.replace(/,\s*\d{4}$/, '')}</span>
 										<span style="text-align:right">{fmt(r.lines)}</span>
 										<span style="text-align:right">{fmt(r.sessions)}</span>
-										<span>{r.lead ?? '—'}</span>
+										<span style="overflow-wrap:anywhere">{r.lead ?? '—'}</span>
 									</li>
 								))}
 							</ul>
@@ -220,7 +221,7 @@ const DWG_CORNERS = [
 		<div
 			id="fy-dwg-title-block"
 			class="fy-dwg-piece"
-			style="position:absolute;right:16px;bottom:14px;z-index:5;pointer-events:none;border:1px solid var(--ds-line-strong);background:color-mix(in srgb, var(--ds-surface) 94%, transparent);border-radius:var(--ds-radius-sm);padding:10px 13px;display:flex;flex-direction:column;gap:5px;max-width:270px"
+			style="position:absolute;top:36px;right:16px;bottom:auto;z-index:5;pointer-events:none;border:1px solid var(--ds-line-strong);background:color-mix(in srgb, var(--ds-surface) 94%, transparent);border-radius:var(--ds-radius-sm);padding:10px 13px;display:flex;flex-direction:column;gap:5px;max-width:270px"
 		>
 			<span style="font:600 9.5px var(--ds-font-mono);letter-spacing:0.14em;color:var(--ds-accent-hover)">FOUNDRY — WORKING DRAWINGS</span>
 			<span style="font:500 8.5px var(--ds-font-mono);letter-spacing:0.1em;color:var(--ds-text-3)">DWG 04-B · REV C · SCALE 1:1 · DO NOT SCALE</span>
@@ -284,6 +285,12 @@ const DWG_CORNERS = [
 		font-size: 16px;
 		font-weight: 500;
 	}
+	.fy-tell {
+		font: 400 12.5px var(--ds-font-mono);
+		letter-spacing: 0;
+		color: var(--ds-text-3);
+		margin-top: -8px;
+	}
 	.fy-rev {
 		flex: 1 1 340px;
 		min-width: 0;
@@ -311,7 +318,7 @@ const DWG_CORNERS = [
 	}
 	.fy-rev-row {
 		display: grid;
-		grid-template-columns: 60px minmax(0, 1fr) 64px 48px 72px;
+		grid-template-columns: 52px minmax(8.5em, 1fr) 60px 44px minmax(64px, auto);
 		gap: 8px;
 		padding: 7px 0;
 	}
