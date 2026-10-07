@@ -157,6 +157,8 @@ a:hover {
 .ds-display-md { font-family: var(--ds-font-display); font-weight: 750; font-stretch: 118%; font-size: clamp(20px, 2vw, 24px); line-height: 1.15; letter-spacing: -0.005em; }
 .ds-title { font-weight: 700; font-stretch: 112%; }
 .ds-heading { font-weight: 700; font-stretch: 112%; }
+.ds-display-lg.fy-stat,
+.ds-display-md.fy-stat { letter-spacing: 0; font-variant-numeric: lining-nums tabular-nums; }
 .ds-lead { font-size: 19px; line-height: 1.5; color: var(--ds-text-2); }
 
 .ds-kicker {
@@ -237,6 +239,7 @@ a:hover {
   background: transparent;
   color: var(--ds-text-2);
 }
+.ds-chip.ds-chip--accent { border-color: var(--ds-text); color: var(--ds-text); background: transparent; }
 
 .ds-card,
 .fy-plate,

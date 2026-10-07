@@ -371,7 +371,7 @@ body {
    already sets it on these exact selectors; it fills the 3px offset. */
 html .ds-btn:focus-visible,
 html .ds-btn-quiet:focus-visible {
-  outline: 2px solid var(--ds-accent);
+  outline: 2px solid var(--ds-text);
   outline-offset: 3px;
 }
 
@@ -889,44 +889,6 @@ html .ds-btn {
       animation-timing-function: linear(0, 0.102, 0.324, 0.573, 0.790, 0.949, 1.047, 1.092, 1.101, 1.087, 1.063, 1.038, 1.017, 1.002, 0.994, 0.990, 0.990, 0.992, 0.994, 0.997, 1);
     }
   }
-}
-
-/* TYP-2: Hero H1 only — raise the display ceiling 68px -> 76px and steepen
-   the clamp so it stops idling at the 40px floor across the 390-667px
-   band. Scoped to #fy-callout-a (Hero.astro:121), NOT .ds-display-xl —
-   that class is also HarnessHero.astro:19's H1, a different column
-   entirely, and must stay out of this change's blast radius. The hero
-   text column is a fixed 680px (Hero.astro:93), so a vw-scaled headline
-   inside it is scaling against a dimension that never grows: the correct
-   shape is "reach the ceiling early, then hold". Measured at 1440: the
-   longer balanced line, "apps and AI agent tooling.", is 581px at 68px —
-   85% of the 680px column; 76px puts it at 649px (95%), 31px of slack for
-   the balance algorithm and font-load variance. 80px would break the
-   2-line set (683px > 680). 8vw hits the 76px ceiling at 950px viewport
-   and is verified non-overflowing at every intermediate width: 500px ->
-   40px font / 342px line vs 450px container; 700px -> 56px / 479px vs
-   630px; 900px -> 72px / 616px vs 680px cap; >=950px -> 76px / 649px vs
-   680px. Floor stays 40px — at 390 the same line already measures ~342px
-   against a 350px column (98% fill), so raising the floor forces a 3rd
-   line. */
-#fy-callout-a { font-size: clamp(40px, 8vw, 76px); }
-
-/* TYP-8: Hero lead only, keyed to #fy-callout-c (Hero.astro:127) so
-   /harness's .ds-lead consumers are untouched. .ds-lead is a fixed 19px
-   (foundation.css:151) while #fy-callout-a above bottoms out at its 40px
-   floor below 667px viewport, so the display:lead ratio collapses from
-   3.58 at 1440 to 2.11 at 390 — the lead nearly matches the headline in
-   weight-on-page. Fixed from the lead side, not the headline side: at 390
-   the H1's longer line already measures ~342px against a 350px column
-   (98% fill), so raising the clamp floor forces a third line instead.
-   17px restores the ratio to 2.35 and shortens the 5-line paragraph by
-   one line. The existing max-width:52ch/text-wrap:pretty at Hero.astro:127
-   stay as-is — the 350px container binds long before 52ch does at this
-   width. No colour change: --ds-text-2 is unchanged (11.5:1 light / 8.5:1
-   dark), and 17px stays comfortably in normal-text territory so the same
-   4.5:1 bar applies and clears. */
-@media (max-width: 600px) {
-  #fy-callout-c { font-size: 17px; }
 }
 
 /* TYP-7: figures are not headlines. .ds-display-lg/.ds-display-md carry
