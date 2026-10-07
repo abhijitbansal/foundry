@@ -30,14 +30,11 @@ const { cells, ariaLabel } = Astro.props;
 			const bucket = heatBucket(cell.tokens);
 			const title =
 				cell.tokens === undefined ? `${cell.label} — quiet` : `${cell.label} — ${formatCompact(cell.tokens)} tokens out`;
-			// Review fix: this heatmap now lives inside a .fy-well card (SUR-7),
-			// whose own background is --ds-surface-2 — the same fill quiet
-			// cells use, so a --ds-line border (1.14-1.29:1 against the card)
-			// left 48/81 cells at ~1.00:1 against their own floor. --ds-line-
-			// strong (already the tier SUR-2/SUR-7 use for their own card
-			// borders against --ds-surface-2) clears a real outline.
+			// Quiet cells need a real outline: the .fy-well card is transparent, so
+			// a --ds-line border left them near-invisible against the page.
+			// --ds-line-strong clears it.
 			const border = bucket === 'quiet' ? ';border:1px solid var(--ds-line-strong);box-sizing:border-box' : '';
-			return <span title={title} style={`border-radius:3px;background:${heatBucketColor(bucket)}${border}`} />;
+			return <span title={title} style={`background:${heatBucketColor(bucket)}${border}`} />;
 		})
 	}
 </div>

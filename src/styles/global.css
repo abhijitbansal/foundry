@@ -81,16 +81,10 @@ body {
    components.css. :not(.ds-chip--accent) is required — global.css loads
    after components.css, so a bare .ds-chip would tie .ds-chip--accent on
    specificity and win on source order, flattening the accent chips. Placed
-   BEFORE .fy-link-t2 because :not() raises this to (0,2,0), tying
-   .fy-link-t2:hover (next rule); source order must let the hover win for
-   updates.astro's `class="ds-chip fy-link-t2"`. */
+   BEFORE .fy-link-t2 so updates.astro's `class="ds-chip fy-link-t2"` keeps
+   the same resting colour either way; hover is owned by drawing-set.css. */
 .ds-chip:not(.ds-chip--accent) { color: var(--ds-text-2); }
 .fy-link-t2 { color: var(--ds-text-2); }
-.fy-link-t2:hover { color: var(--ds-accent); }
-.fy-link-underline { border-bottom: 1px solid transparent; }
-.fy-link-underline:hover { border-bottom-color: var(--ds-accent); }
-.fy-tilt { border: 1px solid var(--ds-line); }
-.fy-tilt:hover { border-color: color-mix(in srgb, var(--ds-accent) 45%, var(--ds-line)); }
 .fy-skip-link { top: -56px; }
 .fy-skip-link:focus-visible { top: 16px; }
 

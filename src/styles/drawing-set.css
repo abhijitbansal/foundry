@@ -249,8 +249,8 @@ a:hover {
   background: transparent;
   border: 1px solid var(--ds-line-strong);
 }
-.fy-plate:hover,
-.fy-tilt:hover { border-color: var(--ds-text); box-shadow: none; transform: none; }
+.fy-plate { transition: border-color var(--ds-duration-base) var(--ds-ease-standard); }
+.fy-plate:hover { border-color: var(--ds-text); box-shadow: none; transform: none; }
 
 .ds-callout {
   border-left: 0;
@@ -270,7 +270,7 @@ a:hover {
 /* Programmatic skip-link targets (#telemetry-body, updates' #weeks) take
    focus via tabindex="-1" only so the page scrolls/announces there; a
    ring on a whole section is noise. */
-[tabindex="-1"]:focus { outline: none; }
+[tabindex="-1"]:focus:not(:focus-visible) { outline: none; }
 
 /* One meter-reading numeral, shared by MeterReadings and Telemetry. */
 .fy-meter-num {
