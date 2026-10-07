@@ -121,8 +121,6 @@ const links = SHEETS.filter((s) => s.path !== '').map((s) => ({
 		btn.addEventListener('click', () => {
 			toggleTheme();
 			btn.textContent = label();
-			const scene = (window as unknown as { __foundryScene?: { setTheme?: (dark: boolean) => void } }).__foundryScene;
-			scene?.setTheme?.(readTheme() === 'dark');
 		});
 	}
 
