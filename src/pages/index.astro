@@ -14,7 +14,7 @@ import Footer from '../components/Footer.astro';
 ---
 
 <BaseLayout>
-	<SkipLink />
+	<SkipLink href="#schedule" label="Skip to the schedule" />
 	<Nav />
 	<main class="brand-skills">
 		<HeroYard />
@@ -25,11 +25,3 @@ import Footer from '../components/Footer.astro';
 	</main>
 	<Footer />
 </BaseLayout>
-
-<script>
-	import { initReveals } from '../lib/reveal';
-	import { initTilt } from '../lib/tilt';
-
-	initReveals();
-	initTilt();
-</script>

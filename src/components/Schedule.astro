@@ -17,7 +17,7 @@ const total = groups.reduce((n, g) => n + g.rows.length, 0);
 ---
 
 <section id="schedule" data-screen-label="Schedule" class="fy-page">
-	<SheetHead code="A-02" title="Schedule of buildings" headingLevel={2} lead={`${total} projects, numbered as on the yard. Private builds are described here; public ones link to source.`} />
+	<SheetHead code="A-02" kicker="Sheet A-02" title="Schedule of buildings" headingLevel={2} lead={`${total} projects, numbered as on the yard. Private builds are described here; public ones link to source.`} />
 	<div class="fy-sched__head" aria-hidden="true"><span>Bldg</span><span>Name</span><span>Use</span><span>Built with</span><span>Storeys</span><span>Drawings</span></div>
 	{groups.map((g) => (
 		<div class="fy-sched__group">
@@ -28,7 +28,7 @@ const total = groups.reduce((n, g) => n + g.rows.length, 0);
 						<span class="fy-sched__no">{r.no}</span>
 						<div class="fy-sched__name">
 							<span class="fy-sched__title">{r.name}</span>
-							<span class="fy-sched__status" data-status={r.status}>■ {r.status === 'recently-active' ? 'Recently active' : r.status === 'heating-up' ? 'Heating up' : 'Active'}</span>
+							<span class="fy-sched__status" data-status={r.status}><span aria-hidden="true">■</span> {r.status === 'recently-active' ? 'Recently active' : r.status === 'heating-up' ? 'Heating up' : 'Active'}</span>
 						</div>
 						<p class="fy-sched__use">{r.use}</p>
 						<span class="fy-sched__stack">{r.stack}</span>
@@ -36,7 +36,12 @@ const total = groups.reduce((n, g) => n + g.rows.length, 0);
 							{Array.from({ length: r.storeys }, () => <i aria-hidden="true" />)}<b>{r.storeys}</b>
 						</span>
 						<div class="fy-sched__links">
-							{r.links.map((l) => <a href={l.href} target="_blank" rel="noopener">{l.label}</a>)}
+							{r.links.map((l) => {
+								const isInternal = l.href.startsWith('https://abhijitbansal.com');
+								return isInternal
+									? <a href={l.href} aria-label={`${r.name}: ${l.label}`}>{l.label}</a>
+									: <a href={l.href} target="_blank" rel="noopener" aria-label={`${r.name}: ${l.label} (opens in a new tab)`}>{l.label}</a>;
+							})}
 							{r.isPrivate && <span class="fy-sched__private">Private build</span>}
 						</div>
 					</li>
@@ -48,7 +53,7 @@ const total = groups.reduce((n, g) => n + g.rows.length, 0);
 </section>
 
 <style>
-	.fy-page { max-width: 1360px; margin: 0 auto; padding: clamp(64px, 8vw, 112px) clamp(16px, 3vw, 40px) 0; box-sizing: border-box; scroll-margin-top: 58px; }
+	.fy-page { max-width: 1360px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); box-sizing: border-box; scroll-margin-top: 58px; }
 	.fy-sched__head,
 	.fy-sched__row { display: grid; grid-template-columns: 56px 180px minmax(0, 1fr) 210px 120px 150px; gap: 24px; align-items: start; }
 	.fy-sched__head { padding: 12px 0; font: 400 12px var(--ds-font-mono); color: var(--ds-text-3); }
@@ -72,7 +77,7 @@ const total = groups.reduce((n, g) => n + g.rows.length, 0);
 	.fy-sched__links { display: flex; flex-direction: column; gap: 4px; font-size: 14.5px; }
 	.fy-sched__private { color: var(--ds-text-3); }
 	.fy-sched__footnote { margin: 20px 0 0; color: var(--ds-text-2); max-width: 46em; }
-	@media (max-width: 1000px) {
+	@media (max-width: 1100px) {
 		.fy-sched__head { display: none; }
 		.fy-sched__row { grid-template-columns: 40px minmax(0, 1fr); gap: 6px 12px; }
 		.fy-sched__row > :not(.fy-sched__no) { grid-column: 2; }

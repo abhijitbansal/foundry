@@ -3,8 +3,7 @@
 // derived at build time from data/stats.json (same helpers as Telemetry.astro).
 import SheetHead from './SheetHead.astro';
 import statsJson from '../../data/stats.json';
-import type { StatsJson } from '../lib/telemetry.types';
-import type { HeatBucket } from '../lib/telemetry.types';
+import type { StatsJson, HeatBucket } from '../lib/telemetry.types';
 import { formatCompact, formatDateRange, peakDayInRange, TELEMETRY_START_ISO, heatBucketColor } from '../lib/telemetry';
 
 const stats = statsJson as unknown as StatsJson;
@@ -25,7 +24,7 @@ const cells = [
 ---
 
 <section id="meters" data-screen-label="Meter readings" class="fy-meters">
-	<SheetHead code="B-01" headingLevel={2} title="Meter readings" lead={`Everything above is built with Claude Code. Parsed locally from ${files} session logs, ${range}.`} />
+	<SheetHead code="B-01" kicker="Sheet B-01" headingLevel={2} title="Meter readings" lead={`Everything above is built with Claude Code. Parsed locally from ${files} session logs, ${range}.`} />
 	<div class="fy-meters__grid">
 		{cells.map((c) => (
 			<div class="fy-meters__cell">
@@ -38,13 +37,13 @@ const cells = [
 		<div class="fy-meters__swatches" aria-hidden="true">
 			{buckets.map((b) => <span style={`background:${heatBucketColor(b)}`} />)}
 		</div>
-		<span>Heatmaps ramp by graphite density; redline marks the peak{peak ? ` — ${peak.label}, ${peak.value} sessions in one day` : ''}.</span>
+		<span>Heatmaps ramp by graphite density; redline marks the peak{peak ? ` — ${peak.label}, ${formatCompact(peak.value)} sessions in one day` : ''}.</span>
 		<a href={`${import.meta.env.BASE_URL}telemetry/`}>Full telemetry sheet →</a>
 	</div>
 </section>
 
 <style>
-	.fy-meters { max-width: 1360px; margin: 0 auto; padding: clamp(64px, 8vw, 112px) clamp(16px, 3vw, 40px) 0; box-sizing: border-box; scroll-margin-top: 58px; }
+	.fy-meters { max-width: 1360px; margin: 0 auto; padding: 0 clamp(16px, 3vw, 40px); box-sizing: border-box; scroll-margin-top: 58px; }
 	.fy-meters__grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr)); font-variant-numeric: tabular-nums; }
 	.fy-meters__cell { padding: 24px; border-right: 1px solid var(--ds-line); }
 	.fy-meters__cell:first-child { padding-left: 0; }

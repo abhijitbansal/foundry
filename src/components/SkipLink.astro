@@ -1,13 +1,13 @@
 ---
 // SkipLink.astro — 2A source line 43. `style-focus` (DC-tooling pseudo-attr,
 // not valid CSS) becomes the .fy-skip-link:focus-visible rule in global.css;
-// every other inline value is verbatim. Target/label are props so pages
-// without a #work section (e.g. /updates/) can point somewhere that exists.
+// every other inline value is verbatim. Target and label are required: every
+// page has a different main landmark, so there is no sensible site-wide default.
 interface Props {
-	href?: string;
-	label?: string;
+	href: string;
+	label: string;
 }
-const { href = '#work', label = 'Skip to the work' } = Astro.props;
+const { href, label } = Astro.props;
 ---
 
 <a

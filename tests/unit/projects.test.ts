@@ -8,11 +8,11 @@ describe('projects.ts data integrity', () => {
 		expect(allProjects).toHaveLength(11);
 	});
 
-	// WorkSection.astro hand-maintains a count badge and a startIndex per
-	// group, and the card badges run 01..11 off those numbers. A total-only
-	// assertion passes even when a project moves between groups and every
-	// badge after it drifts, so pin the split too.
-	it('keeps the group split WorkSection.astro numbers its badges from', () => {
+	// Schedule.astro renders these three groups under their own headings
+	// (rows are numbered by yard rank, not group order). A total-only
+	// assertion passes when a project silently moves between groups, so pin
+	// the split too.
+	it('keeps the three-group split Schedule.astro renders', () => {
 		expect({
 			apps: appsProjects.length,
 			aiTooling: aiToolingProjects.length,
