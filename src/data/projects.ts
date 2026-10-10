@@ -72,6 +72,24 @@ export const appsProjects: Project[] = [
 
 export const aiToolingProjects: Project[] = [
 	{
+		name: 'raja',
+		repo: 'raja',
+		status: 'heating-up',
+		blurb:
+			"A local iMessage assistant on an always-on Mac. Claude drafts replies with no tools; deterministic code decides who may receive one and does every send. Trusted contacts get answered on their own, and anything risky — or about buying or paying — waits for the owner's yes. Screens every message for prompt injection, and learns the owner's voice from edited replies.",
+		tech: 'macOS · TypeScript · Bun · Claude Code',
+		private: true,
+	},
+	{
+		name: 'swatkats',
+		repo: 'swatkats',
+		status: 'active',
+		blurb:
+			'Quick decisions from local models: drop a spreadsheet or name a Jira epic, get typed answers back — a filled column with per-row confidence, or a verdict on whether an epic is ready or done. Ollama by default, cloud CLIs opt-in. In design: spec and feasibility spike done.',
+		tech: 'Python · Ollama · MCP',
+		private: true,
+	},
+	{
 		name: 'cartoon',
 		repo: 'cartoon',
 		status: 'active',
@@ -112,6 +130,16 @@ export const aiToolingProjects: Project[] = [
 			'Deterministic ASCII meme reactions for CLIs, bots, and agents. 45 original formats, zero dependencies — library, CLI, and MCP server.',
 		tech: 'TypeScript · MCP',
 		private: true,
+	},
+	{
+		name: 'orca-local',
+		repo: 'orca-local',
+		status: 'active',
+		blurb:
+			"A local-only fork of Orca, the desktop app for running coding agents side by side in their own worktrees. No cloud accounts, auto-update, telemetry upload or network listener; signed macOS builds. Upstream built the app; this fork is the local-only part.",
+		tech: 'Electron · TypeScript · fork',
+		repoUrl: 'https://github.com/abhijitbansal/orca-local',
+		private: false,
 	},
 ];
 
