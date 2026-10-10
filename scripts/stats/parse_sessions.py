@@ -83,7 +83,7 @@ PROJECTS_ALLOWLIST = {
     "cubby", "doc-scan", "floorprint", "folix",
     "claude-skills", "cartoon", "memekit", "sift", "purix",
     "foundry", "design-system", "cubby-site", "paperix-site",
-    "floorprint-site", "mr_lender", "second-wind",
+    "floorprint-site", "mr_lender", "second-wind", "raja", "swatkats",
 }
 
 
