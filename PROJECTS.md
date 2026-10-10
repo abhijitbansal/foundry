@@ -2,7 +2,7 @@
 
 Source material for Foundry's project pages. One entry per repo under `github.com/abhijitbansal`. Regenerate when repos change (sweep via `gh repo list` + per-repo README summarization).
 
-**Last updated:** 2026-09-06
+**Last updated:** 2026-10-10
 
 ## Apps (iOS / macOS / browser)
 
@@ -28,6 +28,14 @@ Tech: TypeScript, cross-browser WebExtension · [repo](https://github.com/abhiji
 
 ## AI / agent tooling
 
+### raja — `heating-up` · private
+Local iMessage assistant that runs on an always-on Mac. Claude drafts replies in headless mode with no tools; deterministic code decides who may receive a message and does every send. Allowlisted contacts get answers on their own when every gate rule passes; everything else, anything risky, and anything about buying or paying goes to the owner as a draft to approve, skip, or rewrite. Scans every inbound message for prompt injection before drafting, and learns the owner's voice from past replies and edits. v1 built, pending device testing.
+Tech: TypeScript, Bun, Claude Code headless, SQLite, launchd · [repo](https://github.com/abhijitbansal/raja)
+
+### swatkats — `early` · private
+Local-first decision tool: drop a spreadsheet, paste text, or name a Jira epic and get typed decisions back — fill a column by choosing, scoring, or answering yes/no with a per-row confidence, or judge whether an epic is ready or done. Local models via Ollama by default; cloud CLIs and OpenAI-compatible APIs opt-in. Design spec and feasibility spike done; build not started.
+Tech: Python, uv, Ollama, MCP · [repo](https://github.com/abhijitbansal/swatkats)
+
 ### claude-skills — `active` · public
 Unified collection of AI agent skills, plugins, and tools for Claude Code and AGENTS.md-aware platforms: iOS build-and-screenshot loops, Linear automation, usage-limit-aware orchestration, prompt refinement. Installable via marketplace or standalone CLI.
 Tech: Python, Shell · [repo](https://github.com/abhijitbansal/claude-skills)
@@ -43,6 +51,10 @@ Tech: TypeScript · [repo](https://github.com/abhijitbansal/memekit)
 ### sift — `active` · public
 Weekly AI-news curation pipeline: fetches RSS/Atom feeds, deduplicates locally, one Claude API call merges/categorizes/scores/summarizes into an HTML digest. Optional email delivery + browsable GitHub Pages archive with live dashboard.
 Tech: Python, uv, Claude API, SQLite · [repo](https://github.com/abhijitbansal/sift)
+
+### orca-local — `active` · public · fork
+Local-only fork of [stablyai/orca](https://github.com/stablyai/orca), the desktop app for running coding agents side by side in parallel worktrees. The fork strips cloud accounts, auto-update, telemetry upload, remote servers, and every network listener, and ships its own signed macOS releases. Mostly upstream's work — listed on the site as a card only, never a yard building (kept off `PROJECTS_ALLOWLIST`).
+Tech: TypeScript, Electron · [repo](https://github.com/abhijitbansal/orca-local)
 
 ## Web / sites
 

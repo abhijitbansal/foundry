@@ -1,8 +1,10 @@
 // works-layout.ts — hand-tuned layout tables, copied verbatim from
 // design_handoff_works/works-city.jsx (YARD, YARD_PLATES). Keyed by repo
-// name; a new repo needs a slot added here or it's skipped by coverage
-// checks in works.ts. Do not hand-tune coordinates — regenerate from the
-// design source if the yard plan itself changes.
+// name; a new repo needs a slot added here or assertYardCoverage in works.ts
+// throws. Do not hand-tune the handoff coordinates — regenerate from the
+// design source if the yard plan itself changes. Later additions are NOT in
+// that source and must survive any regeneration: raja, swatkats, plate 04
+// and plate 02's moved label (2026-10-10).
 //
 // The weekly STRIP is different: which repos are active, and how many,
 // changes every week, so its positions can't be a hand-tuned per-repo
@@ -35,12 +37,22 @@ export const YARD: Record<string, YardLayoutEntry> = {
 	'design-system': { x: 9.0, y: 9.2, w: 1.5, d: 1.2, arch: 'shed', plate: 2, np: [10.9, 10.8], stacks: [] },
 	folix: { x: 11.3, y: 4.9, w: 2.1, d: 1.6, arch: 'lot', plate: 0, np: [13.8, 6.9], stacks: [] },
 	purix: { x: 11.5, y: 1.2, w: 2.1, d: 1.6, arch: 'monitor', plate: 0, np: [13.4, 3.0], stacks: [] },
+	// Not from the design source: raja and swatkats (2026-10-10) sit on their
+	// own north-east plate, 04, which was open sky in the handoff composition.
+	// Placed by hand and badge-sampled in a real browser like every other np.
+	raja: { x: 16.2, y: -6.9, w: 2.6, d: 1.9, arch: 'monitor', plate: 3, np: [19.3, -4.6], stacks: [[15.9, -6.4]], furnace: true },
+	swatkats: { x: 14.9, y: -4.6, w: 1.4, d: 1.1, arch: 'shed', plate: 3, np: [16.6, -3.9], stacks: [] },
 };
 
 export const YARD_PLATES: PlateSpec[] = [
 	{ x: 0, y: 0, w: 14, d: 7.2, label: '01 · APPS', lx: 0.1, ly: 7.5 },
-	{ x: 14.7, y: 0.4, w: 8.1, d: 5.6, label: '02 · AGENT TOOLING', screen: [858, 415] },
+	{ x: 14.7, y: 0.4, w: 8.1, d: 5.6, label: '02 · AGENT TOOLING', screen: [868, 495] },
 	{ x: 5.4, y: 8.6, w: 6.0, d: 2.6, label: '03 · WEB & SITES', lx: 5.6, ly: 10.9, anchor: 'end' },
+	// Plate 04 (hand-placed, 2026-10-10). Its label floats in the open sky
+	// north-west of the plate: every spot along its edges collides with
+	// claude-skills' chimney, sift's roof or the plate's own front edge.
+	// 02's label moved down from [858, 415] because plate 04 now covers it.
+	{ x: 14.5, y: -7.4, w: 5.0, d: 4.2, label: '04 · LOCAL AGENTS', screen: [640, 322] },
 ];
 
 export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {
@@ -54,6 +66,8 @@ export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {
 	memekit: { w: 1.4, d: 1.1, arch: 'shed', stacksRel: [] },
 	'design-system': { w: 1.5, d: 1.2, arch: 'shed', stacksRel: [] },
 	purix: { w: 1.7, d: 1.35, arch: 'monitor', stacksRel: [], vent: true },
+	raja: { w: 1.9, d: 1.45, arch: 'monitor', stacksRel: [[-0.3, 0.35]], furnace: true },
+	swatkats: { w: 1.4, d: 1.1, arch: 'shed', stacksRel: [] },
 };
 
 const DEFAULT_STRIP_ARCHETYPE: StripArchetype = { w: 1.6, d: 1.3, arch: 'shed', stacksRel: [], vent: true };
