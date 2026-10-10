@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { assertYardCoverage, buildColdForge, buildLedger, buildStrip, buildYard, computeLitFracs, computeStoreys, fmtK, pennantCount, seeded, yardFootprints } from '../../src/lib/works';
-import { layoutStripGrid, stripGridFootprint } from '../../src/lib/works-layout';
+import { layoutStripGrid, stripGridFootprint, YARD, YARD_PLATES } from '../../src/lib/works-layout';
 import type { WorksRepo } from '../../src/lib/works.types';
 
 const YARD_REPOS: WorksRepo[] = [
@@ -125,6 +125,31 @@ describe('yardFootprints', () => {
 	it('includes the derived annex rect, not just the declared boxes', () => {
 		const keys = yardFootprints().map((r) => r.key);
 		expect(keys).toContain('cubby (annex)');
+	});
+
+	it('keeps every building inside the plate its `plate` index names', () => {
+		const outside = Object.entries(YARD)
+			.filter(([, b]) => {
+				const p = YARD_PLATES[b.plate];
+				return !p || b.x < p.x || b.y < p.y || b.x + b.w > p.x + p.w || b.y + b.d > p.y + p.d;
+			})
+			.map(([key]) => key);
+		expect(outside).toEqual([]);
+	});
+});
+
+describe('YARD slots', () => {
+	it('renders a building for every slot, including the hand-placed plate 04', () => {
+		const repos: WorksRepo[] = Object.keys(YARD).map((repo, i) => ({ repo, lines: 1000 * (i + 1), sessions: 1, tokens: 1, active: true }));
+		const { svg } = buildYard(repos, {});
+		for (const repo of Object.keys(YARD)) expect(svg).toContain(`<title>${repo} —`);
+		expect(svg).toContain('04 · LOCAL AGENTS');
+	});
+
+	// orca-local is a card-only fork (AGENTS.md). A slot here is the first
+	// step toward allowlisting it, which the archive ratchet makes permanent.
+	it('has no slot for the card-only orca-local fork', () => {
+		expect(YARD['orca-local']).toBeUndefined();
 	});
 });
 
