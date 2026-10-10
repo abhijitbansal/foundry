@@ -28,7 +28,7 @@ Tech: TypeScript, cross-browser WebExtension · [repo](https://github.com/abhiji
 
 ## AI / agent tooling
 
-### raja — `active` · private
+### raja — `heating-up` · private
 Local iMessage assistant that runs on an always-on Mac. Claude drafts replies in headless mode with no tools; deterministic code decides who may receive a message and does every send. Allowlisted contacts get answers on their own when every gate rule passes; everything else, anything risky, and anything about buying or paying goes to the owner as a draft to approve, skip, or rewrite. Scans every inbound message for prompt injection before drafting, and learns the owner's voice from past replies and edits. v1 built, pending device testing.
 Tech: TypeScript, Bun, Claude Code headless, SQLite, launchd · [repo](https://github.com/abhijitbansal/raja)
 

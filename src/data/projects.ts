@@ -1,4 +1,5 @@
-// Project inventory — plan Task 3.4 / 3.4a. Copy transcribed verbatim from
+// Project inventory — plan Task 3.4 / 3.4a. Later cards (Purix, raja,
+// swatkats, orca-local) are hand-written, not from the handoff source. Copy transcribed verbatim from
 // docs/design/handoff/src/Foundry 2A - Crucible Light.dc.html (lines
 // 147-271). Link fields resolved per the Task 3.4a table (gh api + curl -I
 // checks on 2026-07-11). Grouping matches the three group headers in the
