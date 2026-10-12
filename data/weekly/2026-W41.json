@@ -1,0 +1,824 @@
+{
+  "week_id": "2026-W41",
+  "week_start": "2026-10-05",
+  "week_end": "2026-10-11",
+  "generated_at": "2026-10-12T13:00:46.735955+00:00",
+  "repos": [
+    {
+      "repo": "swatkats",
+      "sessions": 460,
+      "lines_added": 106331,
+      "lines_removed": 1077,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "claude-skills",
+      "sessions": 634,
+      "lines_added": 32686,
+      "lines_removed": 1661,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    },
+    {
+      "repo": "raja",
+      "sessions": 142,
+      "lines_added": 23265,
+      "lines_removed": 281,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "foundry",
+      "sessions": 61,
+      "lines_added": 3399,
+      "lines_removed": 40,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "cubby",
+      "sessions": 14,
+      "lines_added": 3294,
+      "lines_removed": 590,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "doc-scan",
+      "sessions": 8,
+      "lines_added": 0,
+      "lines_removed": 0,
+      "top_tool": "Read",
+      "top_model": "claude-opus-5-5"
+    }
+  ],
+  "heatmap": {
+    "timezone": "EDT",
+    "weekday_labels": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ],
+    "cells": [
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 15,
+          "out_tokens": 2792
+        },
+        {
+          "count": 4,
+          "out_tokens": 487
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 532,
+          "out_tokens": 40576
+        },
+        {
+          "count": 1053,
+          "out_tokens": 173538
+        },
+        {
+          "count": 874,
+          "out_tokens": 166830
+        },
+        {
+          "count": 762,
+          "out_tokens": 43469
+        },
+        {
+          "count": 771,
+          "out_tokens": 172498
+        },
+        {
+          "count": 314,
+          "out_tokens": 18906
+        }
+      ],
+      [
+        {
+          "count": 473,
+          "out_tokens": 16201
+        },
+        {
+          "count": 270,
+          "out_tokens": 16278
+        },
+        {
+          "count": 270,
+          "out_tokens": 18837
+        },
+        {
+          "count": 79,
+          "out_tokens": 8958
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 381,
+          "out_tokens": 40982
+        },
+        {
+          "count": 238,
+          "out_tokens": 74789
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 695,
+          "out_tokens": 512256
+        },
+        {
+          "count": 1075,
+          "out_tokens": 983518
+        },
+        {
+          "count": 1976,
+          "out_tokens": 616403
+        }
+      ],
+      [
+        {
+          "count": 6692,
+          "out_tokens": 1011561
+        },
+        {
+          "count": 249,
+          "out_tokens": 118960
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 24,
+          "out_tokens": 43628
+        },
+        {
+          "count": 1364,
+          "out_tokens": 852293
+        },
+        {
+          "count": 1069,
+          "out_tokens": 397302
+        },
+        {
+          "count": 1169,
+          "out_tokens": 373123
+        },
+        {
+          "count": 1774,
+          "out_tokens": 383729
+        },
+        {
+          "count": 420,
+          "out_tokens": 71833
+        },
+        {
+          "count": 158,
+          "out_tokens": 154980
+        },
+        {
+          "count": 160,
+          "out_tokens": 166555
+        },
+        {
+          "count": 21,
+          "out_tokens": 13847
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 949,
+          "out_tokens": 971302
+        }
+      ],
+      [
+        {
+          "count": 1789,
+          "out_tokens": 2247275
+        },
+        {
+          "count": 2005,
+          "out_tokens": 2108664
+        },
+        {
+          "count": 2086,
+          "out_tokens": 1736800
+        },
+        {
+          "count": 388,
+          "out_tokens": 194514
+        },
+        {
+          "count": 78,
+          "out_tokens": 53387
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 9,
+          "out_tokens": 5861
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 1700,
+          "out_tokens": 1497476
+        },
+        {
+          "count": 1203,
+          "out_tokens": 921413
+        },
+        {
+          "count": 1069,
+          "out_tokens": 1045249
+        },
+        {
+          "count": 387,
+          "out_tokens": 271036
+        },
+        {
+          "count": 1015,
+          "out_tokens": 650593
+        },
+        {
+          "count": 1403,
+          "out_tokens": 1367050
+        },
+        {
+          "count": 1880,
+          "out_tokens": 958690
+        },
+        {
+          "count": 734,
+          "out_tokens": 343235
+        },
+        {
+          "count": 619,
+          "out_tokens": 242334
+        },
+        {
+          "count": 561,
+          "out_tokens": 207698
+        },
+        {
+          "count": 515,
+          "out_tokens": 152354
+        },
+        {
+          "count": 3392,
+          "out_tokens": 910853
+        },
+        {
+          "count": 523,
+          "out_tokens": 188018
+        },
+        {
+          "count": 864,
+          "out_tokens": 543467
+        },
+        {
+          "count": 1485,
+          "out_tokens": 833336
+        }
+      ],
+      [
+        {
+          "count": 3425,
+          "out_tokens": 1399651
+        },
+        {
+          "count": 1259,
+          "out_tokens": 469435
+        },
+        {
+          "count": 701,
+          "out_tokens": 228996
+        },
+        {
+          "count": 543,
+          "out_tokens": 243102
+        },
+        {
+          "count": 582,
+          "out_tokens": 363964
+        },
+        {
+          "count": 602,
+          "out_tokens": 245944
+        },
+        {
+          "count": 503,
+          "out_tokens": 202731
+        },
+        {
+          "count": 628,
+          "out_tokens": 243946
+        },
+        {
+          "count": 567,
+          "out_tokens": 230593
+        },
+        {
+          "count": 459,
+          "out_tokens": 246274
+        },
+        {
+          "count": 959,
+          "out_tokens": 764654
+        },
+        {
+          "count": 1255,
+          "out_tokens": 957702
+        },
+        {
+          "count": 1261,
+          "out_tokens": 648312
+        },
+        {
+          "count": 1159,
+          "out_tokens": 478801
+        },
+        {
+          "count": 1720,
+          "out_tokens": 218023
+        },
+        {
+          "count": 747,
+          "out_tokens": 178968
+        },
+        {
+          "count": 548,
+          "out_tokens": 257666
+        },
+        {
+          "count": 595,
+          "out_tokens": 266513
+        },
+        {
+          "count": 637,
+          "out_tokens": 357101
+        },
+        {
+          "count": 1158,
+          "out_tokens": 1044740
+        },
+        {
+          "count": 1711,
+          "out_tokens": 525857
+        },
+        {
+          "count": 1174,
+          "out_tokens": 810668
+        },
+        {
+          "count": 1096,
+          "out_tokens": 387437
+        },
+        {
+          "count": 964,
+          "out_tokens": 349448
+        }
+      ]
+    ]
+  },
+  "releases": {
+    "swatkats": {
+      "pr_merge_count": 0,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "claude-skills": {
+      "pr_merge_count": 12,
+      "pr_titles": [
+        "feat(cache-clock): per-project install for VS Code (install.sh --project)",
+        "docs: Cache Clock /experimental callout + per-OS install commands for portable-artifacts",
+        "feat(test-board): auto-close band after 60 min, add \u2715 close, show run time",
+        "Cache Clock: prompt-cache clock and cold-send question for Copilot CLI and VS Code",
+        "feat(site): narrate the make-motion samples and document audio as opt-in",
+        "Skill catalog review: proposal + execution (scrub, 17 content fixes, extensions, merge/split, count sweep)",
+        "fix(session-compass): compass_status returns a string; the band is always up",
+        "feat(site): redesign \u2014 one-accent theme, mods + portable-artifacts spotlight, install lines everywhere",
+        "feat(make-motion): audio tracks, Kokoro voiceover, synced preview",
+        "feat: 5 skills + 3 extensions mined from 182 past sessions",
+        "feat: test-board + session-compass mods",
+        "feat: portable-artifacts \u2014 offline dashboard + motion skills for any agent"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    },
+    "raja": {
+      "pr_merge_count": 5,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "foundry": {
+      "pr_merge_count": 5,
+      "pr_titles": [
+        "docs: LinkedIn post \u2014 claude-skills portable-artifacts",
+        "feat: new repos \u2014 raja (heating up, yard plate 04), swatkats, orca-local card",
+        "Drawing Set redesign: film/ink/redline theme, yard hero, sheet chrome, /telemetry/",
+        "fix(weekly): retry push, PR create and auto-merge; report failures truthfully",
+        "Weekly digest: 2026-W40"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    },
+    "cubby": {
+      "pr_merge_count": 1,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "doc-scan": {
+      "pr_merge_count": 2,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    }
+  },
+  "highlights": {
+    "overall": "swatkats led on lines, 106,331 added across 460 sessions, while claude-skills led on sessions at 634 and merged 12 PRs. doc-scan logged 8 sessions and added no lines.",
+    "repos": {
+      "swatkats": "460 sessions added 106,331 lines (1,077 removed) via Bash on claude-opus-5-5, with no PRs merged.",
+      "claude-skills": "634 sessions added 32,686 lines (1,661 removed) via Bash on claude-sonnet-5-5, with 12 PRs merged, from the Cache Clock work to the portable-artifacts skills.",
+      "raja": "142 sessions added 23,265 lines (281 removed) via Bash on claude-opus-5-5, with 5 PRs merged.",
+      "foundry": "61 sessions added 3,399 lines (40 removed) via Bash on claude-opus-5-5, with 5 PRs merged, including the Drawing Set redesign.",
+      "cubby": "14 sessions added 3,294 lines (590 removed) via Bash on claude-opus-5-5, with 1 PR merged.",
+      "doc-scan": "8 sessions, no lines added or removed, mostly Read on claude-opus-5-5, with 2 PRs merged."
+    }
+  }
+}
