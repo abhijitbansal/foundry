@@ -26,3 +26,8 @@ Nothing in flight once PR #30 auto-merges and "Deploy to GitHub Pages" runs; ver
 ## Models
 
 - Solo, Fable 5.1 (planner tier) — diagnostic + git surgery, no subagents dispatched.
+
+## Phase 2 — LinkedIn opinion post (same session)
+
+- `/linkedin-post` for a standalone opinion post (AI as a real disruption; the asymmetric bet on learning). Gather: user's dictated brief was the source of truth; one question asked (link or standalone — standalone). Workflow ran 3 ghostwriter drafts × 2 critics + synthesis (10 agents); every draft rejected on voice-guide self-test #1, which is launch-shaped and unpassable for an opinion post. Synthesis violated the no-link decision, so the final was corrected inline and approved as-is: `docs/linkedin/2026-09-04-opinion-take-ai-seriously.md`.
+- Follow-up: the voice guide's self-test #1 needs an opinion-post clause (anchor on first-hand observation instead of an artifact), or the critique stage will reject every future non-launch post by construction.
