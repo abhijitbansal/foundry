@@ -18,12 +18,12 @@ Branch: `feat/jarvis-job-finder-cards`
 
 ## Follow-ups
 
-- **Owner call (review MEDIUM): job-finder visibility.** job-finder's own AGENTS.md records an owner ruling that the job-search system is shared with recruiters and referrers, not where current colleagues will see it. This site is shared on LinkedIn, and this repo is public. The "help others" framing softens it but the card still names a job-application tool on the owner's site. Branch held unpushed pending the owner's confirmation.
+- **Owner call (review MEDIUM): job-finder visibility.** job-finder's own AGENTS.md records an owner ruling that the job-search system is shared with recruiters and referrers, not where current colleagues will see it. This site is shared on LinkedIn, and this repo is public. The "help others" framing softens it but the card still names a job-application tool on the owner's site. Owner confirmed 2026-10-31: publish both cards.
 - Optional: a yard building for jarvis (hand-placed slot + allowlist).
 
 ## Resume pointer
 
-Branch committed locally, not pushed. On owner go-ahead: push, open PR, merge.
+PR open; owner merges.
 
 ## Models
 
