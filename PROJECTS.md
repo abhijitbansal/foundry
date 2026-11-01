@@ -36,12 +36,12 @@ Tech: TypeScript, Bun, Claude Code headless, SQLite, launchd · [repo](https://g
 Local-first decision tool: drop a spreadsheet, paste text, or name a Jira epic and get typed decisions back — fill a column by choosing, scoring, or answering yes/no with a per-row confidence, or judge whether an epic is ready or done. Local models via Ollama by default; cloud CLIs and OpenAI-compatible APIs opt-in. Design spec and feasibility spike done; build not started.
 Tech: Python, uv, Ollama, MCP · [repo](https://github.com/abhijitbansal/swatkats)
 
-### jarvis — `active` · private
-Local-first developer cockpit for macOS: a native Swift 6 app with a full-screen Metal core and a command bar, summoned by a global hotkey from any Space. Questions go to a model chosen per feature — local models through Ollama by default, Claude via the `claude` CLI on the owner's own subscription — and every ask writes a row to a local ledger that prices the day in energy and money. Read-only panels for GitHub repos (via the user's own `gh` login) and Claude Code sessions. Listed on the site as a card only, not a yard building (kept off `PROJECTS_ALLOWLIST`).
-Tech: Swift 6, SwiftUI, Metal, Ollama, xcodegen · [repo](https://github.com/abhijitbansal/jarvis)
+### jarvis — `coming-soon` · private
+Local-first developer cockpit for macOS, one hotkey away from anywhere: models chosen per feature (on-device by default) beside a running tally of what the day cost.
+Tech: Swift, Metal, Ollama · [repo](https://github.com/abhijitbansal/jarvis)
 
-### job-finder — `active` · private
-Designed to help others find and apply for jobs: scores postings against their own criteria, tailors a resume and cover note where every claim traces to their own fact sheet, and fills application forms from a reviewed answer bank. Hard guards: never clicks Submit, never sends email. Listed on the site as a card only, never a yard building (kept off `PROJECTS_ALLOWLIST`).
+### job-finder — `coming-soon` · private
+Designed to help others find and apply for jobs: match openings to what someone is looking for, tailor the paperwork, and keep a person in charge of every send.
 Tech: Python, uv, Claude Code · [repo](https://github.com/abhijitbansal/job-finder)
 
 ### claude-skills — `active` · public

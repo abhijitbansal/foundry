@@ -20,6 +20,11 @@ describe('projects.ts data integrity', () => {
 		}).toEqual({ apps: 5, aiTooling: 9, foundation: 2 });
 	});
 
+	it('marks jarvis and job-finder as coming soon', () => {
+		const status = (repo: string) => allProjects.find((p) => p.repo === repo)?.status;
+		expect([status('jarvis'), status('job-finder')]).toEqual(['coming-soon', 'coming-soon']);
+	});
+
 	it('every public (private:false) project has at least one of repoUrl/siteUrl set', () => {
 		for (const project of allProjects.filter((p) => !p.private)) {
 			expect(

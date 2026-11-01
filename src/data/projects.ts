@@ -94,19 +94,19 @@ export const aiToolingProjects: Project[] = [
 	{
 		name: 'jarvis',
 		repo: 'jarvis',
-		status: 'active',
+		status: 'coming-soon',
 		blurb:
-			'A local-first developer cockpit for macOS. A global hotkey brings up a full-screen cockpit with a command bar from any Space; Esc goes back to where you were. Each feature uses the model you pick — local through Ollama by default, Claude on your own subscription — and every ask that reaches a model is logged locally, so the day\'s energy and money cost is on screen. It also shows GitHub repos and Claude Code sessions, read-only.',
-		tech: 'macOS · Swift 6 · Metal · Ollama',
+			'A local-first cockpit for developers on the Mac. One hotkey away from anywhere, it puts the models you choose (on-device by default) beside a running tally of what the day cost.',
+		tech: 'macOS · Swift · Ollama',
 		private: true,
 	},
 	{
 		name: 'job-finder',
 		repo: 'job-finder',
-		status: 'active',
+		status: 'coming-soon',
 		blurb:
-			"Designed to help others find and apply for jobs. It scores postings against the person's own criteria, tailors a resume and cover note where every claim traces back to their own facts, and fills application forms from answers they have reviewed. It never clicks Submit and never sends an email; the applicant does both.",
-		tech: 'Python · Claude Code · CLI',
+			'Designed to help others find and apply for jobs: match openings to what someone is looking for, tailor the paperwork, and keep a person in charge of every send.',
+		tech: 'Python · Claude Code',
 		private: true,
 	},
 	{

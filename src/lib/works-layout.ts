@@ -4,7 +4,8 @@
 // throws. Do not hand-tune the handoff coordinates — regenerate from the
 // design source if the yard plan itself changes. Later additions are NOT in
 // that source and must survive any regeneration: raja, swatkats, plate 04
-// and plate 02's moved label (2026-10-10).
+// and plate 02's moved label (2026-10-10); jarvis, job-finder and plate 05
+// (2026-10-31).
 //
 // The weekly STRIP is different: which repos are active, and how many,
 // changes every week, so its positions can't be a hand-tuned per-repo
@@ -42,6 +43,11 @@ export const YARD: Record<string, YardLayoutEntry> = {
 	// Placed by hand and badge-sampled in a real browser like every other np.
 	raja: { x: 16.2, y: -6.9, w: 2.6, d: 1.9, arch: 'monitor', plate: 3, np: [19.3, -4.6], stacks: [[15.9, -6.4]], furnace: true },
 	swatkats: { x: 14.9, y: -4.6, w: 1.4, d: 1.1, arch: 'shed', plate: 3, np: [16.6, -3.9], stacks: [] },
+	// Not from the design source either: jarvis and job-finder (2026-10-31),
+	// both coming soon, on plate 05 in the open north sky. Hand-placed and
+	// badge-sampled in a real browser.
+	'job-finder': { x: 5.2, y: -8.9, w: 2.1, d: 1.6, arch: 'monitor', plate: 4, np: [7.6, -7.0], stacks: [] },
+	jarvis: { x: 3.4, y: -6.6, w: 1.4, d: 1.2, arch: 'gableY', plate: 4, np: [5.1, -5.1], stacks: [] },
 };
 
 export const YARD_PLATES: PlateSpec[] = [
@@ -52,7 +58,9 @@ export const YARD_PLATES: PlateSpec[] = [
 	// north-west of the plate: every spot along its edges collides with
 	// claude-skills' chimney, sift's roof or the plate's own front edge.
 	// 02's label moved down from [858, 415] because plate 04 now covers it.
-	{ x: 14.5, y: -7.4, w: 5.0, d: 4.2, label: '04 · LOCAL AGENTS', screen: [640, 322] },
+	{ x: 14.5, y: -7.4, w: 5.0, d: 4.2, label: '04 · LOCAL AGENTS', screen: [812, 247] },
+	// Plate 05 (hand-placed, 2026-10-31): open sky north of plate 04.
+	{ x: 3.0, y: -9.2, w: 4.6, d: 3.4, label: '05 · COMING SOON', screen: [500, 268] },
 ];
 
 export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {
@@ -68,6 +76,8 @@ export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {
 	purix: { w: 1.7, d: 1.35, arch: 'monitor', stacksRel: [], vent: true },
 	raja: { w: 1.9, d: 1.45, arch: 'monitor', stacksRel: [[-0.3, 0.35]], furnace: true },
 	swatkats: { w: 1.4, d: 1.1, arch: 'shed', stacksRel: [] },
+	'job-finder': { w: 1.9, d: 1.45, arch: 'monitor', stacksRel: [], vent: true },
+	jarvis: { w: 1.5, d: 1.2, arch: 'gableY', stacksRel: [] },
 };
 
 const DEFAULT_STRIP_ARCHETYPE: StripArchetype = { w: 1.6, d: 1.3, arch: 'shed', stacksRel: [], vent: true };

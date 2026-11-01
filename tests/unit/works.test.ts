@@ -146,11 +146,16 @@ describe('YARD slots', () => {
 		expect(svg).toContain('04 · LOCAL AGENTS');
 	});
 
-	// orca-local (a fork), jarvis and job-finder are card-only (AGENTS.md).
-	// A slot here is the first step toward allowlisting one, which the
-	// archive ratchet makes permanent.
-	it.each(['orca-local', 'jarvis', 'job-finder'])('has no slot for the card-only %s', (repo) => {
-		expect(YARD[repo]).toBeUndefined();
+	// orca-local is a card-only fork (AGENTS.md). A slot here is the first
+	// step toward allowlisting it, which the archive ratchet makes permanent.
+	it('has no slot for the card-only orca-local fork', () => {
+		expect(YARD['orca-local']).toBeUndefined();
+	});
+
+	it('places jarvis and job-finder on the hand-placed plate 05', () => {
+		expect([YARD.jarvis?.plate, YARD['job-finder']?.plate]).toEqual([4, 4]);
+		const repos: WorksRepo[] = Object.keys(YARD).map((repo) => ({ repo, lines: 1000, sessions: 1, tokens: 1, active: true }));
+		expect(buildYard(repos, {}).svg).toContain('05 · COMING SOON');
 	});
 });
 
