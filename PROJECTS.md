@@ -2,7 +2,7 @@
 
 Source material for Foundry's project pages. One entry per repo under `github.com/abhijitbansal`. Regenerate when repos change (sweep via `gh repo list` + per-repo README summarization).
 
-**Last updated:** 2026-10-10
+**Last updated:** 2026-10-31
 
 ## Apps (iOS / macOS / browser)
 
@@ -35,6 +35,14 @@ Tech: TypeScript, Bun, Claude Code headless, SQLite, launchd · [repo](https://g
 ### swatkats — `early` · private
 Local-first decision tool: drop a spreadsheet, paste text, or name a Jira epic and get typed decisions back — fill a column by choosing, scoring, or answering yes/no with a per-row confidence, or judge whether an epic is ready or done. Local models via Ollama by default; cloud CLIs and OpenAI-compatible APIs opt-in. Design spec and feasibility spike done; build not started.
 Tech: Python, uv, Ollama, MCP · [repo](https://github.com/abhijitbansal/swatkats)
+
+### jarvis — `active` · private
+Local-first developer cockpit for macOS: a native Swift 6 app with a full-screen Metal core and a command bar, summoned by a global hotkey from any Space. Questions go to a model chosen per feature — local models through Ollama by default, Claude via the `claude` CLI on the owner's own subscription — and every ask writes a row to a local ledger that prices the day in energy and money. Read-only panels for GitHub repos (via the user's own `gh` login) and Claude Code sessions. Listed on the site as a card only, not a yard building (kept off `PROJECTS_ALLOWLIST`).
+Tech: Swift 6, SwiftUI, Metal, Ollama, xcodegen · [repo](https://github.com/abhijitbansal/jarvis)
+
+### job-finder — `active` · private
+Designed to help people find and apply for jobs: scores postings against their own criteria, tailors a resume and cover note where every claim traces to their own fact sheet, and fills application forms from a reviewed answer bank. Hard guards: never clicks Submit, never sends email. Listed on the site as a card only, never a yard building (kept off `PROJECTS_ALLOWLIST`).
+Tech: Python, uv, Claude Code · [repo](https://github.com/abhijitbansal/job-finder)
 
 ### claude-skills — `active` · public
 Unified collection of AI agent skills, plugins, and tools for Claude Code and AGENTS.md-aware platforms: iOS build-and-screenshot loops, Linear automation, usage-limit-aware orchestration, prompt refinement. Installable via marketplace or standalone CLI.

@@ -146,10 +146,11 @@ describe('YARD slots', () => {
 		expect(svg).toContain('04 · LOCAL AGENTS');
 	});
 
-	// orca-local is a card-only fork (AGENTS.md). A slot here is the first
-	// step toward allowlisting it, which the archive ratchet makes permanent.
-	it('has no slot for the card-only orca-local fork', () => {
-		expect(YARD['orca-local']).toBeUndefined();
+	// orca-local (a fork), jarvis and job-finder are card-only (AGENTS.md).
+	// A slot here is the first step toward allowlisting one, which the
+	// archive ratchet makes permanent.
+	it.each(['orca-local', 'jarvis', 'job-finder'])('has no slot for the card-only %s', (repo) => {
+		expect(YARD[repo]).toBeUndefined();
 	});
 });
 

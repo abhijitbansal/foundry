@@ -1,5 +1,5 @@
 // Project inventory — plan Task 3.4 / 3.4a. Later cards (Purix, raja,
-// swatkats, orca-local) are hand-written, not from the handoff source. Copy transcribed verbatim from
+// swatkats, jarvis, job-finder, orca-local) are hand-written, not from the handoff source. Copy transcribed verbatim from
 // docs/design/handoff/src/Foundry 2A - Crucible Light.dc.html (lines
 // 147-271). Link fields resolved per the Task 3.4a table (gh api + curl -I
 // checks on 2026-07-11). Grouping matches the three group headers in the
@@ -88,6 +88,24 @@ export const aiToolingProjects: Project[] = [
 		blurb:
 			'Quick decisions from local models: drop a spreadsheet or name a Jira epic, get typed answers back — a filled column with per-row confidence, or a verdict on whether an epic is ready or done. Ollama by default, cloud CLIs opt-in. In design: spec and feasibility spike done.',
 		tech: 'Python · Ollama · MCP',
+		private: true,
+	},
+	{
+		name: 'jarvis',
+		repo: 'jarvis',
+		status: 'active',
+		blurb:
+			'A local-first developer cockpit for macOS. A global hotkey brings up a full-screen command bar from any Space; Esc goes back to where you were. Each feature uses the model you pick — local through Ollama by default, Claude on your own subscription — and every ask is logged locally, so the day\'s energy and money cost is on screen. It also shows GitHub repos and Claude Code sessions, read-only.',
+		tech: 'macOS · Swift 6 · Metal · Ollama',
+		private: true,
+	},
+	{
+		name: 'job-finder',
+		repo: 'job-finder',
+		status: 'active',
+		blurb:
+			"Designed to help people find and apply for jobs. It scores postings against the person's own criteria, tailors a resume and cover note where every claim traces back to their own facts, and fills application forms from answers they have reviewed. It never clicks Submit and never sends an email; the applicant does both.",
+		tech: 'Python · Claude Code · CLI',
 		private: true,
 	},
 	{

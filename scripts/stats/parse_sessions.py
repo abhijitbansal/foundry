@@ -79,8 +79,8 @@ CHARS_PER_TOKEN = 4  # rough approximation for display only
 # PROJECTS.md's repo inventory — keep in sync with that file by hand (it
 # changes rarely; a drifted allowlist just under- or over-hides a repo, it
 # doesn't silently leak anything since this is an allowlist, not a denylist).
-# Exception: card-only repos listed in PROJECTS.md (orca-local, a fork) stay
-# off this set on purpose — see AGENTS.md. Allowlisting one gives it a
+# Exception: card-only repos listed in PROJECTS.md (orca-local, a fork;
+# jarvis; job-finder) stay off this set on purpose — see AGENTS.md. Allowlisting one gives it a
 # permanent yard building via the archive ratchet, and a missing YARD slot
 # fails the build.
 PROJECTS_ALLOWLIST = {

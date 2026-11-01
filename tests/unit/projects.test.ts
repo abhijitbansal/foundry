@@ -4,8 +4,8 @@ import { appsProjects, aiToolingProjects, foundationProjects } from '../../src/d
 const allProjects = [...appsProjects, ...aiToolingProjects, ...foundationProjects];
 
 describe('projects.ts data integrity', () => {
-	it('has exactly fourteen projects across the three groups', () => {
-		expect(allProjects).toHaveLength(14);
+	it('has exactly sixteen projects across the three groups', () => {
+		expect(allProjects).toHaveLength(16);
 	});
 
 	// Schedule.astro renders these three groups under their own headings
@@ -17,7 +17,7 @@ describe('projects.ts data integrity', () => {
 			apps: appsProjects.length,
 			aiTooling: aiToolingProjects.length,
 			foundation: foundationProjects.length,
-		}).toEqual({ apps: 5, aiTooling: 7, foundation: 2 });
+		}).toEqual({ apps: 5, aiTooling: 9, foundation: 2 });
 	});
 
 	it('every public (private:false) project has at least one of repoUrl/siteUrl set', () => {
