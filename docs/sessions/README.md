@@ -19,3 +19,4 @@ One markdown file per AI coding session that makes commits. Rules: [AGENTS.md â†
 | 0013 | 2026-10-05 | Weekly digest: W40 PR #42 auto-merge lost to a connection reset; push, PR create and merge now retry and report truthfully | [0013-2026-10-05-weekly-merge-retry.md](./0013-2026-10-05-weekly-merge-retry.md) |
 | 0014 | 2026-10-06 | Drawing Set redesign: proposal canvas, plan, 10 tasks subagent-driven â€” film/ink/redline theme, yard hero, sheet chrome, /telemetry/, Three.js retired | [0014-2026-10-06-drawing-set-redesign.md](./0014-2026-10-06-drawing-set-redesign.md) |
 | 0015 | 2026-10-10 | New repos: raja (heating up, own yard plate 04), swatkats, orca-local card-only; allowlist for the Monday job | [0015-2026-10-10-new-repos-raja.md](./0015-2026-10-10-new-repos-raja.md) |
+| 0016 | 2026-10-31 | jarvis and job-finder as card-only projects; allowlist guard test | [0016-2026-10-31-jarvis-job-finder-cards.md](./0016-2026-10-31-jarvis-job-finder-cards.md) |
