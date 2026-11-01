@@ -12,11 +12,18 @@ export interface ScheduleRow {
 	stack: string;
 	storeys: number;
 	status: ProjectStatus;
+	statusLabel: string;
 	links: ScheduleLink[];
 	isPrivate: boolean;
 }
 
 const NOT_ON_YARD = '—';
+const STATUS_LABEL: Record<ProjectStatus, string> = {
+	active: 'Active',
+	'recently-active': 'Recently active',
+	'heating-up': 'Heating up',
+	'coming-soon': 'Coming soon',
+};
 const stripArrow = (s: string) => s.replace(/\s*↗\s*$/, '');
 
 export function projectLinks(p: Project): ScheduleLink[] {
@@ -38,6 +45,7 @@ export function scheduleRows(projects: Project[], ledger: LedgerEntry[]): Schedu
 			stack: p.tech,
 			storeys: e?.storeys ?? 0,
 			status: p.status,
+			statusLabel: STATUS_LABEL[p.status],
 			links: projectLinks(p),
 			isPrivate: p.private,
 		};

@@ -28,7 +28,7 @@ const total = groups.reduce((n, g) => n + g.rows.length, 0);
 						<span class="fy-sched__no">{r.no}</span>
 						<div class="fy-sched__name">
 							<span class="fy-sched__title">{r.name}</span>
-							<span class="fy-sched__status" data-status={r.status}><span aria-hidden="true">■</span> {r.status === 'recently-active' ? 'Recently active' : r.status === 'heating-up' ? 'Heating up' : 'Active'}</span>
+							<span class="fy-sched__status" data-status={r.status}><span aria-hidden="true">{r.status === 'coming-soon' ? '□' : '■'}</span> {r.statusLabel}</span>
 						</div>
 						<p class="fy-sched__use">{r.use}</p>
 						<span class="fy-sched__stack">{r.stack}</span>
@@ -70,6 +70,7 @@ const total = groups.reduce((n, g) => n + g.rows.length, 0);
 	.fy-sched__status { font: 400 12px var(--ds-font-mono); color: var(--ds-text); }
 	.fy-sched__status[data-status='recently-active'] { color: var(--ds-text-3); }
 	.fy-sched__status[data-status='heating-up'] { color: var(--ds-secondary); }
+	.fy-sched__status[data-status='coming-soon'] { color: var(--ds-text-2); }
 	.fy-sched__use { margin: 0; color: var(--ds-text-2); font-size: 15px; line-height: 1.45; max-width: 34em; }
 	.fy-sched__storeys { display: flex; gap: 3px; align-items: flex-end; padding-top: 3px; }
 	.fy-sched__storeys i { display: block; width: 7px; height: 14px; background: var(--ds-text); }
