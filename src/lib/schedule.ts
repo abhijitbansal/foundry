@@ -13,6 +13,7 @@ export interface ScheduleRow {
 	storeys: number;
 	status: ProjectStatus;
 	statusLabel: string;
+	statusGlyph: string;
 	links: ScheduleLink[];
 	isPrivate: boolean;
 }
@@ -23,6 +24,13 @@ const STATUS_LABEL: Record<ProjectStatus, string> = {
 	'recently-active': 'Recently active',
 	'heating-up': 'Heating up',
 	'coming-soon': 'Coming soon',
+};
+// Filled square = built; open square = not built yet.
+const STATUS_GLYPH: Record<ProjectStatus, string> = {
+	active: '■',
+	'recently-active': '■',
+	'heating-up': '■',
+	'coming-soon': '□',
 };
 const stripArrow = (s: string) => s.replace(/\s*↗\s*$/, '');
 
@@ -46,6 +54,7 @@ export function scheduleRows(projects: Project[], ledger: LedgerEntry[]): Schedu
 			storeys: e?.storeys ?? 0,
 			status: p.status,
 			statusLabel: STATUS_LABEL[p.status],
+			statusGlyph: STATUS_GLYPH[p.status],
 			links: projectLinks(p),
 			isPrivate: p.private,
 		};

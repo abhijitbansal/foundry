@@ -23,6 +23,7 @@ describe('scheduleRows', () => {
 			[],
 		);
 		expect(rows.map((r) => r.statusLabel)).toEqual(['Active', 'Recently active', 'Heating up', 'Coming soon']);
+		expect(rows.map((r) => r.statusGlyph)).toEqual(['■', '■', '■', '□']);
 	});
 
 	it('marks private builds and gives them no links', () => {

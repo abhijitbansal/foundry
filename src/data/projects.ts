@@ -97,7 +97,7 @@ export const aiToolingProjects: Project[] = [
 		status: 'coming-soon',
 		blurb:
 			'A local-first cockpit for developers on the Mac. One hotkey away from anywhere, it puts the models you choose (on-device by default) beside a running tally of what the day cost.',
-		tech: 'macOS · Swift · Ollama',
+		tech: 'macOS · Swift · Metal · Ollama',
 		private: true,
 	},
 	{

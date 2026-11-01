@@ -45,9 +45,11 @@ export const YARD: Record<string, YardLayoutEntry> = {
 	swatkats: { x: 14.9, y: -4.6, w: 1.4, d: 1.1, arch: 'shed', plate: 3, np: [16.6, -3.9], stacks: [] },
 	// Not from the design source either: jarvis and job-finder (2026-10-31),
 	// both coming soon, on plate 05 in the open north sky. Hand-placed and
-	// badge-sampled in a real browser.
-	'job-finder': { x: 5.2, y: -8.9, w: 2.1, d: 1.6, arch: 'monitor', plate: 4, np: [7.6, -7.0], stacks: [] },
-	jarvis: { x: 3.4, y: -7.0, w: 1.4, d: 1.2, arch: 'gableY', plate: 4, np: [5.1, -5.5], stacks: [] },
+	// badge-sampled in a real browser at 1440, 1100 and 768px. Plate 05 sits
+	// low enough that job-finder at the 8-storey max still clears the top
+	// edge (roof ≈ y 18).
+	'job-finder': { x: 5.95, y: -8.15, w: 2.1, d: 1.6, arch: 'monitor', plate: 4, np: [8.35, -6.25], stacks: [] },
+	jarvis: { x: 4.15, y: -6.25, w: 1.4, d: 1.2, arch: 'gableY', plate: 4, np: [5.85, -4.75], stacks: [] },
 };
 
 export const YARD_PLATES: PlateSpec[] = [
@@ -58,9 +60,14 @@ export const YARD_PLATES: PlateSpec[] = [
 	// north-west of the plate: every spot along its edges collides with
 	// claude-skills' chimney, sift's roof or the plate's own front edge.
 	// 02's label moved down from [858, 415] because plate 04 now covers it.
+	// 2026-10-31: 04's label moved from [640, 322] to above its own plate,
+	// because swatkats at 6 storeys now covers the old spot and plate 05
+	// sits just north of it.
 	{ x: 14.5, y: -7.4, w: 5.0, d: 4.2, label: '04 · LOCAL AGENTS', screen: [812, 247] },
-	// Plate 05 (hand-placed, 2026-10-31): open sky north of plate 04.
-	{ x: 3.0, y: -9.2, w: 4.6, d: 3.4, label: '05 · COMING SOON', screen: [500, 268] },
+	// Plate 05 (hand-placed, 2026-10-31): open sky north of plate 04. Its
+	// label names a status, not a category — rename it (or move the
+	// buildings) when jarvis or job-finder ships.
+	{ x: 3.75, y: -8.45, w: 4.6, d: 3.4, label: '05 · COMING SOON', screen: [500, 290] },
 ];
 
 export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {

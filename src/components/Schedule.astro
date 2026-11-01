@@ -28,7 +28,7 @@ const total = groups.reduce((n, g) => n + g.rows.length, 0);
 						<span class="fy-sched__no">{r.no}</span>
 						<div class="fy-sched__name">
 							<span class="fy-sched__title">{r.name}</span>
-							<span class="fy-sched__status" data-status={r.status}><span aria-hidden="true">{r.status === 'coming-soon' ? '□' : '■'}</span> {r.statusLabel}</span>
+							<span class="fy-sched__status" data-status={r.status}><span aria-hidden="true">{r.statusGlyph}</span> {r.statusLabel}</span>
 						</div>
 						<p class="fy-sched__use">{r.use}</p>
 						<span class="fy-sched__stack">{r.stack}</span>
