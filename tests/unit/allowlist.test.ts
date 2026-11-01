@@ -11,7 +11,10 @@ function allowlist(): string[] {
 	const src = readFileSync(resolve(__dirname, '../../scripts/stats/parse_sessions.py'), 'utf8');
 	const block = src.match(/PROJECTS_ALLOWLIST = \{([\s\S]*?)\}/);
 	if (!block) throw new Error('PROJECTS_ALLOWLIST not found in parse_sessions.py');
-	return [...block[1].matchAll(/"([^"]+)"/g)].map((m) => m[1]);
+	// Drop Python comments first, so a name mentioned in a comment inside
+	// the set never counts as an entry.
+	const body = block[1].replace(/#.*$/gm, '');
+	return [...body.matchAll(/"([^"]+)"/g)].map((m) => m[1]);
 }
 
 describe('PROJECTS_ALLOWLIST', () => {

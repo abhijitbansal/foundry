@@ -19,18 +19,13 @@ export interface ScheduleRow {
 }
 
 const NOT_ON_YARD = '—';
-const STATUS_LABEL: Record<ProjectStatus, string> = {
-	active: 'Active',
-	'recently-active': 'Recently active',
-	'heating-up': 'Heating up',
-	'coming-soon': 'Coming soon',
-};
-// Filled square = built; open square = not built yet.
-const STATUS_GLYPH: Record<ProjectStatus, string> = {
-	active: '■',
-	'recently-active': '■',
-	'heating-up': '■',
-	'coming-soon': '□',
+// Open square = not released yet (the repo can still have storeys); filled
+// square = released.
+const STATUS_DISPLAY: Record<ProjectStatus, { label: string; glyph: string }> = {
+	active: { label: 'Active', glyph: '■' },
+	'recently-active': { label: 'Recently active', glyph: '■' },
+	'heating-up': { label: 'Heating up', glyph: '■' },
+	'coming-soon': { label: 'Coming soon', glyph: '□' },
 };
 const stripArrow = (s: string) => s.replace(/\s*↗\s*$/, '');
 
@@ -53,8 +48,8 @@ export function scheduleRows(projects: Project[], ledger: LedgerEntry[]): Schedu
 			stack: p.tech,
 			storeys: e?.storeys ?? 0,
 			status: p.status,
-			statusLabel: STATUS_LABEL[p.status],
-			statusGlyph: STATUS_GLYPH[p.status],
+			statusLabel: STATUS_DISPLAY[p.status].label,
+			statusGlyph: STATUS_DISPLAY[p.status].glyph,
 			links: projectLinks(p),
 			isPrivate: p.private,
 		};
