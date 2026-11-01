@@ -1,4 +1,4 @@
-# Session 0016 — jarvis and job-finder cards (2026-10-31)
+# Session 0016 — jarvis and job-finder (2026-10-31)
 
 Branch: `feat/jarvis-job-finder-cards`
 
@@ -29,3 +29,24 @@ PR open; owner merges.
 
 - Orchestrator: Opus 5.5 (repo reads, copy, tests, browser check).
 - Review: Opus via `ecc:code-reviewer` (fresh context, report only).
+
+## Part 2 — coming soon, yard buildings (same day)
+
+### Achieved
+
+- **Owner change of direction:** both repos marked *Coming soon*, given yard buildings and treated like any other tool, with blurbs "mostly clear, with enough ambiguity".
+- **New status** `coming-soon`: label and glyph maps in `src/lib/schedule.ts`; renders `□ Coming soon` in `--ds-text-2` (not redline).
+- **Yard:** both allowlisted; stats refreshed with `parse_sessions.py` (job-finder ranks 04 at 5 storeys, jarvis 12 at 2). Hand-placed **plate 05 · COMING SOON** in the open north sky. Plate 04's label moved above its own plate: swatkats' refresh to 6 storeys covered the old spot.
+- **Checks:** all 15 nameplates badge-sampled clear in headless Chrome over CDP at 1440, 1100 and 768px; job-finder at the 8-storey max computed to clear the top edge (roof ≈ y 18).
+- **Review:** Opus fresh-context review, 0 CRITICAL / 0 HIGH / 2 MEDIUM (both browser checks, done) / 7 LOW. Fixed headroom, comments, glyph map, tech drift, AGENTS.md bullet.
+- **Gates:** 166/166 tests, 6-page build.
+
+### Decisions
+
+- Plate 05's label names the status. Rename it or move the buildings when either ships.
+- Supersedes part 1's card-only decision. orca-local stays the only card-only repo.
+
+### Follow-ups
+
+- job-finder's per-repo telemetry row (first/last session dates, session count, top skills) is now public in `data/stats.json` and permanent via the ratchet. That comes with having a building.
+- swatkats now ranks 03 at 6 storeys while its blurb still says "In design".
