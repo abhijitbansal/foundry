@@ -41,7 +41,7 @@ Local-first developer cockpit for macOS: a native Swift 6 app with a full-screen
 Tech: Swift 6, SwiftUI, Metal, Ollama, xcodegen · [repo](https://github.com/abhijitbansal/jarvis)
 
 ### job-finder — `active` · private
-Designed to help people find and apply for jobs: scores postings against their own criteria, tailors a resume and cover note where every claim traces to their own fact sheet, and fills application forms from a reviewed answer bank. Hard guards: never clicks Submit, never sends email. Listed on the site as a card only, never a yard building (kept off `PROJECTS_ALLOWLIST`).
+Designed to help others find and apply for jobs: scores postings against their own criteria, tailors a resume and cover note where every claim traces to their own fact sheet, and fills application forms from a reviewed answer bank. Hard guards: never clicks Submit, never sends email. Listed on the site as a card only, never a yard building (kept off `PROJECTS_ALLOWLIST`).
 Tech: Python, uv, Claude Code · [repo](https://github.com/abhijitbansal/job-finder)
 
 ### claude-skills — `active` · public
