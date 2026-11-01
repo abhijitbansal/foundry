@@ -1,0 +1,753 @@
+{
+  "week_id": "2026-W42",
+  "week_start": "2026-10-12",
+  "week_end": "2026-10-18",
+  "generated_at": "2026-10-19T13:01:16.468110+00:00",
+  "repos": [
+    {
+      "repo": "swatkats",
+      "sessions": 264,
+      "lines_added": 39237,
+      "lines_removed": 2894,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "claude-skills",
+      "sessions": 319,
+      "lines_added": 39163,
+      "lines_removed": 355,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    }
+  ],
+  "heatmap": {
+    "timezone": "EDT",
+    "weekday_labels": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ],
+    "cells": [
+      [
+        {
+          "count": 511,
+          "out_tokens": 71465
+        },
+        {
+          "count": 576,
+          "out_tokens": 24570
+        },
+        {
+          "count": 271,
+          "out_tokens": 199447
+        },
+        {
+          "count": 494,
+          "out_tokens": 298154
+        },
+        {
+          "count": 356,
+          "out_tokens": 286089
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 442,
+          "out_tokens": 117375
+        },
+        {
+          "count": 10,
+          "out_tokens": 24591
+        },
+        {
+          "count": 58,
+          "out_tokens": 85576
+        },
+        {
+          "count": 108,
+          "out_tokens": 245406
+        },
+        {
+          "count": 801,
+          "out_tokens": 1643218
+        },
+        {
+          "count": 1031,
+          "out_tokens": 2976720
+        },
+        {
+          "count": 1235,
+          "out_tokens": 1538752
+        },
+        {
+          "count": 1341,
+          "out_tokens": 769295
+        },
+        {
+          "count": 998,
+          "out_tokens": 642516
+        },
+        {
+          "count": 895,
+          "out_tokens": 688749
+        },
+        {
+          "count": 1188,
+          "out_tokens": 545507
+        },
+        {
+          "count": 1086,
+          "out_tokens": 720076
+        },
+        {
+          "count": 881,
+          "out_tokens": 868447
+        },
+        {
+          "count": 793,
+          "out_tokens": 750937
+        },
+        {
+          "count": 723,
+          "out_tokens": 671187
+        },
+        {
+          "count": 712,
+          "out_tokens": 645961
+        },
+        {
+          "count": 698,
+          "out_tokens": 638655
+        }
+      ],
+      [
+        {
+          "count": 1199,
+          "out_tokens": 718148
+        },
+        {
+          "count": 654,
+          "out_tokens": 385376
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 500,
+          "out_tokens": 273516
+        },
+        {
+          "count": 429,
+          "out_tokens": 137812
+        },
+        {
+          "count": 441,
+          "out_tokens": 407776
+        },
+        {
+          "count": 340,
+          "out_tokens": 459147
+        },
+        {
+          "count": 400,
+          "out_tokens": 673898
+        },
+        {
+          "count": 928,
+          "out_tokens": 792492
+        },
+        {
+          "count": 341,
+          "out_tokens": 460173
+        },
+        {
+          "count": 372,
+          "out_tokens": 552459
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 460,
+          "out_tokens": 488163
+        },
+        {
+          "count": 604,
+          "out_tokens": 425136
+        },
+        {
+          "count": 293,
+          "out_tokens": 268889
+        },
+        {
+          "count": 342,
+          "out_tokens": 176275
+        },
+        {
+          "count": 147,
+          "out_tokens": 123555
+        },
+        {
+          "count": 30,
+          "out_tokens": 29951
+        },
+        {
+          "count": 44,
+          "out_tokens": 278706
+        }
+      ],
+      [
+        {
+          "count": 374,
+          "out_tokens": 201535
+        },
+        {
+          "count": 596,
+          "out_tokens": 185239
+        },
+        {
+          "count": 933,
+          "out_tokens": 193369
+        },
+        {
+          "count": 284,
+          "out_tokens": 99549
+        },
+        {
+          "count": 267,
+          "out_tokens": 46600
+        },
+        {
+          "count": 360,
+          "out_tokens": 61934
+        },
+        {
+          "count": 289,
+          "out_tokens": 151936
+        },
+        {
+          "count": 628,
+          "out_tokens": 125171
+        },
+        {
+          "count": 435,
+          "out_tokens": 152044
+        },
+        {
+          "count": 460,
+          "out_tokens": 262227
+        },
+        {
+          "count": 887,
+          "out_tokens": 554254
+        },
+        {
+          "count": 884,
+          "out_tokens": 157931
+        },
+        {
+          "count": 1343,
+          "out_tokens": 60647
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 285,
+          "out_tokens": 63731
+        },
+        {
+          "count": 392,
+          "out_tokens": 69997
+        },
+        {
+          "count": 355,
+          "out_tokens": 89842
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 164,
+          "out_tokens": 101468
+        },
+        {
+          "count": 626,
+          "out_tokens": 474272
+        }
+      ],
+      [
+        {
+          "count": 1006,
+          "out_tokens": 260037
+        },
+        {
+          "count": 840,
+          "out_tokens": 188772
+        },
+        {
+          "count": 435,
+          "out_tokens": 117147
+        },
+        {
+          "count": 186,
+          "out_tokens": 36437
+        },
+        {
+          "count": 234,
+          "out_tokens": 39267
+        },
+        {
+          "count": 243,
+          "out_tokens": 60792
+        },
+        {
+          "count": 467,
+          "out_tokens": 82042
+        },
+        {
+          "count": 280,
+          "out_tokens": 34281
+        },
+        {
+          "count": 656,
+          "out_tokens": 170478
+        },
+        {
+          "count": 313,
+          "out_tokens": 82120
+        },
+        {
+          "count": 25,
+          "out_tokens": 10636
+        },
+        {
+          "count": 11,
+          "out_tokens": 3368
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 12,
+          "out_tokens": 5832
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 2,
+          "out_tokens": 3982
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 36,
+          "out_tokens": 18607
+        },
+        {
+          "count": 31,
+          "out_tokens": 2106
+        },
+        {
+          "count": 50,
+          "out_tokens": 10814
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 122,
+          "out_tokens": 54794
+        },
+        {
+          "count": 706,
+          "out_tokens": 233183
+        },
+        {
+          "count": 268,
+          "out_tokens": 57213
+        },
+        {
+          "count": 2,
+          "out_tokens": 10
+        },
+        {
+          "count": 8,
+          "out_tokens": 1163
+        },
+        {
+          "count": 7,
+          "out_tokens": 3791
+        },
+        {
+          "count": 353,
+          "out_tokens": 83468
+        },
+        {
+          "count": 356,
+          "out_tokens": 50506
+        },
+        {
+          "count": 459,
+          "out_tokens": 80335
+        },
+        {
+          "count": 474,
+          "out_tokens": 71593
+        },
+        {
+          "count": 6,
+          "out_tokens": 24
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ]
+    ]
+  },
+  "releases": {
+    "swatkats": {
+      "pr_merge_count": 0,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "claude-skills": {
+      "pr_merge_count": 7,
+      "pr_titles": [
+        "feat(portable-artifacts): design refresh with dusk, press and poster themes",
+        "feat(portable-artifacts): make-diagram stories, then artifact polish (favicon, toggle, provenance, Geist, doctor, portability)",
+        "feat(portable-artifacts): make-dashboard v2, make-diagram, make-explainer",
+        "feat(cache-clock): per-project install for VS Code (install.sh --project)",
+        "docs: Cache Clock /experimental callout + per-OS install commands for portable-artifacts",
+        "feat(test-board): auto-close band after 60 min, add \u2715 close, show run time",
+        "Cache Clock: prompt-cache clock and cold-send question for Copilot CLI and VS Code"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    }
+  },
+  "highlights": {
+    "overall": "Two repos, nearly identical line counts: swatkats added 39,237 lines and claude-skills added 39,163. claude-skills had more sessions (319 against 264) and merged 7 PRs, mostly portable-artifacts and Cache Clock work.",
+    "repos": {
+      "swatkats": "264 sessions and 39,237 lines added against 2,894 removed, with Bash as the top tool and claude-opus-5-5 as the top model. No PRs merged this week.",
+      "claude-skills": "319 sessions, 39,163 lines added and 355 removed, with Bash as the top tool and claude-sonnet-5-5 as the top model. It merged 7 PRs, led by several portable-artifacts titles (a design refresh with dusk, press and poster themes, plus make-dashboard v2, make-diagram and make-explainer) and a Cache Clock for Copilot CLI and VS Code."
+    }
+  }
+}
