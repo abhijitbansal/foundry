@@ -47,7 +47,7 @@ export const YARD: Record<string, YardLayoutEntry> = {
 	// both coming soon, on plate 05 in the open north sky. Hand-placed and
 	// badge-sampled in a real browser.
 	'job-finder': { x: 5.2, y: -8.9, w: 2.1, d: 1.6, arch: 'monitor', plate: 4, np: [7.6, -7.0], stacks: [] },
-	jarvis: { x: 3.4, y: -6.6, w: 1.4, d: 1.2, arch: 'gableY', plate: 4, np: [5.1, -5.1], stacks: [] },
+	jarvis: { x: 3.4, y: -7.0, w: 1.4, d: 1.2, arch: 'gableY', plate: 4, np: [5.1, -5.5], stacks: [] },
 };
 
 export const YARD_PLATES: PlateSpec[] = [
