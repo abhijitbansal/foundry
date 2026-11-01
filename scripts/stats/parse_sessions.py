@@ -115,6 +115,16 @@ def repo_from_path(path):
 def repo_from_dirname(dirname):
     """Decode the encoded project dir name when no cwd is present."""
     # e.g. -Users-abhijitbansal-projects-doc-scan  ->  /Users/.../projects/doc-scan
+    # The encoding turns "/" into "-", so a hyphenated repo name can't be
+    # recovered by decoding alone ("doc-scan" would become "doc"). Match
+    # allowlisted names first, longest first, so worktree subdirs
+    # ("claude-skills--claude-worktrees-…") and "cubby-site" vs "cubby" resolve.
+    marker = "-projects-"
+    if marker in dirname:
+        rest = dirname.split(marker, 1)[1]
+        for name in sorted(PROJECTS_ALLOWLIST, key=len, reverse=True):
+            if rest == name or rest.startswith(name + "-"):
+                return name
     decoded = dirname.replace("-", "/")
     return repo_from_path(decoded) or "other"
 

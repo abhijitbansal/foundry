@@ -1,25 +1,25 @@
 {
   "meta": {
-    "files_found": 4186,
-    "sessions_parsed": 3886,
+    "files_found": 4187,
+    "sessions_parsed": 3887,
     "sessions_skipped": 300,
     "date_min": "2026-05-22",
     "date_max": "2026-11-01",
     "chars_per_token": 4
   },
   "totals": {
-    "user_msgs": 25391,
-    "assistant_msgs": 496504,
-    "lines_added": 1228399,
-    "lines_removed": 123044,
-    "files_written": 9331,
-    "files_edited": 20993,
-    "in_tokens": 100025524,
-    "out_tokens": 368058407,
-    "cache_read_tokens": 92974958832,
-    "cache_creation_tokens": 3767970092,
-    "sessions": 10087,
-    "thinking_blocks": 155364,
+    "user_msgs": 25402,
+    "assistant_msgs": 496761,
+    "lines_added": 1229369,
+    "lines_removed": 123059,
+    "files_written": 9344,
+    "files_edited": 20999,
+    "in_tokens": 100026052,
+    "out_tokens": 368327434,
+    "cache_read_tokens": 93030978622,
+    "cache_creation_tokens": 3769281686,
+    "sessions": 10088,
+    "thinking_blocks": 155461,
     "web_search": 0,
     "web_fetch": 0
   },
@@ -197,34 +197,34 @@
     },
     {
       "repo": "claude-skills",
-      "sessions": 1374,
-      "user_msgs": 4455,
-      "assistant_msgs": 65442,
-      "lines_added": 149824,
-      "lines_removed": 6696,
-      "files_written": 1851,
-      "files_edited": 2370,
+      "sessions": 1377,
+      "user_msgs": 4469,
+      "assistant_msgs": 65520,
+      "lines_added": 150455,
+      "lines_removed": 6705,
+      "files_written": 1860,
+      "files_edited": 2373,
       "in_tokens": 17379752,
-      "out_tokens": 38203179,
-      "cache_read_tokens": 13424066776,
-      "cache_creation_tokens": 456706322,
+      "out_tokens": 38296627,
+      "cache_read_tokens": 13444827991,
+      "cache_creation_tokens": 457606755,
       "image_count": 1604,
       "top_tools": [
         [
           "Bash",
-          27276
+          27308
         ],
         [
           "Read",
-          5202
+          5205
         ],
         [
           "Edit",
-          2370
+          2373
         ],
         [
           "Write",
-          1851
+          1860
         ],
         [
           "Agent",
@@ -232,7 +232,7 @@
         ],
         [
           "SubagentHandback",
-          751
+          752
         ]
       ],
       "top_agents": [
@@ -282,11 +282,11 @@
       "models": [
         [
           "claude-sonnet-5-5",
-          31685
+          31736
         ],
         [
           "claude-opus-5-5",
-          26589
+          26616
         ],
         [
           "claude-opus-4-8",
@@ -330,12 +330,12 @@
         ]
       ],
       "prompts": {
-        "count": 4455,
-        "avg": 2737.9,
-        "median": 1519,
-        "p90": 6565,
+        "count": 4469,
+        "avg": 2730.7,
+        "median": 1507,
+        "p90": 6470,
         "max": 290091,
-        "avg_tokens": 684.5,
+        "avg_tokens": 682.7,
         "hist": [
           [
             "<50",
@@ -343,11 +343,11 @@
           ],
           [
             "50-150",
-            607
+            612
           ],
           [
             "150-400",
-            438
+            445
           ],
           [
             "400-1k",
@@ -355,7 +355,7 @@
           ],
           [
             "1k-3k",
-            971
+            973
           ],
           [
             "3k+",
@@ -364,7 +364,7 @@
         ]
       },
       "first_ts": "2026-05-25T18:25:52.326Z",
-      "last_ts": "2026-11-01T03:40:37.269Z"
+      "last_ts": "2026-11-01T03:49:24.185Z"
     },
     {
       "repo": "swatkats",
@@ -507,22 +507,22 @@
     },
     {
       "repo": "job-finder",
-      "sessions": 470,
-      "user_msgs": 2187,
-      "assistant_msgs": 35743,
+      "sessions": 471,
+      "user_msgs": 2191,
+      "assistant_msgs": 35761,
       "lines_added": 126294,
       "lines_removed": 5542,
       "files_written": 1319,
       "files_edited": 2239,
-      "in_tokens": 138953,
-      "out_tokens": 26214804,
-      "cache_read_tokens": 8387513795,
-      "cache_creation_tokens": 237681396,
+      "in_tokens": 138991,
+      "out_tokens": 26222046,
+      "cache_read_tokens": 8391415238,
+      "cache_creation_tokens": 237694612,
       "image_count": 368,
       "top_tools": [
         [
           "Bash",
-          14478
+          14483
         ],
         [
           "Edit",
@@ -588,7 +588,7 @@
         ],
         [
           "claude-opus-5-5",
-          11037
+          11055
         ],
         [
           "claude-fable-5-1",
@@ -604,24 +604,24 @@
         ]
       ],
       "prompts": {
-        "count": 2187,
-        "avg": 2766.4,
-        "median": 1592,
+        "count": 2191,
+        "avg": 2761.6,
+        "median": 1587,
         "p90": 7807,
         "max": 97787,
-        "avg_tokens": 691.6,
+        "avg_tokens": 690.4,
         "hist": [
           [
             "<50",
-            104
+            106
           ],
           [
             "50-150",
-            372
+            373
           ],
           [
             "150-400",
-            177
+            178
           ],
           [
             "400-1k",
@@ -638,7 +638,7 @@
         ]
       },
       "first_ts": "2026-10-10T04:19:11.176Z",
-      "last_ts": "2026-11-01T03:40:03.263Z"
+      "last_ts": "2026-11-01T03:48:37.346Z"
     },
     {
       "repo": "folix",
@@ -1510,7 +1510,7 @@
         ],
         [
           "claude-opus-5-5",
-          1723
+          1771
         ],
         [
           "claude-opus-4-8",
@@ -1518,7 +1518,7 @@
         ],
         [
           "claude-sonnet-5-5",
-          426
+          452
         ],
         [
           "claude-haiku-4-5-20251001",
@@ -1538,16 +1538,16 @@
         ]
       ],
       "prompts": {
-        "count": 242,
-        "avg": 2771.0,
+        "count": 248,
+        "avg": 2749.1,
         "median": 1588,
-        "p90": 7274,
+        "p90": 7221,
         "max": 32551,
-        "avg_tokens": 692.7,
+        "avg_tokens": 687.3,
         "hist": [
           [
             "<50",
-            19
+            21
           ],
           [
             "50-150",
@@ -1555,7 +1555,7 @@
           ],
           [
             "150-400",
-            54
+            56
           ],
           [
             "400-1k",
@@ -1567,12 +1567,12 @@
           ],
           [
             "3k+",
-            64
+            66
           ]
         ]
       },
       "first_ts": "2026-07-11T04:08:13.942Z",
-      "last_ts": "2026-11-01T03:40:35.740Z"
+      "last_ts": "2026-11-01T03:49:20.512Z"
     },
     {
       "repo": "raja",
@@ -1712,29 +1712,29 @@
     {
       "repo": "jarvis",
       "sessions": 206,
-      "user_msgs": 843,
-      "assistant_msgs": 11863,
-      "lines_added": 21914,
-      "lines_removed": 1786,
-      "files_written": 134,
-      "files_edited": 817,
-      "in_tokens": 70977,
-      "out_tokens": 20766917,
-      "cache_read_tokens": 3093708189,
-      "cache_creation_tokens": 104904300,
+      "user_msgs": 844,
+      "assistant_msgs": 11950,
+      "lines_added": 22134,
+      "lines_removed": 1790,
+      "files_written": 137,
+      "files_edited": 819,
+      "in_tokens": 71151,
+      "out_tokens": 20874006,
+      "cache_read_tokens": 3111719871,
+      "cache_creation_tokens": 105053255,
       "image_count": 75,
       "top_tools": [
         [
           "Bash",
-          4346
+          4380
         ],
         [
           "Edit",
-          817
+          819
         ],
         [
           "Read",
-          710
+          711
         ],
         [
           "SendMessage",
@@ -1742,7 +1742,7 @@
         ],
         [
           "Write",
-          134
+          137
         ],
         [
           "Agent",
@@ -1784,11 +1784,11 @@
       "models": [
         [
           "claude-sonnet-5-5",
-          6090
+          6173
         ],
         [
           "claude-opus-5-5",
-          4170
+          4174
         ],
         [
           "claude-fable-5-1",
@@ -1804,16 +1804,16 @@
         ]
       ],
       "prompts": {
-        "count": 843,
-        "avg": 3484.0,
+        "count": 844,
+        "avg": 3479.9,
         "median": 2326,
         "p90": 7807,
         "max": 89550,
-        "avg_tokens": 871.0,
+        "avg_tokens": 870.0,
         "hist": [
           [
             "<50",
-            27
+            28
           ],
           [
             "50-150",
@@ -1838,7 +1838,7 @@
         ]
       },
       "first_ts": "2026-10-25T04:26:20.612Z",
-      "last_ts": "2026-11-01T03:40:39.161Z"
+      "last_ts": "2026-11-01T03:48:45.759Z"
     },
     {
       "repo": "sift",
@@ -2198,16 +2198,16 @@
     }
   ],
   "global_prompts": {
-    "count": 11535,
-    "avg": 3294.5,
-    "median": 1991,
+    "count": 11546,
+    "avg": 3292.7,
+    "median": 1990,
     "p90": 7807,
     "max": 290091,
-    "avg_tokens": 823.6,
+    "avg_tokens": 823.2,
     "hist": [
       [
         "<50",
-        419
+        424
       ],
       [
         "50-150",
@@ -2215,7 +2215,7 @@
       ],
       [
         "150-400",
-        1102
+        1104
       ],
       [
         "400-1k",
@@ -2223,30 +2223,30 @@
       ],
       [
         "1k-3k",
-        2746
+        2748
       ],
       [
         "3k+",
-        4122
+        4124
       ]
     ]
   },
   "top_tools": [
     [
       "Bash",
-      166090
+      166194
     ],
     [
       "Read",
-      46835
+      46839
     ],
     [
       "Edit",
-      20993
+      20999
     ],
     [
       "Write",
-      9331
+      9344
     ],
     [
       "StructuredOutput",
@@ -2258,7 +2258,7 @@
     ],
     [
       "SendMessage",
-      2395
+      2396
     ],
     [
       "WebFetch",
@@ -2266,7 +2266,7 @@
     ],
     [
       "SubagentHandback",
-      1580
+      1581
     ],
     [
       "WebSearch",
@@ -2274,7 +2274,7 @@
     ],
     [
       "ToolSearch",
-      1446
+      1447
     ],
     [
       "Grep",
@@ -2302,7 +2302,7 @@
     ],
     [
       "AskUserQuestion",
-      566
+      567
     ],
     [
       "TaskCreate",
@@ -2342,7 +2342,7 @@
     ],
     [
       "SendUserFile",
-      302
+      303
     ],
     [
       "mcp__ios-simulator__ui_find_element",
@@ -2728,11 +2728,11 @@
     ],
     [
       "claude-opus-5-5",
-      96866
+      96963
     ],
     [
       "claude-sonnet-5-5",
-      91494
+      91654
     ],
     [
       "claude-opus-4-8",
@@ -2789,11 +2789,11 @@
       },
       {
         "model": "claude-opus-5-5",
-        "messages": 96866,
-        "in_tokens": 237368,
-        "out_tokens": 64847999,
-        "cache_read_tokens": 24526274964,
-        "cache_creation_tokens": 548269813
+        "messages": 96963,
+        "in_tokens": 237572,
+        "out_tokens": 64938158,
+        "cache_read_tokens": 24548466715,
+        "cache_creation_tokens": 548460928
       },
       {
         "model": "claude-opus-4-8",
@@ -2805,11 +2805,11 @@
       },
       {
         "model": "claude-sonnet-5-5",
-        "messages": 91494,
-        "in_tokens": 185712,
-        "out_tokens": 43657989,
-        "cache_read_tokens": 17446045187,
-        "cache_creation_tokens": 578632352
+        "messages": 91654,
+        "in_tokens": 186036,
+        "out_tokens": 43836857,
+        "cache_read_tokens": 17479873226,
+        "cache_creation_tokens": 579752831
       },
       {
         "model": "claude-fable-5",
@@ -2879,19 +2879,19 @@
     "last_7d": [
       {
         "model": "claude-sonnet-5-5",
-        "messages": 18443,
-        "in_tokens": 37712,
-        "out_tokens": 21941584,
-        "cache_read_tokens": 3906323386,
-        "cache_creation_tokens": 110142610
+        "messages": 18603,
+        "in_tokens": 38036,
+        "out_tokens": 22120452,
+        "cache_read_tokens": 3940151425,
+        "cache_creation_tokens": 111263089
       },
       {
         "model": "claude-opus-5-5",
-        "messages": 14439,
-        "in_tokens": 47535,
-        "out_tokens": 15589615,
-        "cache_read_tokens": 4389999031,
-        "cache_creation_tokens": 88622476
+        "messages": 14536,
+        "in_tokens": 47739,
+        "out_tokens": 15679774,
+        "cache_read_tokens": 4412190782,
+        "cache_creation_tokens": 88813591
       },
       {
         "model": "claude-fable-5-1",
@@ -2921,19 +2921,19 @@
     "last_90d": [
       {
         "model": "claude-opus-5-5",
-        "messages": 96866,
-        "in_tokens": 237368,
-        "out_tokens": 64847999,
-        "cache_read_tokens": 24526274964,
-        "cache_creation_tokens": 548269813
+        "messages": 96963,
+        "in_tokens": 237572,
+        "out_tokens": 64938158,
+        "cache_read_tokens": 24548466715,
+        "cache_creation_tokens": 548460928
       },
       {
         "model": "claude-sonnet-5-5",
-        "messages": 91494,
-        "in_tokens": 185712,
-        "out_tokens": 43657989,
-        "cache_read_tokens": 17446045187,
-        "cache_creation_tokens": 578632352
+        "messages": 91654,
+        "in_tokens": 186036,
+        "out_tokens": 43836857,
+        "cache_read_tokens": 17479873226,
+        "cache_creation_tokens": 579752831
       },
       {
         "model": "claude-fable-5-1",
@@ -3040,7 +3040,7 @@
     ],
     [
       "2.1.316",
-      95
+      96
     ],
     [
       "2.1.300",
@@ -3462,7 +3462,7 @@
     ],
     [
       "2026-11-01",
-      45
+      46
     ]
   ],
   "daily_out_tokens": [
@@ -3828,11 +3828,11 @@
     ],
     [
       "2026-10-31",
-      15456626
+      15467870
     ],
     [
       "2026-11-01",
-      2125711
+      2383494
     ]
   ],
   "daily_lines": [
@@ -4202,7 +4202,7 @@
     ],
     [
       "2026-11-01",
-      6797
+      7767
     ]
   ],
   "tool_by_month": {
@@ -4345,7 +4345,7 @@
     "2026-10": [
       [
         "Bash",
-        87323
+        87329
       ],
       [
         "Read",
@@ -4373,29 +4373,29 @@
       ],
       [
         "SendMessage",
-        1084
+        1085
       ]
     ],
     "2026-11": [
       [
         "Bash",
-        988
+        1086
       ],
       [
         "Read",
-        227
+        231
       ],
       [
         "Edit",
-        141
+        147
       ],
       [
         "Write",
-        81
+        94
       ],
       [
         "SubagentHandback",
-        10
+        11
       ],
       [
         "Glob",
