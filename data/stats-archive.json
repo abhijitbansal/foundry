@@ -7652,44 +7652,46 @@
     },
     "2026-10-25": {
       "sessions": 86,
-      "thinking_blocks": 3514,
+      "thinking_blocks": 3691,
       "web_search": 0,
       "web_fetch": 0,
-      "user_msgs": 490,
-      "assistant_msgs": 10755,
-      "lines_added": 48252,
-      "lines_removed": 2425,
-      "files_written": 507,
-      "files_edited": 972,
-      "in_tokens": 28586,
-      "out_tokens": 6558217,
-      "cache_read_tokens": 2788209686,
-      "cache_creation_tokens": 65206564,
+      "user_msgs": 612,
+      "assistant_msgs": 11500,
+      "lines_added": 48400,
+      "lines_removed": 2439,
+      "files_written": 512,
+      "files_edited": 974,
+      "in_tokens": 30252,
+      "out_tokens": 7267771,
+      "cache_read_tokens": 3233287862,
+      "cache_creation_tokens": 69688014,
       "tools": {
-        "Bash": 4094,
-        "Write": 507,
-        "Edit": 972,
+        "Bash": 4303,
+        "Write": 512,
+        "Edit": 974,
         "SubagentHandback": 68,
-        "Read": 497,
-        "mcp__session-compass__compass_status": 18,
-        "ToolSearch": 17,
-        "Skill": 8,
-        "SendMessage": 135,
+        "Read": 515,
+        "mcp__session-compass__compass_status": 41,
+        "ToolSearch": 19,
+        "Skill": 9,
+        "SendMessage": 161,
         "bash": 2,
         "Monitor": 6,
         "Glob": 1,
-        "Workflow": 2,
-        "AskUserQuestion": 12,
-        "Agent": 43,
-        "SendUserFile": 5,
-        "ListAgents": 1,
+        "Workflow": 5,
+        "AskUserQuestion": 14,
+        "Agent": 107,
+        "SendUserFile": 6,
+        "ListAgents": 2,
         "mcp__plugin_ecc_chrome-devtools__new_page": 1,
         "WebFetch": 76,
         "WebSearch": 85,
-        "StructuredOutput": 3
+        "StructuredOutput": 3,
+        "ReadNotifications": 1,
+        "TaskStop": 41
       },
       "agents": {
-        "general-purpose": 43
+        "general-purpose": 107
       },
       "skills": {
         "redesign-existing-projects": 1,
@@ -7697,7 +7699,7 @@
         "workflow-authoring": 1,
         "portable-artifacts:make-explainer": 1,
         "superpowers:writing-plans": 1,
-        "superpowers:subagent-driven-development": 1,
+        "superpowers:subagent-driven-development": 2,
         "superpowers:finishing-a-development-branch": 1,
         "portable-artifacts:make-diagram": 1
       },
@@ -7707,14 +7709,14 @@
         "/login": 3
       },
       "mcp": {
-        "mcp__session-compass__compass_status": 18,
+        "mcp__session-compass__compass_status": 41,
         "mcp__plugin_ecc_chrome-devtools__new_page": 1
       },
       "models": {
         "claude-haiku-5-5": 33,
         "claude-sonnet-5-5": 7568,
         "claude-fable-5-1": 236,
-        "claude-opus-5-5": 2918
+        "claude-opus-5-5": 3663
       },
       "model_tokens": {
         "claude-haiku-5-5": {
@@ -7755,88 +7757,441 @@
       }
     },
     "2026-10-26": {
-      "sessions": 105,
-      "thinking_blocks": 1843,
+      "sessions": 219,
+      "thinking_blocks": 4096,
       "web_search": 0,
       "web_fetch": 0,
-      "user_msgs": 370,
-      "assistant_msgs": 6104,
-      "lines_added": 17880,
-      "lines_removed": 897,
-      "files_written": 189,
-      "files_edited": 415,
-      "in_tokens": 25736,
-      "out_tokens": 8299234,
-      "cache_read_tokens": 1166680647,
-      "cache_creation_tokens": 45289122,
+      "user_msgs": 719,
+      "assistant_msgs": 13106,
+      "lines_added": 41305,
+      "lines_removed": 1793,
+      "files_written": 380,
+      "files_edited": 794,
+      "in_tokens": 70912,
+      "out_tokens": 18553854,
+      "cache_read_tokens": 2972154639,
+      "cache_creation_tokens": 106061921,
       "tools": {
-        "Bash": 2603,
-        "Write": 189,
-        "Edit": 415,
-        "AskUserQuestion": 8,
-        "Skill": 8,
-        "Read": 332,
-        "mcp__session-compass__compass_status": 2,
-        "Agent": 70,
+        "Bash": 5646,
+        "Write": 380,
+        "Edit": 794,
+        "AskUserQuestion": 9,
+        "Skill": 10,
+        "Read": 668,
+        "mcp__session-compass__compass_status": 5,
+        "Agent": 132,
         "ReadNotifications": 1,
-        "SendMessage": 35,
-        "SubagentHandback": 92,
-        "Grep": 2,
-        "Monitor": 38,
-        "bash": 1,
-        "ToolSearch": 4,
-        "TaskStop": 2,
+        "SendMessage": 73,
+        "SubagentHandback": 175,
+        "Grep": 3,
+        "Monitor": 65,
+        "bash": 5,
+        "ToolSearch": 10,
+        "TaskStop": 5,
         "ListAgents": 1,
-        "StructuredOutput": 3
+        "StructuredOutput": 6,
+        "SendUserFile": 1,
+        "PushNotification": 1
       },
       "agents": {
-        "general-purpose": 70
+        "general-purpose": 131,
+        "weekly-highlights": 1
       },
       "skills": {
         "superpowers:brainstorming": 1,
         "superpowers:writing-plans": 2,
         "superpowers:subagent-driven-development": 1,
-        "design-router": 2,
+        "design-router": 3,
         "emil-design-eng": 1,
-        "superpowers:systematic-debugging": 1
+        "superpowers:systematic-debugging": 2
+      },
+      "mcp": {
+        "mcp__session-compass__compass_status": 5
+      },
+      "models": {
+        "claude-opus-5-5": 2878,
+        "claude-haiku-5-5": 88,
+        "claude-sonnet-5-5": 9206,
+        "claude-fable-5-1": 934
+      },
+      "model_tokens": {
+        "claude-opus-5-5": {
+          "messages": 3336,
+          "in": 22569,
+          "out": 3974681,
+          "cache_read": 1099267695,
+          "cache_creation": 20134922
+        },
+        "claude-haiku-5-5": {
+          "messages": 88,
+          "in": 176,
+          "out": 271706,
+          "cache_read": 1109818,
+          "cache_creation": 5088818
+        },
+        "claude-sonnet-5-5": {
+          "messages": 8944,
+          "in": 18338,
+          "out": 10885782,
+          "cache_read": 1803705917,
+          "cache_creation": 50038534
+        },
+        "claude-fable-5-1": {
+          "messages": 934,
+          "in": 30793,
+          "out": 4325205,
+          "cache_read": 255550747,
+          "cache_creation": 27421628
+        }
+      },
+      "slash": {
+        "/compact": 1
+      }
+    },
+    "2026-10-27": {
+      "sessions": 94,
+      "thinking_blocks": 1999,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 280,
+      "assistant_msgs": 6286,
+      "lines_added": 20031,
+      "lines_removed": 2224,
+      "files_written": 174,
+      "files_edited": 881,
+      "in_tokens": 46156,
+      "out_tokens": 9767396,
+      "cache_read_tokens": 1832350696,
+      "cache_creation_tokens": 54574258,
+      "tools": {
+        "Read": 384,
+        "Bash": 2358,
+        "SubagentHandback": 66,
+        "Edit": 881,
+        "Write": 174,
+        "Monitor": 22,
+        "ToolSearch": 7,
+        "Skill": 4,
+        "TaskStop": 19,
+        "SendMessage": 3,
+        "SendUserFile": 1,
+        "StructuredOutput": 7,
+        "WebFetch": 2
+      },
+      "skills": {
+        "redesign-existing-projects": 1,
+        "portable-artifacts:make-motion": 2,
+        "superpowers:writing-plans": 1
+      },
+      "models": {
+        "claude-haiku-5-5": 76,
+        "claude-sonnet-5-5": 3360,
+        "claude-fable-5-1": 1120,
+        "claude-opus-5-5": 1730
+      },
+      "model_tokens": {
+        "claude-haiku-5-5": {
+          "messages": 76,
+          "in": 152,
+          "out": 235604,
+          "cache_read": 1008420,
+          "cache_creation": 4110014
+        },
+        "claude-opus-5-5": {
+          "messages": 2637,
+          "in": 6200,
+          "out": 2703612,
+          "cache_read": 949740317,
+          "cache_creation": 21253705
+        },
+        "claude-sonnet-5-5": {
+          "messages": 3622,
+          "in": 7406,
+          "out": 4336134,
+          "cache_read": 1024498996,
+          "cache_creation": 22735718
+        },
+        "claude-fable-5-1": {
+          "messages": 1120,
+          "in": 34824,
+          "out": 3474501,
+          "cache_read": 451421138,
+          "cache_creation": 17313912
+        }
+      }
+    },
+    "2026-10-30": {
+      "sessions": 14,
+      "thinking_blocks": 261,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 44,
+      "assistant_msgs": 766,
+      "lines_added": 590,
+      "lines_removed": 47,
+      "files_written": 9,
+      "files_edited": 17,
+      "in_tokens": 5424,
+      "out_tokens": 870290,
+      "cache_read_tokens": 89826394,
+      "cache_creation_tokens": 7709324,
+      "tools": {
+        "Read": 23,
+        "Bash": 369,
+        "Write": 9,
+        "Edit": 17,
+        "SubagentHandback": 4,
+        "ToolSearch": 3,
+        "TaskStop": 2,
+        "mcp__session-compass__compass_status": 2,
+        "Agent": 4,
+        "ListAgents": 2,
+        "AskUserQuestion": 1,
+        "Skill": 2,
+        "Workflow": 2,
+        "SendUserFile": 2,
+        "StructuredOutput": 8
+      },
+      "agents": {
+        "general-purpose": 4
+      },
+      "skills": {
+        "portable-artifacts:make-explainer": 1,
+        "workflow-authoring": 1
+      },
+      "slash": {
+        "/compact": 1
       },
       "mcp": {
         "mcp__session-compass__compass_status": 2
       },
       "models": {
-        "claude-opus-5-5": 946,
-        "claude-haiku-5-5": 34,
-        "claude-sonnet-5-5": 4687,
-        "claude-fable-5-1": 437
+        "claude-sonnet-5-5": 305,
+        "claude-opus-5-5": 363,
+        "<synthetic>": 1,
+        "claude-fable-5-1": 97
       },
       "model_tokens": {
         "claude-opus-5-5": {
-          "messages": 1718,
-          "in": 3944,
-          "out": 2158550,
-          "cache_read": 662894781,
-          "cache_creation": 9000569
-        },
-        "claude-haiku-5-5": {
-          "messages": 34,
-          "in": 68,
-          "out": 100282,
-          "cache_read": 420290,
-          "cache_creation": 1875038
+          "messages": 489,
+          "in": 2106,
+          "out": 455550,
+          "cache_read": 125149471,
+          "cache_creation": 2908569
         },
         "claude-sonnet-5-5": {
-          "messages": 4687,
-          "in": 9612,
-          "out": 5212110,
-          "cache_read": 795983082,
-          "cache_creation": 21857687
+          "messages": 305,
+          "in": 616,
+          "out": 305730,
+          "cache_read": 35461224,
+          "cache_creation": 5014745
+        },
+        "<synthetic>": {
+          "messages": 1,
+          "in": 0,
+          "out": 0,
+          "cache_read": 0,
+          "cache_creation": 0
         },
         "claude-fable-5-1": {
-          "messages": 437,
-          "in": 14156,
-          "out": 2094394,
-          "cache_read": 127478348,
-          "cache_creation": 16763379
+          "messages": 97,
+          "in": 2970,
+          "out": 170414,
+          "cache_read": 10124174,
+          "cache_creation": 760214
+        }
+      }
+    },
+    "2026-10-31": {
+      "sessions": 171,
+      "thinking_blocks": 3638,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 639,
+      "assistant_msgs": 12731,
+      "lines_added": 37571,
+      "lines_removed": 2715,
+      "files_written": 473,
+      "files_edited": 1013,
+      "in_tokens": 40136,
+      "out_tokens": 15467870,
+      "cache_read_tokens": 3018167473,
+      "cache_creation_tokens": 86013688,
+      "tools": {
+        "Read": 846,
+        "Glob": 6,
+        "Bash": 5165,
+        "Write": 473,
+        "Edit": 1013,
+        "Grep": 9,
+        "mcp__session-compass__compass_status": 21,
+        "Skill": 13,
+        "ToolSearch": 22,
+        "SendMessage": 74,
+        "Monitor": 15,
+        "ReadNotifications": 3,
+        "bash": 2,
+        "TaskStop": 5,
+        "Workflow": 7,
+        "AskUserQuestion": 14,
+        "mcp__plugin_ecc_chrome-devtools__new_page": 1,
+        "Agent": 100,
+        "SendUserFile": 9,
+        "ListAgents": 1,
+        "mcp__claude-artifacts__read_artifact": 1,
+        "mcp__claude_ai_Claude_Docs__read": 3,
+        "WebFetch": 5,
+        "SubagentHandback": 136,
+        "WebSearch": 9,
+        "StructuredOutput": 16
+      },
+      "agents": {
+        "(unnamed dispatch)": 6,
+        "general-purpose": 93,
+        "core-workflow:web-researcher": 1
+      },
+      "skills": {
+        "superpowers:test-driven-development": 1,
+        "superpowers:brainstorming": 2,
+        "workflow-authoring": 3,
+        "portable-artifacts:make-explainer": 3,
+        "portable-artifacts:make-motion": 2,
+        "superpowers:writing-plans": 1,
+        "superpowers:subagent-driven-development": 1
+      },
+      "mcp": {
+        "mcp__session-compass__compass_status": 21,
+        "mcp__plugin_ecc_chrome-devtools__new_page": 1,
+        "mcp__claude-artifacts__read_artifact": 1,
+        "mcp__claude_ai_Claude_Docs__read": 3
+      },
+      "models": {
+        "claude-haiku-5-5": 433,
+        "claude-sonnet-5-5": 4957,
+        "claude-opus-5-5": 6864,
+        "claude-fable-5-1": 477
+      },
+      "model_tokens": {
+        "claude-haiku-5-5": {
+          "messages": 433,
+          "in": 866,
+          "out": 471598,
+          "cache_read": 26596570,
+          "cache_creation": 7921658
+        },
+        "claude-sonnet-5-5": {
+          "messages": 4956,
+          "in": 10110,
+          "out": 5777387,
+          "cache_read": 939741055,
+          "cache_creation": 28354040
+        },
+        "claude-opus-5-5": {
+          "messages": 6291,
+          "in": 13174,
+          "out": 6703927,
+          "cache_read": 1798539920,
+          "cache_creation": 35734159
+        },
+        "claude-fable-5-1": {
+          "messages": 477,
+          "in": 14796,
+          "out": 1836409,
+          "cache_read": 80645169,
+          "cache_creation": 11427383
+        }
+      }
+    },
+    "2026-11-01": {
+      "sessions": 46,
+      "thinking_blocks": 831,
+      "web_search": 0,
+      "web_fetch": 0,
+      "user_msgs": 96,
+      "assistant_msgs": 2613,
+      "lines_added": 7767,
+      "lines_removed": 363,
+      "files_written": 94,
+      "files_edited": 147,
+      "in_tokens": 7222,
+      "out_tokens": 2383494,
+      "cache_read_tokens": 455554069,
+      "cache_creation_tokens": 16542751,
+      "tools": {
+        "Bash": 1086,
+        "Read": 231,
+        "Grep": 3,
+        "Write": 94,
+        "Glob": 9,
+        "StructuredOutput": 5,
+        "Edit": 147,
+        "ToolSearch": 2,
+        "mcp__plugin_ecc_chrome-devtools__new_page": 1,
+        "Agent": 3,
+        "ReadNotifications": 1,
+        "AskUserQuestion": 1,
+        "SubagentHandback": 11,
+        "Monitor": 1,
+        "mcp__session-compass__compass_status": 3,
+        "Skill": 1,
+        "ListAgents": 1
+      },
+      "agents": {
+        "ecc:code-reviewer": 2,
+        "(unnamed dispatch)": 1
+      },
+      "skills": {
+        "superpowers:systematic-debugging": 1
+      },
+      "slash": {
+        "/model": 1
+      },
+      "mcp": {
+        "mcp__plugin_ecc_chrome-devtools__new_page": 1,
+        "mcp__session-compass__compass_status": 3
+      },
+      "models": {
+        "claude-haiku-5-5": 588,
+        "claude-sonnet-5-5": 775,
+        "claude-fable-5-1": 65,
+        "claude-opus-5-5": 1184,
+        "<synthetic>": 1
+      },
+      "model_tokens": {
+        "claude-haiku-5-5": {
+          "messages": 588,
+          "in": 1176,
+          "out": 352464,
+          "cache_read": 45382004,
+          "cache_creation": 5114368
+        },
+        "claude-opus-5-5": {
+          "messages": 1783,
+          "in": 3690,
+          "out": 1842004,
+          "cache_read": 439493379,
+          "cache_creation": 8782236
+        },
+        "claude-sonnet-5-5": {
+          "messages": 776,
+          "in": 1566,
+          "out": 815419,
+          "cache_read": 136744233,
+          "cache_creation": 5120052
+        },
+        "claude-fable-5-1": {
+          "messages": 65,
+          "in": 2032,
+          "out": 80433,
+          "cache_read": 9047054,
+          "cache_creation": 356268
+        },
+        "<synthetic>": {
+          "messages": 1,
+          "in": 0,
+          "out": 0,
+          "cache_read": 0,
+          "cache_creation": 0
         }
       }
     }
@@ -7945,58 +8300,58 @@
       }
     },
     "claude-skills": {
-      "sessions": 1214,
-      "user_msgs": 3862,
-      "assistant_msgs": 52530,
-      "lines_added": 109244,
-      "lines_removed": 5100,
-      "files_written": 1358,
-      "files_edited": 1256,
+      "sessions": 1377,
+      "user_msgs": 4469,
+      "assistant_msgs": 65520,
+      "lines_added": 150455,
+      "lines_removed": 6705,
+      "files_written": 1860,
+      "files_edited": 2373,
       "in_tokens": 17379752,
-      "out_tokens": 22308220,
-      "cache_read_tokens": 10302741960,
-      "cache_creation_tokens": 369893219,
-      "image_count": 1470,
+      "out_tokens": 38296627,
+      "cache_read_tokens": 13444827991,
+      "cache_creation_tokens": 457606755,
+      "image_count": 1604,
       "tools": {
-        "Bash": 22004,
-        "Read": 4274,
-        "Edit": 1256,
-        "StructuredOutput": 460,
-        "Write": 1358,
+        "Bash": 27308,
+        "Read": 5205,
+        "Edit": 2373,
+        "StructuredOutput": 482,
+        "Write": 1860,
         "Grep": 151,
         "mcp__claude-in-chrome__navigate": 10,
         "mcp__claude-in-chrome__computer": 10,
         "TaskUpdate": 9,
-        "SendMessage": 245,
-        "ToolSearch": 83,
-        "Skill": 73,
-        "AskUserQuestion": 42,
-        "mcp__session-compass__compass_status": 77,
-        "Workflow": 40,
+        "SendMessage": 301,
+        "ToolSearch": 97,
+        "Skill": 83,
+        "AskUserQuestion": 52,
+        "mcp__session-compass__compass_status": 91,
+        "Workflow": 48,
         "SendFeedback": 3,
-        "Agent": 685,
-        "SubagentHandback": 607,
+        "Agent": 779,
+        "SubagentHandback": 752,
         "ListAgents": 6,
-        "TaskStop": 100,
+        "TaskStop": 102,
         "mcp__claude-in-chrome__tabs_context_mcp": 1,
         "mcp__claude-in-chrome__find": 4,
         "mcp__claude-in-chrome__tabs_close_mcp": 5,
         "mcp__claude-in-chrome__browser_batch": 25,
-        "SendUserFile": 29,
+        "SendUserFile": 35,
         "mcp__claude-in-chrome__javascript_tool": 1,
         "ReadNotifications": 6,
-        "Monitor": 59,
+        "Monitor": 71,
         "Artifact": 22,
-        "WebFetch": 64,
-        "WebSearch": 13,
+        "WebFetch": 69,
+        "WebSearch": 22,
         "mcp__plugin_ecc_chrome-devtools__new_page": 3,
         "Glob": 15,
         "ReportFindings": 1,
-        "mcp__claude_ai_Claude_Docs__read": 4,
+        "mcp__claude_ai_Claude_Docs__read": 7,
         "mcp__claude_ai_Claude_Docs__query": 1,
         "mcp__claude_ai_Claude_Docs__guide": 1,
         "mcp__claude_ai_Claude_Docs__update": 5,
-        "bash": 7,
+        "bash": 8,
         "mcp__ccd_session__start_session": 2,
         "mcp__Claude_Browser__preview_start": 1,
         "mcp__Claude_Browser__browser_batch": 3,
@@ -8006,15 +8361,16 @@
         "mcp__Claude_Browser__navigate": 1,
         "mcp__Claude_Browser__find": 1,
         "mcp__Claude_Browser__computer": 2,
-        "bash_placeholder": 1
+        "bash_placeholder": 1,
+        "mcp__claude-artifacts__read_artifact": 1
       },
       "agents": {
-        "general-purpose": 650,
+        "general-purpose": 743,
         "(unnamed dispatch)": 11,
         "claude-code-guide": 5,
         "plugin-dev:plugin-validator": 4,
         "claude": 4,
-        "core-workflow:web-researcher": 4,
+        "core-workflow:web-researcher": 5,
         "plugin-dev:skill-reviewer": 1,
         "ecc:security-reviewer": 2,
         "fork": 4,
@@ -8023,9 +8379,9 @@
         "codebase-explorer": 4
       },
       "skills": {
-        "superpowers:brainstorming": 11,
-        "superpowers:writing-plans": 13,
-        "superpowers:subagent-driven-development": 7,
+        "superpowers:brainstorming": 12,
+        "superpowers:writing-plans": 14,
+        "superpowers:subagent-driven-development": 8,
         "superpowers:finishing-a-development-branch": 4,
         "visual-explainer:visual-explainer": 4,
         "ios-dev:pillow-favicon-set-no-rasterizer": 1,
@@ -8034,7 +8390,7 @@
         "plugin-dev:skill-development": 1,
         "update-config": 2,
         "superpowers:test-driven-development": 1,
-        "workflow-authoring": 9,
+        "workflow-authoring": 12,
         "dataviz": 2,
         "plugin-authoring": 4,
         "superpowers:executing-plans": 1,
@@ -8048,7 +8404,8 @@
         "superpowers:verification-before-completion": 1,
         "anthropic-skills:docs": 1,
         "emil-design-eng": 1,
-        "portable-artifacts:make-explainer": 1
+        "portable-artifacts:make-explainer": 4,
+        "portable-artifacts:make-motion": 1
       },
       "models": {
         "claude-opus-4-8": 7867,
@@ -8059,44 +8416,44 @@
         "claude-haiku-4-5-20251001": 524,
         "claude-opus-5": 204,
         "<synthetic>": 50,
-        "claude-haiku-5-5": 354,
-        "claude-opus-5-5": 19359,
-        "claude-fable-5-1": 6137,
-        "claude-sonnet-5-5": 26654
+        "claude-haiku-5-5": 430,
+        "claude-opus-5-5": 26616,
+        "claude-fable-5-1": 6711,
+        "claude-sonnet-5-5": 31736
       },
       "first_ts": "2026-05-25T18:25:52.326Z",
-      "last_ts": "2026-10-25T04:39:40.747Z",
+      "last_ts": "2026-11-01T03:49:24.185Z",
       "prompts": {
-        "count": 3862,
-        "avg": 2679.9,
-        "median": 1341,
-        "p90": 6060,
+        "count": 4469,
+        "avg": 2730.7,
+        "median": 1507,
+        "p90": 6470,
         "max": 290091,
-        "avg_tokens": 670.0,
+        "avg_tokens": 682.7,
         "hist": [
           [
             "<50",
-            145
+            158
           ],
           [
             "50-150",
-            547
+            612
           ],
           [
             "150-400",
-            428
+            445
           ],
           [
             "400-1k",
-            741
+            881
           ],
           [
             "1k-3k",
-            831
+            973
           ],
           [
             "3k+",
-            1170
+            1400
           ]
         ]
       }
@@ -8662,7 +9019,7 @@
         "AskUserQuestion": 8,
         "SendUserFile": 8,
         "Artifact": 11,
-        "Agent": 42,
+        "Agent": 44,
         "TaskOutput": 8,
         "TaskStop": 3,
         "mcp__plugin_ecc_chrome-devtools__new_page": 4,
@@ -8682,8 +9039,8 @@
         "mcp__claude-in-chrome__browser_batch": 40,
         "mcp__claude-in-chrome__tabs_create_mcp": 1,
         "mcp__session-compass__compass_status": 1,
-        "SubagentHandback": 55,
-        "ReadNotifications": 2
+        "SubagentHandback": 57,
+        "ReadNotifications": 3
       },
       "agents": {
         "general-purpose": 38,
@@ -8693,7 +9050,7 @@
         "core-workflow:web-researcher": 2,
         "codebase-explorer": 2,
         "ecc:security-reviewer": 1,
-        "ecc:code-reviewer": 2,
+        "ecc:code-reviewer": 3,
         "claude-code-guide": 2
       },
       "skills": {
@@ -8724,30 +9081,30 @@
         "claude-opus-4-7": 287,
         "claude-fable-5-1": 66,
         "<synthetic>": 12,
-        "claude-opus-5-5": 1517,
-        "claude-sonnet-5-5": 426
+        "claude-opus-5-5": 1771,
+        "claude-sonnet-5-5": 452
       },
       "first_ts": "2026-07-11T04:08:13.942Z",
-      "last_ts": "2026-10-12T02:51:19.865Z",
+      "last_ts": "2026-11-01T03:49:20.512Z",
       "prompts": {
-        "count": 232,
-        "avg": 2797.5,
-        "median": 1633,
+        "count": 248,
+        "avg": 2749.1,
+        "median": 1588,
         "p90": 7221,
         "max": 32551,
-        "avg_tokens": 699.4,
+        "avg_tokens": 687.3,
         "hist": [
           [
             "<50",
-            18
+            21
           ],
           [
             "50-150",
-            17
+            19
           ],
           [
             "150-400",
-            51
+            56
           ],
           [
             "400-1k",
@@ -8755,11 +9112,240 @@
           ],
           [
             "1k-3k",
-            67
+            69
           ],
           [
             "3k+",
-            62
+            66
+          ]
+        ]
+      }
+    },
+    "jarvis": {
+      "sessions": 206,
+      "user_msgs": 844,
+      "assistant_msgs": 11950,
+      "lines_added": 22134,
+      "lines_removed": 1790,
+      "files_written": 137,
+      "files_edited": 819,
+      "in_tokens": 71151,
+      "out_tokens": 20874006,
+      "cache_read_tokens": 3111719871,
+      "cache_creation_tokens": 105053255,
+      "image_count": 75,
+      "tools": {
+        "Read": 711,
+        "Bash": 4380,
+        "Edit": 819,
+        "Write": 137,
+        "Monitor": 57,
+        "ToolSearch": 21,
+        "TaskStop": 48,
+        "SendMessage": 179,
+        "mcp__session-compass__compass_status": 45,
+        "Agent": 112,
+        "ListAgents": 6,
+        "Skill": 14,
+        "Workflow": 5,
+        "AskUserQuestion": 14,
+        "SendUserFile": 7,
+        "mcp__plugin_ecc_chrome-devtools__new_page": 1,
+        "ReadNotifications": 1,
+        "WebFetch": 78,
+        "SubagentHandback": 88,
+        "WebSearch": 85,
+        "StructuredOutput": 16,
+        "bash": 2
+      },
+      "agents": {
+        "general-purpose": 111,
+        "(unnamed dispatch)": 1
+      },
+      "skills": {
+        "superpowers:brainstorming": 1,
+        "workflow-authoring": 1,
+        "portable-artifacts:make-explainer": 1,
+        "superpowers:writing-plans": 3,
+        "superpowers:subagent-driven-development": 2,
+        "superpowers:finishing-a-development-branch": 1,
+        "portable-artifacts:make-diagram": 1,
+        "superpowers:systematic-debugging": 2,
+        "portable-artifacts:make-motion": 2
+      },
+      "models": {
+        "claude-haiku-5-5": 130,
+        "claude-sonnet-5-5": 6173,
+        "claude-opus-5-5": 4174,
+        "<synthetic>": 1,
+        "claude-fable-5-1": 1472
+      },
+      "first_ts": "2026-10-25T04:26:20.612Z",
+      "last_ts": "2026-11-01T03:48:45.759Z",
+      "prompts": {
+        "count": 844,
+        "avg": 3479.9,
+        "median": 2326,
+        "p90": 7807,
+        "max": 89550,
+        "avg_tokens": 870.0,
+        "hist": [
+          [
+            "<50",
+            28
+          ],
+          [
+            "50-150",
+            44
+          ],
+          [
+            "150-400",
+            41
+          ],
+          [
+            "400-1k",
+            123
+          ],
+          [
+            "1k-3k",
+            309
+          ],
+          [
+            "3k+",
+            299
+          ]
+        ]
+      }
+    },
+    "job-finder": {
+      "sessions": 471,
+      "user_msgs": 2191,
+      "assistant_msgs": 35761,
+      "lines_added": 126294,
+      "lines_removed": 5542,
+      "files_written": 1319,
+      "files_edited": 2239,
+      "in_tokens": 138991,
+      "out_tokens": 26222046,
+      "cache_read_tokens": 8391415238,
+      "cache_creation_tokens": 237694612,
+      "image_count": 368,
+      "tools": {
+        "Read": 1742,
+        "Bash": 14483,
+        "Glob": 2,
+        "ToolSearch": 84,
+        "mcp__plugin_ecc_chrome-devtools__new_page": 3,
+        "SendUserFile": 17,
+        "ReadNotifications": 8,
+        "Monitor": 58,
+        "Skill": 61,
+        "mcp__claude-in-chrome__tabs_context_mcp": 22,
+        "mcp__claude-in-chrome__browser_batch": 59,
+        "mcp__claude-in-chrome__tabs_close_mcp": 8,
+        "Write": 1319,
+        "SendMessage": 247,
+        "mcp__session-compass__compass_status": 39,
+        "Edit": 2239,
+        "bash": 9,
+        "TaskStop": 32,
+        "Workflow": 8,
+        "AskUserQuestion": 68,
+        "StructuredOutput": 28,
+        "Agent": 359,
+        "ListAgents": 3,
+        "Grep": 4,
+        "WebSearch": 11,
+        "RemoteTrigger": 4,
+        "mcp__claude_ai_Gmail__search_threads": 5,
+        "mcp__claude_ai_Gmail__get_thread": 7,
+        "mcp__claude-in-chrome__navigate": 20,
+        "mcp__claude-in-chrome__get_page_text": 20,
+        "mcp__claude-in-chrome__tabs_create_mcp": 7,
+        "WebFetch": 24,
+        "mcp__claude-in-chrome__read_page": 27,
+        "mcp__claude-in-chrome__find": 8,
+        "mcp__claude-in-chrome__computer": 208,
+        "mcp__claude-in-chrome__form_input": 24,
+        "mcp__claude-in-chrome__file_upload": 11,
+        "Artifact": 5,
+        "mcp__plugin_pdf-viewer_pdf__display_pdf": 1,
+        "mcp__claude-in-chrome__list_connected_browsers": 1,
+        "SubagentHandback": 421,
+        "mcp__claude-in-chrome__javascript_tool": 14
+      },
+      "agents": {
+        "general-purpose": 352,
+        "(unnamed dispatch)": 6,
+        "claude-code-guide": 1
+      },
+      "skills": {
+        "design-router": 9,
+        "superpowers:test-driven-development": 1,
+        "superpowers:brainstorming": 7,
+        "workflow-authoring": 4,
+        "portable-artifacts:make-explainer": 4,
+        "portable-artifacts:make-motion": 2,
+        "redesign-existing-projects": 5,
+        "core-workflow:learn-lesson": 1,
+        "superpowers:writing-plans": 5,
+        "superpowers:subagent-driven-development": 5,
+        "superpowers:finishing-a-development-branch": 2,
+        "portable-artifacts:make-diagram": 2,
+        "check-email": 1,
+        "status": 1,
+        "tailor": 2,
+        "apply": 1,
+        "dataviz": 1,
+        "find-jobs": 1,
+        "score": 1,
+        "schedule": 1,
+        "claude-in-chrome": 1,
+        "core-workflow:github-solo-branch-protection-codeowners": 1,
+        "emil-design-eng": 1,
+        "superpowers:systematic-debugging": 1,
+        "impeccable:impeccable": 1
+      },
+      "models": {
+        "claude-sonnet-5-5": 22750,
+        "claude-opus-5-5": 11055,
+        "claude-haiku-5-5": 146,
+        "claude-fable-5-1": 1809,
+        "<synthetic>": 1
+      },
+      "first_ts": "2026-10-10T04:19:11.176Z",
+      "last_ts": "2026-11-01T03:48:37.346Z",
+      "prompts": {
+        "count": 2191,
+        "avg": 2761.6,
+        "median": 1587,
+        "p90": 7807,
+        "max": 97787,
+        "avg_tokens": 690.4,
+        "hist": [
+          [
+            "<50",
+            106
+          ],
+          [
+            "50-150",
+            373
+          ],
+          [
+            "150-400",
+            178
+          ],
+          [
+            "400-1k",
+            299
+          ],
+          [
+            "1k-3k",
+            600
+          ],
+          [
+            "3k+",
+            635
           ]
         ]
       }

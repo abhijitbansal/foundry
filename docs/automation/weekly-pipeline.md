@@ -4,6 +4,8 @@ What `run_weekly.sh` does end to end, where every number in the `/updates` page 
 the `abhijitbansal` GitHub profile README comes from, and whether any of it spends
 an Anthropic API key.
 
+Setup, troubleshooting and moving the job to another Mac: [`scripts/weekly/README.md`](../../scripts/weekly/README.md).
+
 ## Trigger
 
 `~/Library/LaunchAgents/com.abhijitbansal.foundry-weekly.plist` (installed from

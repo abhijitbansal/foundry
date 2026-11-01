@@ -2,7 +2,7 @@
 
 Source material for Foundry's project pages. One entry per repo under `github.com/abhijitbansal`. Regenerate when repos change (sweep via `gh repo list` + per-repo README summarization).
 
-**Last updated:** 2026-10-10
+**Last updated:** 2026-10-31
 
 ## Apps (iOS / macOS / browser)
 
@@ -35,6 +35,14 @@ Tech: TypeScript, Bun, Claude Code headless, SQLite, launchd · [repo](https://g
 ### swatkats — `early` · private
 Local-first decision tool: drop a spreadsheet, paste text, or name a Jira epic and get typed decisions back — fill a column by choosing, scoring, or answering yes/no with a per-row confidence, or judge whether an epic is ready or done. Local models via Ollama by default; cloud CLIs and OpenAI-compatible APIs opt-in. Design spec and feasibility spike done; build not started.
 Tech: Python, uv, Ollama, MCP · [repo](https://github.com/abhijitbansal/swatkats)
+
+### jarvis — `coming-soon` · private
+Local-first developer cockpit for macOS, one hotkey away from anywhere: models chosen per feature (on-device by default) beside a running tally of what the day cost.
+Tech: Swift, Metal, Ollama · [repo](https://github.com/abhijitbansal/jarvis)
+
+### job-finder — `coming-soon` · private
+Designed to help others find and apply for jobs: match openings to what someone is looking for, tailor the paperwork, and keep a person in charge of every send.
+Tech: Python, uv, Claude Code · [repo](https://github.com/abhijitbansal/job-finder)
 
 ### claude-skills — `active` · public
 Unified collection of AI agent skills, plugins, and tools for Claude Code and AGENTS.md-aware platforms: iOS build-and-screenshot loops, Linear automation, usage-limit-aware orchestration, prompt refinement. Installable via marketplace or standalone CLI.

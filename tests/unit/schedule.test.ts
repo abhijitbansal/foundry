@@ -17,6 +17,15 @@ describe('scheduleRows', () => {
 		expect(row).toMatchObject({ name: 'New', no: '—', storeys: 0 });
 	});
 
+	it('labels every status, including coming soon', () => {
+		const rows = scheduleRows(
+			(['active', 'recently-active', 'heating-up', 'coming-soon'] as const).map((status) => p({ status })),
+			[],
+		);
+		expect(rows.map((r) => r.statusLabel)).toEqual(['Active', 'Recently active', 'Heating up', 'Coming soon']);
+		expect(rows.map((r) => r.statusGlyph)).toEqual(['■', '■', '■', '□']);
+	});
+
 	it('marks private builds and gives them no links', () => {
 		const [row] = scheduleRows([p({ private: true, repoUrl: undefined })], []);
 		expect(row.isPrivate).toBe(true);

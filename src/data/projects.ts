@@ -1,5 +1,6 @@
 // Project inventory — plan Task 3.4 / 3.4a. Later cards (Purix, raja,
-// swatkats, orca-local) are hand-written, not from the handoff source. Copy transcribed verbatim from
+// swatkats, jarvis, job-finder, orca-local) are hand-written, not from the
+// handoff source. Copy transcribed verbatim from
 // docs/design/handoff/src/Foundry 2A - Crucible Light.dc.html (lines
 // 147-271). Link fields resolved per the Task 3.4a table (gh api + curl -I
 // checks on 2026-07-11). Grouping matches the three group headers in the
@@ -88,6 +89,24 @@ export const aiToolingProjects: Project[] = [
 		blurb:
 			'Quick decisions from local models: drop a spreadsheet or name a Jira epic, get typed answers back — a filled column with per-row confidence, or a verdict on whether an epic is ready or done. Ollama by default, cloud CLIs opt-in. In design: spec and feasibility spike done.',
 		tech: 'Python · Ollama · MCP',
+		private: true,
+	},
+	{
+		name: 'jarvis',
+		repo: 'jarvis',
+		status: 'coming-soon',
+		blurb:
+			'A local-first cockpit for developers on the Mac. One hotkey away from anywhere, it puts the models you choose (on-device by default) beside a running tally of what the day cost.',
+		tech: 'macOS · Swift · Metal · Ollama',
+		private: true,
+	},
+	{
+		name: 'job-finder',
+		repo: 'job-finder',
+		status: 'coming-soon',
+		blurb:
+			'Designed to help others find and apply for jobs: match openings to what someone is looking for, tailor the paperwork, and keep a person in charge of every send.',
+		tech: 'Python · Claude Code',
 		private: true,
 	},
 	{

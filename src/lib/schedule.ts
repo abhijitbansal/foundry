@@ -12,11 +12,21 @@ export interface ScheduleRow {
 	stack: string;
 	storeys: number;
 	status: ProjectStatus;
+	statusLabel: string;
+	statusGlyph: string;
 	links: ScheduleLink[];
 	isPrivate: boolean;
 }
 
 const NOT_ON_YARD = '—';
+// Open square = not released yet (the repo can still have storeys); filled
+// square = released.
+const STATUS_DISPLAY: Record<ProjectStatus, { label: string; glyph: string }> = {
+	active: { label: 'Active', glyph: '■' },
+	'recently-active': { label: 'Recently active', glyph: '■' },
+	'heating-up': { label: 'Heating up', glyph: '■' },
+	'coming-soon': { label: 'Coming soon', glyph: '□' },
+};
 const stripArrow = (s: string) => s.replace(/\s*↗\s*$/, '');
 
 export function projectLinks(p: Project): ScheduleLink[] {
@@ -38,6 +48,8 @@ export function scheduleRows(projects: Project[], ledger: LedgerEntry[]): Schedu
 			stack: p.tech,
 			storeys: e?.storeys ?? 0,
 			status: p.status,
+			statusLabel: STATUS_DISPLAY[p.status].label,
+			statusGlyph: STATUS_DISPLAY[p.status].glyph,
 			links: projectLinks(p),
 			isPrivate: p.private,
 		};

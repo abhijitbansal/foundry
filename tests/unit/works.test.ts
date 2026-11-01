@@ -151,6 +151,12 @@ describe('YARD slots', () => {
 	it('has no slot for the card-only orca-local fork', () => {
 		expect(YARD['orca-local']).toBeUndefined();
 	});
+
+	it('places jarvis and job-finder on the hand-placed plate 05', () => {
+		expect([YARD.jarvis?.plate, YARD['job-finder']?.plate]).toEqual([4, 4]);
+		const repos: WorksRepo[] = Object.keys(YARD).map((repo) => ({ repo, lines: 1000, sessions: 1, tokens: 1, active: true }));
+		expect(buildYard(repos, {}).svg).toContain('05 · COMING SOON');
+	});
 });
 
 describe('buildLedger', () => {

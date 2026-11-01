@@ -20,7 +20,7 @@ Pages:
 - `/` — yard hero, schedule of buildings (from [PROJECTS.md](./PROJECTS.md)), general notes, meter readings, harness promo row, title-block footer.
 - `/telemetry/` — full forge telemetry (parsed from local Claude Code session logs) and the yard ledger.
 - `/craft/` — the craft essay.
-- `/updates/` — weekly digest archive, newest-first, generated every Monday by `scripts/weekly/run_weekly.sh` (see `docs/automation/weekly-pipeline.md`).
+- `/updates/` — weekly digest archive, newest-first, generated every Monday by `scripts/weekly/run_weekly.sh` (setup and moving machines: `scripts/weekly/README.md`; stage-by-stage detail: `docs/automation/weekly-pipeline.md`).
 - `/harness/` — a showcase of the Claude Code harness that runs this repo (and, as a case study, the private `cubby` repo): routing, hook lifecycle, dev-tracker, the CLAUDE.md/AGENTS.md story, the enabled arsenal, and a self-audit score. Has its own three-layer easter egg for anyone (human or agent) who reads the page source.
 
 Session-log history of how the site got built lives in `docs/sessions/` (index: `docs/sessions/README.md`).

@@ -79,8 +79,8 @@ CHARS_PER_TOKEN = 4  # rough approximation for display only
 # PROJECTS.md's repo inventory — keep in sync with that file by hand (it
 # changes rarely; a drifted allowlist just under- or over-hides a repo, it
 # doesn't silently leak anything since this is an allowlist, not a denylist).
-# Exception: card-only repos listed in PROJECTS.md (orca-local, a fork) stay
-# off this set on purpose — see AGENTS.md. Allowlisting one gives it a
+# Exception: card-only repos listed in PROJECTS.md (orca-local, a fork)
+# stay off this set on purpose — see AGENTS.md. Allowlisting one gives it a
 # permanent yard building via the archive ratchet, and a missing YARD slot
 # fails the build.
 PROJECTS_ALLOWLIST = {
@@ -88,6 +88,7 @@ PROJECTS_ALLOWLIST = {
     "claude-skills", "cartoon", "memekit", "sift", "purix",
     "foundry", "design-system", "cubby-site", "paperix-site",
     "floorprint-site", "mr_lender", "second-wind", "raja", "swatkats",
+    "jarvis", "job-finder",
 }
 
 
@@ -114,6 +115,16 @@ def repo_from_path(path):
 def repo_from_dirname(dirname):
     """Decode the encoded project dir name when no cwd is present."""
     # e.g. -Users-abhijitbansal-projects-doc-scan  ->  /Users/.../projects/doc-scan
+    # The encoding turns "/" into "-", so a hyphenated repo name can't be
+    # recovered by decoding alone ("doc-scan" would become "doc"). Match
+    # allowlisted names first, longest first, so worktree subdirs
+    # ("claude-skills--claude-worktrees-…") and "cubby-site" vs "cubby" resolve.
+    marker = "-projects-"
+    if marker in dirname:
+        rest = dirname.split(marker, 1)[1]
+        for name in sorted(PROJECTS_ALLOWLIST, key=len, reverse=True):
+            if rest == name or rest.startswith(name + "-"):
+                return name
     decoded = dirname.replace("-", "/")
     return repo_from_path(decoded) or "other"
 

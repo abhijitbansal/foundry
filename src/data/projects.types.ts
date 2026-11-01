@@ -1,7 +1,7 @@
 // Project data shape — plan Task 3.4. Link policy lives in the data (see
 // projects.ts + README §Project links), never hardcoded in markup.
 
-export type ProjectStatus = 'active' | 'recently-active' | 'heating-up';
+export type ProjectStatus = 'active' | 'recently-active' | 'heating-up' | 'coming-soon';
 
 export interface ProjectExtraLink {
 	url: string;
