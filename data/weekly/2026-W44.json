@@ -1,0 +1,797 @@
+{
+  "week_id": "2026-W44",
+  "week_start": "2026-10-26",
+  "week_end": "2026-11-01",
+  "generated_at": "2026-11-02T15:31:22.932488+00:00",
+  "repos": [
+    {
+      "repo": "claude-skills",
+      "sessions": 168,
+      "lines_added": 55623,
+      "lines_removed": 3320,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "job-finder",
+      "sessions": 177,
+      "lines_added": 50381,
+      "lines_removed": 2567,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    },
+    {
+      "repo": "jarvis",
+      "sessions": 158,
+      "lines_added": 13570,
+      "lines_removed": 1485,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    },
+    {
+      "repo": "doc-scan",
+      "sessions": 5,
+      "lines_added": 126,
+      "lines_removed": 26,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    },
+    {
+      "repo": "foundry",
+      "sessions": 4,
+      "lines_added": 119,
+      "lines_removed": 2,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    }
+  ],
+  "heatmap": {
+    "timezone": "EST",
+    "weekday_labels": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ],
+    "cells": [
+      [
+        {
+          "count": 920,
+          "out_tokens": 1108810
+        },
+        {
+          "count": 858,
+          "out_tokens": 1081382
+        },
+        {
+          "count": 907,
+          "out_tokens": 977278
+        },
+        {
+          "count": 896,
+          "out_tokens": 1172670
+        },
+        {
+          "count": 696,
+          "out_tokens": 954922
+        },
+        {
+          "count": 765,
+          "out_tokens": 820589
+        },
+        {
+          "count": 255,
+          "out_tokens": 240185
+        },
+        {
+          "count": 232,
+          "out_tokens": 183295
+        },
+        {
+          "count": 510,
+          "out_tokens": 1091064
+        },
+        {
+          "count": 683,
+          "out_tokens": 1907237
+        },
+        {
+          "count": 618,
+          "out_tokens": 879142
+        },
+        {
+          "count": 681,
+          "out_tokens": 973421
+        },
+        {
+          "count": 614,
+          "out_tokens": 983417
+        },
+        {
+          "count": 563,
+          "out_tokens": 882587
+        },
+        {
+          "count": 905,
+          "out_tokens": 1252751
+        },
+        {
+          "count": 898,
+          "out_tokens": 1231963
+        },
+        {
+          "count": 690,
+          "out_tokens": 682676
+        },
+        {
+          "count": 310,
+          "out_tokens": 394965
+        },
+        {
+          "count": 248,
+          "out_tokens": 238385
+        },
+        {
+          "count": 215,
+          "out_tokens": 445968
+        },
+        {
+          "count": 262,
+          "out_tokens": 256400
+        },
+        {
+          "count": 528,
+          "out_tokens": 609808
+        },
+        {
+          "count": 513,
+          "out_tokens": 631141
+        },
+        {
+          "count": 1116,
+          "out_tokens": 1391249
+        }
+      ],
+      [
+        {
+          "count": 729,
+          "out_tokens": 1612255
+        },
+        {
+          "count": 1199,
+          "out_tokens": 2116891
+        },
+        {
+          "count": 19,
+          "out_tokens": 24736
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 636,
+          "out_tokens": 620329
+        },
+        {
+          "count": 743,
+          "out_tokens": 1153986
+        },
+        {
+          "count": 396,
+          "out_tokens": 433056
+        },
+        {
+          "count": 466,
+          "out_tokens": 632204
+        },
+        {
+          "count": 180,
+          "out_tokens": 292068
+        },
+        {
+          "count": 260,
+          "out_tokens": 395817
+        },
+        {
+          "count": 226,
+          "out_tokens": 304891
+        },
+        {
+          "count": 182,
+          "out_tokens": 275020
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 839,
+          "out_tokens": 917334
+        },
+        {
+          "count": 9,
+          "out_tokens": 2776
+        },
+        {
+          "count": 14,
+          "out_tokens": 2985
+        },
+        {
+          "count": 19,
+          "out_tokens": 4198
+        },
+        {
+          "count": 11,
+          "out_tokens": 4401
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 38,
+          "out_tokens": 25101
+        },
+        {
+          "count": 687,
+          "out_tokens": 1506893
+        },
+        {
+          "count": 543,
+          "out_tokens": 1003614
+        }
+      ],
+      [
+        {
+          "count": 1093,
+          "out_tokens": 954243
+        },
+        {
+          "count": 724,
+          "out_tokens": 1128936
+        },
+        {
+          "count": 842,
+          "out_tokens": 794184
+        },
+        {
+          "count": 567,
+          "out_tokens": 681788
+        },
+        {
+          "count": 572,
+          "out_tokens": 597599
+        },
+        {
+          "count": 531,
+          "out_tokens": 735702
+        },
+        {
+          "count": 501,
+          "out_tokens": 714712
+        },
+        {
+          "count": 211,
+          "out_tokens": 225255
+        },
+        {
+          "count": 6,
+          "out_tokens": 7424
+        },
+        {
+          "count": 1139,
+          "out_tokens": 927142
+        },
+        {
+          "count": 761,
+          "out_tokens": 963421
+        },
+        {
+          "count": 433,
+          "out_tokens": 604639
+        },
+        {
+          "count": 425,
+          "out_tokens": 501607
+        },
+        {
+          "count": 407,
+          "out_tokens": 314780
+        },
+        {
+          "count": 536,
+          "out_tokens": 530907
+        },
+        {
+          "count": 540,
+          "out_tokens": 633093
+        },
+        {
+          "count": 539,
+          "out_tokens": 615643
+        },
+        {
+          "count": 416,
+          "out_tokens": 622569
+        },
+        {
+          "count": 346,
+          "out_tokens": 394378
+        },
+        {
+          "count": 300,
+          "out_tokens": 305691
+        },
+        {
+          "count": 444,
+          "out_tokens": 584959
+        },
+        {
+          "count": 819,
+          "out_tokens": 490417
+        },
+        {
+          "count": 697,
+          "out_tokens": 670597
+        },
+        {
+          "count": 1609,
+          "out_tokens": 1673952
+        }
+      ],
+      [
+        {
+          "count": 950,
+          "out_tokens": 1295735
+        },
+        {
+          "count": 1785,
+          "out_tokens": 2046296
+        },
+        {
+          "count": 355,
+          "out_tokens": 501835
+        },
+        {
+          "count": 430,
+          "out_tokens": 428744
+        },
+        {
+          "count": 461,
+          "out_tokens": 513531
+        },
+        {
+          "count": 263,
+          "out_tokens": 377859
+        },
+        {
+          "count": 24,
+          "out_tokens": 20414
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ]
+    ]
+  },
+  "releases": {
+    "claude-skills": {
+      "pr_merge_count": 3,
+      "pr_titles": [
+        "feat(test-board): track bounded source freshness for test results",
+        "fix(test-board): preserve command failures beside passing test counts",
+        "fix(cache-clock): guard selected models and account for switch rewrites"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    },
+    "job-finder": {
+      "pr_merge_count": 4,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "jarvis": {
+      "pr_merge_count": 0,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "doc-scan": {
+      "pr_merge_count": 2,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "foundry": {
+      "pr_merge_count": 2,
+      "pr_titles": [
+        "feat: jarvis and job-finder \u2014 coming soon, yard plate 05",
+        "Weekly digest: 2026-W43"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    }
+  },
+  "highlights": {
+    "overall": "Three repos carried the week: job-finder logged the most sessions (177), claude-skills added the most lines (55,623), and jarvis ran 158 sessions. doc-scan and foundry each stayed in single digits.",
+    "repos": {
+      "claude-skills": "168 sessions and 55,623 lines added, 3,320 removed, top tool Bash, top model claude-opus-5-5. Three PRs merged, all around test-board and cache-clock: source freshness for test results, command failures kept beside passing test counts, and a guard for selected models.",
+      "job-finder": "177 sessions, the week's most, with 50,381 lines added and 2,567 removed. Top tool Bash, top model claude-sonnet-5-5. Four PRs merged.",
+      "jarvis": "158 sessions, 13,570 lines added, 1,485 removed, top tool Bash, top model claude-sonnet-5-5. No PRs merged.",
+      "doc-scan": "Five sessions, 126 lines added and 26 removed, on claude-sonnet-5-5. Two PRs merged.",
+      "foundry": "Four sessions, 119 lines added and 2 removed, on claude-opus-5-5. Two PRs merged, including \"feat: jarvis and job-finder — coming soon, yard plate 05\"."
+    }
+  }
+}
