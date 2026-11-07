@@ -268,9 +268,10 @@ const DWG_CORNERS = [
 		container-type: inline-size;
 	}
 	/* Beside the revisions block the column is narrower than the viewport-based
-	   type assumes. 9.3cqi keeps "engineering by day." on one line there. */
+	   type assumes. 9.3cqi keeps "engineering by day." on one line there, and
+	   the 15cqi floor keeps "engineering" inside the sheet frame at 320px. */
 	#fy-callout-a {
-		font-size: clamp(40px, min(5.2vw, 9.3cqi), 74px);
+		font-size: clamp(min(40px, 15cqi), min(5.2vw, 9.3cqi), 74px);
 	}
 	.fy-mono-label {
 		font: 400 13.5px var(--ds-font-mono);
