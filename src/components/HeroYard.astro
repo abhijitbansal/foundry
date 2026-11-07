@@ -54,11 +54,11 @@ const DWG_CORNERS = [
 			<div class="fy-hero-main">
 				<div class="fy-mono-label">Sheet A-01 — the yard</div>
 				<h1 id="fy-callout-a" class="ds-display-xl fy-dwg-outline" style="margin:0;text-wrap:balance;max-width:15em;position:relative">
-					<span id="hero-h">I build privacy-first apps, and the agent tooling I build them with.</span>
+					<span id="hero-h"><span style="display:block">Director of software engineering by day.</span> <span style="display:block">Hobbyist by night.</span></span>
 					<span class="fy-dwg-piece fy-dwg-badge" aria-hidden="true" style="top:-9px;left:-14px">A</span>
 				</h1>
 				<p id="fy-callout-c" class="ds-lead fy-dwg-outline" style="margin:0;max-width:34em;text-wrap:pretty;position:relative">
-					Designed, engineered and shipped solo. Apps on the App Store, tools in the open, and the infrastructure underneath. Every building below is one of the repos, drawn from its own history.
+					The day job is looking after a range of global applications. This yard is the hobby: privacy-first apps on the App Store, tools in the open, and the agent tooling I build them with. I make them because I still love making things. Every building below is one of the repos, drawn from its own history.
 					<span class="fy-dwg-piece fy-dwg-badge" aria-hidden="true" style="top:-9px;left:-14px">C</span>
 				</p>
 				<div id="fy-callout-d" class="fy-hero-actions fy-dwg-outline">
@@ -265,6 +265,13 @@ const DWG_CORNERS = [
 		display: flex;
 		flex-direction: column;
 		gap: 22px;
+		container-type: inline-size;
+	}
+	/* Beside the revisions block the column is narrower than the viewport-based
+	   type assumes. 9.3cqi keeps "engineering by day." on one line there, and
+	   the 15cqi floor keeps "engineering" inside the sheet frame at 320px. */
+	#fy-callout-a {
+		font-size: clamp(min(40px, 15cqi), min(5.2vw, 9.3cqi), 74px);
 	}
 	.fy-mono-label {
 		font: 400 13.5px var(--ds-font-mono);
