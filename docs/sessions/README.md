@@ -20,3 +20,4 @@ One markdown file per AI coding session that makes commits. Rules: [AGENTS.md â†
 | 0014 | 2026-10-06 | Drawing Set redesign: proposal canvas, plan, 10 tasks subagent-driven â€” film/ink/redline theme, yard hero, sheet chrome, /telemetry/, Three.js retired | [0014-2026-10-06-drawing-set-redesign.md](./0014-2026-10-06-drawing-set-redesign.md) |
 | 0015 | 2026-10-10 | New repos: raja (heating up, own yard plate 04), swatkats, orca-local card-only; allowlist for the Monday job | [0015-2026-10-10-new-repos-raja.md](./0015-2026-10-10-new-repos-raja.md) |
 | 0016 | 2026-10-31 | jarvis and job-finder: coming-soon status, yard plate 05, allowlist guard test | [0016-2026-10-31-jarvis-job-finder-cards.md](./0016-2026-10-31-jarvis-job-finder-cards.md) |
+| 0017 | 2026-11-06 | LinkedIn post: portable-artifacts 1.2.0, approved and saved as draft | [0017-2026-11-06-linkedin-portable-artifacts-1-2-0.md](./0017-2026-11-06-linkedin-portable-artifacts-1-2-0.md) |
