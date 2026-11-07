@@ -48,7 +48,7 @@ const svg = `
   <text x="416" y="234" font-family="JetBrains Mono, ui-monospace, monospace" font-size="16" letter-spacing="3" fill="${TEXT_SECONDARY}">FOUNDRY</text>
 
   <text x="360" y="320" font-family="Instrument Serif, Georgia, serif" font-size="72" fill="${TEXT_PRIMARY}">Abhijit Bansal</text>
-  <text x="360" y="376" font-family="Inter, Helvetica, Arial, sans-serif" font-size="26" fill="${TEXT_SECONDARY}">Foundry — privacy-first apps &amp; AI agent tooling</text>
+  <text x="360" y="376" font-family="Inter, Helvetica, Arial, sans-serif" font-size="26" fill="${TEXT_SECONDARY}">Director of software engineering by day · hobbyist by night</text>
 </svg>
 `;
 
