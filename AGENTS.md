@@ -119,4 +119,5 @@ Learned the hard way (session 6, harness page) — three CSS traps that will bit
 
 - No secrets in the repo, ever (`.env` gitignored; `.env.example` documents required vars).
 - The site describes private projects — **review every private-project blurb before publish**: no internal URLs, no credentials, no business-sensitive detail.
+- **The day job is title only (2026-11-06, owner's call):** "Director of Software Engineering, responsible for a range of global applications". No employer name and no team-size or scale figures anywhere on the site, and it stays plain fact, never a pitch. `/craft/` keeps manager as a comparison, not biography.
 - No analytics/telemetry beyond privacy-respecting basics if ever added — decide explicitly, record here.
