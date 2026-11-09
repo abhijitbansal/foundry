@@ -1,0 +1,812 @@
+{
+  "week_id": "2026-W45",
+  "week_start": "2026-11-02",
+  "week_end": "2026-11-08",
+  "generated_at": "2026-11-09T14:44:46.534005+00:00",
+  "repos": [
+    {
+      "repo": "claude-skills",
+      "sessions": 244,
+      "lines_added": 41786,
+      "lines_removed": 3400,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    },
+    {
+      "repo": "jarvis",
+      "sessions": 193,
+      "lines_added": 29337,
+      "lines_removed": 1253,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    },
+    {
+      "repo": "doc-scan",
+      "sessions": 50,
+      "lines_added": 7011,
+      "lines_removed": 935,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "job-finder",
+      "sessions": 32,
+      "lines_added": 5168,
+      "lines_removed": 139,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "foundry",
+      "sessions": 14,
+      "lines_added": 212,
+      "lines_removed": 22,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "cartoon",
+      "sessions": 2,
+      "lines_added": 0,
+      "lines_removed": 0,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    }
+  ],
+  "heatmap": {
+    "timezone": "EST",
+    "weekday_labels": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ],
+    "cells": [
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 8,
+          "out_tokens": 4262
+        },
+        {
+          "count": 1,
+          "out_tokens": 2405
+        },
+        {
+          "count": 25,
+          "out_tokens": 25387
+        },
+        {
+          "count": 2,
+          "out_tokens": 5708
+        },
+        {
+          "count": 10,
+          "out_tokens": 3892
+        },
+        {
+          "count": 13,
+          "out_tokens": 5819
+        },
+        {
+          "count": 133,
+          "out_tokens": 81076
+        },
+        {
+          "count": 1074,
+          "out_tokens": 1263900
+        },
+        {
+          "count": 22,
+          "out_tokens": 11944
+        },
+        {
+          "count": 1398,
+          "out_tokens": 1080861
+        },
+        {
+          "count": 1431,
+          "out_tokens": 1362904
+        },
+        {
+          "count": 793,
+          "out_tokens": 908221
+        },
+        {
+          "count": 531,
+          "out_tokens": 691520
+        },
+        {
+          "count": 1277,
+          "out_tokens": 1028581
+        },
+        {
+          "count": 1275,
+          "out_tokens": 1534915
+        },
+        {
+          "count": 354,
+          "out_tokens": 461673
+        },
+        {
+          "count": 302,
+          "out_tokens": 507533
+        },
+        {
+          "count": 715,
+          "out_tokens": 799310
+        },
+        {
+          "count": 393,
+          "out_tokens": 409902
+        },
+        {
+          "count": 357,
+          "out_tokens": 341618
+        },
+        {
+          "count": 775,
+          "out_tokens": 728490
+        },
+        {
+          "count": 735,
+          "out_tokens": 922456
+        },
+        {
+          "count": 973,
+          "out_tokens": 1405724
+        }
+      ],
+      [
+        {
+          "count": 683,
+          "out_tokens": 1052917
+        },
+        {
+          "count": 931,
+          "out_tokens": 871250
+        },
+        {
+          "count": 1188,
+          "out_tokens": 1252589
+        },
+        {
+          "count": 1131,
+          "out_tokens": 1240695
+        },
+        {
+          "count": 885,
+          "out_tokens": 884521
+        },
+        {
+          "count": 420,
+          "out_tokens": 507559
+        },
+        {
+          "count": 470,
+          "out_tokens": 708607
+        },
+        {
+          "count": 275,
+          "out_tokens": 285041
+        },
+        {
+          "count": 19,
+          "out_tokens": 24173
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 208,
+          "out_tokens": 186727
+        },
+        {
+          "count": 579,
+          "out_tokens": 773112
+        },
+        {
+          "count": 401,
+          "out_tokens": 444927
+        },
+        {
+          "count": 393,
+          "out_tokens": 492896
+        },
+        {
+          "count": 340,
+          "out_tokens": 382605
+        },
+        {
+          "count": 414,
+          "out_tokens": 1076941
+        },
+        {
+          "count": 173,
+          "out_tokens": 164708
+        },
+        {
+          "count": 593,
+          "out_tokens": 866949
+        },
+        {
+          "count": 763,
+          "out_tokens": 834179
+        },
+        {
+          "count": 642,
+          "out_tokens": 1650848
+        },
+        {
+          "count": 417,
+          "out_tokens": 349298
+        },
+        {
+          "count": 848,
+          "out_tokens": 756820
+        },
+        {
+          "count": 1422,
+          "out_tokens": 2996087
+        }
+      ],
+      [
+        {
+          "count": 517,
+          "out_tokens": 1634435
+        },
+        {
+          "count": 6,
+          "out_tokens": 21092
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 534,
+          "out_tokens": 860010
+        },
+        {
+          "count": 74,
+          "out_tokens": 170297
+        },
+        {
+          "count": 2,
+          "out_tokens": 7464
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 718,
+          "out_tokens": 1354554
+        },
+        {
+          "count": 453,
+          "out_tokens": 598115
+        },
+        {
+          "count": 814,
+          "out_tokens": 1051769
+        }
+      ],
+      [
+        {
+          "count": 778,
+          "out_tokens": 1010222
+        },
+        {
+          "count": 790,
+          "out_tokens": 1298356
+        },
+        {
+          "count": 496,
+          "out_tokens": 840666
+        },
+        {
+          "count": 412,
+          "out_tokens": 1477933
+        },
+        {
+          "count": 406,
+          "out_tokens": 513347
+        },
+        {
+          "count": 190,
+          "out_tokens": 182971
+        },
+        {
+          "count": 365,
+          "out_tokens": 477936
+        },
+        {
+          "count": 480,
+          "out_tokens": 659708
+        },
+        {
+          "count": 262,
+          "out_tokens": 356318
+        },
+        {
+          "count": 476,
+          "out_tokens": 526924
+        },
+        {
+          "count": 277,
+          "out_tokens": 202812
+        },
+        {
+          "count": 526,
+          "out_tokens": 653990
+        },
+        {
+          "count": 809,
+          "out_tokens": 900655
+        },
+        {
+          "count": 754,
+          "out_tokens": 1299042
+        },
+        {
+          "count": 931,
+          "out_tokens": 776224
+        },
+        {
+          "count": 438,
+          "out_tokens": 539734
+        },
+        {
+          "count": 138,
+          "out_tokens": 120056
+        },
+        {
+          "count": 507,
+          "out_tokens": 555375
+        },
+        {
+          "count": 677,
+          "out_tokens": 684271
+        },
+        {
+          "count": 565,
+          "out_tokens": 857039
+        },
+        {
+          "count": 3556,
+          "out_tokens": 10795492
+        },
+        {
+          "count": 581,
+          "out_tokens": 2036606
+        },
+        {
+          "count": 3147,
+          "out_tokens": 4666237
+        },
+        {
+          "count": 1657,
+          "out_tokens": 3440120
+        }
+      ],
+      [
+        {
+          "count": 3,
+          "out_tokens": 3769
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ],
+      [
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        }
+      ]
+    ]
+  },
+  "releases": {
+    "claude-skills": {
+      "pr_merge_count": 2,
+      "pr_titles": [
+        "feat(portable-artifacts): 1.2.0 hand-drawn films, Simple English, cloud icons",
+        "feat(portable-artifacts): make-motion 1.1.0"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    },
+    "jarvis": {
+      "pr_merge_count": 2,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "doc-scan": {
+      "pr_merge_count": 9,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "job-finder": {
+      "pr_merge_count": 13,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "foundry": {
+      "pr_merge_count": 3,
+      "pr_titles": [
+        "feat: lead the site with the day job",
+        "docs: LinkedIn post \u2014 portable-artifacts 1.2.0",
+        "Weekly digest: 2026-W44"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    },
+    "cartoon": {
+      "pr_merge_count": 0,
+      "pr_titles": [],
+      "release_count": 0,
+      "release_tags": []
+    }
+  },
+  "highlights": {
+    "overall": "Six repos saw activity: 535 sessions and 83,514 lines added in total. claude-skills led on sessions (244) and lines added (41,786), while job-finder had the most merged PRs (13).",
+    "repos": {
+      "claude-skills": "244 sessions and 41,786 lines added, the most of any repo this week, mostly Bash on claude-sonnet-5-5. Two PRs merged, both for portable-artifacts: 1.2.0 (hand-drawn films, Simple English, cloud icons) and make-motion 1.1.0.",
+      "jarvis": "193 sessions and 29,337 lines added, mostly Bash on claude-sonnet-5-5. Two PRs merged.",
+      "doc-scan": "50 sessions, 7,011 lines added and 935 removed, mostly Bash on claude-opus-5-5. Nine PRs merged.",
+      "job-finder": "32 sessions and 5,168 lines added, mostly Bash on claude-opus-5-5. Thirteen PRs merged, the highest count of the week.",
+      "foundry": "14 sessions, 212 lines added and 22 removed, mostly Bash on claude-opus-5-5. Three PRs merged, including \"feat: lead the site with the day job\" and the 2026-W44 weekly digest.",
+      "cartoon": "2 sessions, no lines added or removed, and no PRs merged."
+    }
+  }
+}
