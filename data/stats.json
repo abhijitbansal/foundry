@@ -1,29 +1,204 @@
 {
   "meta": {
-    "files_found": 4283,
-    "sessions_parsed": 4017,
-    "sessions_skipped": 266,
+    "files_found": 2603,
+    "sessions_parsed": 2515,
+    "sessions_skipped": 88,
     "date_min": "2026-05-22",
-    "date_max": "2026-11-07",
+    "date_max": "2026-11-16",
     "chars_per_token": 4
   },
   "totals": {
-    "user_msgs": 27723,
-    "assistant_msgs": 549516,
-    "lines_added": 1332070,
-    "lines_removed": 129322,
-    "files_written": 10555,
-    "files_edited": 23363,
-    "in_tokens": 100243913,
-    "out_tokens": 445806542,
-    "cache_read_tokens": 105115764729,
-    "cache_creation_tokens": 4135166225,
-    "sessions": 10682,
-    "thinking_blocks": 171039,
+    "user_msgs": 29184,
+    "assistant_msgs": 593858,
+    "lines_added": 1476946,
+    "lines_removed": 145807,
+    "files_written": 11774,
+    "files_edited": 28228,
+    "in_tokens": 100337590,
+    "out_tokens": 504674617,
+    "cache_read_tokens": 119136614165,
+    "cache_creation_tokens": 4373861555,
+    "sessions": 11132,
+    "thinking_blocks": 183602,
     "web_search": 0,
     "web_fetch": 0
   },
   "repos": [
+    {
+      "repo": "claude-skills",
+      "sessions": 1629,
+      "user_msgs": 5298,
+      "assistant_msgs": 102001,
+      "lines_added": 291811,
+      "lines_removed": 24888,
+      "files_written": 3058,
+      "files_edited": 8159,
+      "in_tokens": 17379752,
+      "out_tokens": 110741214,
+      "cache_read_tokens": 26665877773,
+      "cache_creation_tokens": 663304155,
+      "image_count": 2235,
+      "top_tools": [
+        [
+          "Bash",
+          39988
+        ],
+        [
+          "Read",
+          9631
+        ],
+        [
+          "Edit",
+          8159
+        ],
+        [
+          "Write",
+          3058
+        ],
+        [
+          "SubagentHandback",
+          875
+        ],
+        [
+          "Agent",
+          865
+        ]
+      ],
+      "top_agents": [
+        [
+          "general-purpose",
+          819
+        ],
+        [
+          "(unnamed dispatch)",
+          18
+        ],
+        [
+          "core-workflow:web-researcher",
+          8
+        ],
+        [
+          "ecc:code-reviewer",
+          7
+        ],
+        [
+          "claude-code-guide",
+          5
+        ]
+      ],
+      "top_skills": [
+        [
+          "superpowers:writing-plans",
+          15
+        ],
+        [
+          "workflow-authoring",
+          15
+        ],
+        [
+          "superpowers:brainstorming",
+          14
+        ],
+        [
+          "superpowers:subagent-driven-development",
+          9
+        ],
+        [
+          "plugin-authoring",
+          6
+        ]
+      ],
+      "models": [
+        [
+          "claude-sonnet-5-5",
+          48501
+        ],
+        [
+          "claude-opus-5-5",
+          43912
+        ],
+        [
+          "claude-fable-5-1",
+          9632
+        ],
+        [
+          "claude-opus-4-8",
+          7867
+        ],
+        [
+          "claude-sonnet-5",
+          4473
+        ],
+        [
+          "claude-fable-5",
+          3180
+        ],
+        [
+          "claude-sonnet-4-6",
+          2926
+        ],
+        [
+          "claude-fable-5-2",
+          2464
+        ],
+        [
+          "claude-opus-4-7",
+          1660
+        ],
+        [
+          "claude-haiku-5-5",
+          534
+        ],
+        [
+          "claude-haiku-4-5-20251001",
+          524
+        ],
+        [
+          "claude-opus-5",
+          204
+        ],
+        [
+          "<synthetic>",
+          50
+        ]
+      ],
+      "prompts": {
+        "count": 5298,
+        "avg": 3231.9,
+        "median": 1523,
+        "p90": 7412,
+        "max": 543004,
+        "avg_tokens": 808.0,
+        "hist": [
+          [
+            "<50",
+            194
+          ],
+          [
+            "50-150",
+            690
+          ],
+          [
+            "150-400",
+            467
+          ],
+          [
+            "400-1k",
+            1122
+          ],
+          [
+            "1k-3k",
+            1082
+          ],
+          [
+            "3k+",
+            1743
+          ]
+        ]
+      },
+      "first_ts": "2026-05-25T18:25:52.326Z",
+      "last_ts": "2026-11-16T13:57:59.150Z"
+    },
     {
       "repo": "cubby",
       "sessions": 2613,
@@ -194,177 +369,6 @@
       },
       "first_ts": "2026-06-28T19:27:09.544Z",
       "last_ts": "2026-10-10T03:22:17.005Z"
-    },
-    {
-      "repo": "claude-skills",
-      "sessions": 1629,
-      "user_msgs": 5298,
-      "assistant_msgs": 88562,
-      "lines_added": 206653,
-      "lines_removed": 10424,
-      "files_written": 2611,
-      "files_edited": 3912,
-      "in_tokens": 17379752,
-      "out_tokens": 75736672,
-      "cache_read_tokens": 18673775137,
-      "cache_creation_tokens": 646544815,
-      "image_count": 2151,
-      "top_tools": [
-        [
-          "Bash",
-          36675
-        ],
-        [
-          "Read",
-          8175
-        ],
-        [
-          "Edit",
-          3912
-        ],
-        [
-          "Write",
-          2611
-        ],
-        [
-          "SubagentHandback",
-          875
-        ],
-        [
-          "Agent",
-          865
-        ]
-      ],
-      "top_agents": [
-        [
-          "general-purpose",
-          819
-        ],
-        [
-          "(unnamed dispatch)",
-          18
-        ],
-        [
-          "ecc:code-reviewer",
-          7
-        ],
-        [
-          "claude-code-guide",
-          5
-        ],
-        [
-          "core-workflow:web-researcher",
-          5
-        ]
-      ],
-      "top_skills": [
-        [
-          "superpowers:writing-plans",
-          15
-        ],
-        [
-          "workflow-authoring",
-          15
-        ],
-        [
-          "superpowers:brainstorming",
-          14
-        ],
-        [
-          "superpowers:subagent-driven-development",
-          9
-        ],
-        [
-          "plugin-authoring",
-          6
-        ]
-      ],
-      "models": [
-        [
-          "claude-sonnet-5-5",
-          45975
-        ],
-        [
-          "claude-opus-5-5",
-          32463
-        ],
-        [
-          "claude-fable-5-1",
-          9632
-        ],
-        [
-          "claude-opus-4-8",
-          7867
-        ],
-        [
-          "claude-sonnet-5",
-          4473
-        ],
-        [
-          "claude-fable-5",
-          3180
-        ],
-        [
-          "claude-sonnet-4-6",
-          2926
-        ],
-        [
-          "claude-opus-4-7",
-          1660
-        ],
-        [
-          "claude-haiku-4-5-20251001",
-          524
-        ],
-        [
-          "claude-haiku-5-5",
-          463
-        ],
-        [
-          "claude-opus-5",
-          204
-        ],
-        [
-          "<synthetic>",
-          50
-        ]
-      ],
-      "prompts": {
-        "count": 5298,
-        "avg": 3231.9,
-        "median": 1523,
-        "p90": 7412,
-        "max": 543004,
-        "avg_tokens": 808.0,
-        "hist": [
-          [
-            "<50",
-            194
-          ],
-          [
-            "50-150",
-            690
-          ],
-          [
-            "150-400",
-            467
-          ],
-          [
-            "400-1k",
-            1122
-          ],
-          [
-            "1k-3k",
-            1082
-          ],
-          [
-            "3k+",
-            1743
-          ]
-        ]
-      },
-      "first_ts": "2026-05-25T18:25:52.326Z",
-      "last_ts": "2026-11-07T05:00:21.191Z"
     },
     {
       "repo": "swatkats",
@@ -607,8 +611,12 @@
           160
         ],
         [
+          "claude-fable-5-2",
+          18
+        ],
+        [
           "<synthetic>",
-          2
+          3
         ]
       ],
       "prompts": {
@@ -646,7 +654,7 @@
         ]
       },
       "first_ts": "2026-10-10T04:19:11.176Z",
-      "last_ts": "2026-11-07T02:41:06.095Z"
+      "last_ts": "2026-11-15T18:02:52.928Z"
     },
     {
       "repo": "folix",
@@ -805,30 +813,30 @@
     },
     {
       "repo": "jarvis",
-      "sessions": 401,
-      "user_msgs": 1678,
-      "assistant_msgs": 30419,
-      "lines_added": 51600,
-      "lines_removed": 3043,
-      "files_written": 371,
-      "files_edited": 1303,
-      "in_tokens": 115265,
-      "out_tokens": 45628317,
-      "cache_read_tokens": 7828814787,
-      "cache_creation_tokens": 205040412,
-      "image_count": 104,
+      "sessions": 445,
+      "user_msgs": 1766,
+      "assistant_msgs": 33664,
+      "lines_added": 53550,
+      "lines_removed": 3136,
+      "files_written": 392,
+      "files_edited": 1350,
+      "in_tokens": 122081,
+      "out_tokens": 49507798,
+      "cache_read_tokens": 8384951957,
+      "cache_creation_tokens": 227421527,
+      "image_count": 115,
       "top_tools": [
         [
           "Bash",
-          12302
+          13868
         ],
         [
           "Read",
-          1769
+          1980
         ],
         [
           "Edit",
-          1303
+          1350
         ],
         [
           "SendMessage",
@@ -836,17 +844,17 @@
         ],
         [
           "Write",
-          371
+          392
         ],
         [
           "Agent",
-          232
+          233
         ]
       ],
       "top_agents": [
         [
           "general-purpose",
-          159
+          160
         ],
         [
           "(unnamed dispatch)",
@@ -863,6 +871,10 @@
       ],
       "top_skills": [
         [
+          "portable-artifacts:make-explainer",
+          4
+        ],
+        [
           "superpowers:writing-plans",
           4
         ],
@@ -875,43 +887,43 @@
           3
         ],
         [
-          "superpowers:brainstorming",
-          2
-        ],
-        [
-          "portable-artifacts:make-explainer",
-          2
+          "subagent-dispatch",
+          3
         ]
       ],
       "models": [
         [
           "claude-sonnet-5-5",
-          21199
+          23290
         ],
         [
           "claude-opus-5-5",
-          7471
+          8309
         ],
         [
           "claude-fable-5-1",
           1472
         ],
         [
+          "claude-fable-5-2",
+          309
+        ],
+        [
           "claude-haiku-5-5",
-          274
+          280
         ],
         [
           "<synthetic>",
-          3
+          4
         ]
       ],
       "prompts": {
-        "count": 1678,
-        "avg": 3434.1,
-        "median": 2378,
+        "count": 1766,
+        "avg": 3512.1,
+        "median": 2382,
         "p90": 7807,
         "max": 89550,
-        "avg_tokens": 858.5,
+        "avg_tokens": 878.0,
         "hist": [
           [
             "<50",
@@ -919,28 +931,28 @@
           ],
           [
             "50-150",
-            70
+            78
           ],
           [
             "150-400",
-            115
+            117
           ],
           [
             "400-1k",
-            283
+            292
           ],
           [
             "1k-3k",
-            495
+            518
           ],
           [
             "3k+",
-            663
+            709
           ]
         ]
       },
       "first_ts": "2026-10-25T04:26:20.612Z",
-      "last_ts": "2026-11-07T04:13:23.878Z"
+      "last_ts": "2026-11-15T16:37:15.448Z"
     },
     {
       "repo": "doc-scan",
@@ -1483,14 +1495,18 @@
           3
         ],
         [
-          "workflow-authoring",
-          1
+          "subagent-dispatch",
+          2
         ]
       ],
       "models": [
         [
           "claude-opus-5",
           3814
+        ],
+        [
+          "claude-opus-5-5",
+          1835
         ],
         [
           "claude-fable-5",
@@ -1517,20 +1533,24 @@
           846
         ],
         [
+          "claude-sonnet-5-5",
+          798
+        ],
+        [
           "claude-fable-5-1",
           419
         ],
         [
-          "claude-sonnet-5-5",
-          60
-        ],
-        [
-          "claude-opus-5-5",
-          49
+          "claude-fable-5-2",
+          218
         ],
         [
           "<synthetic>",
           9
+        ],
+        [
+          "claude-haiku-5-5",
+          4
         ]
       ],
       "prompts": {
@@ -1568,7 +1588,7 @@
         ]
       },
       "first_ts": "2026-06-10T01:22:15.998Z",
-      "last_ts": "2026-11-03T01:59:53.862Z"
+      "last_ts": "2026-11-16T12:31:10.347Z"
     },
     {
       "repo": "foundry",
@@ -1731,7 +1751,7 @@
         ]
       },
       "first_ts": "2026-07-11T04:08:13.942Z",
-      "last_ts": "2026-11-07T03:41:20.854Z"
+      "last_ts": "2026-11-15T06:42:03.692Z"
     },
     {
       "repo": "raja",
@@ -2226,87 +2246,87 @@
     }
   ],
   "global_prompts": {
-    "count": 12788,
-    "avg": 3438.5,
-    "median": 1907,
+    "count": 9344,
+    "avg": 3287.4,
+    "median": 1731,
     "p90": 7807,
     "max": 543004,
-    "avg_tokens": 859.6,
+    "avg_tokens": 821.8,
     "hist": [
       [
         "<50",
-        498
+        400
       ],
       [
         "50-150",
-        1357
+        1246
       ],
       [
         "150-400",
-        1095
+        684
       ],
       [
         "400-1k",
-        2313
+        1741
       ],
       [
         "1k-3k",
-        3003
+        2064
       ],
       [
         "3k+",
-        4522
+        3209
       ]
     ]
   },
   "top_tools": [
     [
       "Bash",
-      188209
+      204673
     ],
     [
       "Read",
-      51546
+      54968
     ],
     [
       "Edit",
-      23363
+      28228
     ],
     [
       "Write",
-      10555
+      11774
     ],
     [
       "StructuredOutput",
-      5236
+      5399
     ],
     [
       "Agent",
-      3757
+      3909
     ],
     [
       "SendMessage",
-      2704
+      2961
     ],
     [
       "WebFetch",
-      2344
+      2510
     ],
     [
       "SubagentHandback",
-      1761
+      1862
     ],
     [
       "ToolSearch",
-      1647
+      1747
     ],
     [
       "WebSearch",
-      1571
+      1671
     ],
     [
       "Grep",
-      1243
+      1248
     ],
     [
       "TaskUpdate",
@@ -2314,23 +2334,23 @@
     ],
     [
       "TaskStop",
-      825
+      920
     ],
     [
       "Skill",
-      797
+      835
+    ],
+    [
+      "AskUserQuestion",
+      670
     ],
     [
       "mcp__claude-in-chrome__computer",
       648
     ],
     [
-      "AskUserQuestion",
-      636
-    ],
-    [
       "Monitor",
-      600
+      637
     ],
     [
       "mcp__plugin_ecc_chrome-devtools__evaluate_script",
@@ -2342,7 +2362,7 @@
     ],
     [
       "Workflow",
-      531
+      559
     ],
     [
       "mcp__ios-simulator__ui_tap",
@@ -2357,34 +2377,34 @@
       416
     ],
     [
+      "mcp__session-compass__compass_status",
+      414
+    ],
+    [
       "mcp__plugin_ecc_chrome-devtools__take_screenshot",
       379
+    ],
+    [
+      "mcp__claude-in-chrome__javascript_tool",
+      373
     ],
     [
       "mcp__ios-simulator__screenshot",
       368
     ],
     [
-      "mcp__session-compass__compass_status",
-      360
-    ],
-    [
-      "mcp__claude-in-chrome__javascript_tool",
-      347
-    ],
-    [
       "SendUserFile",
-      326
+      332
     ],
     [
-      "mcp__ios-simulator__ui_find_element",
-      249
+      "mcp__claude-in-chrome__navigate",
+      258
     ]
   ],
   "top_agents": [
     [
       "general-purpose",
-      2950
+      3096
     ],
     [
       "(unnamed dispatch)",
@@ -2399,12 +2419,12 @@
       53
     ],
     [
-      "Explore",
-      45
+      "core-workflow:web-researcher",
+      48
     ],
     [
-      "core-workflow:web-researcher",
-      43
+      "Explore",
+      45
     ],
     [
       "ecc:code-reviewer",
@@ -2419,11 +2439,11 @@
       31
     ],
     [
-      "claude-code-guide",
-      19
+      "weekly-highlights",
+      20
     ],
     [
-      "weekly-highlights",
+      "claude-code-guide",
       19
     ],
     [
@@ -2443,11 +2463,11 @@
       7
     ],
     [
-      "fork",
+      "web-researcher",
       6
     ],
     [
-      "web-researcher",
+      "fork",
       6
     ],
     [
@@ -2466,27 +2486,27 @@
   "top_skills": [
     [
       "superpowers:brainstorming",
-      96
+      100
     ],
     [
       "superpowers:writing-plans",
-      93
-    ],
-    [
-      "design-router",
-      48
+      96
     ],
     [
       "superpowers:subagent-driven-development",
-      48
+      51
+    ],
+    [
+      "design-router",
+      49
     ],
     [
       "workflow-authoring",
-      34
+      38
     ],
     [
       "superpowers:finishing-a-development-branch",
-      30
+      31
     ],
     [
       "artifact-design",
@@ -2498,11 +2518,15 @@
     ],
     [
       "superpowers:systematic-debugging",
-      24
+      25
     ],
     [
       "code-review",
       23
+    ],
+    [
+      "subagent-dispatch",
+      20
     ],
     [
       "superpowers:test-driven-development",
@@ -2513,32 +2537,28 @@
       18
     ],
     [
+      "branch-test-checklist",
+      17
+    ],
+    [
       "design-taste-frontend",
       17
     ],
     [
-      "subagent-dispatch",
-      16
+      "claude-api",
+      15
+    ],
+    [
+      "portable-artifacts:make-explainer",
+      15
     ],
     [
       "redesign-existing-projects",
       13
     ],
     [
-      "branch-test-checklist",
-      13
-    ],
-    [
-      "claude-api",
-      13
-    ],
-    [
-      "portable-artifacts:make-explainer",
-      12
-    ],
-    [
       "update-config",
-      11
+      12
     ],
     [
       "ecc:plan",
@@ -2562,7 +2582,7 @@
     ],
     [
       "plugin-authoring",
-      7
+      8
     ]
   ],
   "top_slash": [
@@ -2576,7 +2596,7 @@
     ],
     [
       "/model",
-      112
+      115
     ],
     [
       "/compact",
@@ -2599,12 +2619,12 @@
       27
     ],
     [
-      "/code-review",
-      23
+      "/advisor",
+      24
     ],
     [
-      "/advisor",
-      22
+      "/code-review",
+      23
     ],
     [
       "/linkedin-post",
@@ -2681,28 +2701,28 @@
       520
     ],
     [
+      "mcp__session-compass__compass_status",
+      414
+    ],
+    [
       "mcp__plugin_ecc_chrome-devtools__take_screenshot",
       379
+    ],
+    [
+      "mcp__claude-in-chrome__javascript_tool",
+      373
     ],
     [
       "mcp__ios-simulator__screenshot",
       368
     ],
     [
-      "mcp__session-compass__compass_status",
-      360
-    ],
-    [
-      "mcp__claude-in-chrome__javascript_tool",
-      347
+      "mcp__claude-in-chrome__navigate",
+      258
     ],
     [
       "mcp__ios-simulator__ui_find_element",
       249
-    ],
-    [
-      "mcp__claude-in-chrome__navigate",
-      233
     ],
     [
       "mcp__plugin_ecc_chrome-devtools__navigate_page",
@@ -2714,7 +2734,7 @@
     ],
     [
       "mcp__plugin_ecc_chrome-devtools__new_page",
-      124
+      125
     ],
     [
       "mcp__plugin_ecc_chrome-devtools__emulate",
@@ -2726,11 +2746,15 @@
     ],
     [
       "mcp__claude-in-chrome__tabs_context_mcp",
-      96
+      97
     ],
     [
       "mcp__ios-simulator__ui_swipe",
       56
+    ],
+    [
+      "mcp__claude-in-chrome__tabs_close_mcp",
+      44
     ],
     [
       "mcp__claude-in-chrome__get_page_text",
@@ -2741,10 +2765,6 @@
       44
     ],
     [
-      "mcp__claude-in-chrome__tabs_close_mcp",
-      43
-    ],
-    [
       "mcp__plugin_ecc_chrome-devtools__list_console_messages",
       38
     ]
@@ -2752,15 +2772,15 @@
   "models": [
     [
       "claude-sonnet-5-5",
-      124376
+      140087
+    ],
+    [
+      "claude-opus-5-5",
+      137973
     ],
     [
       "claude-sonnet-5",
       121868
-    ],
-    [
-      "claude-opus-5-5",
-      112747
     ],
     [
       "claude-opus-4-8",
@@ -2792,28 +2812,40 @@
     ],
     [
       "claude-haiku-5-5",
-      3952
+      4143
+    ],
+    [
+      "claude-fable-5-2",
+      3208
     ],
     [
       "<synthetic>",
-      311
+      317
     ]
   ],
   "model_breakdown": {
     "window": {
-      "today": "2026-11-09",
-      "cutoff_7d": "2026-11-03",
-      "cutoff_90d": "2026-08-12",
-      "last_activity": "2026-11-07"
+      "today": "2026-11-16",
+      "cutoff_7d": "2026-11-10",
+      "cutoff_90d": "2026-08-19",
+      "last_activity": "2026-11-16"
     },
     "all": [
       {
         "model": "claude-opus-5-5",
-        "messages": 112747,
-        "in_tokens": 288778,
-        "out_tokens": 98301795,
-        "cache_read_tokens": 28050202911,
-        "cache_creation_tokens": 702592247
+        "messages": 137973,
+        "in_tokens": 342066,
+        "out_tokens": 131189222,
+        "cache_read_tokens": 36807070607,
+        "cache_creation_tokens": 829735747
+      },
+      {
+        "model": "claude-sonnet-5-5",
+        "messages": 140087,
+        "in_tokens": 286245,
+        "out_tokens": 98314612,
+        "cache_read_tokens": 29511247013,
+        "cache_creation_tokens": 793862508
       },
       {
         "model": "claude-sonnet-5",
@@ -2822,14 +2854,6 @@
         "out_tokens": 89049419,
         "cache_read_tokens": 20960637273,
         "cache_creation_tokens": 816521043
-      },
-      {
-        "model": "claude-sonnet-5-5",
-        "messages": 124376,
-        "in_tokens": 254202,
-        "out_tokens": 79016677,
-        "cache_read_tokens": 25585154700,
-        "cache_creation_tokens": 726466866
       },
       {
         "model": "claude-opus-4-8",
@@ -2872,6 +2896,14 @@
         "cache_creation_tokens": 76172932
       },
       {
+        "model": "claude-fable-5-2",
+        "messages": 3208,
+        "in_tokens": 7964,
+        "out_tokens": 6080926,
+        "cache_read_tokens": 1335209715,
+        "cache_creation_tokens": 32143827
+      },
+      {
         "model": "claude-haiku-4-5-20251001",
         "messages": 13726,
         "in_tokens": 123427,
@@ -2881,11 +2913,11 @@
       },
       {
         "model": "claude-haiku-5-5",
-        "messages": 3952,
-        "in_tokens": 7908,
-        "out_tokens": 4972428,
-        "cache_read_tokens": 228729617,
-        "cache_creation_tokens": 92816964
+        "messages": 4143,
+        "in_tokens": 8290,
+        "out_tokens": 5574215,
+        "cache_read_tokens": 231409329,
+        "cache_creation_tokens": 104829325
       },
       {
         "model": "claude-sonnet-4-6",
@@ -2897,7 +2929,7 @@
       },
       {
         "model": "<synthetic>",
-        "messages": 311,
+        "messages": 317,
         "in_tokens": 0,
         "out_tokens": 0,
         "cache_read_tokens": 0,
@@ -2907,39 +2939,39 @@
     "last_7d": [
       {
         "model": "claude-opus-5-5",
-        "messages": 11342,
-        "in_tokens": 38960,
-        "out_tokens": 28562628,
-        "cache_read_tokens": 2498444669,
-        "cache_creation_tokens": 125109166
+        "messages": 25213,
+        "in_tokens": 53260,
+        "out_tokens": 32881705,
+        "cache_read_tokens": 8756123939,
+        "cache_creation_tokens": 126929034
       },
       {
         "model": "claude-sonnet-5-5",
-        "messages": 24245,
-        "in_tokens": 50262,
-        "out_tokens": 25729523,
-        "cache_read_tokens": 5872538923,
-        "cache_creation_tokens": 108347403
+        "messages": 15704,
+        "in_tokens": 32029,
+        "out_tokens": 19295263,
+        "cache_read_tokens": 3925984388,
+        "cache_creation_tokens": 67273599
       },
       {
-        "model": "claude-fable-5-1",
-        "messages": 3022,
-        "in_tokens": 90298,
-        "out_tokens": 7372901,
-        "cache_read_tokens": 382251802,
-        "cache_creation_tokens": 42452326
+        "model": "claude-fable-5-2",
+        "messages": 3208,
+        "in_tokens": 7964,
+        "out_tokens": 6080926,
+        "cache_read_tokens": 1335209715,
+        "cache_creation_tokens": 32143827
       },
       {
         "model": "claude-haiku-5-5",
-        "messages": 157,
-        "in_tokens": 314,
-        "out_tokens": 520126,
-        "cache_read_tokens": 2033984,
-        "cache_creation_tokens": 8839635
+        "messages": 191,
+        "in_tokens": 382,
+        "out_tokens": 601787,
+        "cache_read_tokens": 2679712,
+        "cache_creation_tokens": 12012361
       },
       {
         "model": "<synthetic>",
-        "messages": 1,
+        "messages": 5,
         "in_tokens": 0,
         "out_tokens": 0,
         "cache_read_tokens": 0,
@@ -2949,19 +2981,19 @@
     "last_90d": [
       {
         "model": "claude-opus-5-5",
-        "messages": 112747,
-        "in_tokens": 288778,
-        "out_tokens": 98301795,
-        "cache_read_tokens": 28050202911,
-        "cache_creation_tokens": 702592247
+        "messages": 137973,
+        "in_tokens": 342066,
+        "out_tokens": 131189222,
+        "cache_read_tokens": 36807070607,
+        "cache_creation_tokens": 829735747
       },
       {
         "model": "claude-sonnet-5-5",
-        "messages": 124376,
-        "in_tokens": 254202,
-        "out_tokens": 79016677,
-        "cache_read_tokens": 25585154700,
-        "cache_creation_tokens": 726466866
+        "messages": 140087,
+        "in_tokens": 286245,
+        "out_tokens": 98314612,
+        "cache_read_tokens": 29511247013,
+        "cache_creation_tokens": 793862508
       },
       {
         "model": "claude-fable-5-1",
@@ -2973,11 +3005,11 @@
       },
       {
         "model": "claude-sonnet-5",
-        "messages": 33740,
-        "in_tokens": 174028,
-        "out_tokens": 26966457,
-        "cache_read_tokens": 7215610809,
-        "cache_creation_tokens": 195736896
+        "messages": 33197,
+        "in_tokens": 136479,
+        "out_tokens": 26386745,
+        "cache_read_tokens": 7137484159,
+        "cache_creation_tokens": 187369955
       },
       {
         "model": "claude-opus-5",
@@ -2988,28 +3020,36 @@
         "cache_creation_tokens": 139412971
       },
       {
+        "model": "claude-fable-5-2",
+        "messages": 3208,
+        "in_tokens": 7964,
+        "out_tokens": 6080926,
+        "cache_read_tokens": 1335209715,
+        "cache_creation_tokens": 32143827
+      },
+      {
         "model": "claude-fable-5",
-        "messages": 7429,
-        "in_tokens": 14803,
-        "out_tokens": 6473967,
-        "cache_read_tokens": 2494295709,
-        "cache_creation_tokens": 50789195
+        "messages": 6863,
+        "in_tokens": 13671,
+        "out_tokens": 6043204,
+        "cache_read_tokens": 2366473119,
+        "cache_creation_tokens": 47480603
       },
       {
         "model": "claude-haiku-5-5",
-        "messages": 3952,
-        "in_tokens": 7908,
-        "out_tokens": 4972428,
-        "cache_read_tokens": 228729617,
-        "cache_creation_tokens": 92816964
+        "messages": 4143,
+        "in_tokens": 8290,
+        "out_tokens": 5574215,
+        "cache_read_tokens": 231409329,
+        "cache_creation_tokens": 104829325
       },
       {
         "model": "claude-haiku-4-5-20251001",
-        "messages": 863,
-        "in_tokens": 7793,
-        "out_tokens": 700280,
-        "cache_read_tokens": 37338836,
-        "cache_creation_tokens": 18533451
+        "messages": 847,
+        "in_tokens": 7633,
+        "out_tokens": 688364,
+        "cache_read_tokens": 36971316,
+        "cache_creation_tokens": 17668239
       },
       {
         "model": "claude-opus-4-8",
@@ -3021,7 +3061,7 @@
       },
       {
         "model": "<synthetic>",
-        "messages": 92,
+        "messages": 98,
         "in_tokens": 0,
         "out_tokens": 0,
         "cache_read_tokens": 0,
@@ -3031,20 +3071,20 @@
   },
   "versions": [
     [
-      "2.1.296",
-      1853
+      "2.1.325",
+      450
     ],
     [
       "2.1.310",
       324
     ],
     [
-      "2.1.292",
-      307
-    ],
-    [
       "2.1.316",
       295
+    ],
+    [
+      "2.1.296",
+      287
     ],
     [
       "2.1.303",
@@ -3052,7 +3092,7 @@
     ],
     [
       "2.1.319",
-      212
+      215
     ],
     [
       "2.1.306",
@@ -3075,10 +3115,6 @@
       79
     ],
     [
-      "2.1.300",
-      70
-    ],
-    [
       "2.1.311",
       55
     ],
@@ -3089,10 +3125,6 @@
     [
       "2.1.308",
       15
-    ],
-    [
-      "2.1.299",
-      14
     ],
     [
       "2.1.219",
@@ -3108,6 +3140,10 @@
     ],
     [
       "2.1.307",
+      4
+    ],
+    [
+      "2.1.300",
       4
     ],
     [
@@ -3507,6 +3543,22 @@
     [
       "2026-11-07",
       192
+    ],
+    [
+      "2026-11-09",
+      3
+    ],
+    [
+      "2026-11-12",
+      0
+    ],
+    [
+      "2026-11-15",
+      387
+    ],
+    [
+      "2026-11-16",
+      62
     ]
   ],
   "daily_out_tokens": [
@@ -3896,11 +3948,27 @@
     ],
     [
       "2026-11-06",
-      15451551
+      15453013
     ],
     [
       "2026-11-07",
-      21348144
+      21837042
+    ],
+    [
+      "2026-11-09",
+      8394
+    ],
+    [
+      "2026-11-12",
+      0
+    ],
+    [
+      "2026-11-15",
+      45270951
+    ],
+    [
+      "2026-11-16",
+      13098370
     ]
   ],
   "daily_lines": [
@@ -4294,7 +4362,23 @@
     ],
     [
       "2026-11-07",
-      11273
+      11738
+    ],
+    [
+      "2026-11-09",
+      11
+    ],
+    [
+      "2026-11-12",
+      0
+    ],
+    [
+      "2026-11-15",
+      115459
+    ],
+    [
+      "2026-11-16",
+      28941
     ]
   ],
   "tool_by_month": {
@@ -4471,40 +4555,40 @@
     "2026-11": [
       [
         "Bash",
-        22947
+        39411
       ],
       [
         "Read",
-        4930
+        8352
       ],
       [
         "Edit",
-        2509
+        7374
       ],
       [
         "Write",
-        1287
+        2506
       ],
       [
         "SendMessage",
-        289
+        546
       ],
       [
         "Agent",
-        256
+        408
       ],
       [
         "TaskStop",
-        252
+        347
       ],
       [
-        "Monitor",
-        215
+        "StructuredOutput",
+        324
       ]
     ]
   },
   "images": {
-    "referenced": 2991,
-    "existing_on_disk": 443
+    "referenced": 3182,
+    "existing_on_disk": 734
   }
 }
