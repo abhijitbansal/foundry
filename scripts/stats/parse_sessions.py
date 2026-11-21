@@ -88,7 +88,7 @@ PROJECTS_ALLOWLIST = {
     "claude-skills", "cartoon", "memekit", "sift", "purix",
     "foundry", "design-system", "cubby-site", "paperix-site",
     "floorprint-site", "mr_lender", "second-wind", "raja", "swatkats",
-    "jarvis", "job-finder",
+    "jarvis", "job-finder", "portable-artifacts", "beast_explainer",
 }
 
 
@@ -116,14 +116,17 @@ def repo_from_dirname(dirname):
     """Decode the encoded project dir name when no cwd is present."""
     # e.g. -Users-abhijitbansal-projects-doc-scan  ->  /Users/.../projects/doc-scan
     # The encoding turns "/" into "-", so a hyphenated repo name can't be
-    # recovered by decoding alone ("doc-scan" would become "doc"). Match
+    # recovered by decoding alone ("doc-scan" would become "doc"; "_" is
+    # encoded as "-" too, so "beast_explainer" becomes "beast"). Match
     # allowlisted names first, longest first, so worktree subdirs
     # ("claude-skills--claude-worktrees-…") and "cubby-site" vs "cubby" resolve.
     marker = "-projects-"
     if marker in dirname:
         rest = dirname.split(marker, 1)[1]
         for name in sorted(PROJECTS_ALLOWLIST, key=len, reverse=True):
-            if rest == name or rest.startswith(name + "-"):
+            # "_" is encoded as "-" like "/", so match the dashed form.
+            enc = name.replace("_", "-")
+            if rest == enc or rest.startswith(enc + "-"):
                 return name
     decoded = dirname.replace("-", "/")
     return repo_from_path(decoded) or "other"

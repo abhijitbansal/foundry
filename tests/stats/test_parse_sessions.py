@@ -16,6 +16,12 @@ class RepoFromDirname(unittest.TestCase):
         for repo in ("job-finder", "claude-skills", "doc-scan", "design-system"):
             self.assertEqual(ps.repo_from_dirname(f"-Users-anyone-projects-{repo}"), repo)
 
+    # Claude Code encodes "_" as "-" too, so underscored repos need the same
+    # care: "beast_explainer" must not decode to "beast".
+    def test_underscored_allowlisted_repo(self):
+        for repo in ("beast_explainer", "mr_lender", "second-wind"):
+            self.assertEqual(ps.repo_from_dirname(f"-Users-anyone-projects-{repo.replace('_', '-')}"), repo)
+
     def test_worktree_subdir_maps_to_its_repo(self):
         self.assertEqual(
             ps.repo_from_dirname("-Users-anyone-projects-claude-skills--claude-worktrees-skills-improvement"),

@@ -2,7 +2,7 @@
 
 Source material for Foundry's project pages. One entry per repo under `github.com/abhijitbansal`. Regenerate when repos change (sweep via `gh repo list` + per-repo README summarization).
 
-**Last updated:** 2026-10-31
+**Last updated:** 2026-11-20
 
 ## Apps (iOS / macOS / browser)
 
@@ -44,9 +44,17 @@ Tech: Swift, Metal, Ollama · [repo](https://github.com/abhijitbansal/jarvis)
 Designed to help others find and apply for jobs: match openings to what someone is looking for, tailor the paperwork, and keep a person in charge of every send.
 Tech: Python, uv, Claude Code · [repo](https://github.com/abhijitbansal/job-finder)
 
+### beast_explainer — `coming-soon` · private
+An automated studio that turns a topic into a finished explainer video: research, script, storyboard, visuals, narration and render, with a person approving the script and the final cut. The pipeline is built and proven on a draft; nothing is published yet.
+Tech: TypeScript, Remotion, Claude Code · [repo](https://github.com/abhijitbansal/beast_explainer)
+
 ### claude-skills — `active` · public
 Unified collection of AI agent skills, plugins, and tools for Claude Code and AGENTS.md-aware platforms: iOS build-and-screenshot loops, Linear automation, usage-limit-aware orchestration, prompt refinement. Installable via marketplace or standalone CLI.
 Tech: Python, Shell · [repo](https://github.com/abhijitbansal/claude-skills)
+
+### portable-artifacts — `active` · public
+Dashboards, diagrams, explainer pages, 3D scenes and MP4 films from a prompt: one small JSON spec in, one offline, self-contained file out, built by any coding agent with no cloud or account. Moved out of claude-skills into its own repo on 2026-11-20.
+Tech: Node, open source · [repo](https://github.com/abhijitbansal/portable-artifacts)
 
 ### cartoon — `active` · public
 Token-optimized output wrapper for any CLI — an AI agent reads 12 lines instead of 800, raw log always archived. Adapters for pytest/jest/vitest/ruff/eslint/tsc plus a compression ladder for everything else; ~70% token reduction.

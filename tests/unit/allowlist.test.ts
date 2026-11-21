@@ -23,7 +23,7 @@ describe('PROJECTS_ALLOWLIST', () => {
 	});
 
 	// Coming-soon repos still earn a building like any other tool.
-	it.each(['jarvis', 'job-finder'])('allowlists %s for its yard building', (repo) => {
+	it.each(['jarvis', 'job-finder', 'portable-artifacts', 'beast_explainer'])('allowlists %s for its yard building', (repo) => {
 		expect(allowlist()).toContain(repo);
 	});
 

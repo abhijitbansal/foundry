@@ -1,5 +1,5 @@
 // Project inventory — plan Task 3.4 / 3.4a. Later cards (Purix, raja,
-// swatkats, jarvis, job-finder, orca-local) are hand-written, not from the
+// swatkats, jarvis, job-finder, beast_explainer, portable-artifacts, orca-local) are hand-written, not from the
 // handoff source. Copy transcribed verbatim from
 // docs/design/handoff/src/Foundry 2A - Crucible Light.dc.html (lines
 // 147-271). Link fields resolved per the Task 3.4a table (gh api + curl -I
@@ -110,6 +110,15 @@ export const aiToolingProjects: Project[] = [
 		private: true,
 	},
 	{
+		name: 'beast_explainer',
+		repo: 'beast_explainer',
+		status: 'coming-soon',
+		blurb:
+			'An automated studio that turns a topic into a finished explainer video: research, script, storyboard, visuals, narration and render, with a person approving the script and the final cut.',
+		tech: 'TypeScript · Remotion · Claude Code',
+		private: true,
+	},
+	{
 		name: 'cartoon',
 		repo: 'cartoon',
 		status: 'active',
@@ -129,6 +138,16 @@ export const aiToolingProjects: Project[] = [
 		tech: 'Python · Shell · open source',
 		repoUrl: 'https://github.com/abhijitbansal/claude-skills',
 		extraLink: { url: 'https://abhijitbansal.github.io/claude-skills/', label: 'site ↗' },
+		private: false,
+	},
+	{
+		name: 'portable-artifacts',
+		repo: 'portable-artifacts',
+		status: 'active',
+		blurb:
+			'Dashboards, diagrams, explainer pages, 3D scenes and MP4 films from a prompt: one small JSON spec in, one offline, self-contained file out, built by any coding agent with no cloud or account.',
+		tech: 'Node · open source',
+		repoUrl: 'https://github.com/abhijitbansal/portable-artifacts',
 		private: false,
 	},
 	{

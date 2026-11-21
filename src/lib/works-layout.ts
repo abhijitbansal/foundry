@@ -5,7 +5,7 @@
 // design source if the yard plan itself changes. Later additions are NOT in
 // that source and must survive any regeneration: raja, swatkats, plate 04
 // and plate 02's moved label (2026-10-10); jarvis, job-finder and plate 05
-// (2026-10-31).
+// (2026-10-31); portable-artifacts and beast_explainer (2026-11-20).
 //
 // The weekly STRIP is different: which repos are active, and how many,
 // changes every week, so its positions can't be a hand-tuned per-repo
@@ -50,11 +50,19 @@ export const YARD: Record<string, YardLayoutEntry> = {
 	// edge (roof ≈ y 18).
 	'job-finder': { x: 5.95, y: -8.15, w: 2.1, d: 1.6, arch: 'monitor', plate: 4, np: [8.35, -6.25], stacks: [] },
 	jarvis: { x: 4.15, y: -6.25, w: 1.4, d: 1.2, arch: 'gableY', plate: 4, np: [5.85, -4.75], stacks: [] },
+	// Not from the design source (2026-11-20): portable-artifacts sits on
+	// plate 02, which grew 2.8 north because its south-east corner is outside
+	// the fixed viewBox; beast_explainer (coming soon) joins plate 05,
+	// which was widened east to make room. Hand-placed, badge-sampled in a
+	// real browser.
+	'portable-artifacts': { x: 16.4, y: -2.0, w: 1.7, d: 1.3, arch: 'monitor', plate: 1, np: [20.4, -2.0], stacks: [] },
+	beast_explainer: { x: 8.7, y: -7.6, w: 1.5, d: 1.2, arch: 'shed', plate: 4, np: [10.4, -6.0], stacks: [] },
 };
 
 export const YARD_PLATES: PlateSpec[] = [
 	{ x: 0, y: 0, w: 14, d: 7.2, label: '01 · APPS', lx: 0.1, ly: 7.5 },
-	{ x: 14.7, y: 0.4, w: 8.1, d: 5.6, label: '02 · AGENT TOOLING', screen: [868, 495] },
+	// 2026-11-20: grown north (y 0.4 -> -2.4, d 5.6 -> 8.4) for portable-artifacts.
+	{ x: 14.7, y: -2.4, w: 8.1, d: 8.4, label: '02 · AGENT TOOLING', screen: [868, 495] },
 	{ x: 5.4, y: 8.6, w: 6.0, d: 2.6, label: '03 · WEB & SITES', lx: 5.6, ly: 10.9, anchor: 'end' },
 	// Plate 04 (hand-placed, 2026-10-10). Its label floats in the open sky
 	// north-west of the plate: every spot along its edges collides with
@@ -67,7 +75,8 @@ export const YARD_PLATES: PlateSpec[] = [
 	// Plate 05 (hand-placed, 2026-10-31): open sky north of plate 04. Its
 	// label names a status, not a category — rename it (or move the
 	// buildings) when jarvis or job-finder ships.
-	{ x: 3.75, y: -8.45, w: 4.6, d: 3.4, label: '05 · COMING SOON', screen: [500, 290] },
+	// 2026-11-20: widened east (w 4.6 -> 6.8) for beast_explainer.
+	{ x: 3.75, y: -8.45, w: 6.8, d: 3.4, label: '05 · COMING SOON', screen: [420, 290] },
 ];
 
 export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {
@@ -85,6 +94,8 @@ export const STRIP_ARCHETYPES: Record<string, StripArchetype> = {
 	swatkats: { w: 1.4, d: 1.1, arch: 'shed', stacksRel: [] },
 	'job-finder': { w: 1.9, d: 1.45, arch: 'monitor', stacksRel: [], vent: true },
 	jarvis: { w: 1.5, d: 1.2, arch: 'gableY', stacksRel: [] },
+	'portable-artifacts': { w: 1.7, d: 1.35, arch: 'monitor', stacksRel: [], vent: true },
+	beast_explainer: { w: 1.5, d: 1.2, arch: 'shed', stacksRel: [] },
 };
 
 const DEFAULT_STRIP_ARCHETYPE: StripArchetype = { w: 1.6, d: 1.3, arch: 'shed', stacksRel: [], vent: true };
