@@ -152,8 +152,12 @@ describe('YARD slots', () => {
 		expect(YARD['orca-local']).toBeUndefined();
 	});
 
-	it('places jarvis and job-finder on the hand-placed plate 05', () => {
-		expect([YARD.jarvis?.plate, YARD['job-finder']?.plate]).toEqual([4, 4]);
+	it('places portable-artifacts on plate 02, agent tooling', () => {
+		expect(YARD['portable-artifacts']?.plate).toBe(1);
+	});
+
+	it('places jarvis, job-finder and beast_explainer on the hand-placed plate 05', () => {
+		expect([YARD.jarvis?.plate, YARD['job-finder']?.plate, YARD.beast_explainer?.plate]).toEqual([4, 4, 4]);
 		const repos: WorksRepo[] = Object.keys(YARD).map((repo) => ({ repo, lines: 1000, sessions: 1, tokens: 1, active: true }));
 		expect(buildYard(repos, {}).svg).toContain('05 · COMING SOON');
 	});
