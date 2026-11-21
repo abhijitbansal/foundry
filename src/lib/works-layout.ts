@@ -74,7 +74,7 @@ export const YARD_PLATES: PlateSpec[] = [
 	{ x: 14.5, y: -7.4, w: 5.0, d: 4.2, label: '04 · LOCAL AGENTS', screen: [812, 247] },
 	// Plate 05 (hand-placed, 2026-10-31): open sky north of plate 04. Its
 	// label names a status, not a category — rename it (or move the
-	// buildings) when jarvis or job-finder ships.
+	// buildings) when jarvis, job-finder or beast_explainer ships.
 	// 2026-11-20: widened east (w 4.6 -> 6.8) for beast_explainer.
 	{ x: 3.75, y: -8.45, w: 6.8, d: 3.4, label: '05 · COMING SOON', screen: [420, 290] },
 ];
