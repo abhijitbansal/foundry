@@ -1,0 +1,842 @@
+{
+  "week_id": "2026-W47",
+  "week_start": "2026-11-16",
+  "week_end": "2026-11-22",
+  "generated_at": "2026-11-23T14:01:59.055413+00:00",
+  "repos": [
+    {
+      "repo": "claude-skills",
+      "sessions": 377,
+      "lines_added": 138479,
+      "lines_removed": 20559,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "beast_explainer",
+      "sessions": 1137,
+      "lines_added": 78737,
+      "lines_removed": 2048,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    },
+    {
+      "repo": "portable-artifacts",
+      "sessions": 252,
+      "lines_added": 71275,
+      "lines_removed": 8763,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    },
+    {
+      "repo": "doc-scan",
+      "sessions": 5,
+      "lines_added": 1215,
+      "lines_removed": 132,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "job-finder",
+      "sessions": 5,
+      "lines_added": 402,
+      "lines_removed": 0,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "jarvis",
+      "sessions": 4,
+      "lines_added": 192,
+      "lines_removed": 31,
+      "top_tool": "Bash",
+      "top_model": "claude-opus-5-5"
+    },
+    {
+      "repo": "foundry",
+      "sessions": 8,
+      "lines_added": 0,
+      "lines_removed": 0,
+      "top_tool": "Bash",
+      "top_model": "claude-sonnet-5-5"
+    }
+  ],
+  "heatmap": {
+    "timezone": "EST",
+    "weekday_labels": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
+    ],
+    "cells": [
+      [
+        {
+          "count": 1111,
+          "out_tokens": 1659267
+        },
+        {
+          "count": 692,
+          "out_tokens": 1022506
+        },
+        {
+          "count": 468,
+          "out_tokens": 550678
+        },
+        {
+          "count": 495,
+          "out_tokens": 477400
+        },
+        {
+          "count": 580,
+          "out_tokens": 884586
+        },
+        {
+          "count": 808,
+          "out_tokens": 1024837
+        },
+        {
+          "count": 724,
+          "out_tokens": 916098
+        },
+        {
+          "count": 711,
+          "out_tokens": 1049566
+        },
+        {
+          "count": 476,
+          "out_tokens": 554011
+        },
+        {
+          "count": 469,
+          "out_tokens": 762081
+        },
+        {
+          "count": 1179,
+          "out_tokens": 1547638
+        },
+        {
+          "count": 432,
+          "out_tokens": 417380
+        },
+        {
+          "count": 425,
+          "out_tokens": 788420
+        },
+        {
+          "count": 1974,
+          "out_tokens": 2914541
+        },
+        {
+          "count": 712,
+          "out_tokens": 986835
+        },
+        {
+          "count": 453,
+          "out_tokens": 323256
+        },
+        {
+          "count": 81,
+          "out_tokens": 64937
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 1242,
+          "out_tokens": 1565881
+        },
+        {
+          "count": 1561,
+          "out_tokens": 2198638
+        }
+      ],
+      [
+        {
+          "count": 802,
+          "out_tokens": 984312
+        },
+        {
+          "count": 1918,
+          "out_tokens": 2109729
+        },
+        {
+          "count": 2491,
+          "out_tokens": 3110828
+        },
+        {
+          "count": 2107,
+          "out_tokens": 2530870
+        },
+        {
+          "count": 2027,
+          "out_tokens": 2056563
+        },
+        {
+          "count": 1040,
+          "out_tokens": 1056452
+        },
+        {
+          "count": 1648,
+          "out_tokens": 2006058
+        },
+        {
+          "count": 757,
+          "out_tokens": 879636
+        },
+        {
+          "count": 1181,
+          "out_tokens": 1419761
+        },
+        {
+          "count": 627,
+          "out_tokens": 570803
+        },
+        {
+          "count": 803,
+          "out_tokens": 1049933
+        },
+        {
+          "count": 876,
+          "out_tokens": 1092068
+        },
+        {
+          "count": 1085,
+          "out_tokens": 1336824
+        },
+        {
+          "count": 1139,
+          "out_tokens": 1221061
+        },
+        {
+          "count": 1131,
+          "out_tokens": 1298162
+        },
+        {
+          "count": 1124,
+          "out_tokens": 1600105
+        },
+        {
+          "count": 961,
+          "out_tokens": 1325051
+        },
+        {
+          "count": 754,
+          "out_tokens": 975575
+        },
+        {
+          "count": 786,
+          "out_tokens": 947176
+        },
+        {
+          "count": 919,
+          "out_tokens": 746095
+        },
+        {
+          "count": 702,
+          "out_tokens": 868069
+        },
+        {
+          "count": 516,
+          "out_tokens": 626497
+        },
+        {
+          "count": 1019,
+          "out_tokens": 1194431
+        },
+        {
+          "count": 1469,
+          "out_tokens": 1749889
+        }
+      ],
+      [
+        {
+          "count": 1601,
+          "out_tokens": 2142908
+        },
+        {
+          "count": 1480,
+          "out_tokens": 1715448
+        },
+        {
+          "count": 480,
+          "out_tokens": 630321
+        },
+        {
+          "count": 527,
+          "out_tokens": 639243
+        },
+        {
+          "count": 494,
+          "out_tokens": 507957
+        },
+        {
+          "count": 555,
+          "out_tokens": 508530
+        },
+        {
+          "count": 630,
+          "out_tokens": 1042069
+        },
+        {
+          "count": 712,
+          "out_tokens": 714830
+        },
+        {
+          "count": 1192,
+          "out_tokens": 1269696
+        },
+        {
+          "count": 1404,
+          "out_tokens": 1718056
+        },
+        {
+          "count": 879,
+          "out_tokens": 723158
+        },
+        {
+          "count": 1232,
+          "out_tokens": 1234631
+        },
+        {
+          "count": 1125,
+          "out_tokens": 990076
+        },
+        {
+          "count": 2426,
+          "out_tokens": 2682958
+        },
+        {
+          "count": 2369,
+          "out_tokens": 2356005
+        },
+        {
+          "count": 1979,
+          "out_tokens": 1681621
+        },
+        {
+          "count": 1667,
+          "out_tokens": 1667728
+        },
+        {
+          "count": 25,
+          "out_tokens": 39399
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 47,
+          "out_tokens": 29394
+        },
+        {
+          "count": 1357,
+          "out_tokens": 1411283
+        },
+        {
+          "count": 1417,
+          "out_tokens": 1326835
+        }
+      ],
+      [
+        {
+          "count": 1251,
+          "out_tokens": 1103979
+        },
+        {
+          "count": 1119,
+          "out_tokens": 1354445
+        },
+        {
+          "count": 721,
+          "out_tokens": 766952
+        },
+        {
+          "count": 293,
+          "out_tokens": 344173
+        },
+        {
+          "count": 790,
+          "out_tokens": 543742
+        },
+        {
+          "count": 133,
+          "out_tokens": 134012
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 242,
+          "out_tokens": 402469
+        },
+        {
+          "count": 508,
+          "out_tokens": 653989
+        },
+        {
+          "count": 567,
+          "out_tokens": 825848
+        },
+        {
+          "count": 663,
+          "out_tokens": 885505
+        },
+        {
+          "count": 807,
+          "out_tokens": 932486
+        },
+        {
+          "count": 1114,
+          "out_tokens": 1340434
+        },
+        {
+          "count": 952,
+          "out_tokens": 748340
+        },
+        {
+          "count": 666,
+          "out_tokens": 863504
+        },
+        {
+          "count": 907,
+          "out_tokens": 1013634
+        },
+        {
+          "count": 58,
+          "out_tokens": 41363
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 158,
+          "out_tokens": 140720
+        },
+        {
+          "count": 276,
+          "out_tokens": 203642
+        },
+        {
+          "count": 661,
+          "out_tokens": 515891
+        }
+      ],
+      [
+        {
+          "count": 1123,
+          "out_tokens": 918831
+        },
+        {
+          "count": 4,
+          "out_tokens": 12876
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 329,
+          "out_tokens": 186276
+        },
+        {
+          "count": 2003,
+          "out_tokens": 1851591
+        },
+        {
+          "count": 1536,
+          "out_tokens": 1399072
+        },
+        {
+          "count": 471,
+          "out_tokens": 380606
+        },
+        {
+          "count": 3081,
+          "out_tokens": 2559533
+        }
+      ],
+      [
+        {
+          "count": 2061,
+          "out_tokens": 2089756
+        },
+        {
+          "count": 1416,
+          "out_tokens": 1128173
+        },
+        {
+          "count": 745,
+          "out_tokens": 512719
+        },
+        {
+          "count": 663,
+          "out_tokens": 425690
+        },
+        {
+          "count": 699,
+          "out_tokens": 430270
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 869,
+          "out_tokens": 466571
+        },
+        {
+          "count": 2,
+          "out_tokens": 6156
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 970,
+          "out_tokens": 927641
+        },
+        {
+          "count": 3287,
+          "out_tokens": 3683471
+        },
+        {
+          "count": 662,
+          "out_tokens": 720756
+        },
+        {
+          "count": 817,
+          "out_tokens": 790459
+        },
+        {
+          "count": 642,
+          "out_tokens": 596391
+        },
+        {
+          "count": 1454,
+          "out_tokens": 2101884
+        },
+        {
+          "count": 1268,
+          "out_tokens": 1932816
+        }
+      ],
+      [
+        {
+          "count": 1303,
+          "out_tokens": 1141538
+        },
+        {
+          "count": 1925,
+          "out_tokens": 1601482
+        },
+        {
+          "count": 1609,
+          "out_tokens": 1565818
+        },
+        {
+          "count": 866,
+          "out_tokens": 591261
+        },
+        {
+          "count": 1012,
+          "out_tokens": 883558
+        },
+        {
+          "count": 1131,
+          "out_tokens": 962392
+        },
+        {
+          "count": 919,
+          "out_tokens": 674623
+        },
+        {
+          "count": 1110,
+          "out_tokens": 882484
+        },
+        {
+          "count": 1058,
+          "out_tokens": 1049918
+        },
+        {
+          "count": 3729,
+          "out_tokens": 3210583
+        },
+        {
+          "count": 250,
+          "out_tokens": 273202
+        },
+        {
+          "count": 0,
+          "out_tokens": 0
+        },
+        {
+          "count": 2511,
+          "out_tokens": 2176024
+        },
+        {
+          "count": 1509,
+          "out_tokens": 1246623
+        },
+        {
+          "count": 1216,
+          "out_tokens": 1441855
+        },
+        {
+          "count": 967,
+          "out_tokens": 908092
+        },
+        {
+          "count": 795,
+          "out_tokens": 698246
+        },
+        {
+          "count": 1206,
+          "out_tokens": 971673
+        },
+        {
+          "count": 735,
+          "out_tokens": 564089
+        },
+        {
+          "count": 844,
+          "out_tokens": 530987
+        },
+        {
+          "count": 641,
+          "out_tokens": 544748
+        },
+        {
+          "count": 266,
+          "out_tokens": 268778
+        },
+        {
+          "count": 3,
+          "out_tokens": 1922
+        },
+        {
+          "count": 503,
+          "out_tokens": 621505
+        }
+      ]
+    ]
+  },
+  "releases": {
+    "claude-skills": {
+      "pr_merge_count": 7,
+      "pr_titles": [
+        "feat: weekly npx skills update job + repo-bootstrap skill",
+        "docs(cache-clock): site, docs and diagrams for v1.2.0",
+        "fix(cache-clock): guard slash commands, warn on unpriced cold sends, owner-only settings (#60)",
+        "Site design pass (new body font, slate theme, a11y fixes) and cache-clock #60 plan",
+        "refactor: move portable-artifacts to its own repo",
+        "portable-artifacts 2.0.0: make-motion 2, showreel films, four redrawn skills",
+        "fix(test-board): parse current Cartoon summaries and qualify replay"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    },
+    "beast_explainer": {
+      "pr_merge_count": 15,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "portable-artifacts": {
+      "pr_merge_count": 10,
+      "pr_titles": [
+        "portable-artifacts 2.3.1: the vertical showreel plays one whoosh per cut",
+        "portable-artifacts 2.3.0: make-motion motion steals, make-explainer review, rebuilt gallery",
+        "make-motion 2 reel on the site, docs review, repo cleanup (2.2.1)",
+        "Deep review fixes: 2 high, 25 medium (2.2.0)",
+        "ci: split make-motion into 4 shards; cancel superseded PR runs",
+        "ci: Bump the actions group across 1 directory with 7 updates",
+        "Open-repo hardening, new site, market-ready README (2.1.1)",
+        "fix(make-motion): keep contact sheets on Ctrl+C during launch; rehome claude-skills #51/#52 leftovers",
+        "fix(site): make dashboard gallery examples rebuildable (port of claude-skills#55)",
+        "chore: standalone plugin repo, 2.1.0"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    },
+    "doc-scan": {
+      "pr_merge_count": 3,
+      "pr_titles": null,
+      "release_count": 1,
+      "release_tags": null
+    },
+    "job-finder": {
+      "pr_merge_count": 3,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "jarvis": {
+      "pr_merge_count": 0,
+      "pr_titles": null,
+      "release_count": 0,
+      "release_tags": null
+    },
+    "foundry": {
+      "pr_merge_count": 2,
+      "pr_titles": [
+        "feat: portable-artifacts and beast_explainer join the yard",
+        "Weekly digest: 2026-W46"
+      ],
+      "release_count": 0,
+      "release_tags": []
+    }
+  },
+  "highlights": {
+    "overall": "beast_explainer had the most sessions (1137) and the most merged PRs (15); claude-skills added the most lines (138479). One claude-skills PR title reads \"refactor: move portable-artifacts to its own repo\".",
+    "repos": {
+      "claude-skills": "377 sessions and 138479 lines added (20559 removed), the most added of any repo this week, top tool Bash, top model claude-opus-5-5. 7 PRs merged, one titled \"refactor: move portable-artifacts to its own repo\".",
+      "beast_explainer": "1137 sessions, the busiest repo by count, with 78737 lines added and 2048 removed. Bash was the top tool, claude-sonnet-5-5 the top model, and 15 PRs merged.",
+      "portable-artifacts": "252 sessions, 71275 lines added and 8763 removed, top tool Bash, top model claude-sonnet-5-5. 10 PRs merged, one titled \"portable-artifacts 2.3.1: the vertical showreel plays one whoosh per cut\".",
+      "doc-scan": "5 sessions, 1215 lines added and 132 removed, Bash on claude-opus-5-5. 3 PRs merged and 1 release.",
+      "job-finder": "5 sessions and 402 lines added, none removed, Bash on claude-opus-5-5. 3 PRs merged.",
+      "jarvis": "4 sessions, 192 lines added and 31 removed, Bash on claude-opus-5-5. No PRs merged.",
+      "foundry": "8 sessions, 0 lines added and 0 removed. 2 PRs merged, including \"feat: portable-artifacts and beast_explainer join the yard\"."
+    }
+  }
+}
